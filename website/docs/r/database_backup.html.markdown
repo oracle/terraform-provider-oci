@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_database_backup"
 sidebar_current: "docs-oci-resource-database-backup"
 description: |-
-	Provides the Backup resource in Oracle Cloud Infrastructure Database service
+  Provides the Backup resource in Oracle Cloud Infrastructure Database service
 ---
 
 # oci_database_backup

@@ -88,6 +88,9 @@ var (
 	identityClientGetCompartmentVar = func(clients *tf_client.OracleClients, getCompartmentRequest oci_identity.GetCompartmentRequest) (oci_identity.GetCompartmentResponse, error) {
 		return clients.IdentityClient().GetCompartment(context.Background(), getCompartmentRequest)
 	}
+	identityClientGetTenancyVar = func(clients *tf_client.OracleClients, getTenancyRequest oci_identity.GetTenancyRequest) (oci_identity.GetTenancyResponse, error) {
+		return clients.IdentityClient().GetTenancy(context.Background(), getTenancyRequest)
+	}
 	ctxTerraformImportVar = func(ctx *tf_export.ResourceDiscoveryContext, ctxBackground context.Context, address, id string, importArgs ...tfexec.ImportOption) error {
 		return ctx.Terraform.Import(ctxBackground, address, id, importArgs...)
 	}
@@ -374,11 +377,10 @@ func getExportConfig(d *schema.ResourceData) (interface{}, error) {
 	}
 	exportConfigProvider = sdkConfigProvider
 
-	// Note: In case of Instance Principal auth, the TenancyOCID will return
-	// the ocid for the tenancy for the compute instance and not the one for the customer
 	clients.Configuration["tenancy_ocid"], err = sdkConfigProviderTenancyOCIDVar(sdkConfigProvider)
 	if err != nil {
-		return nil, err
+		auth := clients.Configuration[globalvar.AuthAttrName]
+		return nil, fmt.Errorf("unable to configure resource discovery using auth=%s. Note: Resource Discovery reads authentication settings from environment variables and OCI configuration profiles; it does not read provider.tf. See https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/resource_discovery#authentication: %w", auth, err)
 	}
 
 	// beware: global variable `configureClient` set here--used elsewhere outside this execution path
@@ -1163,6 +1165,21 @@ func resolveCompartmentId(clients *tf_client.OracleClients, compartmentName *str
 	if err != nil {
 		return nil, err
 	}
+
+	// ListCompartments returns the tenancy's child compartments, but not the
+	// tenancy itself. Resolve the root compartment by its tenancy name before
+	// searching the returned compartments.
+	tenancy, tenancyLookupErr := identityClientGetTenancyVar(clients, oci_identity.GetTenancyRequest{
+		TenancyId: &rootCompartment,
+	})
+	if tenancyLookupErr == nil && tenancy.Name != nil && *tenancy.Name == *compartmentName {
+		utils.Logf("[INFO] resolved root compartment name '%s' to compartment id '%s'", *compartmentName, rootCompartment)
+		return &rootCompartment, nil
+	}
+	if tenancyLookupErr != nil {
+		utils.Logf("[WARN] could not look up tenancy '%s' while resolving compartment name '%s': %v; continuing with ListCompartments", rootCompartment, *compartmentName, tenancyLookupErr)
+	}
+
 	req.CompartmentId = &rootCompartment
 
 	recursiveSearch := true
@@ -1171,6 +1188,9 @@ func resolveCompartmentId(clients *tf_client.OracleClients, compartmentName *str
 	for {
 		resp, err := identityClientListCompartmentsVar(clients, req)
 		if err != nil {
+			if tenancyLookupErr != nil {
+				utils.Logf("[ERROR] could not resolve compartment name '%s': tenancy lookup failed: %v; ListCompartments also failed: %v", *compartmentName, tenancyLookupErr, err)
+			}
 			return nil, err
 		}
 

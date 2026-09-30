@@ -1774,6 +1774,69 @@ func (client DataSafeClient) changeOnPremConnectorCompartment(ctx context.Contex
 	return response, err
 }
 
+// ChangeRegistrationPolicyCompartment Moves the registration policy to the specified compartment.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeRegistrationPolicyCompartment.go.html to see an example of how to use ChangeRegistrationPolicyCompartment API.
+// A default retry strategy applies to this operation ChangeRegistrationPolicyCompartment()
+func (client DataSafeClient) ChangeRegistrationPolicyCompartment(ctx context.Context, request ChangeRegistrationPolicyCompartmentRequest) (response ChangeRegistrationPolicyCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeRegistrationPolicyCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeRegistrationPolicyCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeRegistrationPolicyCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeRegistrationPolicyCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeRegistrationPolicyCompartmentResponse")
+	}
+	return
+}
+
+// changeRegistrationPolicyCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) changeRegistrationPolicyCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/registrationPolicies/{registrationPolicyId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeRegistrationPolicyCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeRegistrationPolicyCompartment")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/RegistrationPolicy/ChangeRegistrationPolicyCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeRegistrationPolicyCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeReportCompartment Moves a resource into a different compartment. When provided, If-Match is checked against ETag values of the resource.
 //
 // # See also
@@ -2651,6 +2714,122 @@ func (client DataSafeClient) changeSqlFirewallPolicyCompartment(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlFirewallPolicy/ChangeSqlFirewallPolicyCompartment"
 		err = common.PostProcessServiceError(err, "DataSafe", "ChangeSqlFirewallPolicyCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeSubsettingPolicyCompartment Moves the specified subsetting policy and its dependent resources into a different compartment.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSubsettingPolicyCompartment.go.html to see an example of how to use ChangeSubsettingPolicyCompartment API.
+// A default retry strategy applies to this operation ChangeSubsettingPolicyCompartment()
+func (client DataSafeClient) ChangeSubsettingPolicyCompartment(ctx context.Context, request ChangeSubsettingPolicyCompartmentRequest) (response ChangeSubsettingPolicyCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.changeSubsettingPolicyCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeSubsettingPolicyCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeSubsettingPolicyCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeSubsettingPolicyCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeSubsettingPolicyCompartmentResponse")
+	}
+	return
+}
+
+// changeSubsettingPolicyCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) changeSubsettingPolicyCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subsettingPolicies/{subsettingPolicyId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeSubsettingPolicyCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeSubsettingPolicyCompartment")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingPolicy/ChangeSubsettingPolicyCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeSubsettingPolicyCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeSubsettingPolicyHealthReportCompartment Moves the specified subsetting policy health report and its dependent resources into a different compartment.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSubsettingPolicyHealthReportCompartment.go.html to see an example of how to use ChangeSubsettingPolicyHealthReportCompartment API.
+// A default retry strategy applies to this operation ChangeSubsettingPolicyHealthReportCompartment()
+func (client DataSafeClient) ChangeSubsettingPolicyHealthReportCompartment(ctx context.Context, request ChangeSubsettingPolicyHealthReportCompartmentRequest) (response ChangeSubsettingPolicyHealthReportCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.changeSubsettingPolicyHealthReportCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeSubsettingPolicyHealthReportCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeSubsettingPolicyHealthReportCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeSubsettingPolicyHealthReportCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeSubsettingPolicyHealthReportCompartmentResponse")
+	}
+	return
+}
+
+// changeSubsettingPolicyHealthReportCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) changeSubsettingPolicyHealthReportCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subsettingPolicyHealthReports/{subsettingPolicyHealthReportId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeSubsettingPolicyHealthReportCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeSubsettingPolicyHealthReportCompartment")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingPolicyHealthReport/ChangeSubsettingPolicyHealthReportCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeSubsettingPolicyHealthReportCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -4090,6 +4269,69 @@ func (client DataSafeClient) createReferentialRelation(ctx context.Context, requ
 	return response, err
 }
 
+// CreateRegistrationPolicy Creates a new OptIn/Registration Policy
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateRegistrationPolicy.go.html to see an example of how to use CreateRegistrationPolicy API.
+// A default retry strategy applies to this operation CreateRegistrationPolicy()
+func (client DataSafeClient) CreateRegistrationPolicy(ctx context.Context, request CreateRegistrationPolicyRequest) (response CreateRegistrationPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createRegistrationPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateRegistrationPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateRegistrationPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateRegistrationPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateRegistrationPolicyResponse")
+	}
+	return
+}
+
+// createRegistrationPolicy implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) createRegistrationPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/registrationPolicies", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateRegistrationPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateRegistrationPolicy")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/RegistrationPolicy/CreateRegistrationPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateRegistrationPolicy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateReportDefinition Creates a new report definition with parameters specified in the body. The report definition is stored in the specified compartment.
 //
 // # See also
@@ -4851,6 +5093,204 @@ func (client DataSafeClient) createSqlCollection(ctx context.Context, request co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlCollection/CreateSqlCollection"
 		err = common.PostProcessServiceError(err, "DataSafe", "CreateSqlCollection", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateSubsettingPolicy Creates a new subsetting policy and associates it with a sensitive data model or a target database.
+// To use a sensitive data model as the source of subsetting schemas, set the schemaSource attribute to
+// SENSITIVE_DATA_MODEL and provide the sensitiveDataModelId attribute. In this case, the target database associated with the
+// sensitive data model is used for subsetting rules validations.
+// You can also create a subsetting policy without using a sensitive data model. In this case,
+// you need to associate your subsetting policy with a target database by setting the schemaSource
+// attribute to TARGET and providing the targetId attribute. The specified target database
+// is used for subsetting rules validations.
+// After creating a subsetting policy, you can use the CreateSubsettingRule
+// operation to manually add subsetting rules to the policy.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateSubsettingPolicy.go.html to see an example of how to use CreateSubsettingPolicy API.
+// A default retry strategy applies to this operation CreateSubsettingPolicy()
+func (client DataSafeClient) CreateSubsettingPolicy(ctx context.Context, request CreateSubsettingPolicyRequest) (response CreateSubsettingPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createSubsettingPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateSubsettingPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateSubsettingPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateSubsettingPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateSubsettingPolicyResponse")
+	}
+	return
+}
+
+// createSubsettingPolicy implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) createSubsettingPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subsettingPolicies", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateSubsettingPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateSubsettingPolicy")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingPolicy/CreateSubsettingPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateSubsettingPolicy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateSubsettingRule Details to create a new subsetting rule
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateSubsettingRule.go.html to see an example of how to use CreateSubsettingRule API.
+// A default retry strategy applies to this operation CreateSubsettingRule()
+func (client DataSafeClient) CreateSubsettingRule(ctx context.Context, request CreateSubsettingRuleRequest) (response CreateSubsettingRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createSubsettingRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateSubsettingRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateSubsettingRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateSubsettingRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateSubsettingRuleResponse")
+	}
+	return
+}
+
+// createSubsettingRule implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) createSubsettingRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subsettingPolicies/{subsettingPolicyId}/subsettingRules", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateSubsettingRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateSubsettingRule")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingRule/CreateSubsettingRule"
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateSubsettingRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateSubsettingSchemaRelation Details to create a new referential relation.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateSubsettingSchemaRelation.go.html to see an example of how to use CreateSubsettingSchemaRelation API.
+// A default retry strategy applies to this operation CreateSubsettingSchemaRelation()
+func (client DataSafeClient) CreateSubsettingSchemaRelation(ctx context.Context, request CreateSubsettingSchemaRelationRequest) (response CreateSubsettingSchemaRelationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createSubsettingSchemaRelation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateSubsettingSchemaRelationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateSubsettingSchemaRelationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateSubsettingSchemaRelationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateSubsettingSchemaRelationResponse")
+	}
+	return
+}
+
+// createSubsettingSchemaRelation implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) createSubsettingSchemaRelation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subsettingPolicies/{subsettingPolicyId}/subsettingSchemaRelations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateSubsettingSchemaRelationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "CreateSubsettingSchemaRelation")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingSchemaRelationSummary/CreateSubsettingSchemaRelation"
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateSubsettingSchemaRelation", apiReferenceLink)
 		return response, err
 	}
 
@@ -6285,6 +6725,64 @@ func (client DataSafeClient) deleteReferentialRelation(ctx context.Context, requ
 	return response, err
 }
 
+// DeleteRegistrationPolicy Deletes the specified registration policy.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteRegistrationPolicy.go.html to see an example of how to use DeleteRegistrationPolicy API.
+// A default retry strategy applies to this operation DeleteRegistrationPolicy()
+func (client DataSafeClient) DeleteRegistrationPolicy(ctx context.Context, request DeleteRegistrationPolicyRequest) (response DeleteRegistrationPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteRegistrationPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteRegistrationPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteRegistrationPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteRegistrationPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteRegistrationPolicyResponse")
+	}
+	return
+}
+
+// deleteRegistrationPolicy implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) deleteRegistrationPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/registrationPolicies/{registrationPolicyId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteRegistrationPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteRegistrationPolicy")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/RegistrationPolicy/DeleteRegistrationPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteRegistrationPolicy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteReportDefinition Deletes the specified report definition. Only the user created report definition can be deleted. The seeded report definitions cannot be deleted.
 //
 // # See also
@@ -7093,6 +7591,296 @@ func (client DataSafeClient) deleteSqlFirewallPolicy(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlFirewallPolicy/DeleteSqlFirewallPolicy"
 		err = common.PostProcessServiceError(err, "DataSafe", "DeleteSqlFirewallPolicy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteSubsettingPolicy Deletes the specified subsetting policy.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteSubsettingPolicy.go.html to see an example of how to use DeleteSubsettingPolicy API.
+// A default retry strategy applies to this operation DeleteSubsettingPolicy()
+func (client DataSafeClient) DeleteSubsettingPolicy(ctx context.Context, request DeleteSubsettingPolicyRequest) (response DeleteSubsettingPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteSubsettingPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteSubsettingPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteSubsettingPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteSubsettingPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteSubsettingPolicyResponse")
+	}
+	return
+}
+
+// deleteSubsettingPolicy implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) deleteSubsettingPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/subsettingPolicies/{subsettingPolicyId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteSubsettingPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteSubsettingPolicy")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingPolicy/DeleteSubsettingPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteSubsettingPolicy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteSubsettingPolicyHealthReport Deletes the specified subsetting policy health report.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteSubsettingPolicyHealthReport.go.html to see an example of how to use DeleteSubsettingPolicyHealthReport API.
+// A default retry strategy applies to this operation DeleteSubsettingPolicyHealthReport()
+func (client DataSafeClient) DeleteSubsettingPolicyHealthReport(ctx context.Context, request DeleteSubsettingPolicyHealthReportRequest) (response DeleteSubsettingPolicyHealthReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteSubsettingPolicyHealthReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteSubsettingPolicyHealthReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteSubsettingPolicyHealthReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteSubsettingPolicyHealthReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteSubsettingPolicyHealthReportResponse")
+	}
+	return
+}
+
+// deleteSubsettingPolicyHealthReport implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) deleteSubsettingPolicyHealthReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/subsettingPolicyHealthReports/{subsettingPolicyHealthReportId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteSubsettingPolicyHealthReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteSubsettingPolicyHealthReport")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingPolicyHealthReport/DeleteSubsettingPolicyHealthReport"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteSubsettingPolicyHealthReport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteSubsettingReport Deletes the specified subsetting report.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteSubsettingReport.go.html to see an example of how to use DeleteSubsettingReport API.
+// A default retry strategy applies to this operation DeleteSubsettingReport()
+func (client DataSafeClient) DeleteSubsettingReport(ctx context.Context, request DeleteSubsettingReportRequest) (response DeleteSubsettingReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteSubsettingReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteSubsettingReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteSubsettingReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteSubsettingReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteSubsettingReportResponse")
+	}
+	return
+}
+
+// deleteSubsettingReport implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) deleteSubsettingReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/subsettingReports/{subsettingReportId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteSubsettingReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteSubsettingReport")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingReport/DeleteSubsettingReport"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteSubsettingReport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteSubsettingRule Deletes the specified subsetting rule.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteSubsettingRule.go.html to see an example of how to use DeleteSubsettingRule API.
+// A default retry strategy applies to this operation DeleteSubsettingRule()
+func (client DataSafeClient) DeleteSubsettingRule(ctx context.Context, request DeleteSubsettingRuleRequest) (response DeleteSubsettingRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteSubsettingRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteSubsettingRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteSubsettingRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteSubsettingRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteSubsettingRuleResponse")
+	}
+	return
+}
+
+// deleteSubsettingRule implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) deleteSubsettingRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/subsettingPolicies/{subsettingPolicyId}/subsettingRules/{subsettingRuleKey}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteSubsettingRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteSubsettingRule")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingRule/DeleteSubsettingRule"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteSubsettingRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteSubsettingSchemaRelation Deletes the specified referential relation. Note that only the relation created by the user can be deleted
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteSubsettingSchemaRelation.go.html to see an example of how to use DeleteSubsettingSchemaRelation API.
+// A default retry strategy applies to this operation DeleteSubsettingSchemaRelation()
+func (client DataSafeClient) DeleteSubsettingSchemaRelation(ctx context.Context, request DeleteSubsettingSchemaRelationRequest) (response DeleteSubsettingSchemaRelationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteSubsettingSchemaRelation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteSubsettingSchemaRelationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteSubsettingSchemaRelationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteSubsettingSchemaRelationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteSubsettingSchemaRelationResponse")
+	}
+	return
+}
+
+// deleteSubsettingSchemaRelation implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) deleteSubsettingSchemaRelation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/subsettingPolicies/{subsettingPolicyId}/subsettingSchemaRelations/{subsettingSchemaRelationKey}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteSubsettingSchemaRelationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteSubsettingSchemaRelation")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingSchemaRelation/DeleteSubsettingSchemaRelation"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteSubsettingSchemaRelation", apiReferenceLink)
 		return response, err
 	}
 
@@ -8123,6 +8911,182 @@ func (client DataSafeClient) downloadSensitiveTypesExport(ctx context.Context, r
 	return response, err
 }
 
+// DownloadSubsettingLog Downloads the subsetting log generated by the last subsetting operation on a target database using the specified subsetting policy.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DownloadSubsettingLog.go.html to see an example of how to use DownloadSubsettingLog API.
+// A default retry strategy applies to this operation DownloadSubsettingLog()
+func (client DataSafeClient) DownloadSubsettingLog(ctx context.Context, request DownloadSubsettingLogRequest) (response DownloadSubsettingLogResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.downloadSubsettingLog, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DownloadSubsettingLogResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DownloadSubsettingLogResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DownloadSubsettingLogResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DownloadSubsettingLogResponse")
+	}
+	return
+}
+
+// downloadSubsettingLog implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) downloadSubsettingLog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subsettingPolicies/{subsettingPolicyId}/actions/downloadLog", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DownloadSubsettingLogResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DownloadSubsettingLog")
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingPolicy/DownloadSubsettingLog"
+		err = common.PostProcessServiceError(err, "DataSafe", "DownloadSubsettingLog", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DownloadSubsettingPolicy Downloads an already-generated file corresponding to the specified subsetting policy.
+// Note that the GenerateSubsettingPolicyForDownload operation is a prerequisite for the
+// DownloadSubsettingPolicy operation. Use GenerateSubsettingPolicyForDownload to generate
+// a subsetting policy file and then use DownloadSubsettingPolicy to download the generated file.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DownloadSubsettingPolicy.go.html to see an example of how to use DownloadSubsettingPolicy API.
+// A default retry strategy applies to this operation DownloadSubsettingPolicy()
+func (client DataSafeClient) DownloadSubsettingPolicy(ctx context.Context, request DownloadSubsettingPolicyRequest) (response DownloadSubsettingPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.downloadSubsettingPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DownloadSubsettingPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DownloadSubsettingPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DownloadSubsettingPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DownloadSubsettingPolicyResponse")
+	}
+	return
+}
+
+// downloadSubsettingPolicy implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) downloadSubsettingPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subsettingPolicies/{subsettingPolicyId}/actions/download", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DownloadSubsettingPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DownloadSubsettingPolicy")
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingPolicy/DownloadSubsettingPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "DownloadSubsettingPolicy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DownloadSubsettingReport Downloads an already-generated subsetting report. Note that the GenerateSubsettingReportForDownload
+// operation is a prerequisite for the DownloadSubsettingReport operation. Use GenerateSubsettingReportForDownload
+// to generate a subsetting report file and then use DownloadSubsettingReport to download the generated file.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DownloadSubsettingReport.go.html to see an example of how to use DownloadSubsettingReport API.
+// A default retry strategy applies to this operation DownloadSubsettingReport()
+func (client DataSafeClient) DownloadSubsettingReport(ctx context.Context, request DownloadSubsettingReportRequest) (response DownloadSubsettingReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.downloadSubsettingReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DownloadSubsettingReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DownloadSubsettingReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DownloadSubsettingReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DownloadSubsettingReportResponse")
+	}
+	return
+}
+
+// downloadSubsettingReport implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) downloadSubsettingReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subsettingPolicies/{subsettingPolicyId}/actions/downloadReport", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DownloadSubsettingReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DownloadSubsettingReport")
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingPolicy/DownloadSubsettingReport"
+		err = common.PostProcessServiceError(err, "DataSafe", "DownloadSubsettingReport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DownloadUserAssessmentReport Downloads the report of the specified user assessment. To download the user assessment report, it needs to be generated first.
 // Please use GenerateUserAssessmentReport to generate a downloadable report in the preferred format (PDF, XLS).
 //
@@ -8237,6 +9201,69 @@ func (client DataSafeClient) enableDataSafeConfiguration(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DataSafeConfiguration/EnableDataSafeConfiguration"
 		err = common.PostProcessServiceError(err, "DataSafe", "EnableDataSafeConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EstimateTableSizes Estimates table sizes for the specified subsetting policy and target database.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/EstimateTableSizes.go.html to see an example of how to use EstimateTableSizes API.
+// A default retry strategy applies to this operation EstimateTableSizes()
+func (client DataSafeClient) EstimateTableSizes(ctx context.Context, request EstimateTableSizesRequest) (response EstimateTableSizesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.estimateTableSizes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EstimateTableSizesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EstimateTableSizesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EstimateTableSizesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EstimateTableSizesResponse")
+	}
+	return
+}
+
+// estimateTableSizes implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) estimateTableSizes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subsettingPolicies/{subsettingPolicyId}/actions/estimateTableSizes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EstimateTableSizesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "EstimateTableSizes")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingPolicy/EstimateTableSizes"
+		err = common.PostProcessServiceError(err, "DataSafe", "EstimateTableSizes", apiReferenceLink)
 		return response, err
 	}
 
@@ -8861,6 +9888,192 @@ func (client DataSafeClient) generateSqlFirewallPolicy(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlCollection/GenerateSqlFirewallPolicy"
 		err = common.PostProcessServiceError(err, "DataSafe", "GenerateSqlFirewallPolicy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GenerateSubsettingHealthReport Performs health check on the subsetting policy.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GenerateSubsettingHealthReport.go.html to see an example of how to use GenerateSubsettingHealthReport API.
+// A default retry strategy applies to this operation GenerateSubsettingHealthReport()
+func (client DataSafeClient) GenerateSubsettingHealthReport(ctx context.Context, request GenerateSubsettingHealthReportRequest) (response GenerateSubsettingHealthReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.generateSubsettingHealthReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GenerateSubsettingHealthReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GenerateSubsettingHealthReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GenerateSubsettingHealthReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GenerateSubsettingHealthReportResponse")
+	}
+	return
+}
+
+// generateSubsettingHealthReport implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) generateSubsettingHealthReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subsettingPolicies/{subsettingPolicyId}/actions/generateHealthReport", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GenerateSubsettingHealthReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GenerateSubsettingHealthReport")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingPolicyHealthReport/GenerateSubsettingHealthReport"
+		err = common.PostProcessServiceError(err, "DataSafe", "GenerateSubsettingHealthReport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GenerateSubsettingPolicyForDownload Generates a downloadable file corresponding to the specified subsetting policy. It's
+// a prerequisite for the DownloadSubsettingPolicy operation. Use this operation to generate
+// a subsetting policy file and then use DownloadSubsettingPolicy to download the generated file.
+// Note that file generation and download are serial operations. The download operation
+// can't be invoked while the generate operation is in progress.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GenerateSubsettingPolicyForDownload.go.html to see an example of how to use GenerateSubsettingPolicyForDownload API.
+// A default retry strategy applies to this operation GenerateSubsettingPolicyForDownload()
+func (client DataSafeClient) GenerateSubsettingPolicyForDownload(ctx context.Context, request GenerateSubsettingPolicyForDownloadRequest) (response GenerateSubsettingPolicyForDownloadResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.generateSubsettingPolicyForDownload, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GenerateSubsettingPolicyForDownloadResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GenerateSubsettingPolicyForDownloadResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GenerateSubsettingPolicyForDownloadResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GenerateSubsettingPolicyForDownloadResponse")
+	}
+	return
+}
+
+// generateSubsettingPolicyForDownload implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) generateSubsettingPolicyForDownload(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subsettingPolicies/{subsettingPolicyId}/actions/generatePolicyForDownload", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GenerateSubsettingPolicyForDownloadResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GenerateSubsettingPolicyForDownload")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingPolicy/GenerateSubsettingPolicyForDownload"
+		err = common.PostProcessServiceError(err, "DataSafe", "GenerateSubsettingPolicyForDownload", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GenerateSubsettingReportForDownload Generates a downloadable subsetting report. It's a prerequisite for the
+// DownloadSubsettingReport operation. Use this endpoint to generate a
+// subsetting report file and then use DownloadSubsettingReport to download
+// the generated file.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GenerateSubsettingReportForDownload.go.html to see an example of how to use GenerateSubsettingReportForDownload API.
+// A default retry strategy applies to this operation GenerateSubsettingReportForDownload()
+func (client DataSafeClient) GenerateSubsettingReportForDownload(ctx context.Context, request GenerateSubsettingReportForDownloadRequest) (response GenerateSubsettingReportForDownloadResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.generateSubsettingReportForDownload, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GenerateSubsettingReportForDownloadResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GenerateSubsettingReportForDownloadResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GenerateSubsettingReportForDownloadResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GenerateSubsettingReportForDownloadResponse")
+	}
+	return
+}
+
+// generateSubsettingReportForDownload implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) generateSubsettingReportForDownload(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subsettingPolicies/{subsettingPolicyId}/actions/generateReportForDownload", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GenerateSubsettingReportForDownloadResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GenerateSubsettingReportForDownload")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingPolicy/GenerateSubsettingReportForDownload"
+		err = common.PostProcessServiceError(err, "DataSafe", "GenerateSubsettingReportForDownload", apiReferenceLink)
 		return response, err
 	}
 
@@ -10683,6 +11896,64 @@ func (client DataSafeClient) getReferentialRelation(ctx context.Context, request
 	return response, err
 }
 
+// GetRegistrationPolicy Returns the details of the specified Registration Policy.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetRegistrationPolicy.go.html to see an example of how to use GetRegistrationPolicy API.
+// A default retry strategy applies to this operation GetRegistrationPolicy()
+func (client DataSafeClient) GetRegistrationPolicy(ctx context.Context, request GetRegistrationPolicyRequest) (response GetRegistrationPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getRegistrationPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetRegistrationPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetRegistrationPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetRegistrationPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetRegistrationPolicyResponse")
+	}
+	return
+}
+
+// getRegistrationPolicy implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getRegistrationPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/registrationPolicies/{registrationPolicyId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetRegistrationPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetRegistrationPolicy")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/RegistrationPolicy/GetRegistrationPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetRegistrationPolicy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetReport Gets a report by identifier
 //
 // # See also
@@ -11777,6 +13048,296 @@ func (client DataSafeClient) getSqlFirewallPolicy(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlFirewallPolicy/GetSqlFirewallPolicy"
 		err = common.PostProcessServiceError(err, "DataSafe", "GetSqlFirewallPolicy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetSubsettingPolicy Gets the details of the specified subsetting policy.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSubsettingPolicy.go.html to see an example of how to use GetSubsettingPolicy API.
+// A default retry strategy applies to this operation GetSubsettingPolicy()
+func (client DataSafeClient) GetSubsettingPolicy(ctx context.Context, request GetSubsettingPolicyRequest) (response GetSubsettingPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSubsettingPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSubsettingPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSubsettingPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSubsettingPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSubsettingPolicyResponse")
+	}
+	return
+}
+
+// getSubsettingPolicy implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getSubsettingPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subsettingPolicies/{subsettingPolicyId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSubsettingPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetSubsettingPolicy")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingPolicy/GetSubsettingPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetSubsettingPolicy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetSubsettingPolicyHealthReport Gets the details of the specified subsetting policy health report.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSubsettingPolicyHealthReport.go.html to see an example of how to use GetSubsettingPolicyHealthReport API.
+// A default retry strategy applies to this operation GetSubsettingPolicyHealthReport()
+func (client DataSafeClient) GetSubsettingPolicyHealthReport(ctx context.Context, request GetSubsettingPolicyHealthReportRequest) (response GetSubsettingPolicyHealthReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSubsettingPolicyHealthReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSubsettingPolicyHealthReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSubsettingPolicyHealthReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSubsettingPolicyHealthReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSubsettingPolicyHealthReportResponse")
+	}
+	return
+}
+
+// getSubsettingPolicyHealthReport implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getSubsettingPolicyHealthReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subsettingPolicyHealthReports/{subsettingPolicyHealthReportId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSubsettingPolicyHealthReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetSubsettingPolicyHealthReport")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingPolicyHealthReport/GetSubsettingPolicyHealthReport"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetSubsettingPolicyHealthReport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetSubsettingReport Gets the details of the specified subsetting report.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSubsettingReport.go.html to see an example of how to use GetSubsettingReport API.
+// A default retry strategy applies to this operation GetSubsettingReport()
+func (client DataSafeClient) GetSubsettingReport(ctx context.Context, request GetSubsettingReportRequest) (response GetSubsettingReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSubsettingReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSubsettingReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSubsettingReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSubsettingReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSubsettingReportResponse")
+	}
+	return
+}
+
+// getSubsettingReport implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getSubsettingReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subsettingReports/{subsettingReportId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSubsettingReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetSubsettingReport")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingReport/GetSubsettingReport"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetSubsettingReport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetSubsettingRule Gets the details of the specified subsetting rule.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSubsettingRule.go.html to see an example of how to use GetSubsettingRule API.
+// A default retry strategy applies to this operation GetSubsettingRule()
+func (client DataSafeClient) GetSubsettingRule(ctx context.Context, request GetSubsettingRuleRequest) (response GetSubsettingRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSubsettingRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSubsettingRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSubsettingRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSubsettingRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSubsettingRuleResponse")
+	}
+	return
+}
+
+// getSubsettingRule implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getSubsettingRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subsettingPolicies/{subsettingPolicyId}/subsettingRules/{subsettingRuleKey}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSubsettingRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetSubsettingRule")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingRule/GetSubsettingRule"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetSubsettingRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetSubsettingSchemaRelation Gets the details of the specified referential relation in the subsetting policy.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSubsettingSchemaRelation.go.html to see an example of how to use GetSubsettingSchemaRelation API.
+// A default retry strategy applies to this operation GetSubsettingSchemaRelation()
+func (client DataSafeClient) GetSubsettingSchemaRelation(ctx context.Context, request GetSubsettingSchemaRelationRequest) (response GetSubsettingSchemaRelationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSubsettingSchemaRelation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSubsettingSchemaRelationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSubsettingSchemaRelationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSubsettingSchemaRelationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSubsettingSchemaRelationResponse")
+	}
+	return
+}
+
+// getSubsettingSchemaRelation implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getSubsettingSchemaRelation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subsettingPolicies/{subsettingPolicyId}/subsettingSchemaRelations/{subsettingSchemaRelationKey}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSubsettingSchemaRelationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetSubsettingSchemaRelation")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingSchemaRelation/GetSubsettingSchemaRelation"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetSubsettingSchemaRelation", apiReferenceLink)
 		return response, err
 	}
 
@@ -15959,6 +17520,122 @@ func (client DataSafeClient) listReferentialRelations(ctx context.Context, reque
 	return response, err
 }
 
+// ListRegistrationPolicies Retrieves a list of registration policies according to the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListRegistrationPolicies.go.html to see an example of how to use ListRegistrationPolicies API.
+// A default retry strategy applies to this operation ListRegistrationPolicies()
+func (client DataSafeClient) ListRegistrationPolicies(ctx context.Context, request ListRegistrationPoliciesRequest) (response ListRegistrationPoliciesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listRegistrationPolicies, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListRegistrationPoliciesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListRegistrationPoliciesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListRegistrationPoliciesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListRegistrationPoliciesResponse")
+	}
+	return
+}
+
+// listRegistrationPolicies implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listRegistrationPolicies(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/registrationPolicies", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListRegistrationPoliciesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListRegistrationPolicies")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/RegistrationPolicySummary/ListRegistrationPolicies"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListRegistrationPolicies", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListRegistrationPolicyTargetDatabases Retrieves the OCIDs of target databases registered via the specified registration policy. Supports optional filtering by registration status (OPTIN/OPTOUT) and by target database OCID.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListRegistrationPolicyTargetDatabases.go.html to see an example of how to use ListRegistrationPolicyTargetDatabases API.
+// A default retry strategy applies to this operation ListRegistrationPolicyTargetDatabases()
+func (client DataSafeClient) ListRegistrationPolicyTargetDatabases(ctx context.Context, request ListRegistrationPolicyTargetDatabasesRequest) (response ListRegistrationPolicyTargetDatabasesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listRegistrationPolicyTargetDatabases, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListRegistrationPolicyTargetDatabasesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListRegistrationPolicyTargetDatabasesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListRegistrationPolicyTargetDatabasesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListRegistrationPolicyTargetDatabasesResponse")
+	}
+	return
+}
+
+// listRegistrationPolicyTargetDatabases implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listRegistrationPolicyTargetDatabases(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/registrationPolicies/{registrationPolicyId}/targetDatabases", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListRegistrationPolicyTargetDatabasesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListRegistrationPolicyTargetDatabases")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/RegistrationPolicy/ListRegistrationPolicyTargetDatabases"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListRegistrationPolicyTargetDatabases", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListReportDefinitions Gets a list of report definitions.
 // The ListReportDefinitions operation returns only the report definitions in the specified `compartmentId`.
 // It also returns the seeded report definitions which are available to all the compartments.
@@ -17948,6 +19625,768 @@ func (client DataSafeClient) listSqlFirewallViolations(ctx context.Context, requ
 	return response, err
 }
 
+// ListSubsettedObjects Gets a list of subsetted tables present in the specified subsetting report and based on the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSubsettedObjects.go.html to see an example of how to use ListSubsettedObjects API.
+// A default retry strategy applies to this operation ListSubsettedObjects()
+func (client DataSafeClient) ListSubsettedObjects(ctx context.Context, request ListSubsettedObjectsRequest) (response ListSubsettedObjectsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSubsettedObjects, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSubsettedObjectsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSubsettedObjectsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSubsettedObjectsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSubsettedObjectsResponse")
+	}
+	return
+}
+
+// listSubsettedObjects implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSubsettedObjects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subsettingReports/{subsettingReportId}/subsettedObjects", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSubsettedObjectsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSubsettedObjects")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettedObjectSummary/ListSubsettedObjects"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSubsettedObjects", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSubsettingAnalytics Gets consolidated subsetting analytics data based on the specified query parameters.
+// If CompartmentIdInSubtreeQueryParam is specified as true, the behaviour
+// is equivalent to accessLevel "ACCESSIBLE" by default.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSubsettingAnalytics.go.html to see an example of how to use ListSubsettingAnalytics API.
+// A default retry strategy applies to this operation ListSubsettingAnalytics()
+func (client DataSafeClient) ListSubsettingAnalytics(ctx context.Context, request ListSubsettingAnalyticsRequest) (response ListSubsettingAnalyticsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSubsettingAnalytics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSubsettingAnalyticsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSubsettingAnalyticsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSubsettingAnalyticsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSubsettingAnalyticsResponse")
+	}
+	return
+}
+
+// listSubsettingAnalytics implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSubsettingAnalytics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subsettingAnalytics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSubsettingAnalyticsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSubsettingAnalytics")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingPolicy/ListSubsettingAnalytics"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSubsettingAnalytics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSubsettingErrors Gets a list of subsetting errors in a subsetting run based on the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSubsettingErrors.go.html to see an example of how to use ListSubsettingErrors API.
+// A default retry strategy applies to this operation ListSubsettingErrors()
+func (client DataSafeClient) ListSubsettingErrors(ctx context.Context, request ListSubsettingErrorsRequest) (response ListSubsettingErrorsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSubsettingErrors, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSubsettingErrorsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSubsettingErrorsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSubsettingErrorsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSubsettingErrorsResponse")
+	}
+	return
+}
+
+// listSubsettingErrors implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSubsettingErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subsettingReports/{subsettingReportId}/subsettingErrors", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSubsettingErrorsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSubsettingErrors")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingErrorSummary/ListSubsettingErrors"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSubsettingErrors", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSubsettingPolicies Gets a list of subsetting policies based on the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSubsettingPolicies.go.html to see an example of how to use ListSubsettingPolicies API.
+// A default retry strategy applies to this operation ListSubsettingPolicies()
+func (client DataSafeClient) ListSubsettingPolicies(ctx context.Context, request ListSubsettingPoliciesRequest) (response ListSubsettingPoliciesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSubsettingPolicies, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSubsettingPoliciesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSubsettingPoliciesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSubsettingPoliciesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSubsettingPoliciesResponse")
+	}
+	return
+}
+
+// listSubsettingPolicies implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSubsettingPolicies(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subsettingPolicies", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSubsettingPoliciesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSubsettingPolicies")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingPolicy/ListSubsettingPolicies"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSubsettingPolicies", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSubsettingPolicyHealthReportLogs Gets a list of errors and warnings from a subsetting policy health check.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSubsettingPolicyHealthReportLogs.go.html to see an example of how to use ListSubsettingPolicyHealthReportLogs API.
+// A default retry strategy applies to this operation ListSubsettingPolicyHealthReportLogs()
+func (client DataSafeClient) ListSubsettingPolicyHealthReportLogs(ctx context.Context, request ListSubsettingPolicyHealthReportLogsRequest) (response ListSubsettingPolicyHealthReportLogsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSubsettingPolicyHealthReportLogs, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSubsettingPolicyHealthReportLogsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSubsettingPolicyHealthReportLogsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSubsettingPolicyHealthReportLogsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSubsettingPolicyHealthReportLogsResponse")
+	}
+	return
+}
+
+// listSubsettingPolicyHealthReportLogs implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSubsettingPolicyHealthReportLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subsettingPolicyHealthReports/{subsettingPolicyHealthReportId}/logs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSubsettingPolicyHealthReportLogsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSubsettingPolicyHealthReportLogs")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingPolicyHealthReport/ListSubsettingPolicyHealthReportLogs"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSubsettingPolicyHealthReportLogs", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSubsettingPolicyHealthReports Gets a list of subsetting policy health reports based on the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSubsettingPolicyHealthReports.go.html to see an example of how to use ListSubsettingPolicyHealthReports API.
+// A default retry strategy applies to this operation ListSubsettingPolicyHealthReports()
+func (client DataSafeClient) ListSubsettingPolicyHealthReports(ctx context.Context, request ListSubsettingPolicyHealthReportsRequest) (response ListSubsettingPolicyHealthReportsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSubsettingPolicyHealthReports, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSubsettingPolicyHealthReportsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSubsettingPolicyHealthReportsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSubsettingPolicyHealthReportsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSubsettingPolicyHealthReportsResponse")
+	}
+	return
+}
+
+// listSubsettingPolicyHealthReports implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSubsettingPolicyHealthReports(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subsettingPolicyHealthReports", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSubsettingPolicyHealthReportsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSubsettingPolicyHealthReports")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingPolicyHealthReport/ListSubsettingPolicyHealthReports"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSubsettingPolicyHealthReports", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSubsettingReports Gets a list of subsetting reports based on the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSubsettingReports.go.html to see an example of how to use ListSubsettingReports API.
+// A default retry strategy applies to this operation ListSubsettingReports()
+func (client DataSafeClient) ListSubsettingReports(ctx context.Context, request ListSubsettingReportsRequest) (response ListSubsettingReportsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSubsettingReports, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSubsettingReportsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSubsettingReportsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSubsettingReportsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSubsettingReportsResponse")
+	}
+	return
+}
+
+// listSubsettingReports implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSubsettingReports(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subsettingReports", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSubsettingReportsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSubsettingReports")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingReport/ListSubsettingReports"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSubsettingReports", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSubsettingRuleProcessingChainObjects Gets a list of objects of processing chain based on the specified query parameters generated for a subsetting rule.
+// A processing chain is the relationship path that determines how a subsetting rule is applied across related tables.
+// It is built from the selected subsetting table, subsetting rule, the chosen relatedTablesPropagation direction,
+// and the referential relationships in the schema.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSubsettingRuleProcessingChainObjects.go.html to see an example of how to use ListSubsettingRuleProcessingChainObjects API.
+// A default retry strategy applies to this operation ListSubsettingRuleProcessingChainObjects()
+func (client DataSafeClient) ListSubsettingRuleProcessingChainObjects(ctx context.Context, request ListSubsettingRuleProcessingChainObjectsRequest) (response ListSubsettingRuleProcessingChainObjectsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSubsettingRuleProcessingChainObjects, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSubsettingRuleProcessingChainObjectsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSubsettingRuleProcessingChainObjectsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSubsettingRuleProcessingChainObjectsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSubsettingRuleProcessingChainObjectsResponse")
+	}
+	return
+}
+
+// listSubsettingRuleProcessingChainObjects implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSubsettingRuleProcessingChainObjects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subsettingPolicies/{subsettingPolicyId}/subsettingRules/{subsettingRuleKey}/processingChainObjects", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSubsettingRuleProcessingChainObjectsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSubsettingRuleProcessingChainObjects")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingRuleProcessingChainObjectSummary/ListSubsettingRuleProcessingChainObjects"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSubsettingRuleProcessingChainObjects", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSubsettingRules Gets a list of subsetting rules present in the specified subsetting policy and based on the specified query parameters.
+// A subsetting rule is the criteria that tells Data Safe which rows to retain from the selected starting table for a subsetting operation.
+// It is the entry point for the subset. Data Safe uses this rule, along with the propagation setting,
+// to determine the related rows that must also be retained across parent and child tables.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSubsettingRules.go.html to see an example of how to use ListSubsettingRules API.
+// A default retry strategy applies to this operation ListSubsettingRules()
+func (client DataSafeClient) ListSubsettingRules(ctx context.Context, request ListSubsettingRulesRequest) (response ListSubsettingRulesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSubsettingRules, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSubsettingRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSubsettingRulesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSubsettingRulesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSubsettingRulesResponse")
+	}
+	return
+}
+
+// listSubsettingRules implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSubsettingRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subsettingPolicies/{subsettingPolicyId}/subsettingRules", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSubsettingRulesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSubsettingRules")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingRule/ListSubsettingRules"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSubsettingRules", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSubsettingSchemaObjects Gets a list of objects/tables present in the specified subsetting policy schemas based on the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSubsettingSchemaObjects.go.html to see an example of how to use ListSubsettingSchemaObjects API.
+// A default retry strategy applies to this operation ListSubsettingSchemaObjects()
+func (client DataSafeClient) ListSubsettingSchemaObjects(ctx context.Context, request ListSubsettingSchemaObjectsRequest) (response ListSubsettingSchemaObjectsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSubsettingSchemaObjects, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSubsettingSchemaObjectsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSubsettingSchemaObjectsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSubsettingSchemaObjectsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSubsettingSchemaObjectsResponse")
+	}
+	return
+}
+
+// listSubsettingSchemaObjects implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSubsettingSchemaObjects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subsettingPolicies/{subsettingPolicyId}/subsettingSchemaObjects", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSubsettingSchemaObjectsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSubsettingSchemaObjects")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingSchemaObjectSummary/ListSubsettingSchemaObjects"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSubsettingSchemaObjects", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSubsettingSchemaRelations Gets a list of referential relations present in the specified subsetting policy schemas based on the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSubsettingSchemaRelations.go.html to see an example of how to use ListSubsettingSchemaRelations API.
+// A default retry strategy applies to this operation ListSubsettingSchemaRelations()
+func (client DataSafeClient) ListSubsettingSchemaRelations(ctx context.Context, request ListSubsettingSchemaRelationsRequest) (response ListSubsettingSchemaRelationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSubsettingSchemaRelations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSubsettingSchemaRelationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSubsettingSchemaRelationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSubsettingSchemaRelationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSubsettingSchemaRelationsResponse")
+	}
+	return
+}
+
+// listSubsettingSchemaRelations implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSubsettingSchemaRelations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subsettingPolicies/{subsettingPolicyId}/subsettingSchemaRelations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSubsettingSchemaRelationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSubsettingSchemaRelations")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingSchemaRelationSummary/ListSubsettingSchemaRelations"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSubsettingSchemaRelations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSubsettingSchemas Gets a list of subsetting schemas present in the specified subsetting policy and based on the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSubsettingSchemas.go.html to see an example of how to use ListSubsettingSchemas API.
+// A default retry strategy applies to this operation ListSubsettingSchemas()
+func (client DataSafeClient) ListSubsettingSchemas(ctx context.Context, request ListSubsettingSchemasRequest) (response ListSubsettingSchemasResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSubsettingSchemas, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSubsettingSchemasResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSubsettingSchemasResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSubsettingSchemasResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSubsettingSchemasResponse")
+	}
+	return
+}
+
+// listSubsettingSchemas implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSubsettingSchemas(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subsettingPolicies/{subsettingPolicyId}/subsettingSchemas", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSubsettingSchemasResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListSubsettingSchemas")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingSchemaCollection/ListSubsettingSchemas"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSubsettingSchemas", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListTableEstimates Gets table size estimates for the specified subsetting policy.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListTableEstimates.go.html to see an example of how to use ListTableEstimates API.
+// A default retry strategy applies to this operation ListTableEstimates()
+func (client DataSafeClient) ListTableEstimates(ctx context.Context, request ListTableEstimatesRequest) (response ListTableEstimatesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listTableEstimates, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListTableEstimatesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListTableEstimatesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListTableEstimatesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListTableEstimatesResponse")
+	}
+	return
+}
+
+// listTableEstimates implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listTableEstimates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subsettingPolicies/{subsettingPolicyId}/tableEstimates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListTableEstimatesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListTableEstimates")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TableEstimateSummary/ListTableEstimates"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListTableEstimates", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListTables Returns a list of table metadata objects.
 //
 // # See also
@@ -19002,6 +21441,69 @@ func (client DataSafeClient) listWorkRequests(ctx context.Context, request commo
 	return response, err
 }
 
+// ManagePrivileges Updates the Data Safe target database Privileges.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ManagePrivileges.go.html to see an example of how to use ManagePrivileges API.
+// A default retry strategy applies to this operation ManagePrivileges()
+func (client DataSafeClient) ManagePrivileges(ctx context.Context, request ManagePrivilegesRequest) (response ManagePrivilegesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.managePrivileges, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ManagePrivilegesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ManagePrivilegesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ManagePrivilegesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ManagePrivilegesResponse")
+	}
+	return
+}
+
+// managePrivileges implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) managePrivileges(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/targetDatabases/{targetDatabaseId}/actions/managePrivileges", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ManagePrivilegesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ManagePrivileges")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabase/ManagePrivileges"
+		err = common.PostProcessServiceError(err, "DataSafe", "ManagePrivileges", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // MaskData Masks data using the specified masking policy.
 //
 // # See also
@@ -19652,6 +22154,67 @@ func (client DataSafeClient) patchSqlFirewallAllowedSql(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlFirewallAllowedSql/PatchSqlFirewallAllowedSql"
 		err = common.PostProcessServiceError(err, "DataSafe", "PatchSqlFirewallAllowedSql", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// PatchSubsettingRules Patches one or more subsetting rules in the specified subsetting policy. Use INSERT to add
+// a new rule with CreateSubsettingRuleDetails as the patch value, and MERGE to update an
+// existing rule with UpdateSubsettingRuleDetails as the patch value. To delete a rule, use
+// the existing DeleteSubsettingRule API.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/PatchSubsettingRules.go.html to see an example of how to use PatchSubsettingRules API.
+// A default retry strategy applies to this operation PatchSubsettingRules()
+func (client DataSafeClient) PatchSubsettingRules(ctx context.Context, request PatchSubsettingRulesRequest) (response PatchSubsettingRulesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.patchSubsettingRules, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PatchSubsettingRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PatchSubsettingRulesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PatchSubsettingRulesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PatchSubsettingRulesResponse")
+	}
+	return
+}
+
+// patchSubsettingRules implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) patchSubsettingRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPatch, "/subsettingPolicies/{subsettingPolicyId}/subsettingRules", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PatchSubsettingRulesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "PatchSubsettingRules")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingRule/PatchSubsettingRules"
+		err = common.PostProcessServiceError(err, "DataSafe", "PatchSubsettingRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -21035,6 +23598,69 @@ func (client DataSafeClient) stopSqlCollection(ctx context.Context, request comm
 	return response, err
 }
 
+// SubsetData Subsets data using the specified subsetting policy.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/SubsetData.go.html to see an example of how to use SubsetData API.
+// A default retry strategy applies to this operation SubsetData()
+func (client DataSafeClient) SubsetData(ctx context.Context, request SubsetDataRequest) (response SubsetDataResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.subsetData, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SubsetDataResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SubsetDataResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SubsetDataResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SubsetDataResponse")
+	}
+	return
+}
+
+// subsetData implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) subsetData(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subsettingPolicies/{subsettingPolicyId}/actions/subset", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SubsetDataResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "SubsetData")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingPolicy/SubsetData"
+		err = common.PostProcessServiceError(err, "DataSafe", "SubsetData", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // SuspendWorkRequest Suspend the given work request. Issuing a suspend does not guarantee of a immediate suspend of the work request.
 //
 // # See also
@@ -22288,6 +24914,127 @@ func (client DataSafeClient) updatePeerTargetDatabase(ctx context.Context, reque
 	return response, err
 }
 
+// UpdateProcessingChainObject Updates one or more attributes of the specified processing chain object.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateProcessingChainObject.go.html to see an example of how to use UpdateProcessingChainObject API.
+// A default retry strategy applies to this operation UpdateProcessingChainObject()
+func (client DataSafeClient) UpdateProcessingChainObject(ctx context.Context, request UpdateProcessingChainObjectRequest) (response UpdateProcessingChainObjectResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateProcessingChainObject, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateProcessingChainObjectResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateProcessingChainObjectResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateProcessingChainObjectResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateProcessingChainObjectResponse")
+	}
+	return
+}
+
+// updateProcessingChainObject implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) updateProcessingChainObject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/subsettingPolicies/{subsettingPolicyId}/subsettingRules/{subsettingRuleKey}/processingChainObjects/{processingChainObjectKey}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateProcessingChainObjectResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateProcessingChainObject")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingRuleProcessingChainObjectSummary/UpdateProcessingChainObject"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateProcessingChainObject", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateRegistrationPolicy Updates one or more attributes of the specified registration policy.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateRegistrationPolicy.go.html to see an example of how to use UpdateRegistrationPolicy API.
+// A default retry strategy applies to this operation UpdateRegistrationPolicy()
+func (client DataSafeClient) UpdateRegistrationPolicy(ctx context.Context, request UpdateRegistrationPolicyRequest) (response UpdateRegistrationPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateRegistrationPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateRegistrationPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateRegistrationPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateRegistrationPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateRegistrationPolicyResponse")
+	}
+	return
+}
+
+// updateRegistrationPolicy implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) updateRegistrationPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/registrationPolicies/{registrationPolicyId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateRegistrationPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateRegistrationPolicy")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/RegistrationPolicy/UpdateRegistrationPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateRegistrationPolicy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateReport Updates the specified report. Only tags can be updated.
 //
 // # See also
@@ -23111,6 +25858,122 @@ func (client DataSafeClient) updateSqlFirewallPolicy(ctx context.Context, reques
 	return response, err
 }
 
+// UpdateSubsettingPolicy Updates one or more attributes of the specified subsetting policy.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateSubsettingPolicy.go.html to see an example of how to use UpdateSubsettingPolicy API.
+// A default retry strategy applies to this operation UpdateSubsettingPolicy()
+func (client DataSafeClient) UpdateSubsettingPolicy(ctx context.Context, request UpdateSubsettingPolicyRequest) (response UpdateSubsettingPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateSubsettingPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateSubsettingPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateSubsettingPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateSubsettingPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateSubsettingPolicyResponse")
+	}
+	return
+}
+
+// updateSubsettingPolicy implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) updateSubsettingPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/subsettingPolicies/{subsettingPolicyId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateSubsettingPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateSubsettingPolicy")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingPolicy/UpdateSubsettingPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateSubsettingPolicy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateSubsettingRule Updates one or more attributes of the specified subsetting rule. Note that updating the subsettingRuleEntry attribute replaces the currently assigned subsettingRuleEntry
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateSubsettingRule.go.html to see an example of how to use UpdateSubsettingRule API.
+// A default retry strategy applies to this operation UpdateSubsettingRule()
+func (client DataSafeClient) UpdateSubsettingRule(ctx context.Context, request UpdateSubsettingRuleRequest) (response UpdateSubsettingRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateSubsettingRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateSubsettingRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateSubsettingRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateSubsettingRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateSubsettingRuleResponse")
+	}
+	return
+}
+
+// updateSubsettingRule implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) updateSubsettingRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/subsettingPolicies/{subsettingPolicyId}/subsettingRules/{subsettingRuleKey}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateSubsettingRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateSubsettingRule")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingRule/UpdateSubsettingRule"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateSubsettingRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateTargetAlertPolicyAssociation Updates the specified target-alert policy association.
 //
 // # See also
@@ -23585,6 +26448,68 @@ func (client DataSafeClient) uploadSensitiveDataModel(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveDataModel/UploadSensitiveDataModel"
 		err = common.PostProcessServiceError(err, "DataSafe", "UploadSensitiveDataModel", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UploadSubsettingPolicy Uploads a subsetting policy file (also called template) to update the specified subsetting policy.
+// To create a new subsetting policy using a file, first use the CreateSubsettingPolicy operation
+// to create an empty subsetting policy and then use this operation to upload the subsetting policy file.
+// Note that the upload operation replaces the content of the specified subsetting policy,
+// including all the subsetting rules, with the content of the file.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UploadSubsettingPolicy.go.html to see an example of how to use UploadSubsettingPolicy API.
+// A default retry strategy applies to this operation UploadSubsettingPolicy()
+func (client DataSafeClient) UploadSubsettingPolicy(ctx context.Context, request UploadSubsettingPolicyRequest) (response UploadSubsettingPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.uploadSubsettingPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UploadSubsettingPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UploadSubsettingPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UploadSubsettingPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UploadSubsettingPolicyResponse")
+	}
+	return
+}
+
+// uploadSubsettingPolicy implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) uploadSubsettingPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subsettingPolicies/{subsettingPolicyId}/actions/upload", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UploadSubsettingPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UploadSubsettingPolicy")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SubsettingPolicy/UploadSubsettingPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "UploadSubsettingPolicy", apiReferenceLink)
 		return response, err
 	}
 

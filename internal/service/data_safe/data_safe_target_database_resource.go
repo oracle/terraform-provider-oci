@@ -399,9 +399,20 @@ func DataSafeTargetDatabaseResource() *schema.Resource {
 					},
 				},
 			},
+			"manage_privileges_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 
 			// Computed
 			"associated_resource_ids": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"features": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Schema{
@@ -576,7 +587,18 @@ func createDataSafeTargetDatabaseWithContext(ctx context.Context, d *schema.Reso
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
+		return tfresource.HandleDiagError(m, e)
+	}
+
+	if _, ok := sync.D.GetOkExists("manage_privileges_trigger"); ok {
+		err := sync.ManagePrivileges(ctx)
+		if err != nil {
+			return tfresource.HandleDiagError(m, err)
+		}
+	}
+	return nil
+
 }
 
 func readDataSafeTargetDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
@@ -592,7 +614,28 @@ func updateDataSafeTargetDatabaseWithContext(ctx context.Context, d *schema.Reso
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	if _, ok := sync.D.GetOkExists("manage_privileges_trigger"); ok && sync.D.HasChange("manage_privileges_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("manage_privileges_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.ManagePrivileges(ctx)
+
+			if err != nil {
+				return tfresource.HandleDiagError(m, err)
+			}
+		} else {
+			sync.D.Set("manage_privileges_trigger", oldRaw)
+			err := fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, err)
+		}
+	}
+
+	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
+	}
+
+	return nil
 }
 
 func deleteDataSafeTargetDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
@@ -1042,6 +1085,8 @@ func (s *DataSafeTargetDatabaseResourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	s.D.Set("features", s.Res.Features)
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.LifecycleDetails != nil {
@@ -1067,6 +1112,54 @@ func (s *DataSafeTargetDatabaseResourceCrud) SetData() error {
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
+
+	return nil
+}
+
+func (s *DataSafeTargetDatabaseResourceCrud) ManagePrivileges(ctx context.Context) error {
+	request := oci_data_safe.ManagePrivilegesRequest{}
+
+	if features, ok := s.D.GetOkExists("features"); ok {
+		interfaces := features.([]interface{})
+		tmp := make([]oci_data_safe.ManagePrivilegesDetailsFeaturesEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_data_safe.ManagePrivilegesDetailsFeaturesEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("features") {
+			request.Features = tmp
+		}
+	}
+
+	idTmp := s.D.Id()
+	request.TargetDatabaseId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+
+	response, err := s.Client.ManagePrivileges(ctx, request)
+	if err != nil {
+		return err
+	}
+	var workRequestId *string
+	if response.RawResponse != nil {
+		if wr := response.RawResponse.Header.Get("opc-work-request-id"); wr != "" {
+			workRequestId = &wr
+		}
+	}
+	if workRequestId != nil {
+		_, err = targetDatabaseWaitForWorkRequest(ctx, workRequestId, "targetdatabase", oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
+		if err != nil {
+			return err
+		}
+	}
+
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	val := s.D.Get("manage_privileges_trigger")
+	s.D.Set("manage_privileges_trigger", val)
 
 	return nil
 }

@@ -1,3 +1,25 @@
+## 9.8.0 (September 30, 2026)
+
+### Added
+- Fixed root compartment export name resolution
+- Fixed documentation categorization and explicitly mention unavailable resources
+- Support for Data Safe - ExaDB-C@C and ExaDB-D integration for target registration at scale
+- Support for NatOnDrg
+- Support for VM Cluster horizontal scaling | ADB-D & ADB-C@C - Phase 2
+- Support for Data Safe - Data Subsetting support
+
+### Deprecation
+- Add kms_key_id deprecation notice for Fusion Environment
+
+### Bug Fix
+- Fixed indentation in of markdown files for database_migration & ocvp services
+- Resource Discovery authentication error guidance
+- Propagate context while retrieving DB home information
+- Fix artifacts container configuration Terraform documentation
+- Handle Data Safe finding details returned as strings and stabilize refresh
+- Remove privateIpId suppression from instance configuration.
+- Refresh current DB home after database upgrade
+
 ## 9.3.0 (September 22, 2026)
 
 ### Added

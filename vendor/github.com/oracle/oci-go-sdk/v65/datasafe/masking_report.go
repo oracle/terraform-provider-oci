@@ -61,6 +61,9 @@ type MaskingReport struct {
 	// The status of the masking job.
 	MaskingStatus MaskingReportMaskingStatusEnum `mandatory:"true" json:"maskingStatus"`
 
+	// The OCID of the subsetting report associated with this masking report
+	SubsettingReportId *string `mandatory:"false" json:"subsettingReportId"`
+
 	// The date and time the masking report was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 

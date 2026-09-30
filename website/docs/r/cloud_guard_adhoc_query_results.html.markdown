@@ -1,17 +1,15 @@
-```
-
-//resource not exposed to user through Terraform, but generated.
-//Hence TF team suggested to keep the file commented as codeGen patch build fails if file not present
 ---
 subcategory: "Cloud Guard"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_cloud_guard_adhoc_query_results"
 sidebar_current: "docs-oci-datasource-cloud_guard-adhoc_query_results"
 description: |-
-  Provides the list of Adhoc Query Results in Oracle Cloud Infrastructure Cloud Guard service
+  This is not available for customer use although included in documentation
 ---
 
 # Data Source: oci_cloud_guard_adhoc_query_results
+**This is not available for customer use although included in documentation.**
+
 This data source provides the list of Adhoc Query Results in Oracle Cloud Infrastructure Cloud Guard service.
 
 Lists the results for a given adhoc ID (from includes results from all monitoring regions).

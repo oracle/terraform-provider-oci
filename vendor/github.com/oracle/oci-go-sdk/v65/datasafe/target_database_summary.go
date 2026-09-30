@@ -48,6 +48,9 @@ type TargetDatabaseSummary struct {
 	// Details about the current state of the target database in Data Safe.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// List of enabled features based on granted ORA_DSCS_* roles in target database
+	Features []string `mandatory:"false" json:"features"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
