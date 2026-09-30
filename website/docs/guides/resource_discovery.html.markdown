@@ -55,7 +55,11 @@ the resources. It is recommended to specify a user that has access to inspect an
 
 Resource discovery supports API Key based authentication and Instance Principal based authentication.
 
-The authentication information can be specified using the following environment variables:
+When you run the `terraform-provider-oci` executable directly, Resource Discovery reads authentication settings from environment variables and OCI configuration profiles. It does not read provider settings from a `provider.tf` file.
+
+#### API Key Authentication
+
+The authentication information for API Key authentication can be specified using the following environment variables:
 
 ```
 export TF_VAR_tenancy_ocid=<value>
@@ -65,12 +69,26 @@ export TF_VAR_private_key_path=<path to your private key>
 export TF_VAR_region=<region of the resources, e.g. "us-phoenix-1">
 ```
 
-
 If your private key is password-encrypted, you may also need to specify a password with this variable:
 
 ```
 export TF_VAR_private_key_password=<password for private key>
 ```
+
+#### Instance Principal Authentication
+
+To use Instance Principal authentication, run Resource Discovery from an OCI compute instance and set the authentication method and region as environment variables:
+
+```
+export TF_VAR_auth=InstancePrincipal
+export TF_VAR_region=<region of the resources, e.g. "us-phoenix-1">
+```
+
+`OCI_AUTH=InstancePrincipal` and `OCI_REGION=<region>` can be used as alternatives instead of the `TF_VAR_*` environment variables.
+
+Instance Principal authentication does not require `tenancy_ocid`, `user_ocid`, `fingerprint`, or a private key. When using Instance Principal authentication, specify the target compartment with the `-compartment_id` command parameter.
+
+For the complete OCI Terraform provider authentication reference, see [Configuring the Provider](https://docs.oracle.com/en-us/iaas/Content/dev/terraform/configuring.htm).
 
 The authentication information can also be specified using a configuration file. For details on setting this up, see [SDK and CLI configuration file](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm)
 A non-default profile can be set using environment variable:
@@ -619,6 +637,8 @@ core
 * oci\_core\_compute\_gpu\_memory\_fabric
 * oci\_core\_compute\_host
 * oci\_core\_compute\_host\_group
+* oci\_core\_drg\_nat\_policy
+* oci\_core\_drg\_nat\_policy\_drg\_nat\_rule
 
 data_labeling_service
 
@@ -673,6 +693,11 @@ data_safe
 * oci\_data\_safe\_unified\_audit\_policy
 * oci\_data\_safe\_target\_database\_group
 * oci\_data\_safe\_crypto\_assessment
+* oci\_data\_safe\_subsetting\_policy\_subsetting\_rule\_processing\_chain\_object
+* oci\_data\_safe\_subsetting\_policy\_subsetting\_rule
+* oci\_data\_safe\_subsetting\_policy
+* oci\_data\_safe\_subsetting\_policy\_subsetting\_schema\_relation
+* oci\_data\_safe\_registration\_policy
 
 database
 

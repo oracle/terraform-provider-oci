@@ -102,6 +102,10 @@ func DataSafeMaskingReportsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"subsetting_report_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"target_id": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -353,6 +357,10 @@ func MaskingReportSummaryToMap(obj oci_data_safe.MaskingReportSummary) map[strin
 	}
 
 	result["state"] = string(obj.LifecycleState)
+
+	if obj.SubsettingReportId != nil {
+		result["subsetting_report_id"] = string(*obj.SubsettingReportId)
+	}
 
 	if obj.TargetId != nil {
 		result["target_id"] = string(*obj.TargetId)

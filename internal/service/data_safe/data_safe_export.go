@@ -25,6 +25,9 @@ func init() {
 	exportDataSafeSensitiveDataModelReferentialRelationHints.GetIdFn = getDataSafeSensitiveDataModelReferentialRelationId
 	exportDataSafeSensitiveTypeGroupGroupedSensitiveTypeHints.GetIdFn = getDataSafeSensitiveTypeGroupGroupedSensitiveTypeId
 	exportDataSafeSecurityAssessmentCheckHints.GetIdFn = getDataSafeSecurityAssessmentCheckId
+	exportDataSafeSubsettingPolicySubsettingRuleProcessingChainObjectHints.GetIdFn = getDataSafeSubsettingPolicySubsettingRuleProcessingChainObjectId
+	exportDataSafeSubsettingPolicySubsettingRuleHints.GetIdFn = getDataSafeSubsettingPolicySubsettingRuleId
+	exportDataSafeSubsettingPolicySubsettingSchemaRelationHints.GetIdFn = getDataSafeSubsettingPolicySubsettingSchemaRelationId
 	exportDataSafeDiscoveryJobsResultHints.GetIdFn = getDataSafeDiscoveryJobsResultId
 	exportDataSafeAlertPolicyHints.FindResourcesOverrideFn = findAlertPolicies
 	tf_export.RegisterCompartmentGraphs("data_safe", dataSafeResourceGraph)
@@ -107,6 +110,40 @@ func getDataSafeSecurityAssessmentCheckId(resource *tf_export.OCIResource) (stri
 
 	securityAssessmentId := resource.Parent.Id
 	return GetSecurityAssessmentCheckCompositeId(securityAssessmentId), nil
+}
+
+func getDataSafeSubsettingPolicySubsettingRuleProcessingChainObjectId(resource *tf_export.OCIResource) (string, error) {
+
+	processingChainObjectKey, ok := resource.SourceAttributes["processing_chain_object_key"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find processingChainObjectKey for DataSafe SubsettingPolicySubsettingRuleProcessingChainObject")
+	}
+	subsettingPolicyId := resource.Parent.Id
+	subsettingRuleKey, ok := resource.SourceAttributes["subsetting_rule_key"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find subsettingRuleKey for DataSafe SubsettingPolicySubsettingRuleProcessingChainObject")
+	}
+	return GetSubsettingPolicySubsettingRuleProcessingChainObjectCompositeId(processingChainObjectKey, subsettingPolicyId, subsettingRuleKey), nil
+}
+
+func getDataSafeSubsettingPolicySubsettingRuleId(resource *tf_export.OCIResource) (string, error) {
+
+	subsettingPolicyId := resource.Parent.Id
+	subsettingRuleKey, ok := resource.SourceAttributes["key"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find subsettingRuleKey for DataSafe SubsettingPolicySubsettingRule")
+	}
+	return GetSubsettingPolicySubsettingRuleCompositeId(subsettingPolicyId, subsettingRuleKey), nil
+}
+
+func getDataSafeSubsettingPolicySubsettingSchemaRelationId(resource *tf_export.OCIResource) (string, error) {
+
+	subsettingPolicyId := resource.Parent.Id
+	subsettingSchemaRelationKey, ok := resource.SourceAttributes["key"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find subsettingSchemaRelationKey for DataSafe SubsettingPolicySubsettingSchemaRelation")
+	}
+	return GetSubsettingPolicySubsettingSchemaRelationCompositeId(subsettingPolicyId, subsettingSchemaRelationKey), nil
 }
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -593,6 +630,58 @@ var exportDataSafeCryptoAssessmentHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportDataSafeSubsettingPolicySubsettingRuleProcessingChainObjectHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_data_safe_subsetting_policy_subsetting_rule_processing_chain_object",
+	DatasourceClass:        "oci_data_safe_subsetting_policy_subsetting_rule_processing_chain_objects",
+	DatasourceItemsAttr:    "subsetting_rule_processing_chain_objects_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "subsetting_policy_subsetting_rule_processing_chain_object",
+}
+
+var exportDataSafeSubsettingPolicySubsettingRuleHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_data_safe_subsetting_policy_subsetting_rule",
+	DatasourceClass:        "oci_data_safe_subsetting_policy_subsetting_rules",
+	DatasourceItemsAttr:    "subsetting_rule_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "subsetting_policy_subsetting_rule",
+	RequireResourceRefresh: true,
+}
+
+var exportDataSafeSubsettingPolicyHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_data_safe_subsetting_policy",
+	DatasourceClass:        "oci_data_safe_subsetting_policies",
+	DatasourceItemsAttr:    "subsetting_policy_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "subsetting_policy",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_data_safe.SubsettingPolicyLifecycleStateActive),
+		string(oci_data_safe.SubsettingPolicyLifecycleStateNeedsAttention),
+	},
+}
+
+var exportDataSafeSubsettingPolicySubsettingSchemaRelationHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_data_safe_subsetting_policy_subsetting_schema_relation",
+	DatasourceClass:        "oci_data_safe_subsetting_policy_subsetting_schema_relations",
+	DatasourceItemsAttr:    "subsetting_schema_relation_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "subsetting_policy_subsetting_schema_relation",
+	RequireResourceRefresh: true,
+}
+
+var exportDataSafeRegistrationPolicyHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_data_safe_registration_policy",
+	DatasourceClass:        "oci_data_safe_registration_policies",
+	DatasourceItemsAttr:    "registration_policy_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "registration_policy",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_data_safe.RegistrationPolicyLifecycleStateActive),
+		string(oci_data_safe.RegistrationPolicyLifecycleStateNeedsAttention),
+	},
+}
+
 var dataSafeResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDataSafeDataSafePrivateEndpointHints},
@@ -623,6 +712,8 @@ var dataSafeResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportDataSafeSecurityPolicyConfigHints},
 		{TerraformResourceHints: exportDataSafeUnifiedAuditPolicyHints},
 		{TerraformResourceHints: exportDataSafeCryptoAssessmentHints},
+		{TerraformResourceHints: exportDataSafeSubsettingPolicyHints},
+		{TerraformResourceHints: exportDataSafeRegistrationPolicyHints},
 	},
 	"oci_data_safe_alert_policy": {
 		{
@@ -681,6 +772,27 @@ var dataSafeResourceGraph = tf_export.TerraformResourceGraph{
 			TerraformResourceHints: exportDataSafeSensitiveTypeGroupGroupedSensitiveTypeHints,
 			DatasourceQueryParams: map[string]string{
 				"sensitive_type_group_id": "id",
+			},
+		},
+	},
+	"oci_data_safe_subsetting_policy": {
+		{
+			TerraformResourceHints: exportDataSafeSubsettingPolicySubsettingRuleHints,
+			DatasourceQueryParams: map[string]string{
+				"subsetting_policy_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportDataSafeSubsettingPolicySubsettingRuleProcessingChainObjectHints,
+			DatasourceQueryParams: map[string]string{
+				"subsetting_policy_id": "id",
+				"subsetting_rule_key":  "subsetting_rule_key",
+			},
+		},
+		{
+			TerraformResourceHints: exportDataSafeSubsettingPolicySubsettingSchemaRelationHints,
+			DatasourceQueryParams: map[string]string{
+				"subsetting_policy_id": "id",
 			},
 		},
 	},

@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_database_pluggable_database"
 sidebar_current: "docs-oci-resource-database-pluggable_database"
 description: |-
-Provides the Pluggable Database resource in Oracle Cloud Infrastructure Database service
+  Provides the Pluggable Database resource in Oracle Cloud Infrastructure Database service
 ---
 
 # oci_database_pluggable_database

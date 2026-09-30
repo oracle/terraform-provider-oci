@@ -65,6 +65,16 @@ func CoreDrgAttachmentManagementResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"does_preserve_original_routes_with_nat": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"drg_nat_policy_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"drg_route_table_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -148,6 +158,10 @@ func CoreDrgAttachmentManagementResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"remove_drg_nat_policy_trigger": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 		},
 	}
 }
@@ -181,6 +195,14 @@ func updateCoreDrgAttachmentManagement(d *schema.ResourceData, m interface{}) er
 	if _, ok := sync.D.GetOkExists("remove_export_drg_route_distribution_trigger"); ok &&
 		sync.D.HasChange("remove_export_drg_route_distribution_trigger") {
 		err := sync.removeExportDrgRouteDistribution()
+		if err != nil {
+			return err
+		}
+	}
+
+	if _, ok := sync.D.GetOkExists("remove_drg_nat_policy_trigger"); ok &&
+		sync.D.HasChange("remove_drg_nat_policy_trigger") {
+		err := sync.removeDrgNatPolicy()
 		if err != nil {
 			return err
 		}
@@ -273,8 +295,18 @@ func (s *CoreDrgAttachmentManagementResourceCrud) Update() error {
 		request.DisplayName = &tmp
 	}
 
+	if doesPreserveOriginalRoutesWithNat, ok := s.D.GetOkExists("does_preserve_original_routes_with_nat"); ok && s.D.HasChange("does_preserve_original_routes_with_nat") {
+		tmp := doesPreserveOriginalRoutesWithNat.(bool)
+		request.DoesPreserveOriginalRoutesWithNat = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.DrgAttachmentId = &tmp
+
+	if drgNatPolicyId, ok := s.D.GetOkExists("drg_nat_policy_id"); ok && s.D.HasChange("drg_nat_policy_id") {
+		tmp := drgNatPolicyId.(string)
+		request.DrgNatPolicyId = &tmp
+	}
 
 	if drgRouteTableId, ok := s.D.GetOkExists("drg_route_table_id"); ok && s.D.HasChange("drg_route_table_id") {
 		tmp := drgRouteTableId.(string)
@@ -340,12 +372,22 @@ func (s *CoreDrgAttachmentManagementResourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.DoesPreserveOriginalRoutesWithNat != nil {
+		s.D.Set("does_preserve_original_routes_with_nat", *s.Res.DoesPreserveOriginalRoutesWithNat)
+	}
+
 	if s.Res.DrgId != nil {
 		s.D.Set("drg_id", *s.Res.DrgId)
 	}
 
 	if s.Res.DrgRouteTableId != nil {
 		s.D.Set("drg_route_table_id", *s.Res.DrgRouteTableId)
+	}
+
+	if s.Res.DrgNatPolicyId != nil {
+		s.D.Set("drg_nat_policy_id", *s.Res.DrgNatPolicyId)
+	} else {
+		s.D.Set("drg_nat_policy_id", nil)
 	}
 
 	if s.Res.ExportDrgRouteDistributionId != nil {
@@ -465,5 +507,26 @@ func (s *CoreDrgAttachmentManagementResourceCrud) removeExportDrgRouteDistributi
 	s.D.Set("export_drg_route_distribution_id", id)
 
 	s.Res = &response.DrgAttachment
+	return nil
+}
+
+func (s *CoreDrgAttachmentManagementResourceCrud) removeDrgNatPolicy() error {
+	request := oci_core.RemoveDrgNatPolicyRequest{}
+
+	tmp := s.D.Id()
+	request.DrgAttachmentId = &tmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.RemoveDrgNatPolicy(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	val := s.D.Get("remove_drg_nat_policy_trigger")
+	s.D.Set("remove_drg_nat_policy_trigger", val)
+
+	s.Res = &response.DrgAttachment
+
 	return nil
 }

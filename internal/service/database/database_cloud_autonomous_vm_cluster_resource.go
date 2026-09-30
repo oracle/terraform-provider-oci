@@ -59,6 +59,12 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"compute_model": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"cpu_core_count_per_node": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -72,12 +78,6 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
-			},
-			"compute_model": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -225,7 +225,6 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"nsg_ids": {
 				Type:     schema.TypeSet,
@@ -261,7 +260,6 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 				Type:     schema.TypeFloat,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"subscription_id": {
 				Type:     schema.TypeString,
@@ -753,6 +751,10 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if computeModel, ok := s.D.GetOkExists("compute_model"); ok {
+		request.ComputeModel = oci_database.CreateCloudAutonomousVmClusterDetailsComputeModelEnum(computeModel.(string))
+	}
+
 	if cpuCoreCountPerNode, ok := s.D.GetOkExists("cpu_core_count_per_node"); ok {
 		tmp := cpuCoreCountPerNode.(int)
 		request.CpuCoreCountPerNode = &tmp
@@ -769,10 +771,6 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Create() error {
 		if len(tmp) != 0 || s.D.HasChange("db_servers") {
 			request.DbServers = tmp
 		}
-	}
-
-	if computeModel, ok := s.D.GetOkExists("compute_model"); ok {
-		request.ComputeModel = oci_database.CreateCloudAutonomousVmClusterDetailsComputeModelEnum(computeModel.(string))
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -1001,6 +999,11 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Update() error {
 		}
 	}
 
+	if memoryPerOracleComputeUnitInGBs, ok := s.D.GetOkExists("memory_per_oracle_compute_unit_in_gbs"); ok {
+		tmp := memoryPerOracleComputeUnitInGBs.(int)
+		request.MemoryPerOracleComputeUnitInGBs = &tmp
+	}
+
 	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 		set := nsgIds.(*schema.Set)
 		interfaces := set.List()
@@ -1032,6 +1035,11 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Update() error {
 
 	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
 		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
+	if sgaPercentage, ok := s.D.GetOkExists("sga_percentage"); ok {
+		tmp := float32(sgaPercentage.(float64))
+		request.SgaPercentage = &tmp
 	}
 
 	if totalContainerDatabases, ok := s.D.GetOkExists("total_container_databases"); ok {

@@ -204,6 +204,10 @@ func DatabaseDbSystemResource() *schema.Resource {
 															},
 
 															// Computed
+															"vpc_user": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
 														},
 													},
 												},
@@ -1260,7 +1264,7 @@ func (s *DatabaseDbSystemResourceCrud) CreateWithContext(ctx context.Context) er
 		}
 	}
 
-	err = s.getDbHomeInfo()
+	err = s.getDbHomeInfo(ctx)
 	if err != nil {
 		log.Printf("[WARN] Could not get info about the first DbHome in the dbSystem: %v", err)
 	}
@@ -1283,7 +1287,7 @@ func (s *DatabaseDbSystemResourceCrud) GetWithContext(ctx context.Context) error
 
 	s.Res = &response.DbSystem
 
-	err = s.getDbHomeInfo()
+	err = s.getDbHomeInfo(ctx)
 	if err != nil {
 		log.Printf("[WARN] Could not get info about the first DbHome in the dbSystem: %v", err)
 	}
@@ -1496,7 +1500,9 @@ func (s *DatabaseDbSystemResourceCrud) DeleteWithContext(ctx context.Context) er
 func (s *DatabaseDbSystemResourceCrud) SetData() error {
 
 	if s.DbHome != nil {
-		s.D.Set("db_home", []interface{}{s.DbHomeToMap(s.DbHome)})
+		if err := s.D.Set("db_home", []interface{}{s.DbHomeToMap(s.DbHome)}); err != nil {
+			return fmt.Errorf("failed to set db_home state: %w", err)
+		}
 	}
 
 	if source, ok := s.D.GetOkExists("source"); !ok || source.(string) == "" {
@@ -4061,7 +4067,7 @@ func (s *DatabaseDbSystemResourceCrud) mapToUpdateDbBackupConfig(fieldKeyFormat 
 	return result, nil
 }
 
-func (s *DatabaseDbSystemResourceCrud) getDbHomeInfo() error {
+func (s *DatabaseDbSystemResourceCrud) getDbHomeInfo(ctx context.Context) error {
 	if s.DbHome == nil {
 		s.DbHome = &oci_database.DbHome{}
 	}
@@ -4070,8 +4076,61 @@ func (s *DatabaseDbSystemResourceCrud) getDbHomeInfo() error {
 		s.Database = &oci_database.Database{}
 	}
 
+	getDatabase := func(databaseId *string) (*oci_database.Database, error) {
+		getDatabaseRequest := oci_database.GetDatabaseRequest{}
+		getDatabaseRequest.DatabaseId = databaseId
+		getDatabaseRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
+		getDatabaseResponse, err := s.Client.GetDatabase(ctx, getDatabaseRequest)
+		if err != nil {
+			return nil, err
+		}
+		if getDatabaseResponse.Database.LifecycleState == oci_database.DatabaseLifecycleStateTerminated {
+			return nil, fmt.Errorf("the associated database is in a TERMINATED state")
+		}
+		return &getDatabaseResponse.Database, nil
+	}
+
+	getDbHome := func(dbHomeId *string) (*oci_database.DbHome, error) {
+		getDbHomeRequest := oci_database.GetDbHomeRequest{}
+		getDbHomeRequest.DbHomeId = dbHomeId
+		getDbHomeRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
+		getDbHomeResponse, err := s.Client.GetDbHome(ctx, getDbHomeRequest)
+		if err != nil {
+			return nil, err
+		}
+		if getDbHomeResponse.DbHome.LifecycleState == oci_database.DbHomeLifecycleStateTerminated {
+			return nil, fmt.Errorf("the associated dbHome %s is in a TERMINATED state", *dbHomeId)
+		}
+		return &getDbHomeResponse.DbHome, nil
+	}
+
+	// Resolve the database first when its ID is already in state. During an
+	// out-of-place upgrade the database ID remains stable, but its DbHomeId is
+	// updated to the replacement DB home.
+	var databaseId *string
+	if s.Database.Id != nil {
+		databaseId = s.Database.Id
+	}
+	if databaseId == nil || *databaseId == "" {
+		if databaseIdStr, ok := s.D.GetOkExists("db_home.0.database.0.id"); ok && databaseIdStr != "" {
+			tmp := databaseIdStr.(string)
+			databaseId = &tmp
+		}
+	}
+
+	var database *oci_database.Database
+	var err error
+	if databaseId != nil && *databaseId != "" {
+		database, err = getDatabase(databaseId)
+		if err != nil {
+			return err
+		}
+	}
+
 	var dbHomeId *string
-	if s.DbHome.Id != nil {
+	if database != nil && database.DbHomeId != nil && *database.DbHomeId != "" {
+		dbHomeId = database.DbHomeId
+	} else if s.DbHome.Id != nil {
 		dbHomeId = s.DbHome.Id
 	}
 	if dbHomeId == nil || *dbHomeId == "" {
@@ -4084,7 +4143,7 @@ func (s *DatabaseDbSystemResourceCrud) getDbHomeInfo() error {
 			listDbHomeRequest.SortBy = oci_database.ListDbHomesSortByTimecreated
 			listDbHomeRequest.SortOrder = oci_database.ListDbHomesSortOrderAsc
 			listDbHomeRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
-			listDbHomeResponse, err := s.Client.ListDbHomes(context.Background(), listDbHomeRequest)
+			listDbHomeResponse, err := s.Client.ListDbHomes(ctx, listDbHomeRequest)
 			if err != nil {
 				return err
 			}
@@ -4101,32 +4160,22 @@ func (s *DatabaseDbSystemResourceCrud) getDbHomeInfo() error {
 			dbHomeId = &tmp
 		}
 	}
-	getDbHomeRequest := oci_database.GetDbHomeRequest{}
-	getDbHomeRequest.DbHomeId = dbHomeId
-	getDbHomeRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
-	getDbHomeResponse, err := s.Client.GetDbHome(context.Background(), getDbHomeRequest)
+	dbHome, err := getDbHome(dbHomeId)
 	if err != nil {
 		return err
 	}
-	if getDbHomeResponse.DbHome.LifecycleState == oci_database.DbHomeLifecycleStateTerminated {
-		return fmt.Errorf("the associated dbHome %s is in a TERMINATED state", *dbHomeId)
-	}
 
-	var databaseId *string
-	if s.Database.Id != nil {
-		databaseId = s.Database.Id
-	}
-	if databaseId == nil || *databaseId == "" {
+	if database == nil {
 		databaseIdStr, ok := s.D.GetOkExists("db_home.0.database.0.id")
 		if !ok || databaseIdStr == "" {
 			listDatabasesRequest := oci_database.ListDatabasesRequest{}
 
 			listDatabasesRequest.CompartmentId = s.Res.CompartmentId
-			listDatabasesRequest.DbHomeId = getDbHomeResponse.DbHome.Id
+			listDatabasesRequest.DbHomeId = dbHome.Id
 			listDatabasesRequest.SortBy = oci_database.ListDatabasesSortByTimecreated
 			listDatabasesRequest.SortOrder = oci_database.ListDatabasesSortOrderAsc
 			listDatabasesRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
-			listDatabasesResponse, err := s.Client.ListDatabases(context.Background(), listDatabasesRequest)
+			listDatabasesResponse, err := s.Client.ListDatabases(ctx, listDatabasesRequest)
 			if err != nil {
 				return err
 			}
@@ -4139,26 +4188,30 @@ func (s *DatabaseDbSystemResourceCrud) getDbHomeInfo() error {
 			tmp := databaseIdStr.(string)
 			databaseId = &tmp
 		}
-	}
 
-	getDatabaseRequest := oci_database.GetDatabaseRequest{}
-	getDatabaseRequest.DatabaseId = databaseId
-	getDatabaseRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
-	getDatabaseResponse, err := s.Client.GetDatabase(context.Background(), getDatabaseRequest)
-	if err != nil {
-		return err
-	}
-	if getDatabaseResponse.Database.LifecycleState == oci_database.DatabaseLifecycleStateTerminated {
-		return fmt.Errorf("the associated database is in a TERMINATED state")
-	}
-	if dbName, ok := s.D.GetOkExists("db_home.0.database.0.db_name"); ok {
-		if getDatabaseResponse.Database.DbName != nil && dbName != *getDatabaseResponse.Database.DbName {
-			return fmt.Errorf("the database name from the earliest database '%s' did not match the one on the config '%s'", *getDatabaseResponse.Database.DbName, dbName)
+		database, err = getDatabase(databaseId)
+		if err != nil {
+			return err
 		}
 	}
 
-	s.DbHome = &getDbHomeResponse.DbHome
-	s.Database = &getDatabaseResponse.Database
+	// The database is the authoritative link to its current DB home. This also
+	// covers legacy/import state where the database ID was discovered via a
+	// previously selected home.
+	if database.DbHomeId != nil && *database.DbHomeId != "" && (dbHome.Id == nil || *database.DbHomeId != *dbHome.Id) {
+		dbHome, err = getDbHome(database.DbHomeId)
+		if err != nil {
+			return err
+		}
+	}
+	if dbName, ok := s.D.GetOkExists("db_home.0.database.0.db_name"); ok {
+		if database.DbName != nil && dbName != *database.DbName {
+			return fmt.Errorf("the database name from the earliest database '%s' did not match the one on the config '%s'", *database.DbName, dbName)
+		}
+	}
+
+	s.DbHome = dbHome
+	s.Database = database
 
 	return nil
 }
@@ -4187,7 +4240,7 @@ func (s *DatabaseDbSystemResourceCrud) UpdateDatabaseOperation(ctx context.Conte
 		return nil
 	}
 
-	err := s.getDbHomeInfo()
+	err := s.getDbHomeInfo(ctx)
 	if err != nil {
 		return err
 	}
