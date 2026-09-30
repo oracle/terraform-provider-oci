@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_ocvp_generate_vmware_binary_download_info"
 sidebar_current: "docs-oci-datasource-ocvp-generate_vmware_binary_download_info"
 description: |-
-Generates VMware binary download information for an SDDC in Oracle Cloud Infrastructure Oracle Cloud VMware Solution service
+  Generates VMware binary download information for an SDDC in Oracle Cloud Infrastructure Oracle Cloud VMware Solution service
 ---
 
 # Data Source: oci_ocvp_generate_vmware_binary_download_info

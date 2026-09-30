@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_ocvp_retrieve_vmware_binaries"
 sidebar_current: "docs-oci-datasource-ocvp-retrieve_vmware_binaries"
 description: |-
-Retrieves the available VMware binaries for an SDDC in Oracle Cloud Infrastructure Oracle Cloud VMware Solution service
+  Retrieves the available VMware binaries for an SDDC in Oracle Cloud Infrastructure Oracle Cloud VMware Solution service
 ---
 
 # Data Source: oci_ocvp_retrieve_vmware_binaries
