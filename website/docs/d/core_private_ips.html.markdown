@@ -53,7 +53,7 @@ data "oci_core_private_ips" "test_private_ips_by_ip_address" {
 	lifetime = var.private_ip_lifetime
 	subnet_id = oci_core_subnet.test_subnet.id
 	vlan_id = oci_core_vlan.test_vlan.id
-	vnic_id = oci_core_vnic_attachment.test_vnic_attachment.id
+	vnic_id = oci_core_vnic_attachment.test_vnic_attachment.vnic_id
 }
 ```
 
