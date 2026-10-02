@@ -222,7 +222,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `management_agent` - Discovers management_agent resources within the specified compartment
     * `marketplace` - Discovers marketplace resources within the specified compartment
     * `media_services` - Discovers media_services resources within the specified compartment
-    * `metering_computation` - Discovers metering_computation resources within the specified compartment
+    * `metering_computation` - Discovers metering_computation resources across the tenancy
     * `monitoring` - Discovers monitoring resources within the specified compartment
     * `mysql` - Discovers mysql resources within the specified compartment
     * `network_firewall` - Discovers network_firewall resources within the specified compartment
