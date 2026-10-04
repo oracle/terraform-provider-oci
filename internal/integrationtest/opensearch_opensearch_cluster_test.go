@@ -301,6 +301,33 @@ var (
 		"security_master_user_password_hash": acctest.Representation{RepType: acctest.Optional, Update: `securityMasterUserPasswordHash2`},
 		"lifecycle":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreOpenSearchSystemTagsChangesRep},
 	}
+	OpensearchOpensearchClusterSecurityMasterUserAuthPasswordDetailsRepresentation = map[string]interface{}{
+		"source_type":     acctest.Representation{RepType: acctest.Required, Create: `PLAIN_PASSWORD`, Update: `OCI_VAULT_SECRET`},
+		"plain_password":  acctest.Representation{RepType: acctest.Required, Create: `P@ssw0rd123`},
+		"vault_secret_id": acctest.Representation{RepType: acctest.Required, Update: `${var.vault_secret_id}`},
+	}
+	OpensearchOpensearchClusterSecurityMasterUserAuthUserDetailsRepresentation = map[string]interface{}{
+		"password_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: OpensearchOpensearchClusterSecurityMasterUserAuthPasswordDetailsRepresentation},
+		"username":         acctest.Representation{RepType: acctest.Required, Create: `testuser`},
+	}
+	OpensearchOpensearchClusterSecurityMasterUserAuthRepresentation = map[string]interface{}{
+		"user_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: OpensearchOpensearchClusterSecurityMasterUserAuthUserDetailsRepresentation},
+	}
+	OpensearchOpensearchClusterSecurityMasterUserAuthCreateRepresentation = acctest.RepresentationCopyWithNewProperties(
+		acctest.RepresentationCopyWithRemovedProperties(
+			OpensearchOpensearchClusterRepresentation,
+			[]string{"security_master_user_name", "security_master_user_password_hash"},
+		),
+		map[string]interface{}{
+			"display_name":                      acctest.Representation{RepType: acctest.Required, Create: `tf_provider_cluster_auth_details`, Update: `tf_provider_cluster_auth_details`},
+			"security_master_user_auth_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: OpensearchOpensearchClusterSecurityMasterUserAuthRepresentation},
+			"security_mode":                     acctest.Representation{RepType: acctest.Required, Create: `ENFORCING`, Update: `ENFORCING`},
+		},
+	)
+	OpensearchOpensearchClusterSecurityMasterUserAuthUpdateRepresentation = acctest.GetRepresentationCopyWithMultipleRemovedProperties(
+		[]string{"security_master_user_auth_details.user_details.password_details.plain_password"},
+		OpensearchOpensearchClusterSecurityMasterUserAuthCreateRepresentation,
+	)
 	OpensearchOpensearchClusterCertificateConfigRepresentation = map[string]interface{}{
 		"cluster_certificate_mode":             acctest.Representation{RepType: acctest.Optional, Update: `OCI_CERTIFICATES_SERVICE`},
 		"dashboard_certificate_mode":           acctest.Representation{RepType: acctest.Optional, Update: `OCI_CERTIFICATES_SERVICE`},
@@ -745,6 +772,9 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		DefinedTagsDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, OpensearchIdentityUserRepresentation)
+
+	OpensearchOpensearchClusterSecurityMasterUserAuthDetailsDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation)
 
 	// Provisions the NSGs required by the nsg_id lifecycle test.
 	OpensearchOpensearchClusterResourceDependenciesNsgId = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
@@ -1819,11 +1849,120 @@ func TestOpensearchOpensearchClusterResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + OpensearchOpensearchClusterRequiredOnlyResource,
-			ImportState:             true,
-			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
-			ResourceName:            resourceName,
+			Config:            config + OpensearchOpensearchClusterRequiredOnlyResource,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"security_master_user_auth_details",
+			},
+			ResourceName: resourceName,
+		},
+	})
+}
+
+// issue-routing-tag: opensearch/default
+func TestOpensearchOpensearchClusterResource_securityMasterUserAuthDetails_plainPassword(t *testing.T) {
+	httpreplay.SetScenario("TestOpensearchOpensearchClusterResource_securityMasterUserAuthDetails_plainPassword")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+	compartmentID := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIDVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentID)
+	resourceName := "oci_opensearch_opensearch_cluster.test_opensearch_cluster"
+
+	createConfig := config + compartmentIDVariableStr +
+		OpensearchOpensearchClusterSecurityMasterUserAuthDetailsDependencies +
+		acctest.GenerateResourceFromRepresentationMap(
+			"oci_opensearch_opensearch_cluster", "test_opensearch_cluster",
+			acctest.Required, acctest.Create,
+			OpensearchOpensearchClusterSecurityMasterUserAuthCreateRepresentation)
+
+	acctest.SaveConfigContent(createConfig, "opensearch", "opensearchClusterSecurityMasterUserAuthDetailsPlainPassword", t)
+	acctest.ResourceTest(t, testAccCheckOpensearchOpensearchClusterDestroy, []resource.TestStep{
+		{
+			Config: createConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "security_mode", "ENFORCING"),
+				resource.TestCheckResourceAttr(resourceName, "security_master_user_auth_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "security_master_user_auth_details.0.user_details.0.password_details.0.source_type", "PLAIN_PASSWORD"),
+				resource.TestCheckResourceAttr(resourceName, "security_master_user_auth_details.0.user_details.0.username", "testuser"),
+			),
+		},
+	})
+}
+
+// issue-routing-tag: opensearch/default
+func TestOpensearchOpensearchClusterResource_securityMasterUserAuthDetails(t *testing.T) {
+	vaultSecretID := utils.GetEnvSettingWithBlankDefault("vault_secret_id_for_os_cluster")
+	if vaultSecretID == "" {
+		t.Skip("set vault_secret_id_for_os_cluster to run this test")
+	}
+
+	httpreplay.SetScenario("TestOpensearchOpensearchClusterResource_securityMasterUserAuthDetails")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+	compartmentID := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIDVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentID)
+	vaultSecretIDVariableStr := fmt.Sprintf("variable \"vault_secret_id\" { default = \"%s\" }\n", vaultSecretID)
+	resourceName := "oci_opensearch_opensearch_cluster.test_opensearch_cluster"
+
+	createConfig := config + compartmentIDVariableStr + vaultSecretIDVariableStr +
+		OpensearchOpensearchClusterSecurityMasterUserAuthDetailsDependencies +
+		acctest.GenerateResourceFromRepresentationMap(
+			"oci_opensearch_opensearch_cluster", "test_opensearch_cluster",
+			acctest.Required, acctest.Create,
+			OpensearchOpensearchClusterSecurityMasterUserAuthCreateRepresentation)
+	updateConfig := config + compartmentIDVariableStr + vaultSecretIDVariableStr +
+		OpensearchOpensearchClusterSecurityMasterUserAuthDetailsDependencies +
+		acctest.GenerateResourceFromRepresentationMap(
+			"oci_opensearch_opensearch_cluster", "test_opensearch_cluster",
+			acctest.Required, acctest.Update,
+			OpensearchOpensearchClusterSecurityMasterUserAuthUpdateRepresentation)
+
+	var resID string
+	acctest.SaveConfigContent(createConfig, "opensearch", "opensearchClusterSecurityMasterUserAuthDetails", t)
+	acctest.ResourceTest(t, testAccCheckOpensearchOpensearchClusterDestroy, []resource.TestStep{
+		{
+			Config: createConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "security_mode", "ENFORCING"),
+				resource.TestCheckResourceAttr(resourceName, "security_master_user_auth_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "security_master_user_auth_details.0.user_details.0.password_details.0.source_type", "PLAIN_PASSWORD"),
+				resource.TestCheckResourceAttrSet(resourceName, "security_master_user_auth_details.0.user_details.0.password_details.0.plain_password"),
+				resource.TestCheckResourceAttr(resourceName, "security_master_user_auth_details.0.user_details.0.username", "testuser"),
+				func(s *terraform.State) (err error) {
+					resID, err = acctest.FromInstanceState(s, resourceName, "id")
+					if err != nil {
+						return err
+					}
+					if enabled, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); enabled {
+						return resourcediscovery.TestExportCompartmentWithResourceName(&resID, &compartmentID, resourceName)
+					}
+					return nil
+				},
+			),
+		},
+		{
+			Config: updateConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "security_mode", "ENFORCING"),
+				resource.TestCheckResourceAttr(resourceName, "security_master_user_auth_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "security_master_user_auth_details.0.user_details.0.password_details.0.source_type", "OCI_VAULT_SECRET"),
+				resource.TestCheckResourceAttrSet(resourceName, "security_master_user_auth_details.0.user_details.0.password_details.0.vault_secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "security_master_user_auth_details.0.user_details.0.username", "testuser"),
+				func(s *terraform.State) error {
+					resID2, err := acctest.FromInstanceState(s, resourceName, "id")
+					if err != nil {
+						return err
+					}
+					if resID != resID2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return nil
+				},
+			),
 		},
 	})
 }
