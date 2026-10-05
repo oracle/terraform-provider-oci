@@ -220,7 +220,6 @@ resource "oci_core_instance" "test_instance" {
 		}
 	}
 	security_attributes = var.instance_security_attributes
-	shape = var.instance_shape
 	shape_config {
 
 		#Optional
