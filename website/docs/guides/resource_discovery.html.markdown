@@ -222,7 +222,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `management_agent` - Discovers management_agent resources within the specified compartment
     * `marketplace` - Discovers marketplace resources within the specified compartment
     * `media_services` - Discovers media_services resources within the specified compartment
-    * `metering_computation` - Discovers metering_computation resources within the specified compartment
+    * `metering_computation` - Discovers metering_computation resources across the tenancy
     * `monitoring` - Discovers monitoring resources within the specified compartment
     * `mysql` - Discovers mysql resources within the specified compartment
     * `network_firewall` - Discovers network_firewall resources within the specified compartment
@@ -230,6 +230,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `nosql` - Discovers nosql resources within the specified compartment
     * `object_storage` - Discovers object storage resources within the specified compartment
     * `oce` - Discovers oce resources within the specified compartment
+    * `oci_product_catalog` - Discovers oci_product_catalog resources within the specified compartment
     * `ocvp` - Discovers ocvp resources within the specified compartment
     * `oda` - Discovers oda resources within the specified compartment
     * `ons` - Discovers ons resources within the specified compartment
@@ -1266,6 +1267,11 @@ object_storage
 oce
 
 * oci\_oce\_oce\_instance
+
+oci_product_catalog
+
+* oci\_oci\_product\_catalog\_internal\_admin\_product
+* oci\_oci\_product\_catalog\_internal\_product
 
 ocvp
 

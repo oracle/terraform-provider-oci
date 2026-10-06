@@ -431,6 +431,12 @@ func CoreInstanceResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"is_encryption_in_transit_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"is_pv_encryption_in_transit_enabled": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -465,6 +471,7 @@ func CoreInstanceResource() *schema.Resource {
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"iscsi",
+								"nvme",
 								"paravirtualized",
 							}, true),
 						},
@@ -901,6 +908,11 @@ func CoreInstanceResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"source_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						// Required
 						"source_type": {
 							Type:             schema.TypeString,
@@ -913,11 +925,6 @@ func CoreInstanceResource() *schema.Resource {
 						},
 
 						// Optional
-						"source_id": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
 						"boot_volume_size_in_gbs": {
 							Type:             schema.TypeString,
 							Optional:         true,
@@ -2678,6 +2685,39 @@ func (s *CoreInstanceResourceCrud) mapToLaunchAttachVolumeDetails(fieldKeyFormat
 			details.VolumeId = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("nvme"):
+		details := oci_core.LaunchAttachNvmeVolumeDetails{}
+		if device, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "device")); ok {
+			tmp := device.(string)
+			details.Device = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if isReadOnly, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_read_only")); ok {
+			tmp := isReadOnly.(bool)
+			details.IsReadOnly = &tmp
+		}
+		if isShareable, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_shareable")); ok {
+			tmp := isShareable.(bool)
+			details.IsShareable = &tmp
+		}
+		if launchCreateVolumeDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "launch_create_volume_details")); ok {
+			if tmpList := launchCreateVolumeDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "launch_create_volume_details"), 0)
+				tmp, err := s.mapToLaunchCreateVolumeDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert launch_create_volume_details, encountered error: %v", err)
+				}
+				details.LaunchCreateVolumeDetails = tmp
+			}
+		}
+		if volumeId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "volume_id")); ok {
+			tmp := volumeId.(string)
+			details.VolumeId = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("paravirtualized"):
 		details := oci_core.LaunchAttachParavirtualizedVolumeDetails{}
 		if isPvEncryptionInTransitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_pv_encryption_in_transit_enabled")); ok {
@@ -2736,6 +2776,8 @@ func LaunchAttachVolumeDetailsToMap(obj oci_core.LaunchAttachVolumeDetails) map[
 		if v.UseChap != nil {
 			result["use_chap"] = bool(*v.UseChap)
 		}
+	case oci_core.LaunchAttachNvmeVolumeDetails:
+		result["type"] = "nvme"
 	case oci_core.LaunchAttachParavirtualizedVolumeDetails:
 		result["type"] = "paravirtualized"
 
@@ -3915,6 +3957,11 @@ func (s *CoreInstanceResourceCrud) mapToLaunchOptions(fieldKeyFormat string) (oc
 	if isConsistentVolumeNamingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_consistent_volume_naming_enabled")); ok {
 		tmp := isConsistentVolumeNamingEnabled.(bool)
 		result.IsConsistentVolumeNamingEnabled = &tmp
+	}
+
+	if isEncryptionInTransitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_encryption_in_transit_enabled")); ok {
+		tmp := isEncryptionInTransitEnabled.(bool)
+		result.IsEncryptionInTransitEnabled = &tmp
 	}
 
 	if isPvEncryptionInTransitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_pv_encryption_in_transit_enabled")); ok {

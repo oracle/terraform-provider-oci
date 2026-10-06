@@ -50,6 +50,11 @@ The following attributes are exported:
 
 * `baseline_ocpu_utilizations` - For a subcore burstable VM, the supported baseline OCPU utilization for instances that use this shape. 
 * `billing_type` - How instances that use this shape are charged. 
+* `bs_nvme_attachments_config` - Shape-specific details for shapes that support remote NVMe volume attachments. 
+	* `max_remote_nvme_volume_attachments_per_core` - The maximum number of remote NVMe volume attachments supported per core. 
+	* `max_total_remote_nvme_volume_attachments` - The maximum total number of remote NVMe volume attachments supported for the shape. 
+	* `min_cores` - The minimum number of cores required to support remote NVMe volume attachments. 
+	* `vf_enable_count` - The number of virtual functions to enable on a hypervisor so that each sellable core has one virtual function available. This value is `0` for VM and bare metal instances. 
 * `gpu_description` - A short description of the graphics processing unit (GPU) available for this shape.
 
 	If the shape does not have any GPUs, this field is `null`. 

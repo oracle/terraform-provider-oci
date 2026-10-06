@@ -10,7 +10,6 @@ import (
 
 func init() {
 	exportMeteringComputationUsageStatementEmailRecipientsGroupHints.GetIdFn = getMeteringComputationUsageStatementEmailRecipientsGroupId
-	tf_export.RegisterCompartmentGraphs("metering_computation", meteringComputationResourceGraph)
 	tf_export.RegisterTenancyGraphs("metering_computation", meteringComputationResourceGraph)
 }
 

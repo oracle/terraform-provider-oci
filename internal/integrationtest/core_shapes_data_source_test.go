@@ -4,10 +4,12 @@
 package integrationtest
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -32,16 +34,17 @@ type DatasourceCoreFlexShapeTestSuite struct {
 func (s *DatasourceCoreShapeTestSuite) SetupTest() {
 	s.Providers = acctest.TestAccProviders
 	acctest.PreCheck(s.T())
-	s.Config = acctest.LegacyTestProviderConfig() + `
+	s.Config = acctest.LegacyTestProviderConfig() +
+		fmt.Sprintf("variable \"availability_domain\" { default = %q }\n", utils.GetEnvSettingWithBlankDefault("availability_domain")) + `
 	data "oci_identity_availability_domains" "t" {
 		compartment_id = "${var.compartment_id}"
 	}
 	data "oci_core_shape" "t" {
 		compartment_id = "${var.compartment_id}"
-		availability_domain = "${data.oci_identity_availability_domains.t.availability_domains.0.name}"
+		availability_domain = var.availability_domain != "" ? var.availability_domain : data.oci_identity_availability_domains.t.availability_domains.0.name
 		filter {
 			name = "name"
-			values = ["VM.Standard2.1"]
+			values = ["VM.Standard.A4.Ax.Flex"]
 		}
 	}`
 	s.ResourceName = "data.oci_core_shape.t"
@@ -76,7 +79,12 @@ func (s *DatasourceCoreShapeTestSuite) TestAccDatasourceCoreShape_basic() {
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(s.ResourceName, "shapes.#", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "shapes.0.name", "VM.Standard2.1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shapes.0.name", "VM.Standard.A4.Ax.Flex"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shapes.0.bs_nvme_attachments_config.#", "1"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "shapes.0.bs_nvme_attachments_config.0.vf_enable_count"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "shapes.0.bs_nvme_attachments_config.0.min_cores"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "shapes.0.bs_nvme_attachments_config.0.max_remote_nvme_volume_attachments_per_core"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "shapes.0.bs_nvme_attachments_config.0.max_total_remote_nvme_volume_attachments"),
 				),
 			},
 		},

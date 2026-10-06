@@ -1,3 +1,17 @@
+## 9.9.0 (October 6, 2026)
+
+### Added
+- Support for Alloy - SKU Configuration/Enablement
+- Support remote NVMe volumes
+- Support for TERSI-4567 Extension to be Completed GenAI API Key Support
+
+### Bug Fix
+- remove duplicate shape argument from core instance example
+- Correct OAC management attribute references
+- Support OCI Cache upgrades with custom configuration sets
+- TERSI-5553 support non-IAM hosted deployment destroy
+- Metering Computation resource discovery only at tenancy scope
+
 ## 9.8.0 (September 30, 2026)
 
 ### Added

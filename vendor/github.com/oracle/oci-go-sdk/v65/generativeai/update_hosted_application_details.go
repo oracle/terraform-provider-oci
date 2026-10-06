@@ -44,6 +44,11 @@ type UpdateHostedApplicationDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	InboundAuthConfig *InboundAuthConfig `mandatory:"false" json:"inboundAuthConfig"`
+
+	// A list of hosted application path patterns that can be accessed without
+	// inbound authentication. Values can be exact paths such as `/health` or `/callback`,
+	// or wildcard paths such as `/assets/*` or `/public/*`.
+	PublicAccessPathPatterns []string `mandatory:"false" json:"publicAccessPathPatterns"`
 }
 
 func (m UpdateHostedApplicationDetails) String() string {

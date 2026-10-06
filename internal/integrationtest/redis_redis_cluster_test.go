@@ -555,6 +555,134 @@ func TestRedisRedisClusterResource_basic(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: redis/default
+func TestRedisRedisClusterResource_upgradeWithCustomConfigSet(t *testing.T) {
+	httpreplay.SetScenario("TestRedisRedisClusterResource_upgradeWithCustomConfigSet")
+	defer httpreplay.SaveScenario()
+
+	compartmentID := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	subnetID := utils.GetEnvSettingWithBlankDefault("redis_upgrade_subnet_id")
+	if compartmentID == "" || subnetID == "" {
+		t.Skip("set TF_VAR_compartment_ocid and TF_VAR_redis_upgrade_subnet_id for the custom-config-set upgrade test")
+	}
+
+	const clusterName = "oci_redis_redis_cluster.test_upgrade_cluster"
+	const configSetName = "oci_redis_oci_cache_config_set.test_upgrade_config_set"
+	const dataSourceName = "data.oci_redis_redis_cluster.test_upgrade_cluster"
+	var clusterID, configSetID string
+	config := acctest.ProviderTestConfig()
+	initialConfig := config + redisClusterCustomConfigSetUpgradeConfig(compartmentID, subnetID, "VALKEY_7_2", "KEA")
+	upgradeConfig := config + redisClusterCustomConfigSetUpgradeConfig(compartmentID, subnetID, "VALKEY_8_1", "KEA")
+	configOnlyUpdate := config + redisClusterCustomConfigSetUpgradeConfig(compartmentID, subnetID, "VALKEY_8_1", "Ex")
+	acctest.SaveConfigContent(initialConfig, "redis", "redisClusterCustomConfigSetUpgrade", t)
+
+	check := func(version string) resource.TestCheckFunc {
+		return acctest.ComposeAggregateTestCheckFuncWrapper(
+			resource.TestCheckResourceAttr(clusterName, "state", "ACTIVE"),
+			resource.TestCheckResourceAttr(clusterName, "software_version", version),
+			resource.TestCheckResourceAttr(configSetName, "state", "ACTIVE"),
+			resource.TestCheckResourceAttr(configSetName, "software_version", version),
+			resource.TestCheckResourceAttrPair(clusterName, "oci_cache_config_set_id", configSetName, "id"),
+			resource.TestCheckResourceAttrPair(dataSourceName, "software_version", clusterName, "software_version"),
+			resource.TestCheckResourceAttrPair(dataSourceName, "oci_cache_config_set_id", configSetName, "id"),
+			func(s *terraform.State) error {
+				actualClusterID, err := acctest.FromInstanceState(s, clusterName, "id")
+				if err != nil {
+					return err
+				}
+				actualConfigSetID, err := acctest.FromInstanceState(s, configSetName, "id")
+				if err != nil {
+					return err
+				}
+				if clusterID != "" && actualClusterID != clusterID {
+					return fmt.Errorf("cluster was replaced during upgrade: before=%s after=%s", clusterID, actualClusterID)
+				}
+				if configSetID != "" {
+					if actualConfigSetID == configSetID {
+						return fmt.Errorf("expected custom config set replacement, but ID is unchanged: %s", configSetID)
+					}
+					// The old config set must be detached and deleted after the cluster update.
+					client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).OciCacheConfigSetClient()
+					response, err := client.GetOciCacheConfigSet(context.Background(), oci_redis.GetOciCacheConfigSetRequest{
+						OciCacheConfigSetId: common.String(configSetID),
+						RequestMetadata:     common.RequestMetadata{RetryPolicy: tfresource.GetRetryPolicy(true, "redis")},
+					})
+					if err != nil {
+						if failure, ok := common.IsServiceError(err); !ok || failure.GetHTTPStatusCode() != 404 {
+							return err
+						}
+					} else if response.LifecycleState != oci_redis.OciCacheConfigSetLifecycleStateDeleted {
+						return fmt.Errorf("old custom config set %s is still %s", configSetID, response.LifecycleState)
+					}
+				}
+				clusterID, configSetID = actualClusterID, actualConfigSetID
+				return nil
+			},
+		)
+	}
+	checkDestroy := func(s *terraform.State) error {
+		if err := testAccCheckRedisRedisClusterDestroy(s); err != nil {
+			return err
+		}
+		return testAccCheckRedisOciCacheConfigSetDestroy(s)
+	}
+	acctest.ResourceTest(t, checkDestroy, []resource.TestStep{
+		{Config: initialConfig, Check: check("VALKEY_7_2")},
+		// Replace the custom config set and upgrade the existing cluster in one apply.
+		{
+			Config: upgradeConfig,
+			Check: func(s *terraform.State) error {
+				if err := check("VALKEY_8_1")(s); err != nil {
+					return err
+				}
+				// Verify resource discovery against the upgraded cluster before cleanup.
+				if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+					return resourcediscovery.TestExportCompartmentWithResourceName(&clusterID, &compartmentID, clusterName)
+				}
+				return nil
+			},
+		},
+		{Config: upgradeConfig, PlanOnly: true, ExpectNonEmptyPlan: false},
+		// Changing a config value replaces the config set without changing the cluster version.
+		{Config: configOnlyUpdate, Check: check("VALKEY_8_1")},
+		{Config: configOnlyUpdate, PlanOnly: true, ExpectNonEmptyPlan: false},
+	})
+}
+
+func redisClusterCustomConfigSetUpgradeConfig(compartmentID, subnetID, version, notificationEvents string) string {
+	return fmt.Sprintf(`
+resource "oci_redis_oci_cache_config_set" "test_upgrade_config_set" {
+  compartment_id   = %[1]q
+  display_name     = "tf-acc-upgrade-config-set"
+  software_version = %[3]q
+  configuration_details {
+    items {
+      config_key   = "notify-keyspace-events"
+      config_value = %[4]q
+    }
+  }
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "oci_redis_redis_cluster" "test_upgrade_cluster" {
+  compartment_id         = %[1]q
+  display_name           = "tf-acc-custom-config-upgrade"
+  subnet_id              = %[2]q
+  software_version       = %[3]q
+  cluster_mode           = "NONSHARDED"
+  node_count             = 2
+  node_memory_in_gbs     = 2
+  oci_cache_config_set_id = oci_redis_oci_cache_config_set.test_upgrade_config_set.id
+}
+
+data "oci_redis_redis_cluster" "test_upgrade_cluster" {
+  redis_cluster_id = oci_redis_redis_cluster.test_upgrade_cluster.id
+}
+`, compartmentID, subnetID, version, notificationEvents)
+}
+
 func testAccCheckRedisRedisClusterDestroy(s *terraform.State) error {
 	noResourceFound := true
 	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).RedisClusterClient()
