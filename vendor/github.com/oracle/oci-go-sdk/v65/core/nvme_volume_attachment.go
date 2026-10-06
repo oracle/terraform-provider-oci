@@ -22,8 +22,8 @@ import (
 	"strings"
 )
 
-// EmulatedVolumeAttachment An Emulated volume attachment.
-type EmulatedVolumeAttachment struct {
+// NvmeVolumeAttachment A nvme volume attachment.
+type NvmeVolumeAttachment struct {
 
 	// The availability domain of an instance.
 	// Example: `Uocm:PHX-AD-1`
@@ -83,93 +83,93 @@ type EmulatedVolumeAttachment struct {
 }
 
 // GetAvailabilityDomain returns AvailabilityDomain
-func (m EmulatedVolumeAttachment) GetAvailabilityDomain() *string {
+func (m NvmeVolumeAttachment) GetAvailabilityDomain() *string {
 	return m.AvailabilityDomain
 }
 
 // GetCompartmentId returns CompartmentId
-func (m EmulatedVolumeAttachment) GetCompartmentId() *string {
+func (m NvmeVolumeAttachment) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
 // GetDevice returns Device
-func (m EmulatedVolumeAttachment) GetDevice() *string {
+func (m NvmeVolumeAttachment) GetDevice() *string {
 	return m.Device
 }
 
 // GetDisplayName returns DisplayName
-func (m EmulatedVolumeAttachment) GetDisplayName() *string {
+func (m NvmeVolumeAttachment) GetDisplayName() *string {
 	return m.DisplayName
 }
 
 // GetId returns Id
-func (m EmulatedVolumeAttachment) GetId() *string {
+func (m NvmeVolumeAttachment) GetId() *string {
 	return m.Id
 }
 
 // GetInstanceId returns InstanceId
-func (m EmulatedVolumeAttachment) GetInstanceId() *string {
+func (m NvmeVolumeAttachment) GetInstanceId() *string {
 	return m.InstanceId
 }
 
 // GetIsReadOnly returns IsReadOnly
-func (m EmulatedVolumeAttachment) GetIsReadOnly() *bool {
+func (m NvmeVolumeAttachment) GetIsReadOnly() *bool {
 	return m.IsReadOnly
 }
 
 // GetIsShareable returns IsShareable
-func (m EmulatedVolumeAttachment) GetIsShareable() *bool {
+func (m NvmeVolumeAttachment) GetIsShareable() *bool {
 	return m.IsShareable
 }
 
 // GetLifecycleState returns LifecycleState
-func (m EmulatedVolumeAttachment) GetLifecycleState() VolumeAttachmentLifecycleStateEnum {
+func (m NvmeVolumeAttachment) GetLifecycleState() VolumeAttachmentLifecycleStateEnum {
 	return m.LifecycleState
 }
 
 // GetTimeCreated returns TimeCreated
-func (m EmulatedVolumeAttachment) GetTimeCreated() *common.SDKTime {
+func (m NvmeVolumeAttachment) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
 // GetVolumeId returns VolumeId
-func (m EmulatedVolumeAttachment) GetVolumeId() *string {
+func (m NvmeVolumeAttachment) GetVolumeId() *string {
 	return m.VolumeId
 }
 
 // GetIsPvEncryptionInTransitEnabled returns IsPvEncryptionInTransitEnabled
-func (m EmulatedVolumeAttachment) GetIsPvEncryptionInTransitEnabled() *bool {
+func (m NvmeVolumeAttachment) GetIsPvEncryptionInTransitEnabled() *bool {
 	return m.IsPvEncryptionInTransitEnabled
 }
 
 // GetIsEncryptionInTransitEnabled returns IsEncryptionInTransitEnabled
-func (m EmulatedVolumeAttachment) GetIsEncryptionInTransitEnabled() *bool {
+func (m NvmeVolumeAttachment) GetIsEncryptionInTransitEnabled() *bool {
 	return m.IsEncryptionInTransitEnabled
 }
 
 // GetIsMultipath returns IsMultipath
-func (m EmulatedVolumeAttachment) GetIsMultipath() *bool {
+func (m NvmeVolumeAttachment) GetIsMultipath() *bool {
 	return m.IsMultipath
 }
 
 // GetIscsiLoginState returns IscsiLoginState
-func (m EmulatedVolumeAttachment) GetIscsiLoginState() VolumeAttachmentIscsiLoginStateEnum {
+func (m NvmeVolumeAttachment) GetIscsiLoginState() VolumeAttachmentIscsiLoginStateEnum {
 	return m.IscsiLoginState
 }
 
 // GetIsVolumeCreatedDuringLaunch returns IsVolumeCreatedDuringLaunch
-func (m EmulatedVolumeAttachment) GetIsVolumeCreatedDuringLaunch() *bool {
+func (m NvmeVolumeAttachment) GetIsVolumeCreatedDuringLaunch() *bool {
 	return m.IsVolumeCreatedDuringLaunch
 }
 
-func (m EmulatedVolumeAttachment) String() string {
+func (m NvmeVolumeAttachment) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m EmulatedVolumeAttachment) ValidateEnumValue() (bool, error) {
+func (m NvmeVolumeAttachment) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if _, ok := GetMappingVolumeAttachmentLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
@@ -185,14 +185,14 @@ func (m EmulatedVolumeAttachment) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m EmulatedVolumeAttachment) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeEmulatedVolumeAttachment EmulatedVolumeAttachment
+func (m NvmeVolumeAttachment) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeNvmeVolumeAttachment NvmeVolumeAttachment
 	s := struct {
 		DiscriminatorParam string `json:"attachmentType"`
-		MarshalTypeEmulatedVolumeAttachment
+		MarshalTypeNvmeVolumeAttachment
 	}{
-		"emulated",
-		(MarshalTypeEmulatedVolumeAttachment)(m),
+		"nvme",
+		(MarshalTypeNvmeVolumeAttachment)(m),
 	}
 
 	return json.Marshal(&s)

@@ -61,8 +61,11 @@ type ParavirtualizedVolumeAttachment struct {
 	// be attached in shareable mode. Defaults to false if not specified.
 	IsShareable *bool `mandatory:"false" json:"isShareable"`
 
-	// Whether in-transit encryption for the data volume's paravirtualized attachment is enabled or not.
+	// Deprecated. Use `isEncryptionInTransitEnabled` instead.
 	IsPvEncryptionInTransitEnabled *bool `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
+
+	// Whether in-transit encryption for the data volume's attachment is enabled or not.
+	IsEncryptionInTransitEnabled *bool `mandatory:"false" json:"isEncryptionInTransitEnabled"`
 
 	// Whether the Iscsi or Paravirtualized attachment is multipath or not, it is not applicable to NVMe attachment.
 	IsMultipath *bool `mandatory:"false" json:"isMultipath"`
@@ -137,6 +140,11 @@ func (m ParavirtualizedVolumeAttachment) GetVolumeId() *string {
 // GetIsPvEncryptionInTransitEnabled returns IsPvEncryptionInTransitEnabled
 func (m ParavirtualizedVolumeAttachment) GetIsPvEncryptionInTransitEnabled() *bool {
 	return m.IsPvEncryptionInTransitEnabled
+}
+
+// GetIsEncryptionInTransitEnabled returns IsEncryptionInTransitEnabled
+func (m ParavirtualizedVolumeAttachment) GetIsEncryptionInTransitEnabled() *bool {
+	return m.IsEncryptionInTransitEnabled
 }
 
 // GetIsMultipath returns IsMultipath

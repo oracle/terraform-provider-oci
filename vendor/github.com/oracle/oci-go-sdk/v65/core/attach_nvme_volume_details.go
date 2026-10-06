@@ -22,143 +22,90 @@ import (
 	"strings"
 )
 
-// AttachVolumeDetails The representation of AttachVolumeDetails
-type AttachVolumeDetails interface {
+// AttachNvmeVolumeDetails The details of the NVMe volume attachment. For AttachVolume operation, this is a required field for the request,
+// see AttachVolume.
+type AttachNvmeVolumeDetails struct {
 
 	// The OCID of the instance. For AttachVolume operation, this is a required field for the request,
 	// see AttachVolume.
-	GetInstanceId() *string
+	InstanceId *string `mandatory:"true" json:"instanceId"`
 
 	// The OCID of the volume. If CreateVolumeDetails is specified, this field must be omitted from the request.
-	GetVolumeId() *string
+	VolumeId *string `mandatory:"true" json:"volumeId"`
 
 	// The device name. To retrieve a list of devices for a given instance, see ListInstanceDevices.
-	GetDevice() *string
+	Device *string `mandatory:"false" json:"device"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
-	GetDisplayName() *string
+	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Whether the attachment was created in read-only mode.
-	GetIsReadOnly() *bool
+	IsReadOnly *bool `mandatory:"false" json:"isReadOnly"`
 
 	// Whether the attachment should be created in shareable mode. If an attachment
 	// is created in shareable mode, then other instances can attach the same volume, provided
 	// that they also create their attachments in shareable mode. Only certain volume types can
 	// be attached in shareable mode. Defaults to false if not specified.
-	GetIsShareable() *bool
-}
-
-type attachvolumedetails struct {
-	JsonData    []byte
-	Device      *string `mandatory:"false" json:"device"`
-	DisplayName *string `mandatory:"false" json:"displayName"`
-	IsReadOnly  *bool   `mandatory:"false" json:"isReadOnly"`
-	IsShareable *bool   `mandatory:"false" json:"isShareable"`
-	InstanceId  *string `mandatory:"true" json:"instanceId"`
-	VolumeId    *string `mandatory:"true" json:"volumeId"`
-	Type        string  `json:"type"`
-}
-
-// UnmarshalJSON unmarshals json
-func (m *attachvolumedetails) UnmarshalJSON(data []byte) error {
-	m.JsonData = data
-	type Unmarshalerattachvolumedetails attachvolumedetails
-	s := struct {
-		Model Unmarshalerattachvolumedetails
-	}{}
-	err := json.Unmarshal(data, &s.Model)
-	if err != nil {
-		return err
-	}
-	m.InstanceId = s.Model.InstanceId
-	m.VolumeId = s.Model.VolumeId
-	m.Device = s.Model.Device
-	m.DisplayName = s.Model.DisplayName
-	m.IsReadOnly = s.Model.IsReadOnly
-	m.IsShareable = s.Model.IsShareable
-	m.Type = s.Model.Type
-
-	return err
-}
-
-// UnmarshalPolymorphicJSON unmarshals polymorphic json
-func (m *attachvolumedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
-
-	if data == nil || string(data) == "null" {
-		return nil, nil
-	}
-
-	var err error
-	switch m.Type {
-	case "service_determined":
-		mm := AttachServiceDeterminedVolumeDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "emulated":
-		mm := AttachEmulatedVolumeDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "iscsi":
-		mm := AttachIScsiVolumeDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "nvme":
-		mm := AttachNvmeVolumeDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "paravirtualized":
-		mm := AttachParavirtualizedVolumeDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	default:
-		common.Logf("Received unsupported enum value for AttachVolumeDetails: %s.", m.Type)
-		return *m, nil
-	}
+	IsShareable *bool `mandatory:"false" json:"isShareable"`
 }
 
 // GetDevice returns Device
-func (m attachvolumedetails) GetDevice() *string {
+func (m AttachNvmeVolumeDetails) GetDevice() *string {
 	return m.Device
 }
 
 // GetDisplayName returns DisplayName
-func (m attachvolumedetails) GetDisplayName() *string {
+func (m AttachNvmeVolumeDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
+// GetInstanceId returns InstanceId
+func (m AttachNvmeVolumeDetails) GetInstanceId() *string {
+	return m.InstanceId
+}
+
 // GetIsReadOnly returns IsReadOnly
-func (m attachvolumedetails) GetIsReadOnly() *bool {
+func (m AttachNvmeVolumeDetails) GetIsReadOnly() *bool {
 	return m.IsReadOnly
 }
 
 // GetIsShareable returns IsShareable
-func (m attachvolumedetails) GetIsShareable() *bool {
+func (m AttachNvmeVolumeDetails) GetIsShareable() *bool {
 	return m.IsShareable
 }
 
-// GetInstanceId returns InstanceId
-func (m attachvolumedetails) GetInstanceId() *string {
-	return m.InstanceId
-}
-
 // GetVolumeId returns VolumeId
-func (m attachvolumedetails) GetVolumeId() *string {
+func (m AttachNvmeVolumeDetails) GetVolumeId() *string {
 	return m.VolumeId
 }
 
-func (m attachvolumedetails) String() string {
+func (m AttachNvmeVolumeDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m attachvolumedetails) ValidateEnumValue() (bool, error) {
+func (m AttachNvmeVolumeDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// MarshalJSON marshals to json representation
+func (m AttachNvmeVolumeDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeAttachNvmeVolumeDetails AttachNvmeVolumeDetails
+	s := struct {
+		DiscriminatorParam string `json:"type"`
+		MarshalTypeAttachNvmeVolumeDetails
+	}{
+		"nvme",
+		(MarshalTypeAttachNvmeVolumeDetails)(m),
+	}
+
+	return json.Marshal(&s)
 }
