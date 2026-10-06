@@ -6,6 +6,8 @@ package generative_ai
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterDatasource() {
+	tfresource.RegisterDatasource("oci_generative_ai_apikey", GenerativeAiApikeyDataSource())
+	tfresource.RegisterDatasource("oci_generative_ai_apikeys", GenerativeAiApikeysDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_dedicated_ai_cluster", GenerativeAiDedicatedAiClusterDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_dedicated_ai_clusters", GenerativeAiDedicatedAiClustersDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_endpoint", GenerativeAiEndpointDataSource())

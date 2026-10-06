@@ -74,6 +74,10 @@ func CoreBootVolumeAttachmentsDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"is_encryption_in_transit_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"is_pv_encryption_in_transit_enabled": {
 							Type:     schema.TypeBool,
 							Computed: true,
@@ -191,6 +195,10 @@ func (s *CoreBootVolumeAttachmentsDataSourceCrud) SetData() error {
 
 		if r.InstanceId != nil {
 			bootVolumeAttachment["instance_id"] = *r.InstanceId
+		}
+
+		if r.IsEncryptionInTransitEnabled != nil {
+			bootVolumeAttachment["is_encryption_in_transit_enabled"] = *r.IsEncryptionInTransitEnabled
 		}
 
 		if r.IsPvEncryptionInTransitEnabled != nil {
