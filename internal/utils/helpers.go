@@ -62,7 +62,7 @@ const (
 	}`
 	FlexVmImageIdsVariable = `
 	variable "FlexInstanceImageOCID" {
-	  type = "map"
+	  type = map(string)
 	  default = {
 		us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaalgvdp6hhnulo3tlxz3mtff625s7ix6ianpmv5l7chz5rcakrxbiq"
 		us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaa6tp7lhyrcokdtf7vrbmxyp2pctgg4uxvt4jz4vc47qoc2ec4anha"

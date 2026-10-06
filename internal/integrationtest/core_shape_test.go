@@ -190,6 +190,7 @@ func TestCoreShapeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.processor_description"),
 				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.rdma_bandwidth_in_gbps"),
 				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.rdma_ports"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.supported_resource_management.0"),
 			),
 		},
 

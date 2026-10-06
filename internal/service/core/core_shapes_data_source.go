@@ -572,6 +572,13 @@ func CoreShapesDataSource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
+						"supported_resource_management": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 					},
 				},
 			},
@@ -786,6 +793,8 @@ func (s *CoreShapesDataSourceCrud) SetData() error {
 		shape["recommended_alternatives"] = recommendedAlternatives
 
 		shape["resize_compatible_shapes"] = r.ResizeCompatibleShapes
+
+		shape["supported_resource_management"] = r.SupportedResourceManagement
 
 		resources = append(resources, shape)
 	}
