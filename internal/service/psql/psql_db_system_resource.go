@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"reflect"
 	"strconv"
 	"strings"
 	"time"
@@ -37,6 +38,7 @@ func PsqlDbSystemResource() *schema.Resource {
 		ReadContext:   readPsqlDbSystemWithContext,
 		UpdateContext: updatePsqlDbSystemWithContext,
 		DeleteContext: deletePsqlDbSystemWithContext,
+		CustomizeDiff: psqlDbSystemCustomizeDiff,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -46,7 +48,6 @@ func PsqlDbSystemResource() *schema.Resource {
 			"db_version": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -147,10 +148,17 @@ func PsqlDbSystemResource() *schema.Resource {
 			},
 
 			// Optional
+			"allow_major_version_upgrade": {
+				Type:        schema.TypeBool,
+				Optional:    true,
+				Default:     false,
+				Description: "Allow in-place upgrades when db_version changes to a higher major version. When false, changing db_version replaces the database system. This setting has no effect during creation.",
+			},
 			"config_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
+				Type:         schema.TypeString,
+				Optional:     true,
+				Computed:     true,
+				ValidateFunc: validation.StringLenBetween(1, 255),
 			},
 			"apply_config": {
 				Type:     schema.TypeString,
@@ -735,6 +743,18 @@ func PsqlDbSystemResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"upgrade_options": {
+				Type:        schema.TypeList,
+				Optional:    true,
+				Description: "Optional post-upgrade operations, applied only when db_version changes and allow_major_version_upgrade is true. If omitted or empty, verification and vacuum are skipped.",
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+					ValidateFunc: validation.StringInSlice([]string{
+						"RUN_POST_UPGRADE_VERIFICATION",
+						"RUN_POST_UPGRADE_VACUUM",
+					}, false),
+				},
+			},
 
 			// Computed
 			"admin_username": {
@@ -809,6 +829,52 @@ func PsqlDbSystemResource() *schema.Resource {
 			},
 		},
 	}
+}
+
+func psqlDbSystemCustomizeDiff(_ context.Context, d *schema.ResourceDiff, _ interface{}) error {
+	if d.Id() == "" || !d.HasChange("db_version") {
+		return nil
+	}
+	// Preserve replacement unless the plan explicitly opts into an upgrade.
+	if !d.NewValueKnown("allow_major_version_upgrade") || !psqlDbSystemUpgradeRequested(d) {
+		return d.ForceNew("db_version")
+	}
+	if d.NewValueKnown("db_version") {
+		oldVersion, newVersion := d.GetChange("db_version")
+		if err := validatePsqlDbSystemUpgradeVersion(oldVersion.(string), newVersion.(string)); err != nil {
+			return err
+		}
+	}
+	// The service selects a new default configuration for the target version.
+	// Do not carry the old computed configuration into the upgrade request or plan.
+	config := d.GetRawConfig()
+	if !config.IsNull() && config.GetAttr("config_id").IsNull() {
+		return d.SetNewComputed("config_id")
+	}
+	return nil
+}
+
+func psqlDbSystemUpgradeRequested(d interface {
+	HasChange(string) bool
+	Get(string) interface{}
+}) bool {
+	allowed, _ := d.Get("allow_major_version_upgrade").(bool)
+	return d.HasChange("db_version") && allowed
+}
+
+func validatePsqlDbSystemUpgradeVersion(oldVersion, newVersion string) error {
+	oldMajor, err := strconv.Atoi(strings.Split(oldVersion, ".")[0])
+	if err != nil {
+		return fmt.Errorf("cannot determine the current major db_version from %q", oldVersion)
+	}
+	newMajor, err := strconv.Atoi(newVersion)
+	if err != nil || newMajor <= 0 || strconv.Itoa(newMajor) != newVersion {
+		return fmt.Errorf("db_version must be a target major version, for example \"17\"")
+	}
+	if newMajor <= oldMajor {
+		return fmt.Errorf("db_version can only be upgraded to a higher major version (current: %s, requested: %s)", oldVersion, newVersion)
+	}
+	return nil
 }
 
 func createPsqlDbSystemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
@@ -1128,6 +1194,10 @@ func (s *PsqlDbSystemResourceCrud) Patch(ctx context.Context) error {
 		}
 	}
 
+	if len(request.Items) == 0 && !s.D.HasChange("instance_count") {
+		return nil
+	}
+
 	//Check if instance count has changed when applying patch operation
 	if (len(request.Items) != 0 && !s.D.HasChange("instance_count")) || (len(request.Items) == 0 && s.D.HasChange("instance_count")) {
 		return fmt.Errorf("please update the instance count of the dbSystem while doing a patch operation to add/remove replica")
@@ -1287,6 +1357,16 @@ func (s *PsqlDbSystemResourceCrud) GetWithContext(ctx context.Context) error {
 }
 
 func (s *PsqlDbSystemResourceCrud) UpdateWithContext(ctx context.Context) error {
+	upgrading := psqlDbSystemUpgradeRequested(s.D)
+	if s.D.HasChange("db_version") && !upgrading {
+		return fmt.Errorf("db_version changes require allow_major_version_upgrade = true for an in-place update; otherwise the database system must be replaced")
+	}
+	if upgrading {
+		if err := s.UpgradeDbSystem(ctx); err != nil {
+			return err
+		}
+	}
+
 	if s.isStandaloneToWarmStandbyConversion() {
 		err := s.convertStandaloneToWarmStandbyConversion(ctx)
 		if err != nil {
@@ -1316,7 +1396,7 @@ func (s *PsqlDbSystemResourceCrud) UpdateWithContext(ctx context.Context) error 
 	}
 	request := oci_psql.UpdateDbSystemRequest{}
 
-	if configId, ok := s.D.GetOkExists("config_id"); ok && s.D.HasChange("config_id") {
+	if configId, ok := s.D.GetOkExists("config_id"); ok && s.D.HasChange("config_id") && !upgrading {
 		configRequest := oci_psql.UpdateDbConfigParams{}
 
 		tmp := configId.(string)
@@ -1457,7 +1537,13 @@ func (s *PsqlDbSystemResourceCrud) UpdateWithContext(ctx context.Context) error 
 			tmp := instanceMemorySizeInGBs.(int)
 			request.InstanceMemorySizeInGBs = &tmp
 		}
-		if configId, ok := s.D.GetOkExists("config_id"); ok {
+		configId, hasConfig := s.D.GetOkExists("config_id")
+		if upgrading && s.Res != nil && s.Res.ConfigId != nil {
+			// A computed config_id is unknown in the plan; use the configuration
+			// returned by the completed upgrade for the subsequent resize.
+			configId, hasConfig = *s.Res.ConfigId, true
+		}
+		if hasConfig {
 			configRequest := oci_psql.UpdateDbConfigParams{}
 
 			tmp := configId.(string)
@@ -1481,6 +1567,14 @@ func (s *PsqlDbSystemResourceCrud) UpdateWithContext(ctx context.Context) error 
 			}
 			request.StorageDetails = &tmp
 		}
+	}
+
+	// Upgrade-only and options-only changes do not need a second update operation.
+	if reflect.DeepEqual(request.UpdateDbSystemDetails, oci_psql.UpdateDbSystemDetails{}) {
+		if err := s.GetWithContext(ctx); err != nil {
+			return err
+		}
+		return s.Patch(ctx)
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
@@ -1674,7 +1768,14 @@ func (s *PsqlDbSystemResourceCrud) StartDbSystem(ctx context.Context) error {
 
 	if configId, ok := s.D.GetOkExists("config_id"); ok {
 		tmp := configId.(string)
-		request.ConfigId = &tmp
+		if psqlDbSystemUpgradeRequested(s.D) {
+			// Start the old version before applying the target configuration in UpgradeDbSystem.
+			oldConfig, _ := s.D.GetChange("config_id")
+			tmp = oldConfig.(string)
+		}
+		if tmp != "" {
+			request.ConfigId = &tmp
+		}
 	}
 
 	idTmp := s.D.Id()
@@ -1721,6 +1822,62 @@ func (s *PsqlDbSystemResourceCrud) StopDbSystem(ctx context.Context) error {
 
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_psql.DbSystemLifecycleStateInactive }
 	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *PsqlDbSystemResourceCrud) UpgradeDbSystem(ctx context.Context) error {
+	if !psqlDbSystemUpgradeRequested(s.D) {
+		return fmt.Errorf("an in-place upgrade requires changing db_version and setting allow_major_version_upgrade = true")
+	}
+	oldVersion, newVersion := s.D.GetChange("db_version")
+	if err := validatePsqlDbSystemUpgradeVersion(oldVersion.(string), newVersion.(string)); err != nil {
+		return err
+	}
+	request := oci_psql.UpgradeDbSystemRequest{}
+
+	// Omit a configuration carried over only from state so the service can choose
+	// a new default. Explicit configurations must be validated by the service.
+	configConfigured := false
+	if config := s.D.GetRawConfig(); !config.IsNull() {
+		configConfigured = !config.GetAttr("config_id").IsNull()
+	}
+	if configId, ok := s.D.GetOk("config_id"); ok && (configConfigured || s.D.HasChange("config_id")) {
+		tmp := configId.(string)
+		request.ConfigId = &tmp
+	}
+
+	idTmp := s.D.Id()
+	request.DbSystemId = &idTmp
+
+	if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
+		tmp := dbVersion.(string)
+		request.DbVersion = &tmp
+	}
+
+	if upgradeOptions, ok := s.D.GetOkExists("upgrade_options"); ok {
+		interfaces := upgradeOptions.([]interface{})
+		tmp := make([]oci_psql.UpgradeDbSystemDetailsOptionsEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_psql.UpgradeDbSystemDetailsOptionsEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("upgrade_options") {
+			request.Options = tmp
+		}
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
+
+	response, err := s.Client.UpgradeDbSystem(ctx, request)
+	if err != nil {
+		return err
+	}
+	if response.OpcWorkRequestId == nil || *response.OpcWorkRequestId == "" {
+		return fmt.Errorf("UpgradeDbSystem response is missing opc-work-request-id")
+	}
+
+	return s.getDbSystemFromWorkRequest(ctx, response.OpcWorkRequestId, request.RequestMetadata.RetryPolicy,
+		oci_psql.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *PsqlDbSystemResourceCrud) ResetMasterUserPassword(ctx context.Context) error {
