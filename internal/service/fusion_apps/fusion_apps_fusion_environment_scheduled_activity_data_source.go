@@ -31,11 +31,6 @@ func FusionAppsFusionEnvironmentScheduledActivityDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"action_type": {
 							Type:     schema.TypeString,
 							Computed: true,

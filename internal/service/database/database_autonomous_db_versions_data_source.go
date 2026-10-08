@@ -31,11 +31,6 @@ func DatabaseAutonomousDbVersionsDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"db_workload": {
 							Type:     schema.TypeString,
 							Computed: true,

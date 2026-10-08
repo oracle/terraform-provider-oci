@@ -27,11 +27,6 @@ func IdentityIamWorkRequestErrorsDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"code": {
 							Type:     schema.TypeString,
 							Computed: true,

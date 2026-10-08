@@ -36,7 +36,6 @@ func DatascienceModelProvenanceResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
 			"git_branch": {
 				Type:     schema.TypeString,
@@ -68,8 +67,6 @@ func DatascienceModelProvenanceResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
-
-			// Computed
 		},
 	}
 }

@@ -36,21 +36,11 @@ func OsubOrganizationSubscriptionOrganizationSubscriptionsDataSource() *schema.R
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"currency": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"iso_code": {
 										Type:     schema.TypeString,
 										Computed: true,

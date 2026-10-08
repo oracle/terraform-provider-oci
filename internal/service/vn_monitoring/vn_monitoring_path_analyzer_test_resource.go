@@ -41,7 +41,6 @@ func VnMonitoringPathAnalyzerTestResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"type": {
 							Type:             schema.TypeString,
 							Required:         true,
@@ -60,8 +59,6 @@ func VnMonitoringPathAnalyzerTestResource() *schema.Resource {
 								"VNIC",
 							}, true),
 						},
-
-						// Optional
 						"address": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -107,8 +104,6 @@ func VnMonitoringPathAnalyzerTestResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
-
-						// Computed
 						// internal for work request access
 						"state": {
 							Type:     schema.TypeString,
@@ -128,7 +123,6 @@ func VnMonitoringPathAnalyzerTestResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"type": {
 							Type:             schema.TypeString,
 							Required:         true,
@@ -147,8 +141,6 @@ func VnMonitoringPathAnalyzerTestResource() *schema.Resource {
 								"VNIC",
 							}, true),
 						},
-
-						// Optional
 						"address": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -194,8 +186,6 @@ func VnMonitoringPathAnalyzerTestResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
-
-						// Computed
 						// internal for work request access
 						"state": {
 							Type:     schema.TypeString,
@@ -204,7 +194,6 @@ func VnMonitoringPathAnalyzerTestResource() *schema.Resource {
 					},
 				},
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -232,7 +221,6 @@ func VnMonitoringPathAnalyzerTestResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"type": {
 							Type:             schema.TypeString,
 							Required:         true,
@@ -243,8 +231,6 @@ func VnMonitoringPathAnalyzerTestResource() *schema.Resource {
 								"UDP",
 							}, true),
 						},
-
-						// Optional
 						"destination_port": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -265,8 +251,6 @@ func VnMonitoringPathAnalyzerTestResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
-
-						// Computed
 					},
 				},
 			},
@@ -278,20 +262,14 @@ func VnMonitoringPathAnalyzerTestResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
 						"is_bi_directional_analysis": {
 							Type:     schema.TypeBool,
 							Optional: true,
 							Computed: true,
 						},
-
-						// Computed
 					},
 				},
 			},
-
 			// Computed
 			"state": {
 				Type:     schema.TypeString,

@@ -32,11 +32,6 @@ func BdsBdsInstanceSoftwareUpdatesDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"software_update_key": {
 										Type:     schema.TypeString,
 										Computed: true,

@@ -48,7 +48,6 @@ func TenantmanagercontrolplaneDomainsDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
 									"compartment_id": {
 										Type:     schema.TypeString,
 										Required: true,
@@ -57,8 +56,6 @@ func TenantmanagercontrolplaneDomainsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Required: true,
 									},
-
-									// Optional
 									"defined_tags": {
 										Type:             schema.TypeMap,
 										Optional:         true,
@@ -82,8 +79,6 @@ func TenantmanagercontrolplaneDomainsDataSource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
-
-									// Computed
 									"id": {
 										Type:     schema.TypeString,
 										Computed: true,

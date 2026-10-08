@@ -354,13 +354,13 @@ func bastionWaitForWorkRequest(wId *string, entityType string, action oci_bastio
 	response := oci_bastion.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_bastion.OperationStatusInProgress),
 			string(oci_bastion.OperationStatusAccepted),
+			string(oci_bastion.OperationStatusInProgress),
 			string(oci_bastion.OperationStatusCanceling),
 		},
 		Target: []string{
-			string(oci_bastion.OperationStatusSucceeded),
 			string(oci_bastion.OperationStatusFailed),
+			string(oci_bastion.OperationStatusSucceeded),
 			string(oci_bastion.OperationStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {

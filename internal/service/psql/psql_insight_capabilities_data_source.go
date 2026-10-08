@@ -24,41 +24,21 @@ func PsqlInsightCapabilitiesDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"data_type_capabilities": {
 										Type:     schema.TypeList,
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"data_contract": {
 													Type:     schema.TypeList,
 													Computed: true,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
-															// Required
-
-															// Optional
-
-															// Computed
 															"kind": {
 																Type:     schema.TypeString,
 																Computed: true,
@@ -75,11 +55,6 @@ func PsqlInsightCapabilitiesDataSource() *schema.Resource {
 													Computed: true,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
-															// Required
-
-															// Optional
-
-															// Computed
 															"is_required": {
 																Type:     schema.TypeBool,
 																Computed: true,
@@ -96,11 +71,6 @@ func PsqlInsightCapabilitiesDataSource() *schema.Resource {
 													Computed: true,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
-															// Required
-
-															// Optional
-
-															// Computed
 															"can_use_partial_match": {
 																Type:     schema.TypeBool,
 																Computed: true,
@@ -128,11 +98,6 @@ func PsqlInsightCapabilitiesDataSource() *schema.Resource {
 													Computed: true,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
-															// Required
-
-															// Optional
-
-															// Computed
 															"max_seconds": {
 																Type:     schema.TypeInt,
 																Computed: true,
@@ -157,11 +122,6 @@ func PsqlInsightCapabilitiesDataSource() *schema.Resource {
 													Computed: true,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
-															// Required
-
-															// Optional
-
-															// Computed
 															"max_rows": {
 																Type:     schema.TypeInt,
 																Computed: true,
@@ -178,11 +138,6 @@ func PsqlInsightCapabilitiesDataSource() *schema.Resource {
 													Computed: true,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
-															// Required
-
-															// Optional
-
-															// Computed
 															"default_limit": {
 																Type:     schema.TypeInt,
 																Computed: true,
@@ -203,21 +158,11 @@ func PsqlInsightCapabilitiesDataSource() *schema.Resource {
 													Computed: true,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
-															// Required
-
-															// Optional
-
-															// Computed
 															"default_sort": {
 																Type:     schema.TypeList,
 																Computed: true,
 																Elem: &schema.Resource{
 																	Schema: map[string]*schema.Schema{
-																		// Required
-
-																		// Optional
-
-																		// Computed
 																		"field": {
 																			Type:     schema.TypeString,
 																			Computed: true,

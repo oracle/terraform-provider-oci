@@ -43,21 +43,11 @@ func FleetAppsManagementInventoryRecordsDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"architecture": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -71,11 +61,6 @@ func FleetAppsManagementInventoryRecordsDataSource() *schema.Resource {
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"component_name": {
 													Type:     schema.TypeString,
 													Computed: true,
@@ -93,11 +78,6 @@ func FleetAppsManagementInventoryRecordsDataSource() *schema.Resource {
 													Computed: true,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
-															// Required
-
-															// Optional
-
-															// Computed
 															"name": {
 																Type:     schema.TypeString,
 																Computed: true,
@@ -117,11 +97,6 @@ func FleetAppsManagementInventoryRecordsDataSource() *schema.Resource {
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"patch_description": {
 													Type:     schema.TypeString,
 													Computed: true,
@@ -166,11 +141,6 @@ func FleetAppsManagementInventoryRecordsDataSource() *schema.Resource {
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"name": {
 													Type:     schema.TypeString,
 													Computed: true,

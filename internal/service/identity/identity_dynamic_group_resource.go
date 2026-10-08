@@ -45,7 +45,6 @@ func IdentityDynamicGroupResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -60,7 +59,6 @@ func IdentityDynamicGroupResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-
 			// Computed
 			"inactive_state": {
 				Type:     schema.TypeString,

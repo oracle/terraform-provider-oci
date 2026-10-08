@@ -31,21 +31,11 @@ func CapacityManagementOccHandoverResourceBlockDetailsDataSource() *schema.Resou
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"details": {
 										Type:     schema.TypeMap,
 										Computed: true,

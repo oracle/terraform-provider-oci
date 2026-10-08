@@ -58,11 +58,6 @@ func JmsFleetPerformanceTuningAnalysisResultsDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"application_id": {
 										Type:     schema.TypeString,
 										Computed: true,

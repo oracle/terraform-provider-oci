@@ -61,16 +61,11 @@ func DataSafeMaskingPolicyHealthReportsDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
 									"compartment_id": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-
-									// Computed
 									"defined_tags": {
 										Type:     schema.TypeMap,
 										Computed: true,

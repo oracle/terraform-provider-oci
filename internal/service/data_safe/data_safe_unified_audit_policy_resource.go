@@ -42,7 +42,6 @@ func DataSafeUnifiedAuditPolicyResource() *schema.Resource {
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"entity_selection": {
 							Type:     schema.TypeString,
 							Required: true,
@@ -62,8 +61,6 @@ func DataSafeUnifiedAuditPolicyResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Required: true,
 						},
-
-						// Optional
 						"attribute_set_id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -85,8 +82,6 @@ func DataSafeUnifiedAuditPolicyResource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
-
-						// Computed
 					},
 				},
 			},
@@ -104,7 +99,6 @@ func DataSafeUnifiedAuditPolicyResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -129,7 +123,6 @@ func DataSafeUnifiedAuditPolicyResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-
 			// Computed
 			"enabled_entities": {
 				Type:     schema.TypeString,

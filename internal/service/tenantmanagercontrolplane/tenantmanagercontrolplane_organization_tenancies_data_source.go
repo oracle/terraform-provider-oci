@@ -32,11 +32,6 @@ func TenantmanagercontrolplaneOrganizationTenanciesDataSource() *schema.Resource
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"governance_status": {
 										Type:     schema.TypeString,
 										Computed: true,

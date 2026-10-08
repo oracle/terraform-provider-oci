@@ -42,7 +42,6 @@ func ComputeCloudAtCustomerCccUpgradeScheduleResource() *schema.Resource {
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"description": {
 							Type:     schema.TypeString,
 							Required: true,
@@ -56,15 +55,11 @@ func ComputeCloudAtCustomerCccUpgradeScheduleResource() *schema.Resource {
 							Required:         true,
 							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 						},
-
-						// Optional
 						"schedule_event_recurrences": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-
-						// Computed
 						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -72,7 +67,6 @@ func ComputeCloudAtCustomerCccUpgradeScheduleResource() *schema.Resource {
 					},
 				},
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -92,7 +86,6 @@ func ComputeCloudAtCustomerCccUpgradeScheduleResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-
 			// Computed
 			"infrastructure_ids": {
 				Type:     schema.TypeList,

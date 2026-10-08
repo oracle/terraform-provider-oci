@@ -28,11 +28,6 @@ func DatabaseManagementManagedMySqlDatabaseHighAvailabilityMembersDataSource() *
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"flow_control": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -50,11 +45,6 @@ func DatabaseManagementManagedMySqlDatabaseHighAvailabilityMembersDataSource() *
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"member_host": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -95,31 +85,16 @@ func DatabaseManagementManagedMySqlDatabaseHighAvailabilityMembersDataSource() *
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"channel_apply_errors": {
 										Type:     schema.TypeList,
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"apply_error": {
 													Type:     schema.TypeList,
 													Computed: true,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
-															// Required
-
-															// Optional
-
-															// Computed
 															"last_error_message": {
 																Type:     schema.TypeString,
 																Computed: true,
@@ -137,11 +112,6 @@ func DatabaseManagementManagedMySqlDatabaseHighAvailabilityMembersDataSource() *
 																Computed: true,
 																Elem: &schema.Resource{
 																	Schema: map[string]*schema.Schema{
-																		// Required
-
-																		// Optional
-
-																		// Computed
 																		"last_error_message": {
 																			Type:     schema.TypeString,
 																			Computed: true,
@@ -172,11 +142,6 @@ func DatabaseManagementManagedMySqlDatabaseHighAvailabilityMembersDataSource() *
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"channel_name": {
 													Type:     schema.TypeString,
 													Computed: true,
@@ -186,11 +151,6 @@ func DatabaseManagementManagedMySqlDatabaseHighAvailabilityMembersDataSource() *
 													Computed: true,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
-															// Required
-
-															// Optional
-
-															// Computed
 															"last_error_message": {
 																Type:     schema.TypeString,
 																Computed: true,

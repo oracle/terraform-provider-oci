@@ -40,11 +40,6 @@ func AdmRemediationRunStagesDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"audit_id": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -58,11 +53,6 @@ func AdmRemediationRunStagesDataSource() *schema.Resource {
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"pipeline_identifier": {
 													Type:     schema.TypeString,
 													Computed: true,
@@ -83,11 +73,6 @@ func AdmRemediationRunStagesDataSource() *schema.Resource {
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"pull_request_identifier": {
 													Type:     schema.TypeString,
 													Computed: true,

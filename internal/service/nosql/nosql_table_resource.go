@@ -485,13 +485,13 @@ func tableWaitForWorkRequest(wId *string, entityType string, action oci_nosql.Wo
 	response := oci_nosql.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_nosql.WorkRequestStatusInProgress),
 			string(oci_nosql.WorkRequestStatusAccepted),
+			string(oci_nosql.WorkRequestStatusInProgress),
 			string(oci_nosql.WorkRequestStatusCanceling),
 		},
 		Target: []string{
-			string(oci_nosql.WorkRequestStatusSucceeded),
 			string(oci_nosql.WorkRequestStatusFailed),
+			string(oci_nosql.WorkRequestStatusSucceeded),
 			string(oci_nosql.WorkRequestStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {

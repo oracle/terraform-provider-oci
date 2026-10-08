@@ -324,13 +324,13 @@ func byolWaitForWorkRequest(ctx context.Context, wId *string, entityType string,
 	response := oci_ocvp.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_ocvp.OperationStatusInProgress),
 			string(oci_ocvp.OperationStatusAccepted),
+			string(oci_ocvp.OperationStatusInProgress),
 			string(oci_ocvp.OperationStatusCanceling),
 		},
 		Target: []string{
-			string(oci_ocvp.OperationStatusSucceeded),
 			string(oci_ocvp.OperationStatusFailed),
+			string(oci_ocvp.OperationStatusSucceeded),
 			string(oci_ocvp.OperationStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {

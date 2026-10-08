@@ -35,11 +35,6 @@ func ContainerengineAddonOptionsDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"addon_group": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -88,21 +83,11 @@ func ContainerengineAddonOptionsDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"configurations": {
 										Type:     schema.TypeList,
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"description": {
 													Type:     schema.TypeString,
 													Computed: true,
@@ -135,11 +120,6 @@ func ContainerengineAddonOptionsDataSource() *schema.Resource {
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"exact_kubernetes_versions": {
 													Type:     schema.TypeList,
 													Computed: true,

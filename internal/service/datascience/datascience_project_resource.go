@@ -30,7 +30,6 @@ func DatascienceProjectResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -55,7 +54,6 @@ func DatascienceProjectResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-
 			// Computed
 			"created_by": {
 				Type:     schema.TypeString,

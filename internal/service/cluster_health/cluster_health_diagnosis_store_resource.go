@@ -36,7 +36,6 @@ func ClusterHealthDiagnosisStoreResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -66,7 +65,6 @@ func ClusterHealthDiagnosisStoreResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
-
 			// Computed
 			"last_accepted_request_token": {
 				Type:     schema.TypeString,

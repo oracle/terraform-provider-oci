@@ -30,7 +30,6 @@ func CorePublicIpPoolResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -50,7 +49,6 @@ func CorePublicIpPoolResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-
 			// Computed
 			"cidr_blocks": {
 				Type:     schema.TypeList,

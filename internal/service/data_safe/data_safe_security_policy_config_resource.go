@@ -41,7 +41,6 @@ func DataSafeSecurityPolicyConfigResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -68,9 +67,6 @@ func DataSafeSecurityPolicyConfigResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
 						"exclude_job": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -86,8 +82,6 @@ func DataSafeSecurityPolicyConfigResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
-
-						// Computed
 						"time_status_updated": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -109,20 +103,14 @@ func DataSafeSecurityPolicyConfigResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
 						"exclude_datasafe_user": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-
-						// Computed
 					},
 				},
 			},
-
 			// Computed
 			"lifecycle_details": {
 				Type:     schema.TypeString,

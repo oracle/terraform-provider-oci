@@ -37,7 +37,6 @@ func DataSafeCryptoAssessmentResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
 			"compartment_id": {
 				Type:     schema.TypeString,
@@ -72,18 +71,12 @@ func DataSafeCryptoAssessmentResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
-
 			// Computed
 			"crypto_posture": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"backup_status": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -112,11 +105,6 @@ func DataSafeCryptoAssessmentResource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"are_weak_options_allowed": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -170,11 +158,6 @@ func DataSafeCryptoAssessmentResource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"db_credentials_encryption_observed": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -249,11 +232,6 @@ func DataSafeCryptoAssessmentResource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"are_weak_cipher_suites_allowed": {
 										Type:     schema.TypeString,
 										Computed: true,

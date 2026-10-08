@@ -28,21 +28,11 @@ func GoldenGatePipelineRunningProcessesDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"last_record_lag_in_seconds": {
 										Type:     schema.TypeFloat,
 										Computed: true,

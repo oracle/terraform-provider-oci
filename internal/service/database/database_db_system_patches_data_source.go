@@ -27,11 +27,6 @@ func DatabaseDbSystemPatchesDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"available_actions": {
 							Type:     schema.TypeList,
 							Computed: true,

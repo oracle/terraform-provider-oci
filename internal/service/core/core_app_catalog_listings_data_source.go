@@ -35,11 +35,6 @@ func CoreAppCatalogListingsDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"contact_url": {
 							Type:     schema.TypeString,
 							Computed: true,

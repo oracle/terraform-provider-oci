@@ -1247,13 +1247,13 @@ func opensearchClusterWaitForWorkRequest(wId *string, entityType string, action 
 	response := oci_opensearch.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_opensearch.OperationStatusInProgress),
 			string(oci_opensearch.OperationStatusAccepted),
+			string(oci_opensearch.OperationStatusInProgress),
 			string(oci_opensearch.OperationStatusCanceling),
 		},
 		Target: []string{
-			string(oci_opensearch.OperationStatusSucceeded),
 			string(oci_opensearch.OperationStatusFailed),
+			string(oci_opensearch.OperationStatusSucceeded),
 			string(oci_opensearch.OperationStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {
