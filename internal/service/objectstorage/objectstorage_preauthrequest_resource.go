@@ -245,6 +245,8 @@ func (s *ObjectStoragePreauthenticatedRequestResourceCrud) Get() error {
 		ObjectName:  response.PreauthenticatedRequestSummary.ObjectName,
 		TimeCreated: response.PreauthenticatedRequestSummary.TimeCreated,
 		TimeExpires: response.PreauthenticatedRequestSummary.TimeExpires,
+
+		BucketListingAction: response.PreauthenticatedRequestSummary.BucketListingAction,
 	}
 
 	return nil
