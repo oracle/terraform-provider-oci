@@ -239,13 +239,14 @@ func (s *ObjectStoragePreauthenticatedRequestResourceCrud) Get() error {
 	// PreauthenticatedRequest
 
 	s.Res = &oci_object_storage.PreauthenticatedRequest{
+		Id:          response.PreauthenticatedRequestSummary.Id,
+		AccessType:  oci_object_storage.PreauthenticatedRequestAccessTypeEnum(string(response.PreauthenticatedRequestSummary.AccessType)),
+		Name:        response.PreauthenticatedRequestSummary.Name,
+		ObjectName:  response.PreauthenticatedRequestSummary.ObjectName,
+		TimeCreated: response.PreauthenticatedRequestSummary.TimeCreated,
+		TimeExpires: response.PreauthenticatedRequestSummary.TimeExpires,
+
 		BucketListingAction: response.PreauthenticatedRequestSummary.BucketListingAction,
-		Id:                  response.PreauthenticatedRequestSummary.Id,
-		AccessType:          oci_object_storage.PreauthenticatedRequestAccessTypeEnum(string(response.PreauthenticatedRequestSummary.AccessType)),
-		Name:                response.PreauthenticatedRequestSummary.Name,
-		ObjectName:          response.PreauthenticatedRequestSummary.ObjectName,
-		TimeCreated:         response.PreauthenticatedRequestSummary.TimeCreated,
-		TimeExpires:         response.PreauthenticatedRequestSummary.TimeExpires,
 	}
 
 	return nil
