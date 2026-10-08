@@ -1,7 +1,7 @@
 # Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 
 TEST?=./...
-export GOTOOLCHAIN ?= go1.26.5+auto
+export GOTOOLCHAIN ?= go1.26.6+auto
 GOFMT_FILES?=$(if $(SERVICE), $$(find . -name '$(SERVICE)*.go' |grep -v vendor), $$(find . -name '*.go' |grep -v vendor))
 PKG_NAME=oci
 TEST_PKG_NAME=internal/integrationtest
