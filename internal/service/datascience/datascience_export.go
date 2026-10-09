@@ -1,6 +1,8 @@
 package datascience
 
 import (
+	"fmt"
+
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
 	tf_export "github.com/oracle/terraform-provider-oci/internal/commonexport"
@@ -8,6 +10,7 @@ import (
 
 func init() {
 	exportDatascienceModelProvenanceHints.GetIdFn = getDatascienceModelProvenanceId
+	exportDatascienceModelArtifactSignatureHints.GetIdFn = getDatascienceModelArtifactSignatureId
 	exportDatascienceModelHints.DefaultValuesForMissingAttributes = map[string]interface{}{
 		"artifact_content_length": "0",
 	}
@@ -20,6 +23,22 @@ func getDatascienceModelProvenanceId(resource *tf_export.OCIResource) (string, e
 
 	modelId := resource.Parent.Id
 	return GetModelProvenanceCompositeId(modelId), nil
+}
+
+func getDatascienceModelArtifactSignatureId(resource *tf_export.OCIResource) (string, error) {
+
+	artifactSignatureId, ok := resource.SourceAttributes["artifact_signature_id"].(string)
+	if !ok {
+		// ListModelArtifactSignatures returns the identifier as `id`; preserve
+		// support for the resource schema name used by callers that already
+		// supply `artifact_signature_id`.
+		artifactSignatureId, ok = resource.SourceAttributes["id"].(string)
+		if !ok {
+			return "", fmt.Errorf("[ERROR] unable to find artifactSignatureId for Datascience ModelArtifactSignature")
+		}
+	}
+	modelId := resource.Parent.Id
+	return GetModelArtifactSignatureCompositeId(artifactSignatureId, modelId), nil
 }
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -238,6 +257,17 @@ var exportDatascienceComputeTargetHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportDatascienceModelArtifactSignatureHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_datascience_model_artifact_signature",
+	DatasourceClass:        "oci_datascience_model_artifact_signatures",
+	DatasourceItemsAttr:    "model_artifact_signatures",
+	ResourceAbbreviation:   "model_artifact_signature",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_datascience.ArtifactSignatureLifecycleStateActive),
+	},
+}
+
 var datascienceResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDatascienceProjectHints},
@@ -260,6 +290,12 @@ var datascienceResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportDatascienceComputeTargetHints},
 	},
 	"oci_datascience_model": {
+		{
+			TerraformResourceHints: exportDatascienceModelArtifactSignatureHints,
+			DatasourceQueryParams: map[string]string{
+				"model_id": "id",
+			},
+		},
 		{
 			TerraformResourceHints: exportDatascienceModelProvenanceHints,
 			DatasourceQueryParams: map[string]string{

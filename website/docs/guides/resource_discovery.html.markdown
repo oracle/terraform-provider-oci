@@ -835,6 +835,7 @@ datascience
 * oci\_datascience\_model\_group\_artifact
 * oci\_datascience\_model\_group
 * oci\_datascience\_compute\_target
+* oci\_datascience\_model\_artifact\_signature
 
 dblm
 

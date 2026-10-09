@@ -14,6 +14,7 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_datascience_ml_application_implementation", DatascienceMlApplicationImplementationResource())
 	tfresource.RegisterResource("oci_datascience_ml_application_instance", DatascienceMlApplicationInstanceResource())
 	tfresource.RegisterResource("oci_datascience_model", DatascienceModelResource())
+	tfresource.RegisterResource("oci_datascience_model_artifact_signature", DatascienceModelArtifactSignatureResource())
 	tfresource.RegisterResource("oci_datascience_model_custom_metadata_artifact", DatascienceModelCustomMetadataArtifactResource())
 	tfresource.RegisterResource("oci_datascience_model_defined_metadata_artifact", DatascienceModelDefinedMetadataArtifactResource())
 	tfresource.RegisterResource("oci_datascience_model_deployment", DatascienceModelDeploymentResource())
