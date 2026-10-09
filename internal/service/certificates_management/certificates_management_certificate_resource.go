@@ -53,6 +53,26 @@ func CertificatesManagementCertificateResource() *schema.Resource {
 								"IMPORTED",
 							}, true),
 						},
+						"cert_chain_pem": {
+ 							Type:     schema.TypeString,
+ 							Optional: true,
+ 							Computed: false,
+ 						},
+ 						"certificate_pem": {
+ 							Type:     schema.TypeString,
+ 							Optional: true,
+ 							Computed: false,
+ 						},
+ 						"private_key_pem": {
+ 							Type:     schema.TypeString,
+ 							Optional: true,
+ 							Computed: false,
+ 						},
+ 						"private_key_pem_passphrase": {
+ 							Type:     schema.TypeString,
+ 							Optional: true,
+ 							Computed: false,
+ 						},
 						"certificate_profile_type": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -1517,6 +1537,30 @@ func (s *CertificatesManagementCertificateResourceCrud) mapToCreateCertificateCo
 		configType = "" // default value
 	}
 	switch strings.ToLower(configType) {
+	case strings.ToLower("IMPORTED"):
+ 		details := oci_certificates_management.CreateCertificateByImportingConfigDetails{}
+ 		if certChainPem, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cert_chain_pem")); ok {
+ 			tmp := certChainPem.(string)
+ 			details.CertChainPem = &tmp
+ 		}
+ 		if certificatePem, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate_pem")); ok {
+ 			tmp := certificatePem.(string)
+ 			details.CertificatePem = &tmp
+ 		}
+ 		if privateKeyPem, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_key_pem")); ok {
+ 			tmp := privateKeyPem.(string)
+ 			details.PrivateKeyPem = &tmp
+ 		}
+ 		if privateKeyPemPassphrase, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_key_pem_passphrase")); ok {
+ 			tmp := privateKeyPemPassphrase.(string)
+ 			details.PrivateKeyPemPassphrase = &tmp
+ 		}
+ 		if versionName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "version_name")); ok {
+ 			tmp := versionName.(string)
+ 			details.VersionName = &tmp
+ 		}
+
+ 		baseObject = details
 	case strings.ToLower("ISSUED_BY_INTERNAL_CA"):
 		details := oci_certificates_management.CreateCertificateIssuedByInternalCaConfigDetails{}
 		if validity, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "validity")); ok {
@@ -1857,6 +1901,26 @@ func (s *CertificatesManagementCertificateResourceCrud) mapToUpdateCertificateCo
 		configType = "" // default value
 	}
 	switch strings.ToLower(configType) {
+	case strings.ToLower("IMPORTED"):
+ 		details := oci_certificates_management.UpdateCertificateByImportingConfigDetails{}
+ 		if certChainPem, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cert_chain_pem")); ok {
+ 			tmp := certChainPem.(string)
+ 			details.CertChainPem = &tmp
+ 		}
+ 		if certificatePem, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate_pem")); ok {
+ 			tmp := certificatePem.(string)
+ 			details.CertificatePem = &tmp
+ 		}
+ 		if privateKeyPem, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_key_pem")); ok {
+ 			tmp := privateKeyPem.(string)
+ 			details.PrivateKeyPem = &tmp
+ 		}
+ 		if privateKeyPemPassphrase, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_key_pem_passphrase")); ok {
+ 			tmp := privateKeyPemPassphrase.(string)
+ 			details.PrivateKeyPemPassphrase = &tmp
+ 		}
+
+ 		baseObject = details
 	case strings.ToLower("ISSUED_BY_INTERNAL_CA"):
 		details := oci_certificates_management.UpdateCertificateIssuedByInternalCaConfigDetails{}
 		if validity, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "validity")); ok {
