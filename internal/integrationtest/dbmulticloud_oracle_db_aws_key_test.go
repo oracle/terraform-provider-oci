@@ -6,6 +6,7 @@ package integrationtest
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"testing"
 	"time"
 
@@ -18,6 +19,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 
 	// "github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -36,25 +38,30 @@ var (
 	}
 
 	DbmulticloudOracleDbAwsKeyDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `AWS_Key_Tersi_ReplicationTest`, Update: `AWS_Key_Tersi_ReplicationTest`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DbmulticloudOracleDbAwsKeyDataSourceFilterRepresentation}}
+
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `MockResourceName`, Update: `MockResourceName`},
+		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: DbmulticloudOracleDbAwsKeyDataSourceFilterRepresentation},
+		"oracle_db_aws_key_pool_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_dbmulticloud_oracle_db_aws_key_pool.test_oracle_db_aws_key_pool.id}`},
+	}
 	DbmulticloudOracleDbAwsKeyDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_dbmulticloud_oracle_db_aws_key.test_oracle_db_aws_key.id}`}},
 	}
 
 	DbmulticloudOracleDbAwsKeyRepresentation = map[string]interface{}{
-		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `AWS_Key_Tersi_ReplicationTest`, Update: `AWS_Key_Tersi_ReplicationTest`},
-		"oracle_db_connector_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_dbmulticloud_oracle_db_aws_identity_connector.test_oracle_db_aws_identity_connector.id}`},
-		"aws_account_id":         acctest.Representation{RepType: acctest.Optional, Create: `867344470629`},
-		"aws_key_arn":            acctest.Representation{RepType: acctest.Required, Create: `arn:aws:iam::867344470629:role/OracleDatabaseKMS`},
-		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
-		"is_aws_key_enabled":     acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":              acctest.Representation{RepType: acctest.Required, Create: `MockResourceName`, Update: `MockResourceName`},
+		"oracle_db_connector_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_dbmulticloud_oracle_db_aws_identity_connector.test_oracle_db_aws_identity_connector.id}`},
+		"aws_account_id":            acctest.Representation{RepType: acctest.Optional, Create: `867344470629`},
+		"aws_key_arn":               acctest.Representation{RepType: acctest.Required, Create: `arn:aws:iam::867344470629:role/OracleDatabaseKMS`},
+		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
+		"is_aws_key_enabled":        acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"oracle_db_aws_key_pool_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_dbmulticloud_oracle_db_aws_key_pool.test_oracle_db_aws_key_pool.id}`},
 	}
 
 	DbmulticloudOracleDbAwsKeyResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_dbmulticloud_oracle_db_aws_identity_connector", "test_oracle_db_aws_identity_connector", acctest.Required, acctest.Create, DbmulticloudOracleDbAwsIdentityConnectorRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_dbmulticloud_oracle_db_aws_key_pool", "test_oracle_db_aws_key_pool", acctest.Required, acctest.Create, DbmulticloudOracleDbAwsKeyPoolRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -87,7 +94,7 @@ func TestDbmulticloudOracleDbAwsKeyResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_dbmulticloud_oracle_db_aws_key", "test_oracle_db_aws_key", acctest.Required, acctest.Create, DbmulticloudOracleDbAwsKeyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "AWS_Key_Tersi_ReplicationTest"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "MockResourceName"),
 				resource.TestCheckResourceAttrSet(resourceName, "oracle_db_connector_id"),
 
 				func(s *terraform.State) (err error) {
@@ -109,19 +116,21 @@ func TestDbmulticloudOracleDbAwsKeyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "aws_account_id"),
 				resource.TestCheckResourceAttr(resourceName, "aws_key_arn", "arn:aws:iam::867344470629:role/OracleDatabaseKMS"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "AWS_Key_Tersi_ReplicationTest"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "MockResourceName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_aws_key_enabled", "false"),
+				//resource.TestCheckResourceAttr(resourceName, "location", "location"),
+				//resource.TestCheckResourceAttrSet(resourceName, "oracle_db_aws_key_pool_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "oracle_db_connector_id"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					// if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-					// 	if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-					// 		return errExport
-					// 	}
-					// }
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
 					return err
 				},
 			),
@@ -138,10 +147,12 @@ func TestDbmulticloudOracleDbAwsKeyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "aws_account_id"),
 				resource.TestCheckResourceAttr(resourceName, "aws_key_arn", "arn:aws:iam::867344470629:role/OracleDatabaseKMS"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "AWS_Key_Tersi_ReplicationTest"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "MockResourceName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_aws_key_enabled", "false"),
+				//resource.TestCheckResourceAttr(resourceName, "location", "location"),
+				//resource.TestCheckResourceAttrSet(resourceName, "oracle_db_aws_key_pool_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "oracle_db_connector_id"),
 
 				func(s *terraform.State) (err error) {
@@ -162,10 +173,12 @@ func TestDbmulticloudOracleDbAwsKeyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "aws_account_id"),
 				resource.TestCheckResourceAttr(resourceName, "aws_key_arn", "arn:aws:iam::867344470629:role/OracleDatabaseKMS"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "AWS_Key_Tersi_ReplicationTest"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "MockResourceName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_aws_key_enabled", "false"),
+				//resource.TestCheckResourceAttr(resourceName, "location", "location"),
+				//resource.TestCheckResourceAttrSet(resourceName, "oracle_db_aws_key_pool_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "oracle_db_connector_id"),
 
 				func(s *terraform.State) (err error) {
@@ -185,7 +198,7 @@ func TestDbmulticloudOracleDbAwsKeyResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_dbmulticloud_oracle_db_aws_key", "test_oracle_db_aws_key", acctest.Optional, acctest.Update, DbmulticloudOracleDbAwsKeyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "display_name", "AWS_Key_Tersi_ReplicationTest"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "MockResourceName"),
 			),
 		},
 		// verify singular datasource
@@ -196,10 +209,16 @@ func TestDbmulticloudOracleDbAwsKeyResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(singularDatasourceName, "aws_key_arn", "arn:aws:iam::867344470629:role/OracleDatabaseKMS"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "AWS_Key_Tersi_ReplicationTest"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "MockResourceName"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_aws_key_enabled", "false"),
+				/*resource.TestCheckResourceAttrSet(singularDatasourceName, "is_oracle_aws_key_used"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "location", "location"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "properties.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "ref_count"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "replication_metadata.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),*/
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),

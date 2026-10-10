@@ -41,10 +41,13 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB AWS Key Ring resource.
 * `is_aws_key_enabled` - The Oracle AWS Key resource is enabled or disabled at AWS.
+* `is_oracle_aws_key_used` - Indicates whether the Oracle AWS Key resource is currently in use.
 * `lifecycle_state_details` - Description of the current lifecycle state in more detail.
 * `location` - AWS Key resource location.
+* `oracle_db_aws_key_pool_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB AWS Key Pool resource.
 * `oracle_db_connector_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB Connector resource.
 * `properties` - AWS Key resource's properties.
+* `ref_count` - The number of active references to the Oracle AWS Key resource.
 * `replication_metadata` - Replication metadata, it has information about replication and target region. 
 	* `replication_details` - List of all regions and their respective resource ID.
 		* `replication_state` - The lifecycle state of the Oracle DB Azure Vault resource.

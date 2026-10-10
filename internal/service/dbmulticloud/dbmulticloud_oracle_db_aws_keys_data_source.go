@@ -35,6 +35,10 @@ func DbmulticloudOracleDbAwsKeysDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"oracle_db_aws_key_pool_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -96,6 +100,11 @@ func (s *DbmulticloudOracleDbAwsKeysDataSourceCrud) GetWithContext(ctx context.C
 	if oracleDbAwsKeyId, ok := s.D.GetOkExists("id"); ok {
 		tmp := oracleDbAwsKeyId.(string)
 		request.OracleDbAwsKeyId = &tmp
+	}
+
+	if oracleDbAwsKeyPoolId, ok := s.D.GetOkExists("oracle_db_aws_key_pool_id"); ok {
+		tmp := oracleDbAwsKeyPoolId.(string)
+		request.OracleDbAwsKeyPoolId = &tmp
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
