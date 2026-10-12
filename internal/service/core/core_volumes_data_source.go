@@ -20,8 +20,9 @@ func CoreVolumesDataSource() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"availability_domain": {
-				Type:     schema.TypeString,
-				Optional: true,
+				Type:             schema.TypeString,
+				Optional:         true,
+				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 			},
 			"cluster_placement_group_id": {
 				Type:     schema.TypeString,

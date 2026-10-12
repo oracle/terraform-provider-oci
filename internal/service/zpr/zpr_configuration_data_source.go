@@ -17,7 +17,7 @@ func ZprConfigurationDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["compartment_id"] = &schema.Schema{
 		Type:     schema.TypeString,
-		Required: true,
+		Optional: true,
 	}
 	return tfresource.GetSingularDataSourceItemSchema(ZprConfigurationResource(), fieldMap, readSingularZprConfiguration)
 }
