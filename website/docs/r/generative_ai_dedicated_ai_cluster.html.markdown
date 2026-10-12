@@ -26,6 +26,7 @@ resource "oci_generative_ai_dedicated_ai_cluster" "test_dedicated_ai_cluster" {
 	unit_shape = var.dedicated_ai_cluster_unit_shape
 
 	#Optional
+	capacity_reservation_id = oci_generative_ai_capacity_reservation.test_capacity_reservation.id
 	defined_tags = {"Operations.CostCenter"= "42"}
 	description = var.dedicated_ai_cluster_description
 	display_name = var.dedicated_ai_cluster_display_name
@@ -37,6 +38,7 @@ resource "oci_generative_ai_dedicated_ai_cluster" "test_dedicated_ai_cluster" {
 
 The following arguments are supported:
 
+* `capacity_reservation_id` - (Optional) The OCID of the capacity reservation.
 * `compartment_id` - (Required) (Updatable) The compartment OCID to create the dedicated AI cluster in.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Optional) (Updatable) An optional description of the dedicated AI cluster.
@@ -127,6 +129,7 @@ The following attributes are exported:
 	* `capacity_type` - The type of the dedicated AI cluster capacity.
 	* `total_endpoint_capacity` - The total number of endpoints that can be hosted on this dedicated AI cluster.
 	* `used_endpoint_capacity` - The number of endpoints hosted on this dedicated AI cluster.
+* `capacity_reservation_id` - The OCID of the capacity reservation.
 * `compartment_id` - The compartment OCID to create the dedicated AI cluster in.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `description` - An optional description of the dedicated AI cluster.
@@ -134,9 +137,6 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated AI cluster.
 * `lifecycle_details` - A message describing the current state with detail that can provide actionable information.
-* `previous_state` - Dedicated AI clusters are compute resources that you can use for fine-tuning custom models or for hosting endpoints for custom models. The clusters are dedicated to your models and not shared with users in other tenancies.
-
-To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator who gives Oracle Cloud Infrastructure resource access to users. See [Getting Started with Policies](https://docs.cloud.oracle.com/iaas/Content/Identity/policiesgs/get-started-with-policies.htm) and [Getting Access to Generative AI Resouces](https://docs.cloud.oracle.com/iaas/Content/generative-ai/iam-policies.htm).
 * `state` - The current state of the dedicated AI cluster.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time the dedicated AI cluster was created, in the format defined by RFC 3339
