@@ -37,10 +37,14 @@ The following attributes are exported:
 	* `compute_type` - The type of compute.
 	* `instance_configuration` - The compute target instance configuration details for managed compute cluster type compute target.
 		* `boot_volume_size_in_gbs` - The size of the boot volume to attach to the instance.
+		* `capacity_reservation_ids` - The list of [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute capacity reservation. When provided, specify exactly one reservation OCID. Capacity reservations are supported only for GPU shapes.
 		* `instance_shape` - The shape used to launch the instances in compute target. Supported shapes can be retrieved using compute target shapes api.
 		* `instance_shape_details` - Instance shape configuration for managed compute cluster type compute target. Specify only when a flex shape is selected.
 			* `memory_in_gbs` - The total amount of memory allocated to the instance, in gigabytes.
 			* `ocpus` - The total number of OCPUs allocated to the instance.
+		* `network_configuration_details` - The network configuration details for managed compute cluster type resource.
+			* `network_type` - network type
+			* `subnet_ids` - The list of [OCID] of customer subnetIds.
 	* `scaling_policy` - The scaling policy to apply to managed compute cluster type compute target.
 		* `auto_scaling_policies` - The list of autoscaling policy details.
 			* `auto_scaling_policy_type` - The type of autoscaling policy.
