@@ -35,7 +35,6 @@ func DatascienceMlApplicationResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -55,7 +54,6 @@ func DatascienceMlApplicationResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-
 			// Computed
 			"lifecycle_details": {
 				Type:     schema.TypeString,

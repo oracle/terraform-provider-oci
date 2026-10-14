@@ -35,11 +35,6 @@ func UsageProxyResourceQuotasDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"is_allowed": {
 							Type:     schema.TypeBool,
 							Computed: true,
@@ -49,11 +44,6 @@ func UsageProxyResourceQuotasDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"affected_resource": {
 										Type:     schema.TypeString,
 										Computed: true,

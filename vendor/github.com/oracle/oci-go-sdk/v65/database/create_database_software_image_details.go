@@ -37,6 +37,9 @@ type CreateDatabaseSoftwareImageDetails struct {
 	// The PSU or PBP or Release Updates. To get a list of supported versions, use the ListDbVersions operation.
 	PatchSet *string `mandatory:"false" json:"patchSet"`
 
+	// If true, the caller acknowledges selecting or applying an older DB, Grid Infrastructure, or operating system software version that is outside the latest default version window.
+	IsOlderVersionAcknowledged *bool `mandatory:"false" json:"isOlderVersionAcknowledged"`
+
 	// List of one-off patches for Database Homes.
 	DatabaseSoftwareImageOneOffPatches []string `mandatory:"false" json:"databaseSoftwareImageOneOffPatches"`
 

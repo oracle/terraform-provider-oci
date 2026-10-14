@@ -7,9 +7,11 @@ import (
 	"bytes"
 	"context"
 	"encoding/base64"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
+	"net"
 	"strconv"
 	"time"
 
@@ -25,6 +27,8 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_kms "github.com/oracle/oci-go-sdk/v65/keymanagement"
 )
+
+const kmsKeyCreateDNSRetryTimeout = 30 * time.Second
 
 func KmsKeyResource() *schema.Resource {
 	return &schema.Resource{
@@ -189,11 +193,6 @@ func KmsKeyResource() *schema.Resource {
 					"DISABLED",
 				}, false),
 			},
-			"time_of_deletion": {
-				Type:     schema.TypeString,
-				Computed: true,
-				Optional: true,
-			},
 			"restore_from_object_store": {
 				Type:          schema.TypeList,
 				Optional:      true,
@@ -328,6 +327,11 @@ func KmsKeyResource() *schema.Resource {
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"time_of_deletion": {
+				Type:     schema.TypeString,
+				Computed: true,
+				Optional: true,
 			},
 			"vault_id": {
 				Type:     schema.TypeString,
@@ -566,7 +570,7 @@ func (s *KmsKeyResourceCrud) Create() error {
 		request.ProtectionMode = oci_kms.CreateKeyDetailsProtectionModeEnum(protectionMode.(string))
 	}
 
-	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "kms")
+	request.RequestMetadata.RetryPolicy = getKmsKeyCreateRetryPolicy()
 
 	response, err := s.Client.CreateKey(context.Background(), request)
 	if err != nil {
@@ -575,6 +579,40 @@ func (s *KmsKeyResourceCrud) Create() error {
 
 	s.Res = &response.Key
 	return nil
+}
+
+func getKmsKeyCreateRetryPolicy() *oci_common.RetryPolicy {
+	retryStartTime := time.Now()
+	retryPolicy := tfresource.GetRetryPolicyWithAdditionalRetryCondition(
+		kmsKeyCreateDNSRetryTimeout,
+		isKmsKeyCreateDNSNotFoundError,
+		"kms",
+	)
+	baseNextDuration := retryPolicy.NextDuration
+	retryPolicy.NextDuration = func(response oci_common.OCIOperationResponse) time.Duration {
+		backoffDuration := baseNextDuration(response)
+		if !isKmsKeyCreateDNSNotFoundError(response) {
+			return backoffDuration
+		}
+		return capKmsKeyCreateDNSRetryBackoff(backoffDuration, time.Since(retryStartTime))
+	}
+	return retryPolicy
+}
+
+func capKmsKeyCreateDNSRetryBackoff(backoffDuration, elapsed time.Duration) time.Duration {
+	remaining := kmsKeyCreateDNSRetryTimeout - elapsed
+	if remaining <= 0 {
+		return 0
+	}
+	if backoffDuration > remaining {
+		return remaining
+	}
+	return backoffDuration
+}
+
+func isKmsKeyCreateDNSNotFoundError(response oci_common.OCIOperationResponse) bool {
+	var dnsError *net.DNSError
+	return errors.As(response.Error, &dnsError) && dnsError.IsNotFound
 }
 
 func (s *KmsKeyResourceCrud) Get() error {

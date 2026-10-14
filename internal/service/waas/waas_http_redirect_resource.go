@@ -320,13 +320,13 @@ func httpRedirectWaitForWorkRequest(wId *string, entityType string, action oci_w
 	response := oci_waas.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_waas.WorkRequestStatusValuesInProgress),
 			string(oci_waas.WorkRequestStatusValuesAccepted),
+			string(oci_waas.WorkRequestStatusValuesInProgress),
 			string(oci_waas.WorkRequestStatusValuesCanceling),
 		},
 		Target: []string{
-			string(oci_waas.WorkRequestStatusValuesSucceeded),
 			string(oci_waas.WorkRequestStatusValuesFailed),
+			string(oci_waas.WorkRequestStatusValuesSucceeded),
 			string(oci_waas.WorkRequestStatusValuesCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {

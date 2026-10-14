@@ -51,7 +51,6 @@ func MarketplaceAcceptedAgreementResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -71,7 +70,6 @@ func MarketplaceAcceptedAgreementResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-
 			// Computed
 			"time_accepted": {
 				Type:     schema.TypeString,

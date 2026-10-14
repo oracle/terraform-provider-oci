@@ -35,11 +35,6 @@ func CoreInstanceDevicesDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"is_available": {
 							Type:     schema.TypeBool,
 							Computed: true,

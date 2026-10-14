@@ -47,7 +47,6 @@ func DbmulticloudOracleDbAzureVaultAssociationResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -62,7 +61,6 @@ func DbmulticloudOracleDbAzureVaultAssociationResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-
 			// Computed
 			"is_resource_accessible": {
 				Type:     schema.TypeBool,

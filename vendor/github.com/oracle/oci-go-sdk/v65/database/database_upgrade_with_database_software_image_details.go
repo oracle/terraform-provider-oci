@@ -22,9 +22,17 @@ type DatabaseUpgradeWithDatabaseSoftwareImageDetails struct {
 	// The database software image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the image to be used to upgrade a database.
 	DatabaseSoftwareImageId *string `mandatory:"true" json:"databaseSoftwareImageId"`
 
+	// If true, the caller acknowledges selecting or applying an older DB, Grid Infrastructure, or operating system software version that is outside the latest default version window.
+	IsOlderVersionAcknowledged *bool `mandatory:"false" json:"isOlderVersionAcknowledged"`
+
 	// Additional upgrade options supported by DBUA(Database Upgrade Assistant).
 	// Example: "-upgradeTimezone false -keepEvents"
 	Options *string `mandatory:"false" json:"options"`
+}
+
+// GetIsOlderVersionAcknowledged returns IsOlderVersionAcknowledged
+func (m DatabaseUpgradeWithDatabaseSoftwareImageDetails) GetIsOlderVersionAcknowledged() *bool {
+	return m.IsOlderVersionAcknowledged
 }
 
 // GetOptions returns Options

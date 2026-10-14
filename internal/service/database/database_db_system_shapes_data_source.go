@@ -35,11 +35,6 @@ func DatabaseDbSystemShapesDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"are_server_types_supported": {
 							Type:     schema.TypeBool,
 							Computed: true,

@@ -44,21 +44,11 @@ func CapacityManagementInternalOccmDemandSignalCatalogResourcesDataSource() *sch
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"availability_domain": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -106,21 +96,11 @@ func CapacityManagementInternalOccmDemandSignalCatalogResourcesDataSource() *sch
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"items": {
 													Type:     schema.TypeList,
 													Computed: true,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
-															// Required
-
-															// Optional
-
-															// Computed
 															"is_editable": {
 																Type:     schema.TypeBool,
 																Computed: true,
@@ -142,11 +122,6 @@ func CapacityManagementInternalOccmDemandSignalCatalogResourcesDataSource() *sch
 																Computed: true,
 																Elem: &schema.Resource{
 																	Schema: map[string]*schema.Schema{
-																		// Required
-
-																		// Optional
-
-																		// Computed
 																		"option_key": {
 																			Type:     schema.TypeString,
 																			Computed: true,
@@ -177,21 +152,11 @@ func CapacityManagementInternalOccmDemandSignalCatalogResourcesDataSource() *sch
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"items": {
 													Type:     schema.TypeList,
 													Computed: true,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
-															// Required
-
-															// Optional
-
-															// Computed
 															"constraint_name": {
 																Type:     schema.TypeString,
 																Computed: true,

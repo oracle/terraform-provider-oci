@@ -45,7 +45,6 @@ func JmsTaskScheduleResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"task_type": {
 							Type:             schema.TypeString,
 							Required:         true,
@@ -62,8 +61,6 @@ func JmsTaskScheduleResource() *schema.Resource {
 								"SCAN_LIBRARY",
 							}, true),
 						},
-
-						// Optional
 						"add_installation_site_task_request": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -72,18 +69,12 @@ func JmsTaskScheduleResource() *schema.Resource {
 							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
 									"installation_sites": {
 										Type:     schema.TypeList,
 										Optional: true,
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
 												"artifact_content_type": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -114,8 +105,6 @@ func JmsTaskScheduleResource() *schema.Resource {
 													Optional: true,
 													Computed: true,
 												},
-
-												// Computed
 											},
 										},
 									},
@@ -127,8 +116,6 @@ func JmsTaskScheduleResource() *schema.Resource {
 											Type: schema.TypeString,
 										},
 									},
-
-									// Computed
 								},
 							},
 						},
@@ -140,9 +127,6 @@ func JmsTaskScheduleResource() *schema.Resource {
 							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
 									"recording_duration_in_minutes": {
 										Type:     schema.TypeInt,
 										Optional: true,
@@ -154,9 +138,6 @@ func JmsTaskScheduleResource() *schema.Resource {
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
 												"application_installation_key": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -182,8 +163,6 @@ func JmsTaskScheduleResource() *schema.Resource {
 													Optional: true,
 													Computed: true,
 												},
-
-												// Computed
 											},
 										},
 									},
@@ -192,8 +171,6 @@ func JmsTaskScheduleResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
-
-									// Computed
 								},
 							},
 						},
@@ -205,18 +182,12 @@ func JmsTaskScheduleResource() *schema.Resource {
 							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
 									"targets": {
 										Type:     schema.TypeList,
 										Optional: true,
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
 												"deployed_application_installation_key": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -253,13 +224,9 @@ func JmsTaskScheduleResource() *schema.Resource {
 													Optional: true,
 													Computed: true,
 												},
-
-												// Computed
 											},
 										},
 									},
-
-									// Computed
 								},
 							},
 						},
@@ -271,18 +238,12 @@ func JmsTaskScheduleResource() *schema.Resource {
 							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
 									"targets": {
 										Type:     schema.TypeList,
 										Optional: true,
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
 												"application_installation_key": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -319,13 +280,9 @@ func JmsTaskScheduleResource() *schema.Resource {
 													Optional: true,
 													Computed: true,
 												},
-
-												// Computed
 											},
 										},
 									},
-
-									// Computed
 								},
 							},
 						},
@@ -337,9 +294,6 @@ func JmsTaskScheduleResource() *schema.Resource {
 							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
 									"jfc_profile_name": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -371,9 +325,6 @@ func JmsTaskScheduleResource() *schema.Resource {
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
 												"application_installation_key": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -399,8 +350,6 @@ func JmsTaskScheduleResource() *schema.Resource {
 													Optional: true,
 													Computed: true,
 												},
-
-												// Computed
 											},
 										},
 									},
@@ -409,8 +358,6 @@ func JmsTaskScheduleResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
-
-									// Computed
 								},
 							},
 						},
@@ -422,9 +369,6 @@ func JmsTaskScheduleResource() *schema.Resource {
 							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
 									"recording_duration_in_minutes": {
 										Type:     schema.TypeInt,
 										Optional: true,
@@ -436,9 +380,6 @@ func JmsTaskScheduleResource() *schema.Resource {
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
 												"application_installation_key": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -464,8 +405,6 @@ func JmsTaskScheduleResource() *schema.Resource {
 													Optional: true,
 													Computed: true,
 												},
-
-												// Computed
 											},
 										},
 									},
@@ -474,8 +413,6 @@ func JmsTaskScheduleResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
-
-									// Computed
 								},
 							},
 						},
@@ -487,18 +424,12 @@ func JmsTaskScheduleResource() *schema.Resource {
 							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
 									"installation_sites": {
 										Type:     schema.TypeList,
 										Optional: true,
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
 												"installation_key": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -509,13 +440,9 @@ func JmsTaskScheduleResource() *schema.Resource {
 													Optional: true,
 													Computed: true,
 												},
-
-												// Computed
 											},
 										},
 									},
-
-									// Computed
 								},
 							},
 						},
@@ -527,9 +454,6 @@ func JmsTaskScheduleResource() *schema.Resource {
 							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
 									"managed_instance_ids": {
 										Type:     schema.TypeList,
 										Optional: true,
@@ -538,8 +462,6 @@ func JmsTaskScheduleResource() *schema.Resource {
 											Type: schema.TypeString,
 										},
 									},
-
-									// Computed
 								},
 							},
 						},
@@ -551,9 +473,6 @@ func JmsTaskScheduleResource() *schema.Resource {
 							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
 									"dynamic_scan_duration_in_minutes": {
 										Type:     schema.TypeInt,
 										Optional: true,
@@ -572,19 +491,12 @@ func JmsTaskScheduleResource() *schema.Resource {
 											Type: schema.TypeString,
 										},
 									},
-
-									// Computed
 								},
 							},
 						},
-
-						// Computed
 					},
 				},
 			},
-
-			// Optional
-
 			// Computed
 			"created_by": {
 				Type:     schema.TypeString,

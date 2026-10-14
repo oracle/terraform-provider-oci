@@ -37,7 +37,6 @@ func GenerativeAiProjectResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
 			// Optional
 			"conversation_config": {
 				Type:     schema.TypeList,
@@ -47,9 +46,6 @@ func GenerativeAiProjectResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
 						"conversations_retention_in_hours": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -60,8 +56,6 @@ func GenerativeAiProjectResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
-
-						// Computed
 					},
 				},
 			},
@@ -96,9 +90,6 @@ func GenerativeAiProjectResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
 						"standard_long_term_memory_strategy": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -107,13 +98,10 @@ func GenerativeAiProjectResource() *schema.Resource {
 							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
 									"is_enabled": {
 										Type:     schema.TypeBool,
 										Required: true,
 									},
-
-									// Optional
 									"embedding_config": {
 										Type:     schema.TypeList,
 										Optional: true,
@@ -122,7 +110,6 @@ func GenerativeAiProjectResource() *schema.Resource {
 										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
 												"llm_selection": {
 													Type:     schema.TypeList,
 													Required: true,
@@ -130,7 +117,6 @@ func GenerativeAiProjectResource() *schema.Resource {
 													MinItems: 1,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
-															// Required
 															"llm_selection_type": {
 																Type:             schema.TypeString,
 																Required:         true,
@@ -143,17 +129,9 @@ func GenerativeAiProjectResource() *schema.Resource {
 																Type:     schema.TypeString,
 																Required: true,
 															},
-
-															// Optional
-
-															// Computed
 														},
 													},
 												},
-
-												// Optional
-
-												// Computed
 											},
 										},
 									},
@@ -165,7 +143,6 @@ func GenerativeAiProjectResource() *schema.Resource {
 										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
 												"llm_selection": {
 													Type:     schema.TypeList,
 													Required: true,
@@ -173,7 +150,6 @@ func GenerativeAiProjectResource() *schema.Resource {
 													MinItems: 1,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
-															// Required
 															"llm_selection_type": {
 																Type:             schema.TypeString,
 																Required:         true,
@@ -186,27 +162,15 @@ func GenerativeAiProjectResource() *schema.Resource {
 																Type:     schema.TypeString,
 																Required: true,
 															},
-
-															// Optional
-
-															// Computed
 														},
 													},
 												},
-
-												// Optional
-
-												// Computed
 											},
 										},
 									},
-
-									// Computed
 								},
 							},
 						},
-
-						// Computed
 					},
 				},
 			},
@@ -218,13 +182,10 @@ func GenerativeAiProjectResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"is_enabled": {
 							Type:     schema.TypeBool,
 							Required: true,
 						},
-
-						// Optional
 						"condenser_config": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -233,7 +194,6 @@ func GenerativeAiProjectResource() *schema.Resource {
 							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
 									"llm_selection": {
 										Type:     schema.TypeList,
 										Required: true,
@@ -241,7 +201,6 @@ func GenerativeAiProjectResource() *schema.Resource {
 										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
 												"llm_selection_type": {
 													Type:             schema.TypeString,
 													Required:         true,
@@ -254,26 +213,15 @@ func GenerativeAiProjectResource() *schema.Resource {
 													Type:     schema.TypeString,
 													Required: true,
 												},
-
-												// Optional
-
-												// Computed
 											},
 										},
 									},
-
-									// Optional
-
-									// Computed
 								},
 							},
 						},
-
-						// Computed
 					},
 				},
 			},
-
 			// Computed
 			"lifecycle_details": {
 				Type:     schema.TypeString,

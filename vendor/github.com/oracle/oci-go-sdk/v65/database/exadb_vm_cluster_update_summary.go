@@ -47,6 +47,9 @@ type ExadbVmClusterUpdateSummary struct {
 
 	// The current state of the maintenance update. Dependent on value of `lastAction`.
 	LifecycleState ExadbVmClusterUpdateSummaryLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// True when selecting or applying this DB, Grid Infrastructure, or operating system software version requires older-version acknowledgment.
+	IsOlderVersionAcknowledgmentRequired *bool `mandatory:"false" json:"isOlderVersionAcknowledgmentRequired"`
 }
 
 func (m ExadbVmClusterUpdateSummary) String() string {

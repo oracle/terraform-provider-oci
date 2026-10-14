@@ -70,11 +70,6 @@ func JmsFleetCryptoAnalysisResultsDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"aggregation_mode": {
 										Type:     schema.TypeString,
 										Computed: true,

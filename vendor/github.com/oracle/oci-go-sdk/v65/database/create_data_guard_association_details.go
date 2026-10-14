@@ -48,6 +48,9 @@ type CreateDataGuardAssociationDetails interface {
 	// The database software image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	GetDatabaseSoftwareImageId() *string
 
+	// If true, the caller acknowledges selecting or applying an older DB, Grid Infrastructure, or operating system software version that is outside the latest default version window.
+	GetIsOlderVersionAcknowledged() *bool
+
 	GetSourceEncryptionKeyLocationDetails() EncryptionKeyLocationDetails
 
 	// True if active Data Guard is enabled.
@@ -63,6 +66,7 @@ type CreateDataGuardAssociationDetails interface {
 type createdataguardassociationdetails struct {
 	JsonData                           []byte
 	DatabaseSoftwareImageId            *string                                             `mandatory:"false" json:"databaseSoftwareImageId"`
+	IsOlderVersionAcknowledged         *bool                                               `mandatory:"false" json:"isOlderVersionAcknowledged"`
 	SourceEncryptionKeyLocationDetails encryptionkeylocationdetails                        `mandatory:"false" json:"sourceEncryptionKeyLocationDetails"`
 	IsActiveDataGuardEnabled           *bool                                               `mandatory:"false" json:"isActiveDataGuardEnabled"`
 	PeerDbUniqueName                   *string                                             `mandatory:"false" json:"peerDbUniqueName"`
@@ -88,6 +92,7 @@ func (m *createdataguardassociationdetails) UnmarshalJSON(data []byte) error {
 	m.ProtectionMode = s.Model.ProtectionMode
 	m.TransportType = s.Model.TransportType
 	m.DatabaseSoftwareImageId = s.Model.DatabaseSoftwareImageId
+	m.IsOlderVersionAcknowledged = s.Model.IsOlderVersionAcknowledged
 	m.SourceEncryptionKeyLocationDetails = s.Model.SourceEncryptionKeyLocationDetails
 	m.IsActiveDataGuardEnabled = s.Model.IsActiveDataGuardEnabled
 	m.PeerDbUniqueName = s.Model.PeerDbUniqueName
@@ -127,6 +132,11 @@ func (m *createdataguardassociationdetails) UnmarshalPolymorphicJSON(data []byte
 // GetDatabaseSoftwareImageId returns DatabaseSoftwareImageId
 func (m createdataguardassociationdetails) GetDatabaseSoftwareImageId() *string {
 	return m.DatabaseSoftwareImageId
+}
+
+// GetIsOlderVersionAcknowledged returns IsOlderVersionAcknowledged
+func (m createdataguardassociationdetails) GetIsOlderVersionAcknowledged() *bool {
+	return m.IsOlderVersionAcknowledged
 }
 
 // GetSourceEncryptionKeyLocationDetails returns SourceEncryptionKeyLocationDetails

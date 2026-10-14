@@ -24,6 +24,9 @@ type GiMinorVersionSummary struct {
 
 	// Grid Infrastructure Image Id
 	GridImageId *string `mandatory:"false" json:"gridImageId"`
+
+	// True when selecting or applying this DB, Grid Infrastructure, or operating system software version requires older-version acknowledgment.
+	IsOlderVersionAcknowledgmentRequired *bool `mandatory:"false" json:"isOlderVersionAcknowledgmentRequired"`
 }
 
 func (m GiMinorVersionSummary) String() string {

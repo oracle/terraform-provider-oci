@@ -850,6 +850,7 @@ dbmulticloud
 * oci\_dbmulticloud\_oracle\_db\_gcp\_key\_ring
 * oci\_dbmulticloud\_oracle\_db\_aws\_identity\_connector
 * oci\_dbmulticloud\_oracle\_db\_aws\_key
+* oci\_dbmulticloud\_oracle\_db\_aws\_key\_pool
 
 demand_signal
 

@@ -43,6 +43,9 @@ type UpdateOracleDbAwsKeyDetails struct {
 	// Oracle DB AWS Key resource name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB AWS Key Pool resource.
+	OracleDbAwsKeyPoolId *string `mandatory:"false" json:"oracleDbAwsKeyPoolId"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

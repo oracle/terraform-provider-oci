@@ -1337,13 +1337,13 @@ func containerInstanceWaitForWorkRequest(wId *string, entityType string, action 
 	response := oci_container_instances.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_container_instances.OperationStatusInProgress),
 			string(oci_container_instances.OperationStatusAccepted),
+			string(oci_container_instances.OperationStatusInProgress),
 			string(oci_container_instances.OperationStatusCanceling),
 		},
 		Target: []string{
-			string(oci_container_instances.OperationStatusSucceeded),
 			string(oci_container_instances.OperationStatusFailed),
+			string(oci_container_instances.OperationStatusSucceeded),
 			string(oci_container_instances.OperationStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {

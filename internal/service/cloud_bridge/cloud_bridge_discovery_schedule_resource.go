@@ -34,7 +34,6 @@ func CloudBridgeDiscoveryScheduleResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -54,7 +53,6 @@ func CloudBridgeDiscoveryScheduleResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-
 			// Computed
 			"lifecycle_details": {
 				Type:     schema.TypeString,

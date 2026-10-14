@@ -67,6 +67,8 @@ resource "oci_database_db_home" "test_db_home" {
 			provider_type = var.db_home_database_encryption_key_location_details_provider_type
 
 			#Optional
+			aws_encryption_key_id = oci_kms_key.test_key.id
+			aws_encryption_key_pool_id = oci_dataflow_pool.test_pool.id
 			azure_encryption_key_id = oci_kms_key.test_key.id
 			hsm_password = var.db_home_database_encryption_key_location_details_hsm_password
 		}
@@ -102,6 +104,8 @@ resource "oci_database_db_home" "test_db_home" {
 			provider_type = var.db_home_database_source_encryption_key_location_details_provider_type
 
 			#Optional
+			aws_encryption_key_id = oci_kms_key.test_key.id
+			aws_encryption_key_pool_id = oci_dataflow_pool.test_pool.id
 			azure_encryption_key_id = oci_kms_key.test_key.id
 			hsm_password = var.db_home_database_source_encryption_key_location_details_hsm_password
 		}
@@ -176,6 +180,8 @@ The following arguments are supported:
 		The database workload type.
 	* `defined_tags` - (Applicable when source=DB_BACKUP | NONE | VM_CLUSTER_BACKUP | VM_CLUSTER_NEW) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	* `encryption_key_location_details` - (Applicable when source=NONE | VM_CLUSTER_NEW) Types of providers supported for managing database encryption keys
+		* `aws_encryption_key_id` - (Required when provider_type=AWS) Provide the key OCID of a registered AWS key.
+		* `aws_encryption_key_pool_id` - (Applicable when provider_type=AWS) Provide the key pool OCID of a registered AWS key.
 		* `azure_encryption_key_id` - (Required when provider_type=AZURE) Provide the key OCID of a registered Azure key.
 		* `hsm_password` - (Required when provider_type=EXTERNAL) Provide the HSM password as you would in RDBMS for External HSM.
 		* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrating a database key to an External HSM. Use 'AZURE' for creating a new database or migrating a database key to Azure.
@@ -204,6 +210,7 @@ The following arguments are supported:
 	* `sid_prefix` - (Optional) Specifies a prefix for the `Oracle SID` of the database to be created. 
 	* `source_encryption_key_location_details` - (Applicable when source=DATABASE | DB_BACKUP | VM_CLUSTER_BACKUP | VM_CLUSTER_DATABASE) Types of providers supported for managing database encryption keys
 		* `aws_encryption_key_id` - (Required when provider_type=AWS) Provide the key OCID of a registered AWS key.
+		* `aws_encryption_key_pool_id` - (Applicable when provider_type=AWS) Provide the key pool OCID of a registered AWS key.
 	* `pluggable_databases` - (Applicable when source=DATABASE | DB_BACKUP | VM_CLUSTER_BACKUP) The list of pluggable databases that needs to be restored into new database.
 	* `sid_prefix` - (Applicable when source=DB_BACKUP | NONE | VM_CLUSTER_BACKUP | VM_CLUSTER_NEW) Specifies a prefix for the `Oracle SID` of the database to be created.
 	* `source_encryption_key_location_details` - (Applicable when source=DB_BACKUP | VM_CLUSTER_BACKUP) Types of providers supported for managing database encryption keys

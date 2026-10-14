@@ -35,21 +35,11 @@ func ContainerenginePodShapesDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"memory_options": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"default_per_ocpu_in_gbs": {
 										Type:     schema.TypeFloat,
 										Computed: true,
@@ -82,11 +72,6 @@ func ContainerenginePodShapesDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"default_per_ocpu_in_gbps": {
 										Type:     schema.TypeFloat,
 										Computed: true,
@@ -107,11 +92,6 @@ func ContainerenginePodShapesDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"max": {
 										Type:     schema.TypeFloat,
 										Computed: true,

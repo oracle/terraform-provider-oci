@@ -675,13 +675,13 @@ func networkLoadBalancerWaitForWorkRequest(wId *string, action oci_network_load_
 	response := oci_network_load_balancer.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_network_load_balancer.OperationStatusInProgress),
 			string(oci_network_load_balancer.OperationStatusAccepted),
+			string(oci_network_load_balancer.OperationStatusInProgress),
 			string(oci_network_load_balancer.OperationStatusCanceling),
 		},
 		Target: []string{
-			string(oci_network_load_balancer.OperationStatusSucceeded),
 			string(oci_network_load_balancer.OperationStatusFailed),
+			string(oci_network_load_balancer.OperationStatusSucceeded),
 			string(oci_network_load_balancer.OperationStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {

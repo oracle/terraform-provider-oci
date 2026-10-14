@@ -1,3 +1,18 @@
+## 9.10.0 (October 14, 2026)
+
+### Added
+- DEXREQ-9012: Database Migration Data Verification support
+- Support for ADBS: Essbase Integration as External App
+- Support for DBMCI - Key Pool for Oracle Database@AWS
+- Support for DBAAS - Key Pool for Oracle Database@AWS
+- Support OpenSearch master user authentication details
+
+### Bug Fix
+- cosmetic changes to reduce patches
+- Retry KMS key creation on DNS NXDOMAIN
+- TERSI-5525 correct identity tag default documentation references
+- Support DEFAULT validator type for identity tag
+
 ## 9.9.0 (October 6, 2026)
 
 ### Added

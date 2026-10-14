@@ -65,7 +65,6 @@ func DelegateAccessControlDelegationControlResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -115,7 +114,6 @@ func DelegateAccessControlDelegationControlResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
-
 			// Computed
 			"lifecycle_state_details": {
 				Type:     schema.TypeString,

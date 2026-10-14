@@ -41,7 +41,6 @@ func WaasAddressListResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -56,7 +55,6 @@ func WaasAddressListResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-
 			// Computed
 			"address_count": {
 				Type:     schema.TypeFloat,

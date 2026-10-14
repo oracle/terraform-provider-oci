@@ -31,21 +31,11 @@ func JmsPluginErrorAnalyticsDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"healthy_plugin_count": {
 										Type:     schema.TypeInt,
 										Computed: true,
@@ -55,11 +45,6 @@ func JmsPluginErrorAnalyticsDataSource() *schema.Resource {
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"plugin_error_analytic_count": {
 													Type:     schema.TypeInt,
 													Computed: true,

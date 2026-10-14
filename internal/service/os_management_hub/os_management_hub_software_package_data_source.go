@@ -40,11 +40,6 @@ func OsManagementHubSoftwarePackageDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"dependency": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -73,11 +68,6 @@ func OsManagementHubSoftwarePackageDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"checksum": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -133,11 +123,6 @@ func OsManagementHubSoftwarePackageDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"description": {
 							Type:     schema.TypeString,
 							Computed: true,

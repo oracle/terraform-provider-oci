@@ -331,13 +331,13 @@ func externalAsmWaitForWorkRequest(ctx context.Context, wId *string, entityType 
 	response := oci_database_management.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_database_management.WorkRequestStatusInProgress),
 			string(oci_database_management.WorkRequestStatusAccepted),
+			string(oci_database_management.WorkRequestStatusInProgress),
 			string(oci_database_management.WorkRequestStatusCanceling),
 		},
 		Target: []string{
-			string(oci_database_management.WorkRequestStatusSucceeded),
 			string(oci_database_management.WorkRequestStatusFailed),
+			string(oci_database_management.WorkRequestStatusSucceeded),
 			string(oci_database_management.WorkRequestStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {

@@ -249,6 +249,8 @@ var (
 )
 
 // issue-routing-tag: database_migration/default
+// Migration CRUD coverage is intentionally separate from Data Verification.
+// BDV datasource tests use TF_VAR_data_verification_migration_id, which must identify a completed migration.
 func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseMigrationMigrationResource_basic")
 	defer httpreplay.SaveScenario()

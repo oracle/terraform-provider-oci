@@ -34,6 +34,9 @@ type UpdateDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a grid infrastructure software image. This is a database software image of the type `GRID_IMAGE`.
 	GiSoftwareImageId *string `mandatory:"false" json:"giSoftwareImageId"`
+
+	// If true, the caller acknowledges selecting or applying an older DB, Grid Infrastructure, or operating system software version that is outside the latest default version window.
+	IsOlderVersionAcknowledged *bool `mandatory:"false" json:"isOlderVersionAcknowledged"`
 }
 
 func (m UpdateDetails) String() string {

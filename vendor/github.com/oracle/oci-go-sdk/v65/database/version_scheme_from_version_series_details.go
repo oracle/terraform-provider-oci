@@ -25,6 +25,9 @@ type VersionSchemeFromVersionSeriesDetails struct {
 	// /20160918/dbVersions?compartmentId=<compartmentId>&dbSystemShape=ExaDbXS
 	MajorVersion *string `mandatory:"true" json:"majorVersion"`
 
+	// If true, the caller acknowledges selecting or applying an older DB, Grid Infrastructure, or operating system software version that is outside the latest default version window.
+	IsOlderVersionAcknowledged *bool `mandatory:"false" json:"isOlderVersionAcknowledged"`
+
 	// The update should be applied on the database for the selected version preference. *_N represents the LATEST version
 	// For Ex: The current latest version is 23.7.0.0.0,
 	// If versionPreference selects option as ORACLE_DB_N then oracle applies the db update with LATEST version (i.e. 23.7.0.0.0)

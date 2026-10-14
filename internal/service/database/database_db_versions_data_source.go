@@ -51,11 +51,6 @@ func DatabaseDbVersionsDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"is_latest_for_major_version": {
 							Type:     schema.TypeBool,
 							Computed: true,

@@ -72,6 +72,7 @@ resource "oci_database_database" "test_database" {
 
 			#Optional
 			aws_encryption_key_id = oci_kms_key.test_key.id
+			aws_encryption_key_pool_id = oci_dataflow_pool.test_pool.id
 			azure_encryption_key_id = oci_kms_key.test_key.id
 			google_cloud_provider_encryption_key_id = oci_kms_key.test_key.id
 			hsm_password = var.database_database_encryption_key_location_details_hsm_password
@@ -112,6 +113,7 @@ resource "oci_database_database" "test_database" {
 
 			#Optional
 			aws_encryption_key_id = oci_kms_key.test_key.id
+			aws_encryption_key_pool_id = oci_dataflow_pool.test_pool.id
 			azure_encryption_key_id = oci_kms_key.test_key.id
 			google_cloud_provider_encryption_key_id = oci_kms_key.test_key.id
 			hsm_password = var.database_database_source_encryption_key_location_details_hsm_password
@@ -190,6 +192,7 @@ The following arguments are supported:
 	* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	* `encryption_key_location_details` - (Applicable when source=NONE) Types of providers supported for managing database encryption keys
 		* `aws_encryption_key_id` - (Required when provider_type=AWS) Provide the key OCID of a registered AWS key.
+		* `aws_encryption_key_pool_id` - (Applicable when provider_type=AWS) Provide the key pool OCID of a registered AWS key.
 		* `azure_encryption_key_id` - (Required when provider_type=AZURE) Provide the key OCID of a registered Azure key.
         * `google_cloud_provider_encryption_key_id` - (Required when provider_type=GCP) Provide the key OCID of a registered GCP key.
 		* `hsm_password` - (Required when provider_type=EXTERNAL) Provide the HSM password as you would in RDBMS for External HSM.
@@ -224,6 +227,7 @@ The following arguments are supported:
 	* `source_database_id` - (Required when source=DATAGUARD) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source database.
 	* `source_encryption_key_location_details` - (Applicable when source=DATAGUARD | DB_BACKUP) Types of providers supported for managing database encryption keys
 		* `aws_encryption_key_id` - (Required when provider_type=AWS) Provide the key OCID of a registered AWS key.
+		* `aws_encryption_key_pool_id` - (Applicable when provider_type=AWS) Provide the key pool OCID of a registered AWS key.
 		* `azure_encryption_key_id` - (Required when provider_type=AZURE) Provide the key OCID of a registered Azure key.
         * `google_cloud_provider_encryption_key_id` - (Required when provider_type=GCP) Provide the key OCID of a registered GCP key.
 		* `hsm_password` - (Required when provider_type=EXTERNAL) Provide the HSM password as you would in RDBMS for External HSM.
@@ -332,6 +336,7 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 * `encryption_key_location_details` - Types of providers supported for managing database encryption keys
 	* `aws_encryption_key_id` - Provide the key OCID of a registered AWS key.
+	* `aws_encryption_key_pool_id` - Provide the key pool OCID of a registered AWS key.
 	* `azure_encryption_key_id` - Provide the key OCID of a registered Azure key.
     * `google_cloud_provider_encryption_key_id` - Provide the key OCID of a registered GCP key.
 	* `hsm_password` - Provide the HSM password as you would in RDBMS for External HSM.

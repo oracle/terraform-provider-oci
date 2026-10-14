@@ -35,7 +35,6 @@ func CoreNatGatewayResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
 			"block_traffic": {
 				Type:     schema.TypeBool,
@@ -71,7 +70,6 @@ func CoreNatGatewayResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
-
 			// Computed
 			"nat_ip": {
 				Type:     schema.TypeString,

@@ -8,8 +8,12 @@ variable "private_key_path" {}
 variable "region" {}
 variable "compartment_id" {}
 
-variable "source_connection_oracle_id" {
-  default = ""
+variable "connection_databaseconnectiontype_connection_type" {
+  default = []
+}
+
+variable "connection_databaseconnectiontype_technology_type" {
+  default = []
 }
 
 
@@ -19,9 +23,7 @@ provider "oci" {
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
   private_key_path = var.private_key_path
-  auth             = "SecurityToken"
   region           = var.region
-
 }
 
 data "oci_database_migration_connection_databaseconnectiontypes" "test_connection_databaseconnectiontypes" {
@@ -29,7 +31,8 @@ data "oci_database_migration_connection_databaseconnectiontypes" "test_connectio
   compartment_id = var.compartment_id
 
   #Optional
-  connection_type      = ["ORACLE"]
-  source_connection_id = var.source_connection_oracle_id
-  technology_type      = ["OCI_AUTONOMOUS_DATABASE"]
+  connection_type      = var.connection_databaseconnectiontype_connection_type
+  source_connection_id = oci_database_migration_connection.test_connection.id
+  technology_type      = var.connection_databaseconnectiontype_technology_type
 }
+

@@ -57,7 +57,6 @@ func ClusterPlacementGroupsClusterPlacementGroupResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
 			"capabilities": {
 				Type:     schema.TypeList,
@@ -68,14 +67,12 @@ func ClusterPlacementGroupsClusterPlacementGroupResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"items": {
 							Type:     schema.TypeList,
 							Required: true,
 							ForceNew: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
 									"name": {
 										Type:     schema.TypeString,
 										Required: true,
@@ -86,8 +83,6 @@ func ClusterPlacementGroupsClusterPlacementGroupResource() *schema.Resource {
 										Required: true,
 										ForceNew: true,
 									},
-
-									// Optional
 									"additional_details": {
 										Type:     schema.TypeList,
 										Optional: true,
@@ -97,7 +92,6 @@ func ClusterPlacementGroupsClusterPlacementGroupResource() *schema.Resource {
 										MinItems: 1,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
 												"service_type": {
 													Type:             schema.TypeString,
 													Required:         true,
@@ -107,8 +101,6 @@ func ClusterPlacementGroupsClusterPlacementGroupResource() *schema.Resource {
 														"COMPUTE",
 													}, true),
 												},
-
-												// Optional
 												"cluster_placement_group_count": {
 													Type:     schema.TypeInt,
 													Optional: true,
@@ -133,20 +125,12 @@ func ClusterPlacementGroupsClusterPlacementGroupResource() *schema.Resource {
 													Computed: true,
 													ForceNew: true,
 												},
-
-												// Computed
 											},
 										},
 									},
-
-									// Computed
 								},
 							},
 						},
-
-						// Optional
-
-						// Computed
 					},
 				},
 			},
@@ -178,7 +162,6 @@ func ClusterPlacementGroupsClusterPlacementGroupResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"type": {
 							Type:     schema.TypeString,
 							Required: true,
@@ -189,10 +172,6 @@ func ClusterPlacementGroupsClusterPlacementGroupResource() *schema.Resource {
 							Required: true,
 							ForceNew: true,
 						},
-
-						// Optional
-
-						// Computed
 					},
 				},
 			},
@@ -206,7 +185,6 @@ func ClusterPlacementGroupsClusterPlacementGroupResource() *schema.Resource {
 					string(oci_cluster_placement_groups.ClusterPlacementGroupLifecycleStateActive),
 				}, true),
 			},
-
 			// Computed
 			"lifecycle_details": {
 				Type:     schema.TypeString,

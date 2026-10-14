@@ -44,9 +44,6 @@ func AdmRemediationRecipeResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
 						"exclusions": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -75,8 +72,6 @@ func AdmRemediationRecipeResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
-
-						// Computed
 					},
 				},
 			},
@@ -95,13 +90,10 @@ func AdmRemediationRecipeResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"subnet_id": {
 							Type:     schema.TypeString,
 							Required: true,
 						},
-
-						// Optional
 						"nsg_ids": {
 							Type:     schema.TypeSet,
 							Optional: true,
@@ -111,8 +103,6 @@ func AdmRemediationRecipeResource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
-
-						// Computed
 					},
 				},
 			},
@@ -123,7 +113,6 @@ func AdmRemediationRecipeResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"branch": {
 							Type:     schema.TypeString,
 							Required: true,
@@ -141,8 +130,6 @@ func AdmRemediationRecipeResource() *schema.Resource {
 								"OCI_CODE_REPOSITORY",
 							}, true),
 						},
-
-						// Optional
 						"build_file_location": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -173,8 +160,6 @@ func AdmRemediationRecipeResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
-
-						// Computed
 					},
 				},
 			},
@@ -185,7 +170,6 @@ func AdmRemediationRecipeResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"build_service_type": {
 							Type:             schema.TypeString,
 							Required:         true,
@@ -198,8 +182,6 @@ func AdmRemediationRecipeResource() *schema.Resource {
 								"OCI_DEVOPS_BUILD",
 							}, true),
 						},
-
-						// Optional
 						"additional_parameters": {
 							Type:     schema.TypeMap,
 							Optional: true,
@@ -246,12 +228,9 @@ func AdmRemediationRecipeResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
-
-						// Computed
 					},
 				},
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -281,7 +260,6 @@ func AdmRemediationRecipeResource() *schema.Resource {
 					string(oci_adm.RemediationRecipeLifecycleStateActive),
 				}, true),
 			},
-
 			// Computed
 			"system_tags": {
 				Type:     schema.TypeMap,

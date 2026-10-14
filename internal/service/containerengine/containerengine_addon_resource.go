@@ -329,13 +329,13 @@ func addonWaitForWorkRequest(wId *string, entityType string,
 	response := oci_containerengine.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_containerengine.WorkRequestStatusInProgress),
 			string(oci_containerengine.WorkRequestStatusAccepted),
+			string(oci_containerengine.WorkRequestStatusInProgress),
 			string(oci_containerengine.WorkRequestStatusCanceling),
 		},
 		Target: []string{
-			string(oci_containerengine.WorkRequestStatusSucceeded),
 			string(oci_containerengine.WorkRequestStatusFailed),
+			string(oci_containerengine.WorkRequestStatusSucceeded),
 			string(oci_containerengine.WorkRequestStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {

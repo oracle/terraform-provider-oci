@@ -279,13 +279,13 @@ func catalogMetastoreWaitForWorkRequest(wId *string, entityType string, action o
 	response := oci_datacatalog.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_datacatalog.WorkRequestStatusInProgress),
 			string(oci_datacatalog.WorkRequestStatusAccepted),
+			string(oci_datacatalog.WorkRequestStatusInProgress),
 			string(oci_datacatalog.WorkRequestStatusCanceling),
 		},
 		Target: []string{
-			string(oci_datacatalog.WorkRequestStatusSucceeded),
 			string(oci_datacatalog.WorkRequestStatusFailed),
+			string(oci_datacatalog.WorkRequestStatusSucceeded),
 			string(oci_datacatalog.WorkRequestStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {

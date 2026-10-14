@@ -10,6 +10,8 @@ variable "source_connection_container_oracle_id" {}
 
 variable "target_connection_oracle_id" {}
 
+variable "job_id" {}
+
 provider "oci" {
   auth                = "SecurityToken"
   config_file_profile = var.config_file_profile
@@ -42,4 +44,8 @@ resource "oci_database_migration_migration" "backcompat" {
       path = "/u01/app/oracle/dumpdir"
     }
   }
+}
+
+data "oci_database_migration_job" "backcompat" {
+  job_id = var.job_id
 }

@@ -32,21 +32,11 @@ func DataSafeSensitiveDataModelSensitiveTypesDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"sensitive_data_model_sensitive_type_count": {
 										Type:     schema.TypeString,
 										Computed: true,

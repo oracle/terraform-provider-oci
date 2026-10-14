@@ -42,7 +42,6 @@ func BatchBatchTaskEnvironmentResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -76,9 +75,6 @@ func BatchBatchTaskEnvironmentResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
 						"fs_group": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -97,8 +93,6 @@ func BatchBatchTaskEnvironmentResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
-
-						// Computed
 					},
 				},
 			},
@@ -109,7 +103,6 @@ func BatchBatchTaskEnvironmentResource() *schema.Resource {
 				ForceNew: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"local_mount_directory_path": {
 							Type:     schema.TypeString,
 							Required: true,
@@ -139,10 +132,6 @@ func BatchBatchTaskEnvironmentResource() *schema.Resource {
 								"NFS",
 							}, true),
 						},
-
-						// Optional
-
-						// Computed
 					},
 				},
 			},
@@ -152,7 +141,6 @@ func BatchBatchTaskEnvironmentResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
-
 			// Computed
 			"state": {
 				Type:     schema.TypeString,

@@ -167,6 +167,9 @@ type LaunchDbSystemBase interface {
 
 	// The number of compute servers for the DB system.
 	GetComputeCount() *int
+
+	// If true, the caller acknowledges selecting or applying an older DB, Grid Infrastructure, or operating system software version that is outside the latest default version window.
+	GetIsOlderVersionAcknowledged() *bool
 }
 
 type launchdbsystembase struct {
@@ -199,6 +202,7 @@ type launchdbsystembase struct {
 	DataCollectionOptions        *DataCollectionOptions                             `mandatory:"false" json:"dataCollectionOptions"`
 	ComputeModel                 LaunchDbSystemBaseComputeModelEnum                 `mandatory:"false" json:"computeModel,omitempty"`
 	ComputeCount                 *int                                               `mandatory:"false" json:"computeCount"`
+	IsOlderVersionAcknowledged   *bool                                              `mandatory:"false" json:"isOlderVersionAcknowledged"`
 	CompartmentId                *string                                            `mandatory:"true" json:"compartmentId"`
 	AvailabilityDomain           *string                                            `mandatory:"true" json:"availabilityDomain"`
 	SubnetId                     *string                                            `mandatory:"true" json:"subnetId"`
@@ -251,6 +255,7 @@ func (m *launchdbsystembase) UnmarshalJSON(data []byte) error {
 	m.DataCollectionOptions = s.Model.DataCollectionOptions
 	m.ComputeModel = s.Model.ComputeModel
 	m.ComputeCount = s.Model.ComputeCount
+	m.IsOlderVersionAcknowledged = s.Model.IsOlderVersionAcknowledged
 	m.Source = s.Model.Source
 
 	return err
@@ -429,6 +434,11 @@ func (m launchdbsystembase) GetComputeModel() LaunchDbSystemBaseComputeModelEnum
 // GetComputeCount returns ComputeCount
 func (m launchdbsystembase) GetComputeCount() *int {
 	return m.ComputeCount
+}
+
+// GetIsOlderVersionAcknowledged returns IsOlderVersionAcknowledged
+func (m launchdbsystembase) GetIsOlderVersionAcknowledged() *bool {
+	return m.IsOlderVersionAcknowledged
 }
 
 // GetCompartmentId returns CompartmentId

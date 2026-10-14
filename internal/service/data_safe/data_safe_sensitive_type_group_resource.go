@@ -36,7 +36,6 @@ func DataSafeSensitiveTypeGroupResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -61,7 +60,6 @@ func DataSafeSensitiveTypeGroupResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-
 			// Computed
 			"sensitive_type_count": {
 				Type:     schema.TypeInt,

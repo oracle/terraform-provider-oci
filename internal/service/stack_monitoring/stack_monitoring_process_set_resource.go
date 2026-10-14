@@ -42,15 +42,11 @@ func StackMonitoringProcessSetResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"items": {
 							Type:     schema.TypeList,
 							Required: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
 									"label": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -71,19 +67,12 @@ func StackMonitoringProcessSetResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
-
-									// Computed
 								},
 							},
 						},
-
-						// Optional
-
-						// Computed
 					},
 				},
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -98,7 +87,6 @@ func StackMonitoringProcessSetResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-
 			// Computed
 			"revision": {
 				Type:     schema.TypeString,

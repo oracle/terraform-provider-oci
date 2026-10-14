@@ -31,11 +31,6 @@ func CoreTunnelSecurityAssociationsDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"cpe_subnet": {
 							Type:     schema.TypeString,
 							Computed: true,

@@ -1002,6 +1002,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"essbase_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"graph_studio_url": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1434,6 +1438,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"essbase_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"graph_studio_url": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1770,6 +1778,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Computed: true,
 						},
 						"database_transforms_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"essbase_url": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -3524,6 +3536,10 @@ func AutonomousDatabaseConnectionUrlsToMap(obj *oci_database.AutonomousDatabaseC
 
 	if obj.DatabaseTransformsUrl != nil {
 		result["database_transforms_url"] = string(*obj.DatabaseTransformsUrl)
+	}
+
+	if obj.EssbaseUrl != nil {
+		result["essbase_url"] = string(*obj.EssbaseUrl)
 	}
 
 	if obj.GraphStudioUrl != nil {

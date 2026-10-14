@@ -27,11 +27,6 @@ func CoreVirtualCircuitBandwidthShapesDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"bandwidth_in_mbps": {
 							Type:     schema.TypeInt,
 							Computed: true,
