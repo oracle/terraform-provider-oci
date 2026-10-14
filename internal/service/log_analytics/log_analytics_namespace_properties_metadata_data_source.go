@@ -43,21 +43,11 @@ func LogAnalyticsNamespacePropertiesMetadataDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"default_value": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -75,11 +65,6 @@ func LogAnalyticsNamespacePropertiesMetadataDataSource() *schema.Resource {
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"constraints": {
 													Type:     schema.TypeString,
 													Computed: true,

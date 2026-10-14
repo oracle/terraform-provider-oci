@@ -30,6 +30,9 @@ type UpgradeDbSystemDetails struct {
 	// A valid Oracle Software (OS) version eg. Oracle Linux Server release 8
 	NewOsVersion *string `mandatory:"false" json:"newOsVersion"`
 
+	// If true, the caller acknowledges selecting or applying an older DB, Grid Infrastructure, or operating system software version that is outside the latest default version window.
+	IsOlderVersionAcknowledged *bool `mandatory:"false" json:"isOlderVersionAcknowledged"`
+
 	// If true, rollback time is updated even if operating system upgrade history contains errors.
 	IsSnapshotRetentionDaysForceUpdated *bool `mandatory:"false" json:"isSnapshotRetentionDaysForceUpdated"`
 }

@@ -96,6 +96,10 @@ const (
 	OperationTypeMoveReplicateResource          OperationTypeEnum = "MOVE_REPLICATE_RESOURCE"
 	OperationTypeRefreshReplicateResource       OperationTypeEnum = "REFRESH_REPLICATE_RESOURCE"
 	OperationTypeReplicate                      OperationTypeEnum = "REPLICATE"
+	OperationTypeCreateAwsKeyPool               OperationTypeEnum = "CREATE_AWS_KEY_POOL"
+	OperationTypeDeleteAwsKeyPool               OperationTypeEnum = "DELETE_AWS_KEY_POOL"
+	OperationTypeUpdateAwsKeyPool               OperationTypeEnum = "UPDATE_AWS_KEY_POOL"
+	OperationTypeMoveAwsKeyPool                 OperationTypeEnum = "MOVE_AWS_KEY_POOL"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -155,6 +159,10 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"MOVE_REPLICATE_RESOURCE":           OperationTypeMoveReplicateResource,
 	"REFRESH_REPLICATE_RESOURCE":        OperationTypeRefreshReplicateResource,
 	"REPLICATE":                         OperationTypeReplicate,
+	"CREATE_AWS_KEY_POOL":               OperationTypeCreateAwsKeyPool,
+	"DELETE_AWS_KEY_POOL":               OperationTypeDeleteAwsKeyPool,
+	"UPDATE_AWS_KEY_POOL":               OperationTypeUpdateAwsKeyPool,
+	"MOVE_AWS_KEY_POOL":                 OperationTypeMoveAwsKeyPool,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -214,6 +222,10 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"move_replicate_resource":           OperationTypeMoveReplicateResource,
 	"refresh_replicate_resource":        OperationTypeRefreshReplicateResource,
 	"replicate":                         OperationTypeReplicate,
+	"create_aws_key_pool":               OperationTypeCreateAwsKeyPool,
+	"delete_aws_key_pool":               OperationTypeDeleteAwsKeyPool,
+	"update_aws_key_pool":               OperationTypeUpdateAwsKeyPool,
+	"move_aws_key_pool":                 OperationTypeMoveAwsKeyPool,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -284,6 +296,10 @@ func GetOperationTypeEnumStringValues() []string {
 		"MOVE_REPLICATE_RESOURCE",
 		"REFRESH_REPLICATE_RESOURCE",
 		"REPLICATE",
+		"CREATE_AWS_KEY_POOL",
+		"DELETE_AWS_KEY_POOL",
+		"UPDATE_AWS_KEY_POOL",
+		"MOVE_AWS_KEY_POOL",
 	}
 }
 

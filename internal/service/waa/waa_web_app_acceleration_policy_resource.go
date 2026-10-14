@@ -35,7 +35,6 @@ func WaaWebAppAccelerationPolicyResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -63,16 +62,11 @@ func WaaWebAppAccelerationPolicyResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
 						"is_response_header_based_caching_enabled": {
 							Type:     schema.TypeBool,
 							Optional: true,
 							Computed: true,
 						},
-
-						// Computed
 					},
 				},
 			},
@@ -84,9 +78,6 @@ func WaaWebAppAccelerationPolicyResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
 						"gzip_compression": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -95,21 +86,14 @@ func WaaWebAppAccelerationPolicyResource() *schema.Resource {
 							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
 									"is_enabled": {
 										Type:     schema.TypeBool,
 										Optional: true,
 										Computed: true,
 									},
-
-									// Computed
 								},
 							},
 						},
-
-						// Computed
 					},
 				},
 			},
@@ -119,7 +103,6 @@ func WaaWebAppAccelerationPolicyResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-
 			// Computed
 			"lifecycle_details": {
 				Type:     schema.TypeString,
@@ -330,13 +313,13 @@ func webAppAccelerationPolicyWaitForWorkRequest(wId *string, entityType string, 
 	response := oci_waa.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_waa.WorkRequestStatusInProgress),
 			string(oci_waa.WorkRequestStatusAccepted),
+			string(oci_waa.WorkRequestStatusInProgress),
 			string(oci_waa.WorkRequestStatusCanceling),
 		},
 		Target: []string{
-			string(oci_waa.WorkRequestStatusSucceeded),
 			string(oci_waa.WorkRequestStatusFailed),
+			string(oci_waa.WorkRequestStatusSucceeded),
 			string(oci_waa.WorkRequestStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {

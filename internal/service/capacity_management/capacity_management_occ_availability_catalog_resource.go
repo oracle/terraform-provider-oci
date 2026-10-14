@@ -52,7 +52,6 @@ func CapacityManagementOccAvailabilityCatalogResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -81,20 +80,14 @@ func CapacityManagementOccAvailabilityCatalogResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"format_version": {
 							Type:     schema.TypeString,
 							Required: true,
 							ForceNew: true,
 						},
-
-						// Optional
-
-						// Computed
 					},
 				},
 			},
-
 			// Computed
 			"catalog_state": {
 				Type:     schema.TypeString,
@@ -105,11 +98,6 @@ func CapacityManagementOccAvailabilityCatalogResource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"available_quantity": {
 							Type:     schema.TypeString,
 							Computed: true,

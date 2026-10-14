@@ -37,7 +37,6 @@ func DatabasePluggableDatabaseSnapshotResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -54,7 +53,6 @@ func DatabasePluggableDatabaseSnapshotResource() *schema.Resource {
 				ForceNew: true,
 				Elem:     schema.TypeString,
 			},
-
 			// Computed
 			"cluster_id": {
 				Type:     schema.TypeString,

@@ -76,6 +76,9 @@ type CreateVmClusterDetails struct {
 	// The time zone to use for the VM cluster. For details, see DB System Time Zones (https://docs.oracle.com/iaas/Content/Database/References/timezones.htm).
 	TimeZone *string `mandatory:"false" json:"timeZone"`
 
+	// If true, the caller acknowledges selecting or applying an older DB, Grid Infrastructure, or operating system software version that is outside the latest default version window.
+	IsOlderVersionAcknowledged *bool `mandatory:"false" json:"isOlderVersionAcknowledged"`
+
 	// The list of Db server.
 	DbServers []string `mandatory:"false" json:"dbServers"`
 

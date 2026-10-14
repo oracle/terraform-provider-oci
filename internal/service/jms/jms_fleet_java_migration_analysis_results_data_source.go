@@ -54,11 +54,6 @@ func JmsFleetJavaMigrationAnalysisResultsDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"application_execution_type": {
 										Type:     schema.TypeString,
 										Computed: true,

@@ -292,12 +292,12 @@ func deploymentCertificateWaitForWorkRequest(ctx context.Context, wId *string, a
 	response := oci_golden_gate.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_golden_gate.OperationStatusInProgress),
 			string(oci_golden_gate.OperationStatusAccepted),
+			string(oci_golden_gate.OperationStatusInProgress),
 		},
 		Target: []string{
-			string(oci_golden_gate.OperationStatusSucceeded),
 			string(oci_golden_gate.OperationStatusFailed),
+			string(oci_golden_gate.OperationStatusSucceeded),
 			string(oci_golden_gate.OperationStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {

@@ -28,6 +28,9 @@ type CreateGiHomeDetails struct {
 	// The user-provided name for the Grid Infrastructure Home. The name does not need to be unique and gets dynamically generated if null.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// If true, the caller acknowledges selecting or applying an older DB, Grid Infrastructure, or operating system software version that is outside the latest default version window.
+	IsOlderVersionAcknowledged *bool `mandatory:"false" json:"isOlderVersionAcknowledged"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

@@ -287,13 +287,13 @@ func bdsInstanceApiKeyWaitForWorkRequest(wId *string, entityType string, action 
 	response := oci_bds.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_bds.OperationStatusInProgress),
 			string(oci_bds.OperationStatusAccepted),
+			string(oci_bds.OperationStatusInProgress),
 			string(oci_bds.OperationStatusCanceling),
 		},
 		Target: []string{
-			string(oci_bds.OperationStatusSucceeded),
 			string(oci_bds.OperationStatusFailed),
+			string(oci_bds.OperationStatusSucceeded),
 			string(oci_bds.OperationStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {

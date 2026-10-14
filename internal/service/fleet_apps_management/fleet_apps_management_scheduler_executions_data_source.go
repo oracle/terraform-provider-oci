@@ -73,21 +73,11 @@ func FleetAppsManagementSchedulerExecutionsDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"activity_id": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -151,11 +141,6 @@ func FleetAppsManagementSchedulerExecutionsDataSource() *schema.Resource {
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"display_name": {
 													Type:     schema.TypeString,
 													Computed: true,

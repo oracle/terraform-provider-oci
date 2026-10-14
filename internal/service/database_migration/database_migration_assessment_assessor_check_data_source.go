@@ -47,11 +47,6 @@ func DatabaseMigrationAssessmentAssessorCheckDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"description": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -80,11 +75,6 @@ func DatabaseMigrationAssessmentAssessorCheckDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"description": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -102,11 +92,6 @@ func DatabaseMigrationAssessmentAssessorCheckDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"description": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -128,11 +113,6 @@ func DatabaseMigrationAssessmentAssessorCheckDataSource() *schema.Resource {
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"default_value": {
 													Type:     schema.TypeString,
 													Computed: true,
@@ -166,11 +146,6 @@ func DatabaseMigrationAssessmentAssessorCheckDataSource() *schema.Resource {
 													Computed: true,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
-															// Required
-
-															// Optional
-
-															// Computed
 															"description": {
 																Type:     schema.TypeString,
 																Computed: true,
@@ -208,11 +183,6 @@ func DatabaseMigrationAssessmentAssessorCheckDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"display_name": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -261,11 +231,6 @@ func DatabaseMigrationAssessmentAssessorCheckDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"bucket": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -286,11 +251,6 @@ func DatabaseMigrationAssessmentAssessorCheckDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"object_name_column": {
 							Type:     schema.TypeString,
 							Computed: true,

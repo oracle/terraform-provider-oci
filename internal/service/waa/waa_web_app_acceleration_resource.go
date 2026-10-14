@@ -245,13 +245,13 @@ func webAppAccelerationWaitForWorkRequest(wId *string, entityType string, action
 	response := oci_waa.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_waa.WorkRequestStatusInProgress),
 			string(oci_waa.WorkRequestStatusAccepted),
+			string(oci_waa.WorkRequestStatusInProgress),
 			string(oci_waa.WorkRequestStatusCanceling),
 		},
 		Target: []string{
-			string(oci_waa.WorkRequestStatusSucceeded),
 			string(oci_waa.WorkRequestStatusFailed),
+			string(oci_waa.WorkRequestStatusSucceeded),
 			string(oci_waa.WorkRequestStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {

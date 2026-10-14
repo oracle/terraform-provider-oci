@@ -34,6 +34,9 @@ type UpdateOracleDbAwsKeyRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// If true, removes the key from its key pool even when it is currently in use; otherwise the request is rejected.
+	IsForceDeleteFromKeyPool *bool `mandatory:"false" contributesTo:"query" name:"isForceDeleteFromKeyPool"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

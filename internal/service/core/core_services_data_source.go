@@ -23,11 +23,6 @@ func CoreServicesDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"cidr_block": {
 							Type:     schema.TypeString,
 							Computed: true,

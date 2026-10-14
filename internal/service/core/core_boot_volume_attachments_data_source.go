@@ -39,7 +39,6 @@ func CoreBootVolumeAttachmentsDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"boot_volume_id": {
 							Type:     schema.TypeString,
 							Required: true,
@@ -48,8 +47,6 @@ func CoreBootVolumeAttachmentsDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Required: true,
 						},
-
-						// Optional
 						"display_name": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -60,8 +57,6 @@ func CoreBootVolumeAttachmentsDataSource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
-
-						// Computed
 						"availability_domain": {
 							Type:     schema.TypeString,
 							Computed: true,

@@ -1032,13 +1032,13 @@ func integrationInstanceWaitForWorkRequest(wId *string, entityType string, actio
 	response := oci_integration.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_integration.WorkRequestStatusInProgress),
 			string(oci_integration.WorkRequestStatusAccepted),
+			string(oci_integration.WorkRequestStatusInProgress),
 			string(oci_integration.WorkRequestStatusCanceling),
 		},
 		Target: []string{
-			string(oci_integration.WorkRequestStatusSucceeded),
 			string(oci_integration.WorkRequestStatusFailed),
+			string(oci_integration.WorkRequestStatusSucceeded),
 			string(oci_integration.WorkRequestStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {

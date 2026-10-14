@@ -31,7 +31,6 @@ func DatabaseManagementCloudAsmInstanceResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -46,7 +45,6 @@ func DatabaseManagementCloudAsmInstanceResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-
 			// Computed
 			"adr_home_directory": {
 				Type:     schema.TypeString,

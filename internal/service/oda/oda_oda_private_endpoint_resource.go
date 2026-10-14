@@ -283,8 +283,8 @@ func odaPrivateEndpointWaitForWorkRequest(wId *string, entityType string, action
 	response := oci_oda.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_oda.WorkRequestStatusInProgress),
 			string(oci_oda.WorkRequestStatusAccepted),
+			string(oci_oda.WorkRequestStatusInProgress),
 			string(oci_oda.WorkRequestStatusCanceling),
 		},
 		Target: []string{

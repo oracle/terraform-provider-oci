@@ -36,7 +36,6 @@ func JmsJmsPluginResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
 			"agent_type": {
 				Type:     schema.TypeString,
@@ -62,7 +61,6 @@ func JmsJmsPluginResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-
 			// Computed
 			"availability_status": {
 				Type:     schema.TypeString,

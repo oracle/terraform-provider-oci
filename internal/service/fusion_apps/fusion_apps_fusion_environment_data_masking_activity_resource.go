@@ -185,13 +185,13 @@ func fusionEnvironmentDataMaskingActivityWaitForWorkRequest(wId *string, entityT
 	response := oci_fusion_apps.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_fusion_apps.WorkRequestStatusInProgress),
 			string(oci_fusion_apps.WorkRequestStatusAccepted),
+			string(oci_fusion_apps.WorkRequestStatusInProgress),
 			string(oci_fusion_apps.WorkRequestStatusCanceling),
 		},
 		Target: []string{
-			string(oci_fusion_apps.WorkRequestStatusSucceeded),
 			string(oci_fusion_apps.WorkRequestStatusFailed),
+			string(oci_fusion_apps.WorkRequestStatusSucceeded),
 			string(oci_fusion_apps.WorkRequestStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {

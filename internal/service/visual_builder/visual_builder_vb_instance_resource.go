@@ -525,13 +525,13 @@ func vbInstanceWaitForWorkRequest(wId *string, entityType string, action oci_vis
 	response := oci_visual_builder.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_visual_builder.WorkRequestStatusInProgress),
 			string(oci_visual_builder.WorkRequestStatusAccepted),
+			string(oci_visual_builder.WorkRequestStatusInProgress),
 			string(oci_visual_builder.WorkRequestStatusCanceling),
 		},
 		Target: []string{
-			string(oci_visual_builder.WorkRequestStatusSucceeded),
 			string(oci_visual_builder.WorkRequestStatusFailed),
+			string(oci_visual_builder.WorkRequestStatusSucceeded),
 			string(oci_visual_builder.WorkRequestStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {

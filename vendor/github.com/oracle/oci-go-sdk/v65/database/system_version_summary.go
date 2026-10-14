@@ -26,6 +26,9 @@ type SystemVersionSummary struct {
 
 	// Compatible Exadata system versions for a given shape and GI version.
 	SystemVersions []string `mandatory:"false" json:"systemVersions"`
+
+	// Compatible Exadata system versions with their individual older-version acknowledgment requirements.
+	SystemVersionDetails []SystemVersionMinorVersionSummary `mandatory:"false" json:"systemVersionDetails"`
 }
 
 func (m SystemVersionSummary) String() string {

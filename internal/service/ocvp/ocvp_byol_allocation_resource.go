@@ -48,7 +48,6 @@ func OcvpByolAllocationResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -63,7 +62,6 @@ func OcvpByolAllocationResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-
 			// Computed
 			"available_units": {
 				Type:     schema.TypeInt,
@@ -291,13 +289,13 @@ func byolAllocationWaitForWorkRequest(ctx context.Context, wId *string, entityTy
 	response := oci_ocvp.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_ocvp.OperationStatusInProgress),
 			string(oci_ocvp.OperationStatusAccepted),
+			string(oci_ocvp.OperationStatusInProgress),
 			string(oci_ocvp.OperationStatusCanceling),
 		},
 		Target: []string{
-			string(oci_ocvp.OperationStatusSucceeded),
 			string(oci_ocvp.OperationStatusFailed),
+			string(oci_ocvp.OperationStatusSucceeded),
 			string(oci_ocvp.OperationStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {

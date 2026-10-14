@@ -39,11 +39,6 @@ func ManagementAgentManagementAgentImagesDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"checksum": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -57,11 +52,6 @@ func ManagementAgentManagementAgentImagesDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"checksum": {
 										Type:     schema.TypeString,
 										Computed: true,

@@ -420,13 +420,13 @@ func queueWaitForWorkRequest(wId *string, entityType string, action oci_queue.Ac
 	response := oci_queue.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
 		Pending: []string{
-			string(oci_queue.OperationStatusInProgress),
 			string(oci_queue.OperationStatusAccepted),
+			string(oci_queue.OperationStatusInProgress),
 			string(oci_queue.OperationStatusCanceling),
 		},
 		Target: []string{
-			string(oci_queue.OperationStatusSucceeded),
 			string(oci_queue.OperationStatusFailed),
+			string(oci_queue.OperationStatusSucceeded),
 			string(oci_queue.OperationStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {

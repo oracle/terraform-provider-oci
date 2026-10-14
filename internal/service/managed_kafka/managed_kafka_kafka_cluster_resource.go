@@ -38,7 +38,6 @@ func ManagedKafkaKafkaClusterResource() *schema.Resource {
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"subnets": {
 							Type:     schema.TypeList,
 							Required: true,
@@ -46,10 +45,6 @@ func ManagedKafkaKafkaClusterResource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
-
-						// Optional
-
-						// Computed
 					},
 				},
 			},
@@ -60,7 +55,6 @@ func ManagedKafkaKafkaClusterResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"node_count": {
 							Type:     schema.TypeInt,
 							Required: true,
@@ -69,8 +63,6 @@ func ManagedKafkaKafkaClusterResource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Required: true,
 						},
-
-						// Optional
 						"node_shape": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -81,8 +73,6 @@ func ManagedKafkaKafkaClusterResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
-
-						// Computed
 					},
 				},
 			},
@@ -112,7 +102,6 @@ func ManagedKafkaKafkaClusterResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
 			"client_certificate_bundle": {
 				Type:     schema.TypeString,
@@ -137,18 +126,12 @@ func ManagedKafkaKafkaClusterResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-
 			// Computed
 			"kafka_bootstrap_urls": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"name": {
 							Type:     schema.TypeString,
 							Computed: true,

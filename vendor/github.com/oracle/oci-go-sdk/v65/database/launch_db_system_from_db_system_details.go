@@ -166,6 +166,9 @@ type LaunchDbSystemFromDbSystemDetails struct {
 	// The number of compute servers for the DB system.
 	ComputeCount *int `mandatory:"false" json:"computeCount"`
 
+	// If true, the caller acknowledges selecting or applying an older DB, Grid Infrastructure, or operating system software version that is outside the latest default version window.
+	IsOlderVersionAcknowledged *bool `mandatory:"false" json:"isOlderVersionAcknowledged"`
+
 	// The Oracle license model that applies to all the databases on the DB system. The default is LICENSE_INCLUDED.
 	LicenseModel LaunchDbSystemFromDbSystemDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
@@ -339,6 +342,11 @@ func (m LaunchDbSystemFromDbSystemDetails) GetComputeModel() LaunchDbSystemBaseC
 // GetComputeCount returns ComputeCount
 func (m LaunchDbSystemFromDbSystemDetails) GetComputeCount() *int {
 	return m.ComputeCount
+}
+
+// GetIsOlderVersionAcknowledged returns IsOlderVersionAcknowledged
+func (m LaunchDbSystemFromDbSystemDetails) GetIsOlderVersionAcknowledged() *bool {
+	return m.IsOlderVersionAcknowledged
 }
 
 func (m LaunchDbSystemFromDbSystemDetails) String() string {

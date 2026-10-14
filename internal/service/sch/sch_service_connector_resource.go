@@ -803,13 +803,13 @@ func serviceConnectorWaitForWorkRequest(wId *string, entityType string, action o
 	response := oci_sch.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_sch.OperationStatusInProgress),
 			string(oci_sch.OperationStatusAccepted),
+			string(oci_sch.OperationStatusInProgress),
 			string(oci_sch.OperationStatusCanceling),
 		},
 		Target: []string{
-			string(oci_sch.OperationStatusSucceeded),
 			string(oci_sch.OperationStatusFailed),
+			string(oci_sch.OperationStatusSucceeded),
 			string(oci_sch.OperationStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {

@@ -35,7 +35,6 @@ func GenerativeAiRoutingProfileResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -63,9 +62,6 @@ func GenerativeAiRoutingProfileResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
 						"allowed_models": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -74,8 +70,6 @@ func GenerativeAiRoutingProfileResource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
-
-						// Computed
 					},
 				},
 			},
@@ -87,9 +81,6 @@ func GenerativeAiRoutingProfileResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
 						"allowed_regions": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -98,12 +89,9 @@ func GenerativeAiRoutingProfileResource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
-
-						// Computed
 					},
 				},
 			},
-
 			// Computed
 			"lifecycle_details": {
 				Type:     schema.TypeString,
@@ -114,16 +102,11 @@ func GenerativeAiRoutingProfileResource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
 						"compartment_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-
-						// Computed
 						"defined_tags": {
 							Type:     schema.TypeMap,
 							Computed: true,
@@ -155,11 +138,6 @@ func GenerativeAiRoutingProfileResource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"allowed_models": {
 										Type:     schema.TypeList,
 										Computed: true,
@@ -175,11 +153,6 @@ func GenerativeAiRoutingProfileResource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"allowed_regions": {
 										Type:     schema.TypeList,
 										Computed: true,

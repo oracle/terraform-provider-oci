@@ -27,11 +27,6 @@ func DelegateAccessControlDelegatedResourceAccessRequestDataSource() *schema.Res
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"approval_action": {
 							Type:     schema.TypeString,
 							Computed: true,

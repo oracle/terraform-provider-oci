@@ -39,11 +39,6 @@ func BdsBdsInstanceNodeBackupsDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"backup_trigger_type": {
 							Type:     schema.TypeString,
 							Computed: true,

@@ -44,7 +44,6 @@ func GenerativeAiAgentProvisionedCapacityResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Required: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -64,7 +63,6 @@ func GenerativeAiAgentProvisionedCapacityResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-
 			// Computed
 			"state": {
 				Type:     schema.TypeString,

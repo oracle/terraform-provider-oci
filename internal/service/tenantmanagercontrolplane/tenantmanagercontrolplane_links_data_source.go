@@ -44,11 +44,6 @@ func TenantmanagercontrolplaneLinksDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"child_tenancy_id": {
 										Type:     schema.TypeString,
 										Computed: true,

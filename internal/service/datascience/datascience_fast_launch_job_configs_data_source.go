@@ -27,11 +27,6 @@ func DatascienceFastLaunchJobConfigsDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"core_count": {
 							Type:     schema.TypeInt,
 							Computed: true,

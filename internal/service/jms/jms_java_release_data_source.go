@@ -34,11 +34,6 @@ func JmsJavaReleaseDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"approximate_file_size_in_bytes": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -103,11 +98,6 @@ func JmsJavaReleaseDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"display_name": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -133,11 +123,6 @@ func JmsJavaReleaseDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"approximate_file_size_in_bytes": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -224,11 +209,6 @@ func JmsJavaReleaseDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"display_name": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -253,11 +233,6 @@ func JmsJavaReleaseDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"display_name": {
 							Type:     schema.TypeString,
 							Computed: true,

@@ -56,11 +56,6 @@ func LogAnalyticsNamespaceTemplatesDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"compartment_id": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -87,11 +82,6 @@ func LogAnalyticsNamespaceTemplatesDataSource() *schema.Resource {
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"name": {
 													Type:     schema.TypeString,
 													Computed: true,

@@ -50,31 +50,16 @@ func CapacityManagementOccHandoverResourceBlocksDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"associated_capacity_requests": {
 										Type:     schema.TypeList,
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"handover_quantity": {
 													Type:     schema.TypeString,
 													Computed: true,
@@ -115,11 +100,6 @@ func CapacityManagementOccHandoverResourceBlocksDataSource() *schema.Resource {
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"availability_domain": {
 													Type:     schema.TypeString,
 													Computed: true,

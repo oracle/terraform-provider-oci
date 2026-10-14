@@ -38,11 +38,6 @@ func LustreFileStorageObjectStorageLinkSyncJobsDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"bytes_transferred": {
 										Type:     schema.TypeString,
 										Computed: true,

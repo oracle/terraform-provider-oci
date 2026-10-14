@@ -134,6 +134,11 @@ type DatabaseSummary struct {
 
 	// The patch version of the database.
 	PatchVersion *string `mandatory:"false" json:"patchVersion"`
+
+	// The Data Safe status of the database.
+	DataSafeState DatabaseSummaryDataSafeStateEnum `mandatory:"false" json:"dataSafeState,omitempty"`
+
+	DataSafeRegistrationDetails *DataSafeRegistrationDetails `mandatory:"false" json:"dataSafeRegistrationDetails"`
 }
 
 func (m DatabaseSummary) String() string {
@@ -151,6 +156,9 @@ func (m DatabaseSummary) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingDatabaseSummaryHomeTypeEnum(string(m.HomeType)); !ok && m.HomeType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HomeType: %s. Supported values are: %s.", m.HomeType, strings.Join(GetDatabaseSummaryHomeTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDatabaseSummaryDataSafeStateEnum(string(m.DataSafeState)); !ok && m.DataSafeState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataSafeState: %s. Supported values are: %s.", m.DataSafeState, strings.Join(GetDatabaseSummaryDataSafeStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -194,6 +202,8 @@ func (m *DatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		ManagedSoftwareUpdateDetails               *ManagedSoftwareUpdateDetails       `json:"managedSoftwareUpdateDetails"`
 		HomeType                                   DatabaseSummaryHomeTypeEnum         `json:"homeType"`
 		PatchVersion                               *string                             `json:"patchVersion"`
+		DataSafeState                              DatabaseSummaryDataSafeStateEnum    `json:"dataSafeState"`
+		DataSafeRegistrationDetails                *DataSafeRegistrationDetails        `json:"dataSafeRegistrationDetails"`
 		Id                                         *string                             `json:"id"`
 		CompartmentId                              *string                             `json:"compartmentId"`
 		DbName                                     *string                             `json:"dbName"`
@@ -279,6 +289,10 @@ func (m *DatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 	m.HomeType = model.HomeType
 
 	m.PatchVersion = model.PatchVersion
+
+	m.DataSafeState = model.DataSafeState
+
+	m.DataSafeRegistrationDetails = model.DataSafeRegistrationDetails
 
 	m.Id = model.Id
 
@@ -406,5 +420,51 @@ func GetDatabaseSummaryHomeTypeEnumStringValues() []string {
 // GetMappingDatabaseSummaryHomeTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDatabaseSummaryHomeTypeEnum(val string) (DatabaseSummaryHomeTypeEnum, bool) {
 	enum, ok := mappingDatabaseSummaryHomeTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DatabaseSummaryDataSafeStateEnum Enum with underlying type: string
+type DatabaseSummaryDataSafeStateEnum string
+
+// Set of constants representing the allowable values for DatabaseSummaryDataSafeStateEnum
+const (
+	DatabaseSummaryDataSafeStateEnabled  DatabaseSummaryDataSafeStateEnum = "ENABLED"
+	DatabaseSummaryDataSafeStateDisabled DatabaseSummaryDataSafeStateEnum = "DISABLED"
+	DatabaseSummaryDataSafeStateFailed   DatabaseSummaryDataSafeStateEnum = "FAILED"
+)
+
+var mappingDatabaseSummaryDataSafeStateEnum = map[string]DatabaseSummaryDataSafeStateEnum{
+	"ENABLED":  DatabaseSummaryDataSafeStateEnabled,
+	"DISABLED": DatabaseSummaryDataSafeStateDisabled,
+	"FAILED":   DatabaseSummaryDataSafeStateFailed,
+}
+
+var mappingDatabaseSummaryDataSafeStateEnumLowerCase = map[string]DatabaseSummaryDataSafeStateEnum{
+	"enabled":  DatabaseSummaryDataSafeStateEnabled,
+	"disabled": DatabaseSummaryDataSafeStateDisabled,
+	"failed":   DatabaseSummaryDataSafeStateFailed,
+}
+
+// GetDatabaseSummaryDataSafeStateEnumValues Enumerates the set of values for DatabaseSummaryDataSafeStateEnum
+func GetDatabaseSummaryDataSafeStateEnumValues() []DatabaseSummaryDataSafeStateEnum {
+	values := make([]DatabaseSummaryDataSafeStateEnum, 0)
+	for _, v := range mappingDatabaseSummaryDataSafeStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDatabaseSummaryDataSafeStateEnumStringValues Enumerates the set of values in String for DatabaseSummaryDataSafeStateEnum
+func GetDatabaseSummaryDataSafeStateEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+		"FAILED",
+	}
+}
+
+// GetMappingDatabaseSummaryDataSafeStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDatabaseSummaryDataSafeStateEnum(val string) (DatabaseSummaryDataSafeStateEnum, bool) {
+	enum, ok := mappingDatabaseSummaryDataSafeStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

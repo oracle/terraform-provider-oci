@@ -97,7 +97,7 @@ type CreateAutonomousDatabaseDetails struct {
 	// If set to `TRUE`, indicates that an Autonomous AI Database preview version is being provisioned, and that the preview version's terms of service have been accepted. Note that preview version software is only available for Autonomous AI Database Serverless instances (https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/).
 	IsPreviewVersionWithServiceTermsAccepted *bool `mandatory:"false" json:"isPreviewVersionWithServiceTermsAccepted"`
 
-	// Indicates if auto scaling is enabled for the Autonomous AI Database CPU core count. The default value is `TRUE`.
+	// Indicates if auto scaling is enabled for the Autonomous AI Database CPU core count. The default value is `FALSE`.
 	IsAutoScalingEnabled *bool `mandatory:"false" json:"isAutoScalingEnabled"`
 
 	// Autonomous AI Database for Developers are fixed-shape Autonomous AI Databases that developers can use to build and test new applications. On Serverless, these are low-cost and billed per instance, on Dedicated and Cloud@Customer there is no additional cost to create Developer databases. Developer databases come with limited resources and is not intended for large-scale testing and production deployments. When you need more compute or storage resources, you may upgrade to a full paid production database.
@@ -198,6 +198,7 @@ type CreateAutonomousDatabaseDetails struct {
 	// When you specify 23ai for dbversion, the system will provision a 23ai database, but the UI will display it as 26ai.
 	// When you specify 26ai for dbversion, the system will provision and display a 26ai database as expected.
 	// For new databases, it is recommended to use either 19c or 26ai.
+	// The default database version is the Oracle-recommended version. You can retrieve the default DB version by calling the ListAutonomousDbVersions operation.
 	// **Note** Starting December 2026, 23ai will not be supported as a valid value for this parameter.
 	DbVersion *string `mandatory:"false" json:"dbVersion"`
 

@@ -35,7 +35,6 @@ func ServiceCatalogServiceCatalogAssociationResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
 			"entity_type": {
 				Type:     schema.TypeString,
@@ -43,7 +42,6 @@ func ServiceCatalogServiceCatalogAssociationResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
-
 			// Computed
 			"time_created": {
 				Type:     schema.TypeString,

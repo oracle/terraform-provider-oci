@@ -39,11 +39,6 @@ func DataSafeSecurityPolicyDeploymentSecurityPolicyEntryStateDataSource() *schem
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"datasafe_user_exclusion_status": {
 							Type:     schema.TypeString,
 							Computed: true,

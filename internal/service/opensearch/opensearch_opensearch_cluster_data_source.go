@@ -243,6 +243,12 @@ func (s *OpensearchOpensearchClusterDataSourceCrud) SetData() error {
 		s.D.Set("outbound_cluster_config", nil)
 	}
 
+	if s.Res.RemoteReindexTrustConfig != nil {
+		s.D.Set("remote_reindex_trust_config", []interface{}{RemoteReindexTrustConfigToMap(s.Res.RemoteReindexTrustConfig)})
+	} else {
+		s.D.Set("remote_reindex_trust_config", nil)
+	}
+
 	s.D.Set("reverse_connection_endpoint_customer_ips", s.Res.ReverseConnectionEndpointCustomerIps)
 
 	reverseConnectionEndpoints := []interface{}{}

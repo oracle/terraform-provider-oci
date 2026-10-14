@@ -50,21 +50,11 @@ func OsubSubscriptionRatecardsDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"currency": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"iso_code": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -101,11 +91,6 @@ func OsubSubscriptionRatecardsDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"billing_category": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -138,11 +123,6 @@ func OsubSubscriptionRatecardsDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"net_unit_price": {
 										Type:     schema.TypeString,
 										Computed: true,

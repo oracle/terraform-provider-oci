@@ -88,6 +88,11 @@ func DbmulticloudOracleDbAwsKeyResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"oracle_db_aws_key_pool_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"properties": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -107,8 +112,16 @@ func DbmulticloudOracleDbAwsKeyResource() *schema.Resource {
 			},
 
 			// Computed
+			"is_oracle_aws_key_used": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"lifecycle_state_details": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"ref_count": {
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 			"replication_metadata": {
@@ -291,6 +304,11 @@ func (s *DbmulticloudOracleDbAwsKeyResourceCrud) CreateWithContext(ctx context.C
 		request.Location = &tmp
 	}
 
+	if oracleDbAwsKeyPoolId, ok := s.D.GetOkExists("oracle_db_aws_key_pool_id"); ok {
+		tmp := oracleDbAwsKeyPoolId.(string)
+		request.OracleDbAwsKeyPoolId = &tmp
+	}
+
 	if oracleDbConnectorId, ok := s.D.GetOkExists("oracle_db_connector_id"); ok {
 		tmp := oracleDbConnectorId.(string)
 		request.OracleDbConnectorId = &tmp
@@ -402,7 +420,7 @@ func oracleDbAwsKeyWaitForWorkRequest(ctx context.Context, wId *string, entityTy
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -467,8 +485,14 @@ func (s *DbmulticloudOracleDbAwsKeyResourceCrud) GetWithContext(ctx context.Cont
 
 func (s *DbmulticloudOracleDbAwsKeyResourceCrud) UpdateWithContext(ctx context.Context) error {
 
-	if s.D.HasChange("action") || s.D.HasChange("target_region") {
-		err := s.ReplicateOracleDbAwsKey()
+	if _, ok := s.D.GetOkExists("oracleDbAwsConnectorId"); ok && s.D.HasChange("oracleDbAwsConnectorId") {
+		err := s.RefreshOracleDbAwsKey(ctx)
+		if err != nil {
+			return err
+		}
+	}
+	if _, ok := s.D.GetOkExists("action"); ok && s.D.HasChange("action") {
+		err := s.ReplicateOracleDbAwsKey(ctx)
 		if err != nil {
 			return err
 		}
@@ -505,8 +529,18 @@ func (s *DbmulticloudOracleDbAwsKeyResourceCrud) UpdateWithContext(ctx context.C
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isForceDeleteFromKeyPool, ok := s.D.GetOkExists("is_force_delete_from_key_pool"); ok {
+		tmp := isForceDeleteFromKeyPool.(bool)
+		request.IsForceDeleteFromKeyPool = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.OracleDbAwsKeyId = &tmp
+
+	if oracleDbAwsKeyPoolId, ok := s.D.GetOkExists("oracle_db_aws_key_pool_id"); ok {
+		tmp := oracleDbAwsKeyPoolId.(string)
+		request.OracleDbAwsKeyPoolId = &tmp
+	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
 
@@ -535,7 +569,7 @@ func (s *DbmulticloudOracleDbAwsKeyResourceCrud) waitForAwsKeyActive(ctx context
 		Timeout: timeout,
 	}
 
-	_, err := stateConf.WaitForState()
+	_, err := stateConf.WaitForStateContext(ctx)
 	return err
 }
 
@@ -586,6 +620,10 @@ func (s *DbmulticloudOracleDbAwsKeyResourceCrud) SetData() error {
 		s.D.Set("is_aws_key_enabled", *s.Res.IsAwsKeyEnabled)
 	}
 
+	if s.Res.IsOracleAwsKeyUsed != nil {
+		s.D.Set("is_oracle_aws_key_used", *s.Res.IsOracleAwsKeyUsed)
+	}
+
 	if s.Res.LifecycleStateDetails != nil {
 		s.D.Set("lifecycle_state_details", *s.Res.LifecycleStateDetails)
 	}
@@ -594,11 +632,19 @@ func (s *DbmulticloudOracleDbAwsKeyResourceCrud) SetData() error {
 		s.D.Set("location", *s.Res.Location)
 	}
 
+	if s.Res.OracleDbAwsKeyPoolId != nil {
+		s.D.Set("oracle_db_aws_key_pool_id", *s.Res.OracleDbAwsKeyPoolId)
+	}
+
 	if s.Res.OracleDbConnectorId != nil {
 		s.D.Set("oracle_db_connector_id", *s.Res.OracleDbConnectorId)
 	}
 
 	s.D.Set("properties", s.Res.Properties)
+
+	if s.Res.RefCount != nil {
+		s.D.Set("ref_count", *s.Res.RefCount)
+	}
 
 	if s.Res.ReplicationMetadata != nil {
 		s.D.Set("replication_metadata", []interface{}{ReplicationMetadataAwsToMap(s.Res.ReplicationMetadata)})
@@ -627,7 +673,32 @@ func (s *DbmulticloudOracleDbAwsKeyResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DbmulticloudOracleDbAwsKeyResourceCrud) ReplicateOracleDbAwsKey() error {
+func (s *DbmulticloudOracleDbAwsKeyResourceCrud) RefreshOracleDbAwsKey(ctx context.Context) error {
+	request := oci_dbmulticloud.RefreshOracleDbAwsKeyRequest{}
+
+	if oracleDbAwsConnectorId, ok := s.D.GetOkExists("oracle_db_aws_connector_id"); ok {
+		tmp := oracleDbAwsConnectorId.(string)
+		request.OracleDbAwsConnectorId = &tmp
+	}
+
+	idTmp := s.D.Id()
+	request.OracleDbAwsKeyId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
+
+	_, err := s.Client.RefreshOracleDbAwsKey(ctx, request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	return nil
+}
+
+func (s *DbmulticloudOracleDbAwsKeyResourceCrud) ReplicateOracleDbAwsKey(ctx context.Context) error {
 	request := oci_dbmulticloud.ReplicateOracleDbAwsKeyRequest{}
 
 	if action, ok := s.D.GetOkExists("action"); ok {
@@ -644,12 +715,12 @@ func (s *DbmulticloudOracleDbAwsKeyResourceCrud) ReplicateOracleDbAwsKey() error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
 
-	_, err := s.Client.ReplicateOracleDbAwsKey(context.Background(), request)
+	_, err := s.Client.ReplicateOracleDbAwsKey(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(context.Background(), s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -689,6 +760,10 @@ func OracleDbAwsKeySummaryToMap(obj oci_dbmulticloud.OracleDbAwsKeySummary) map[
 		result["is_aws_key_enabled"] = bool(*obj.IsAwsKeyEnabled)
 	}
 
+	if obj.IsOracleAwsKeyUsed != nil {
+		result["is_oracle_aws_key_used"] = bool(*obj.IsOracleAwsKeyUsed)
+	}
+
 	if obj.LifecycleStateDetails != nil {
 		result["lifecycle_state_details"] = string(*obj.LifecycleStateDetails)
 	}
@@ -697,11 +772,19 @@ func OracleDbAwsKeySummaryToMap(obj oci_dbmulticloud.OracleDbAwsKeySummary) map[
 		result["location"] = string(*obj.Location)
 	}
 
+	if obj.OracleDbAwsKeyPoolId != nil {
+		result["oracle_db_aws_key_pool_id"] = string(*obj.OracleDbAwsKeyPoolId)
+	}
+
 	if obj.OracleDbConnectorId != nil {
 		result["oracle_db_connector_id"] = string(*obj.OracleDbConnectorId)
 	}
 
 	result["properties"] = obj.Properties
+
+	if obj.RefCount != nil {
+		result["ref_count"] = int(*obj.RefCount)
+	}
 
 	if obj.ReplicationMetadata != nil {
 		result["replication_metadata"] = []interface{}{ReplicationMetadataAwsToMap(obj.ReplicationMetadata)}

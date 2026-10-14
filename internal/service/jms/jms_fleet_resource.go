@@ -375,14 +375,14 @@ func fleetWaitForWorkRequest(wId *string, entityType string, action oci_jms.Acti
 	response := oci_jms.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_jms.OperationStatusInProgress),
 			string(oci_jms.OperationStatusAccepted),
 			string(oci_jms.OperationStatusCanceling),
+			string(oci_jms.OperationStatusInProgress),
 		},
 		Target: []string{
-			string(oci_jms.OperationStatusSucceeded),
-			string(oci_jms.OperationStatusFailed),
 			string(oci_jms.OperationStatusCanceled),
+			string(oci_jms.OperationStatusFailed),
+			string(oci_jms.OperationStatusSucceeded),
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
