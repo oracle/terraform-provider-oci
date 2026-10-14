@@ -150,6 +150,8 @@ type CreateOpensearchClusterDetails struct {
 	// The password hash of the master user that are used to manage security config
 	SecurityMasterUserPasswordHash *string `mandatory:"false" json:"securityMasterUserPasswordHash"`
 
+	SecurityMasterUserAuthDetails *SecurityUserAuthenticationDetails `mandatory:"false" json:"securityMasterUserAuthDetails"`
+
 	SecuritySamlConfig *SecuritySamlConfig `mandatory:"false" json:"securitySamlConfig"`
 
 	BackupPolicy *BackupPolicy `mandatory:"false" json:"backupPolicy"`
@@ -170,6 +172,8 @@ type CreateOpensearchClusterDetails struct {
 	LoadBalancerConfig *LoadBalancerConfig `mandatory:"false" json:"loadBalancerConfig"`
 
 	CertificateConfig *CertificateConfig `mandatory:"false" json:"certificateConfig"`
+
+	RemoteReindexTrustConfig *RemoteReindexTrustConfig `mandatory:"false" json:"remoteReindexTrustConfig"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`

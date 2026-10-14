@@ -20,6 +20,9 @@ type UpdateSingleModelConfigurationDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a model.
 	ModelId *string `mandatory:"true" json:"modelId"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a model artifact signature.
+	ModelArtifactSignatureId *string `mandatory:"false" json:"modelArtifactSignatureId"`
 }
 
 func (m UpdateSingleModelConfigurationDetails) String() string {

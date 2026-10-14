@@ -26,6 +26,9 @@ type DbSystemUpgradeSummary struct {
 
 	// The version of the grid infrastructure for this upgrade. This is only applicable for ASM based DbSystems
 	GiVersion *string `mandatory:"false" json:"giVersion"`
+
+	// True when selecting or applying this DB, Grid Infrastructure, or operating system software version requires older-version acknowledgment.
+	IsOlderVersionAcknowledgmentRequired *bool `mandatory:"false" json:"isOlderVersionAcknowledgmentRequired"`
 }
 
 func (m DbSystemUpgradeSummary) String() string {

@@ -163,6 +163,9 @@ type LaunchDbSystemFromBackupDetails struct {
 	// The number of compute servers for the DB system.
 	ComputeCount *int `mandatory:"false" json:"computeCount"`
 
+	// If true, the caller acknowledges selecting or applying an older DB, Grid Infrastructure, or operating system software version that is outside the latest default version window.
+	IsOlderVersionAcknowledged *bool `mandatory:"false" json:"isOlderVersionAcknowledged"`
+
 	// The Oracle Database Edition that applies to all the databases on the DB system.
 	// Exadata DB systems and 2-node RAC DB systems require ENTERPRISE_EDITION_EXTREME_PERFORMANCE.
 	DatabaseEdition LaunchDbSystemFromBackupDetailsDatabaseEditionEnum `mandatory:"true" json:"databaseEdition"`
@@ -345,6 +348,11 @@ func (m LaunchDbSystemFromBackupDetails) GetComputeModel() LaunchDbSystemBaseCom
 // GetComputeCount returns ComputeCount
 func (m LaunchDbSystemFromBackupDetails) GetComputeCount() *int {
 	return m.ComputeCount
+}
+
+// GetIsOlderVersionAcknowledged returns IsOlderVersionAcknowledged
+func (m LaunchDbSystemFromBackupDetails) GetIsOlderVersionAcknowledged() *bool {
+	return m.IsOlderVersionAcknowledged
 }
 
 func (m LaunchDbSystemFromBackupDetails) String() string {

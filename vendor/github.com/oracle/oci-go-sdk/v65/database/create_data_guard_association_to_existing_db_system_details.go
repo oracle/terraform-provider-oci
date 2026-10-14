@@ -32,6 +32,9 @@ type CreateDataGuardAssociationToExistingDbSystemDetails struct {
 	// The database software image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`
 
+	// If true, the caller acknowledges selecting or applying an older DB, Grid Infrastructure, or operating system software version that is outside the latest default version window.
+	IsOlderVersionAcknowledged *bool `mandatory:"false" json:"isOlderVersionAcknowledged"`
+
 	SourceEncryptionKeyLocationDetails EncryptionKeyLocationDetails `mandatory:"false" json:"sourceEncryptionKeyLocationDetails"`
 
 	// True if active Data Guard is enabled.
@@ -71,6 +74,11 @@ type CreateDataGuardAssociationToExistingDbSystemDetails struct {
 // GetDatabaseSoftwareImageId returns DatabaseSoftwareImageId
 func (m CreateDataGuardAssociationToExistingDbSystemDetails) GetDatabaseSoftwareImageId() *string {
 	return m.DatabaseSoftwareImageId
+}
+
+// GetIsOlderVersionAcknowledged returns IsOlderVersionAcknowledged
+func (m CreateDataGuardAssociationToExistingDbSystemDetails) GetIsOlderVersionAcknowledged() *bool {
+	return m.IsOlderVersionAcknowledged
 }
 
 // GetDatabaseAdminPassword returns DatabaseAdminPassword
@@ -148,6 +156,7 @@ func (m CreateDataGuardAssociationToExistingDbSystemDetails) MarshalJSON() (buff
 func (m *CreateDataGuardAssociationToExistingDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		DatabaseSoftwareImageId            *string                                             `json:"databaseSoftwareImageId"`
+		IsOlderVersionAcknowledged         *bool                                               `json:"isOlderVersionAcknowledged"`
 		SourceEncryptionKeyLocationDetails encryptionkeylocationdetails                        `json:"sourceEncryptionKeyLocationDetails"`
 		IsActiveDataGuardEnabled           *bool                                               `json:"isActiveDataGuardEnabled"`
 		PeerDbUniqueName                   *string                                             `json:"peerDbUniqueName"`
@@ -165,6 +174,8 @@ func (m *CreateDataGuardAssociationToExistingDbSystemDetails) UnmarshalJSON(data
 	}
 	var nn interface{}
 	m.DatabaseSoftwareImageId = model.DatabaseSoftwareImageId
+
+	m.IsOlderVersionAcknowledged = model.IsOlderVersionAcknowledged
 
 	nn, e = model.SourceEncryptionKeyLocationDetails.UnmarshalPolymorphicJSON(model.SourceEncryptionKeyLocationDetails.JsonData)
 	if e != nil {

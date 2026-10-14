@@ -19,15 +19,19 @@ import (
 // DatabaseUpgradeSourceBase Details for the database upgrade source.
 type DatabaseUpgradeSourceBase interface {
 
+	// If true, the caller acknowledges selecting or applying an older DB, Grid Infrastructure, or operating system software version that is outside the latest default version window.
+	GetIsOlderVersionAcknowledged() *bool
+
 	// Additional upgrade options supported by DBUA(Database Upgrade Assistant).
 	// Example: "-upgradeTimezone false -keepEvents"
 	GetOptions() *string
 }
 
 type databaseupgradesourcebase struct {
-	JsonData []byte
-	Options  *string `mandatory:"false" json:"options"`
-	Source   string  `json:"source"`
+	JsonData                   []byte
+	IsOlderVersionAcknowledged *bool   `mandatory:"false" json:"isOlderVersionAcknowledged"`
+	Options                    *string `mandatory:"false" json:"options"`
+	Source                     string  `json:"source"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -41,6 +45,7 @@ func (m *databaseupgradesourcebase) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	m.IsOlderVersionAcknowledged = s.Model.IsOlderVersionAcknowledged
 	m.Options = s.Model.Options
 	m.Source = s.Model.Source
 
@@ -72,6 +77,11 @@ func (m *databaseupgradesourcebase) UnmarshalPolymorphicJSON(data []byte) (inter
 		common.Logf("Received unsupported enum value for DatabaseUpgradeSourceBase: %s.", m.Source)
 		return *m, nil
 	}
+}
+
+// GetIsOlderVersionAcknowledged returns IsOlderVersionAcknowledged
+func (m databaseupgradesourcebase) GetIsOlderVersionAcknowledged() *bool {
+	return m.IsOlderVersionAcknowledged
 }
 
 // GetOptions returns Options

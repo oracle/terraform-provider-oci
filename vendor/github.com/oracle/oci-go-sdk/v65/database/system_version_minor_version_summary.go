@@ -20,6 +20,9 @@ type SystemVersionMinorVersionSummary struct {
 
 	// A valid system minor version.
 	Version *string `mandatory:"true" json:"version"`
+
+	// True when selecting or applying this DB, Grid Infrastructure, or operating system software version requires older-version acknowledgment.
+	IsOlderVersionAcknowledgmentRequired *bool `mandatory:"false" json:"isOlderVersionAcknowledgmentRequired"`
 }
 
 func (m SystemVersionMinorVersionSummary) String() string {
