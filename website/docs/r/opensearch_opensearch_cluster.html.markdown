@@ -114,8 +114,9 @@ resource "oci_opensearch_opensearch_cluster" "test_opensearch_cluster" {
 		#Required
 		remote_sources {
 			#Required
-			certificate_id = oci_apigateway_certificate.test_certificate.id
 			endpoint = var.opensearch_cluster_remote_reindex_trust_config_remote_sources_endpoint
+			# Specify exactly one of ca_bundle_id or the deprecated certificate_id.
+			ca_bundle_id = oci_certificates_management_ca_bundle.test_ca_bundle.id
 
 			#Optional
 			endpoint_resolution_ip = var.opensearch_cluster_remote_reindex_trust_config_remote_sources_endpoint_resolution_ip
@@ -209,8 +210,9 @@ The following arguments are supported:
 		* `ping_schedule` - (Optional) (Updatable) Sets the time interval between regular application-level ping messages that are sent to try and keep outbound cluster connections alive. If set to -1, application-level ping messages to this outbound cluster are not sent. If unset, application-level ping messages are sent according to the global transport.ping_schedule setting, which defaults to -1 meaning that pings are not sent.
 		* `seed_cluster_id` - (Required) (Updatable) OCID of the Outbound cluster
 * `remote_reindex_trust_config` - (Optional) (Updatable) Configuration that allows this OpenSearch cluster to trust a remote cluster for reindexing.
-	* `remote_sources` - (Required) (Updatable) Remote cluster sources to trust for reindexing.
-		* `certificate_id` - (Required) (Updatable) OCID of the certificate or CA chain used to verify the remote cluster's HTTPS certificate.
+	* `remote_sources` - (Required) (Updatable) Remote sources trusted for reindexing. When creating a cluster with this configuration, provide at least one source. When updating a cluster, this list replaces the existing sources. Specify an empty list to remove all remote-reindex trust configuration. Each source must specify exactly one non-empty `ca_bundle_id` or `certificate_id`, not both.
+		* `certificate_id` - (Optional) (Updatable) **Deprecated** Alias for `ca_bundle_id`; use `ca_bundle_id` instead. The value must be an OCI Certificates service CA bundle OCID, not a certificate OCID. Existing configurations remain supported during the deprecation period; removal requires a major provider release.
+		* `ca_bundle_id` - (Optional) (Updatable) OCID of the Oracle Cloud Infrastructure Certificates service CA bundle containing the trusted CA certificates used to verify the remote cluster's HTTPS certificate. Required when `certificate_id` is not specified.
 		* `endpoint` - (Required) (Updatable) HTTPS endpoint of the remote Elasticsearch or OpenSearch cluster. The hostname and port are used to allow remote reindexing. Use a DNS hostname, rather than an IP address, when endpointResolutionIp is specified.
 		* `endpoint_resolution_ip` - (Optional) (Updatable) Optional IP address to which the endpoint hostname is resolved from within the OpenSearch cluster. The original hostname remains in the connection URL and is used for TLS verification.
 * `reverse_connection_endpoint_customer_ips` - (Optional) (Updatable) The customer IP addresses of the endpoint in customer VCN
@@ -313,8 +315,9 @@ The following attributes are exported:
         * `ping_schedule` - Sets the time interval between regular application-level ping messages that are sent to try and keep outbound cluster connections alive. If set to -1, application-level ping messages to this outbound cluster are not sent. If unset, application-level ping messages are sent according to the global transport.ping_schedule setting, which defaults to -1 meaning that pings are not sent.
         * `seed_cluster_id` - OCID of the Outbound cluster
 * `remote_reindex_trust_config` - Configuration that allows this OpenSearch cluster to trust a remote cluster for reindexing.
-    * `remote_sources` - Remote cluster sources to trust for reindexing.
-        * `certificate_id` - OCID of the certificate or CA chain used to verify the remote cluster's HTTPS certificate.
+    * `remote_sources` - Remote sources trusted for reindexing. When creating a cluster with this configuration, provide at least one source. When updating a cluster, this list replaces the existing sources. Specify an empty list to remove all remote-reindex trust configuration.
+        * `certificate_id` - **Deprecated** CA bundle OCID, populated when the resource is configured with this legacy name. Use `ca_bundle_id` instead.
+        * `ca_bundle_id` - OCI Certificates service CA bundle OCID, populated when configured with this name or when importing a resource without an existing alias selection.
         * `endpoint` - HTTPS endpoint of the remote Elasticsearch or OpenSearch cluster. The hostname and port are used to allow remote reindexing. Use a DNS hostname, rather than an IP address, when endpointResolutionIp is specified.
         * `endpoint_resolution_ip` - Optional IP address to which the endpoint hostname is resolved from within the OpenSearch cluster. The original hostname remains in the connection URL and is used for TLS verification.
 * `reverse_connection_endpoint_customer_ips` - The customer IP addresses of the endpoint in customer VCN
