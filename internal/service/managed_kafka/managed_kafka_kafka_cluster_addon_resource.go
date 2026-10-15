@@ -186,7 +186,7 @@ func (s *ManagedKafkaKafkaClusterAddonResourceCrud) getKafkaClusterAddonFromWork
 	actionTypeEnum oci_managed_kafka.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	kafkaClusterAddonId, err := kafkaClusterAddonWaitForWorkRequest(ctx, workId, "kafkacluster",
+	kafkaClusterAddonId, err := kafkaClusterAddonWaitForWorkRequest(ctx, workId, "addon",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
