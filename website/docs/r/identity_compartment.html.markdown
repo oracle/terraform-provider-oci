@@ -54,6 +54,8 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) The OCID of the parent compartment containing the compartment.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+
+  **Tag defaults and `ignore_defined_tags`:** The provider-level `ignore_defined_tags` setting suppresses Terraform planning differences for the listed defined-tag keys. Do not list a key there if you expect this resource's `defined_tags` configuration to manage that key. OCI applies tag defaults when a resource is created; defaults do not tag resources that already exist. A tag default created inside a compartment therefore does not apply to that compartment itself, because the compartment exists before Terraform creates the tag default. To apply a default to a new compartment, define the tag default in its parent compartment before creating it. For more information, see [Managing Tag Defaults](https://docs.oracle.com/en-us/iaas/Content/Tagging/Tasks/managingtagdefaults.htm).
 * `description` - (Required) (Updatable) The description you assign to the compartment during creation. Does not have to be unique, and it's changeable. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `name` - (Required) (Updatable) The name you assign to the compartment during creation. The name must be unique across all compartments in the parent compartment. Avoid entering confidential information. 
@@ -92,4 +94,3 @@ Compartments can be imported using the `id`, e.g.
 ```
 $ terraform import oci_identity_compartment.test_compartment "id"
 ```
-
