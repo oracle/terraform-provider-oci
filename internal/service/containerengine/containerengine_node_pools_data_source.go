@@ -244,6 +244,10 @@ func (s *ContainerengineNodePoolsDataSourceCrud) SetData() error {
 
 		nodePool["subnet_ids"] = r.SubnetIds
 
+		if r.SystemTags != nil {
+			nodePool["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		resources = append(resources, nodePool)
 	}
 
