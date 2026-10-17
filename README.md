@@ -6,7 +6,7 @@
 - [Setup guide](https://www.terraform.io/docs/providers/oci/guides/version-3-upgrade.html)
 - [Examples](https://github.com/oracle/terraform-provider-oci/tree/master/examples)
 - [OCI forums](https://cloudcustomerconnect.oracle.com/resources/9c8fa8f96f/summary)
-- [Github issues](https://github.com/oracle/terraform-provider-oci/issues)
+- [GitHub issues](https://github.com/oracle/terraform-provider-oci/issues)
 - [Troubleshooting](https://www.terraform.io/docs/providers/oci/guides/troubleshooting.html)
 
 [![wercker status](https://app.wercker.com/status/666d2ee10f45dde41189bb03248aadf9/s/master "wercker status")](https://app.wercker.com/project/byKey/666d2ee10f45dde41189bb03248aadf9)
@@ -47,7 +47,7 @@ See [verbose logging](https://www.terraform.io/docs/providers/oci/guides/trouble
 
 ## Developing the Provider
 
-To add features to the provider, install [Go](http://www.golang.org) and configure your your [GOPATH](http://golang.org/doc/code.html#GOPATH)
+To add features to the provider, install [Go](http://www.golang.org) and configure your [GOPATH](http://golang.org/doc/code.html#GOPATH)
 
 Compile the provider by running `make build`. The provider binary will output to your `$GOPATH/bin` directory, make sure this has been added to your `$PATH`.
 
@@ -61,7 +61,7 @@ To test the provider run `make testacc`.
 $ make testacc
 ```
 
-> **Note:** The tests run against live OCI service APIs, you will need to configure environment variables with valid credientials as shown in the [documentation](https://www.terraform.io/docs/providers/oci/index.html).
+> **Note:** The tests run against live OCI service APIs, you will need to configure environment variables with valid credentials as shown in the [documentation](https://www.terraform.io/docs/providers/oci/index.html).
 
 ## Contributing
 
