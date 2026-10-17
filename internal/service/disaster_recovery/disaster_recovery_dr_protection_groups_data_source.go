@@ -132,6 +132,10 @@ func (s *DisasterRecoveryDrProtectionGroupsDataSourceCrud) Get() error {
 }
 
 func (s *DisasterRecoveryDrProtectionGroupsDataSourceCrud) SetData() error {
+	request := oci_disaster_recovery.GetDrProtectionGroupRequest{}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "disaster_recovery")
+
 	if s.Res == nil {
 		return nil
 	}
@@ -142,7 +146,18 @@ func (s *DisasterRecoveryDrProtectionGroupsDataSourceCrud) SetData() error {
 
 	items := []interface{}{}
 	for _, item := range s.Res.Items {
-		items = append(items, DrProtectionGroupSummaryToMap(item))
+		summap := DrProtectionGroupSummaryToMap(item)
+		request.DrProtectionGroupId = item.Id
+		response, err := s.Client.GetDrProtectionGroup(context.Background(), request)
+		if err != nil {
+			return err
+		}
+		members := []interface{}{}
+		for _, memitem := range response.Members {
+			members = append(members, DrProtectionGroupMemberToMap(memitem))
+		}
+		summap["members"] = members
+		items = append(items, summap)
 	}
 	drProtectionGroup["items"] = items
 
