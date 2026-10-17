@@ -8,6 +8,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"sort"
+	"strconv"
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -59,9 +61,10 @@ func CloudGuardDetectorRecipeResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"detector_rules": {
-				Type:     schema.TypeList,
-				Optional: true,
-				Computed: true,
+				Type:             schema.TypeList,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: detectorRulesDiffSuppress,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -1028,6 +1031,19 @@ func (s *CloudGuardDetectorRecipeResourceCrud) SetData() error {
 	for _, item := range s.Res.DetectorRules {
 		detectorRules = append(detectorRules, DetectorRecipeDetectorRuleToMap(item))
 	}
+	// The API returns all detector rules (including default rules copied from the
+	// source recipe), but we only store rules that the user explicitly defined in
+	// their HCL config. This prevents spurious diffs caused by the count mismatch
+	// between config (e.g. 2 rules) and API response (e.g. 30 rules).
+	// All rules (including defaults) are available via effective_detector_rules.
+	configRuleIDs := getConfigDetectorRuleIDs(s.D)
+	if len(configRuleIDs) > 0 {
+		detectorRules = filterDetectorRulesByIDs(detectorRules, configRuleIDs)
+	}
+	// Sort by detector_rule_id alphabetically for a deterministic order.
+	// Combined with detectorRulesDiffSuppress, this also prevents diffs caused
+	// by reordering detector_rules blocks in HCL.
+	sortDetectorRulesByID(detectorRules)
 	s.D.Set("detector_rules", detectorRules)
 
 	if s.Res.DisplayName != nil {
@@ -1631,4 +1647,143 @@ func (s *CloudGuardDetectorRecipeResourceCrud) mapToEntitiesMapping(fieldKeyForm
 	}
 
 	return result, nil
+}
+
+// sortDetectorRulesByID sorts detector_rules by detector_rule_id alphabetically
+// for a deterministic order regardless of API response ordering.
+func sortDetectorRulesByID(rules []interface{}) {
+	sort.SliceStable(rules, func(i, j int) bool {
+		iID := getDetectorRuleID(rules[i])
+		jID := getDetectorRuleID(rules[j])
+		return iID < jID
+	})
+}
+
+// getDetectorRuleID extracts detector_rule_id from a detector_rules element.
+func getDetectorRuleID(rule interface{}) string {
+	if m, ok := rule.(map[string]interface{}); ok {
+		if id, ok := m["detector_rule_id"].(string); ok {
+			return id
+		}
+	}
+	return ""
+}
+
+// getConfigDetectorRuleIDs extracts the set of detector_rule_id values that the
+// user explicitly defined in their HCL configuration. It uses GetRawConfig() to
+// read only the values present in config (ignoring state/computed values).
+// Returns nil if detector_rules is not defined in config (e.g. import or
+// data source scenarios).
+func getConfigDetectorRuleIDs(d *schema.ResourceData) map[string]bool {
+	rawConfig := d.GetRawConfig()
+	if rawConfig.IsNull() {
+		return nil
+	}
+
+	rulesVal := rawConfig.GetAttr("detector_rules")
+	if rulesVal.IsNull() || !rulesVal.IsKnown() {
+		return nil
+	}
+
+	ids := make(map[string]bool)
+	for it := rulesVal.ElementIterator(); it.Next(); {
+		_, ruleVal := it.Element()
+		if ruleVal.IsNull() || !ruleVal.IsKnown() {
+			continue
+		}
+		idVal := ruleVal.GetAttr("detector_rule_id")
+		if idVal.IsNull() || !idVal.IsKnown() {
+			continue
+		}
+		ids[idVal.AsString()] = true
+	}
+	return ids
+}
+
+// filterDetectorRulesByIDs returns only the rules whose detector_rule_id is
+// present in the given ID set.
+func filterDetectorRulesByIDs(rules []interface{}, ids map[string]bool) []interface{} {
+	filtered := make([]interface{}, 0, len(ids))
+	for _, rule := range rules {
+		if id := getDetectorRuleID(rule); id != "" && ids[id] {
+			filtered = append(filtered, rule)
+		}
+	}
+	return filtered
+}
+
+// detectorRulesDiffSuppress suppresses diffs caused solely by reordering of
+// detector_rules blocks in the HCL configuration. Since the state is always
+// stored sorted by detector_rule_id (via sortDetectorRulesByID), we compare
+// config and state elements by detector_rule_id rather than by list index.
+func detectorRulesDiffSuppress(key, old, new string, d *schema.ResourceData) bool {
+	// Only handle keys under "detector_rules."
+	if !strings.HasPrefix(key, "detector_rules.") {
+		return false
+	}
+
+	// For the count key "detector_rules.#", compare directly
+	if key == "detector_rules.#" {
+		return old == new
+	}
+
+	// Extract the config index from the key: "detector_rules.N.rest..."
+	suffix := key[len("detector_rules."):]
+	dotPos := strings.Index(suffix, ".")
+	if dotPos < 0 {
+		return false
+	}
+	configIdx, err := strconv.Atoi(suffix[:dotPos])
+	if err != nil {
+		return false
+	}
+	rest := suffix[dotPos:]
+
+	// Get old (state) and new (config) lists via GetChange
+	oldRaw, newRaw := d.GetChange("detector_rules")
+	oldList, oldOk := oldRaw.([]interface{})
+	newList, newOk := newRaw.([]interface{})
+	if !oldOk || !newOk {
+		return false
+	}
+
+	if configIdx >= len(newList) {
+		return false
+	}
+
+	// Get the detector_rule_id from the config element
+	newElem, ok := newList[configIdx].(map[string]interface{})
+	if !ok {
+		return false
+	}
+	configRuleID, ok := newElem["detector_rule_id"].(string)
+	if !ok {
+		return false
+	}
+
+	// Find the matching element in state (old) by detector_rule_id
+	stateIdx := -1
+	for i, oldElem := range oldList {
+		if m, ok := oldElem.(map[string]interface{}); ok {
+			if id, ok := m["detector_rule_id"].(string); ok && id == configRuleID {
+				stateIdx = i
+				break
+			}
+		}
+	}
+	if stateIdx == -1 {
+		return false
+	}
+
+	// If the indices are the same, let Terraform handle the normal comparison
+	if configIdx == stateIdx {
+		return false
+	}
+
+	// Compare the value from the state element at the remapped index
+	// with the config value (new)
+	remappedKey := fmt.Sprintf("detector_rules.%d%s", stateIdx, rest)
+	oldRemapped := d.Get(remappedKey)
+
+	return fmt.Sprintf("%v", oldRemapped) == new
 }
