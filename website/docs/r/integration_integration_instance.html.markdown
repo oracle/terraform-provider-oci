@@ -15,6 +15,8 @@ Example terraform configs related to the resource : https://github.com/oracle/te
 
 Creates a new Integration Instance.
 
+**Note:** `private_endpoint_outbound_connection` is a read-only attribute of this resource and cannot be set here. To add a private endpoint outbound connection to the instance, use the [`oci_integration_private_endpoint_outbound_connection`](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/integration_private_endpoint_outbound_connection) resource. To add an Oracle managed custom endpoint, use the [`oci_integration_oracle_managed_custom_endpoint`](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/integration_oracle_managed_custom_endpoint) resource.
+
 
 ## Example Usage
 
