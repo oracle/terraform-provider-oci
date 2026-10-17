@@ -5,7 +5,6 @@ package resourcemanager
 
 import (
 	"context"
-	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -76,6 +75,10 @@ func ResourcemanagerStackDataSource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"stack_drift_status": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -90,6 +93,10 @@ func ResourcemanagerStackDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_drift_last_checked": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -152,7 +159,11 @@ func (s *ResourcemanagerStackDataSourceCrud) SetData() error {
 
 	if s.Res.ConfigSource != nil {
 		configSourceArray := []interface{}{}
-		if configSourceMap := ConfigSourceToMap(&s.Res.ConfigSource); configSourceMap != nil {
+		downloadedConfigSource, err := getDownloadedStackConfigSource(s.Client, &s.Res.Stack, tfresource.GetRetryPolicy(false, "resourcemanager"), nil)
+		if err != nil {
+			return err
+		}
+		if configSourceMap := StackConfigSourceToMap(&s.Res.ConfigSource, downloadedConfigSource); configSourceMap != nil {
 			configSourceArray = append(configSourceArray, configSourceMap)
 		}
 		s.D.Set("config_source", configSourceArray)
@@ -174,6 +185,7 @@ func (s *ResourcemanagerStackDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	s.D.Set("stack_drift_status", s.Res.StackDriftStatus)
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {
@@ -188,20 +200,11 @@ func (s *ResourcemanagerStackDataSourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	if s.Res.TimeDriftLastChecked != nil {
+		s.D.Set("time_drift_last_checked", s.Res.TimeDriftLastChecked.String())
+	}
+
 	s.D.Set("variables", s.Res.Variables)
 
 	return nil
-}
-
-func ConfigSourceToMap(obj *oci_resourcemanager.ConfigSource) map[string]interface{} {
-	result := map[string]interface{}{}
-	switch (*obj).(type) {
-	case oci_resourcemanager.ZipUploadConfigSource:
-		result["config_source_type"] = "ZIP_UPLOAD"
-	default:
-		log.Printf("[WARN] Received 'config_source_type' of unknown type %v", *obj)
-		return nil
-	}
-
-	return result
 }
