@@ -160,6 +160,18 @@ var exportGenerativeAiHostedApplicationIamHints = &tf_export.TerraformResourceHi
 	},
 }
 
+var exportGenerativeAiRoutingProfileHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_generative_ai_routing_profile",
+	DatasourceClass:        "oci_generative_ai_routing_profiles",
+	DatasourceItemsAttr:    "routing_profile_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "routing_profile",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_generative_ai.RoutingProfileLifecycleStateActive),
+	},
+}
+
 var generativeAiResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportGenerativeAiDedicatedAiClusterHints},
@@ -173,5 +185,6 @@ var generativeAiResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportGenerativeAiSemanticStoreHints},
 		{TerraformResourceHints: exportGenerativeAiProjectHints},
 		{TerraformResourceHints: exportGenerativeAiHostedApplicationIamHints},
+		{TerraformResourceHints: exportGenerativeAiRoutingProfileHints},
 	},
 }

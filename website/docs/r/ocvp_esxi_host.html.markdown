@@ -39,6 +39,7 @@ resource "oci_ocvp_esxi_host" "test_esxi_host" {
 	freeform_tags = {"Department"= "Finance"}
 	host_ocpu_count = var.esxi_host_host_ocpu_count
 	host_shape_name = oci_core_shape.test_shape.name
+	initial_fault_domain_host_distribution = var.esxi_host_initial_fault_domain_host_distribution
 	is_vsan_byol_enabled = var.esxi_host_is_vsan_byol_enabled
 	next_commitment = var.esxi_host_next_commitment
 	vcf_byol_allocation_id = oci_ocvp_byol_allocation.test_byol_allocation.id
@@ -73,7 +74,8 @@ The following arguments are supported:
 * `failed_esxi_host_id` - (**Deprecated**) (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ESXi host that is failed. This is an optional parameter. If this parameter is specified, a new ESXi host will be created to replace the failed one, and the `failedEsxiHostId` field will be updated in the newly created Esxi host.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `host_ocpu_count` - (Optional) The OCPU count of the ESXi host. 
-* `host_shape_name` - (Optional) The compute shape name of the ESXi host. [ListSupportedHostShapes](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/SupportedHostShapes/ListSupportedHostShapes).
+* `host_shape_name` - (Optional) The compute shape name of the ESXi host. [ListSupportedHostShapes](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/SupportedHostShapes/ListSupportedHostShapes). 
+* `initial_fault_domain_host_distribution` - (Optional) (Updatable) The initial fault domain host distribution mode for the ESXi host. 
 * `is_vsan_byol_enabled` - (Optional) (Updatable) Indicates whether this host embedded VMware vSAN with BYOL Allocation. 
 * `next_commitment` - (Optional) (Updatable) The billing option to switch to after the existing billing cycle ends. If `nextCommitment` is null or empty, `currentCommitment` continues to the next billing cycle. [ListSupportedCommitments](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/SupportedCommitmentSummary/ListSupportedCommitments). 
 * `vcf_byol_allocation_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Byol Allocation for VCF (VMware Cloud Foundation) deployment. 
@@ -95,6 +97,7 @@ The following attributes are exported:
 * `cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Cluster that the ESXi host belongs to. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the Cluster. 
 * `compute_availability_domain` - The availability domain of the ESXi host. 
+* `compute_fault_domain` - The fault domain of the ESXi host. 
 * `compute_instance_id` - In terms of implementation, an ESXi host is a Compute instance that is configured with the chosen bundle of VMware software. The `computeInstanceId` is the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of that Compute instance. 
 * `datastore_attachments` - List of DatastoreAttachment objects containing information about attachment details
 	* `block_volume_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Block Volume that belongs to the datastore.
@@ -114,10 +117,11 @@ The following attributes are exported:
 * `host_ocpu_count` - The OCPU count of the ESXi host. 
 * `host_shape_name` - The compute shape name of the ESXi host. [ListSupportedHostShapes](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/SupportedHostShapes/ListSupportedHostShapes). 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ESXi host. 
-* `is_billing_continuation_in_progress` - Indicates whether this host is in the progress of billing continuation.
-* `is_billing_swapping_in_progress` - Indicates whether this host is in the progress of swapping billing.
-* `is_vsan_byol_enabled` - Indicates whether this host embedded VMware vSAN with BYOL Allocation.
-* `next_commitment` - The billing option to switch to after the current billing cycle ends. If `nextCommitment` is null or empty, `currentCommitment` continues to the next billing cycle. [ListSupportedCommitments](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/SupportedCommitmentSummary/ListSupportedCommitments).
+* `initial_fault_domain_host_distribution` - The initial fault domain host distribution mode for the ESXi host. 
+* `is_billing_continuation_in_progress` - Indicates whether this host is in the progress of billing continuation. 
+* `is_billing_swapping_in_progress` - Indicates whether this host is in the progress of swapping billing. 
+* `is_vsan_byol_enabled` - Indicates whether this host embedded VMware vSAN with BYOL Allocation. 
+* `next_commitment` - The billing option to switch to after the current billing cycle ends. If `nextCommitment` is null or empty, `currentCommitment` continues to the next billing cycle. [ListSupportedCommitments](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/SupportedCommitmentSummary/ListSupportedCommitments). 
 * `next_sku` - (**Deprecated**) The billing option to switch to after the current billing cycle ends. If `nextSku` is null or empty, `currentSku` continues to the next billing cycle. [ListSupportedSkus](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedSkuSummary/ListSupportedSkus).  **Deprecated**. Please use `next_commitment` instead.
 * `non_upgraded_esxi_host_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ESXi host that will be upgraded. 
 * `replacement_esxi_host_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the esxi host that is newly created to replace the failed node.

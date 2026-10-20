@@ -17,7 +17,7 @@ import (
 
 // ActivateTargetDatabaseDetails The details required to reactivate a previously deactived target database in Data Safe.
 type ActivateTargetDatabaseDetails struct {
-	Credentials *Credentials `mandatory:"true" json:"credentials"`
+	Credentials *Credentials `mandatory:"false" json:"credentials"`
 }
 
 func (m ActivateTargetDatabaseDetails) String() string {

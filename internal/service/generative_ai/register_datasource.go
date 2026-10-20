@@ -6,6 +6,8 @@ package generative_ai
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterDatasource() {
+	tfresource.RegisterDatasource("oci_generative_ai_apikey", GenerativeAiApikeyDataSource)
+	tfresource.RegisterDatasource("oci_generative_ai_apikeys", GenerativeAiApikeysDataSource)
 	tfresource.RegisterDatasource("oci_generative_ai_dedicated_ai_cluster", GenerativeAiDedicatedAiClusterDataSource)
 	tfresource.RegisterDatasource("oci_generative_ai_dedicated_ai_clusters", GenerativeAiDedicatedAiClustersDataSource)
 	tfresource.RegisterDatasource("oci_generative_ai_endpoint", GenerativeAiEndpointDataSource)
@@ -22,10 +24,13 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_generative_ai_hosted_deployments", GenerativeAiHostedDeploymentsDataSource)
 	tfresource.RegisterDatasource("oci_generative_ai_imported_model", GenerativeAiImportedModelDataSource)
 	tfresource.RegisterDatasource("oci_generative_ai_imported_models", GenerativeAiImportedModelsDataSource)
+	tfresource.RegisterDatasource("oci_generative_ai_model_discoveries", GenerativeAiModelDiscoveriesDataSource)
 	tfresource.RegisterDatasource("oci_generative_ai_model", GenerativeAiModelDataSource)
 	tfresource.RegisterDatasource("oci_generative_ai_models", GenerativeAiModelsDataSource)
 	tfresource.RegisterDatasource("oci_generative_ai_project", GenerativeAiProjectDataSource)
 	tfresource.RegisterDatasource("oci_generative_ai_projects", GenerativeAiProjectsDataSource)
+	tfresource.RegisterDatasource("oci_generative_ai_routing_profile", GenerativeAiRoutingProfileDataSource)
+	tfresource.RegisterDatasource("oci_generative_ai_routing_profiles", GenerativeAiRoutingProfilesDataSource)
 	tfresource.RegisterDatasource("oci_generative_ai_semantic_store", GenerativeAiSemanticStoreDataSource)
 	tfresource.RegisterDatasource("oci_generative_ai_semantic_stores", GenerativeAiSemanticStoresDataSource)
 }

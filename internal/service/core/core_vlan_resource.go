@@ -39,7 +39,6 @@ func CoreVlanResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
 			"availability_domain": {
 				Type:             schema.TypeString,
@@ -86,7 +85,6 @@ func CoreVlanResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
-
 			// Computed
 			"state": {
 				Type:     schema.TypeString,

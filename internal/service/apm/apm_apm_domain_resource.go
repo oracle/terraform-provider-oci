@@ -274,13 +274,13 @@ func apmDomainWaitForWorkRequest(wId *string, entityType string, action oci_apm.
 	response := oci_apm.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_apm.OperationStatusInProgress),
 			string(oci_apm.OperationStatusAccepted),
+			string(oci_apm.OperationStatusInProgress),
 			string(oci_apm.OperationStatusCanceling),
 		},
 		Target: []string{
-			string(oci_apm.OperationStatusSucceeded),
 			string(oci_apm.OperationStatusFailed),
+			string(oci_apm.OperationStatusSucceeded),
 			string(oci_apm.OperationStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {

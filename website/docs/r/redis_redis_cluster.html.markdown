@@ -17,6 +17,18 @@ Creates a new Oracle Cloud Infrastructure Cache cluster. A cluster is a memory-b
 You can optionally initialize the cluster data by restoring from an Oracle Cloud Infrastructure Cache Backup (backupId) or by importing from Object Storage RDB file(s) (importFromObjectStorageDetails).
 For more information, see [OCI Cache](https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
 
+## Cross-Region Replication Switchover
+
+Switchover isn't supported in Terraform. To complete a switchover, use the OCI Console, CLI, or SDK.
+
+After the switchover completes, update the Terraform configuration for both affected clusters before you run any further `terraform apply` operations:
+
+1. For the new primary cluster (formerly the secondary), remove `primary_cluster_id` from the resource configuration.
+2. For the new secondary cluster (formerly the primary), set `primary_cluster_id` to the OCID of the new primary cluster.
+3. Run `terraform plan` for both cluster resources. Proceed only if the plan reports no changes, confirming that the Terraform configuration matches the new cluster topology.
+
+If you don't update these configurations, a later Terraform apply might revert to the previous topology and unintentionally change or break the cross-region replication relationship.
+
 
 ## Example Usage
 
@@ -46,6 +58,7 @@ resource "oci_redis_redis_cluster" "test_redis_cluster" {
 	}
 	nsg_ids = var.redis_cluster_nsg_ids
 	oci_cache_config_set_id = oci_redis_oci_cache_config_set.test_oci_cache_config_set.id
+	primary_cluster_id = oci_redis_redis_cluster.test_redis_cluster.id
 	security_attributes = var.redis_cluster_security_attributes
 	shard_count = var.redis_cluster_shard_count
 }
@@ -70,6 +83,7 @@ The following arguments are supported:
 * `node_memory_in_gbs` - (Required) (Updatable) The amount of memory allocated to the cluster's nodes, in gigabytes.
 * `nsg_ids` - (Optional) (Updatable) A list of Network Security Group (NSG) [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this cluster. For more information, see [Using an NSG for Clusters](https://docs.cloud.oracle.com/iaas/Content/ocicache/connecttocluster.htm#connecttocluster__networksecuritygroup). 
 * `oci_cache_config_set_id` - (Optional) (Updatable) The ID of the corresponding Oracle Cloud Infrastructure Cache Config Set for the cluster.
+* `primary_cluster_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the primary cluster from which data will be replicated. Setting it on a standalone cluster converts that cluster to a secondary cluster; removing it from a secondary cluster converts that cluster to standalone. Changing directly from one primary cluster to another is not supported: remove it and apply before setting a different primary cluster.
 * `security_attributes` - (Optional) (Updatable) Security attributes for redis cluster resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}` 
 * `shard_count` - (Optional) (Updatable) The number of shards in sharded cluster. Only applicable when clusterMode is SHARDED.
 * `software_version` - (Required) (Updatable) The Oracle Cloud Infrastructure Cache engine version that the cluster is running.
@@ -85,6 +99,14 @@ The following attributes are exported:
 
 * `backup_id` - The ID of the Oracle Cloud Infrastructure Cache Backup from which this cluster was created.
 * `cluster_mode` - Specifies whether the cluster is sharded or non-sharded.
+* `cluster_replication_topology` - Defines the replication topology of an Oracle Cloud Infrastructure cache cluster, including the primary cluster and associated secondary clusters participating in replication.
+	* `primary_cluster` - The details of a cluster participating in the replication setup.
+		* `oci_cache_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the Oracle Cloud Infrastructure Cache cluster.
+		* `region` - The Oracle Cloud Infrastructure region to which the cluster belongs.
+	* `secondary_clusters` - The list of secondary clusters that replicate data from the primary cluster.
+		* `oci_cache_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the Oracle Cloud Infrastructure Cache cluster.
+		* `region` - The Oracle Cloud Infrastructure region to which the cluster belongs.
+* `cluster_role` - The current role of the cluster.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the compartment that contains the cluster.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `discovery_endpoint_ip_address` - The private IP address of the API endpoint for sharded cluster discovery.
@@ -107,6 +129,7 @@ The following attributes are exported:
 * `node_memory_in_gbs` - The amount of memory allocated to the cluster's nodes, in gigabytes.
 * `nsg_ids` - A list of Network Security Group (NSG) [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this cluster. For more information, see [Using an NSG for Clusters](https://docs.cloud.oracle.com/iaas/Content/ocicache/connecttocluster.htm#connecttocluster__networksecuritygroup). 
 * `oci_cache_config_set_id` - The ID of the corresponding Oracle Cloud Infrastructure Cache Config Set for the cluster.
+* `primary_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the primary cluster in CRR.
 * `primary_endpoint_ip_address` - The private IP address of the API endpoint for the cluster's primary node.
 * `primary_fqdn` - The fully qualified domain name (FQDN) of the API endpoint for the cluster's primary node.
 * `replicas_endpoint_ip_address` - The private IP address of the API endpoint for the cluster's replica nodes.
@@ -135,4 +158,3 @@ RedisClusters can be imported using the `id`, e.g.
 ```
 $ terraform import oci_redis_redis_cluster.test_redis_cluster "id"
 ```
-

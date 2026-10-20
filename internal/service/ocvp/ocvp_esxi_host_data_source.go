@@ -93,6 +93,10 @@ func (s *OcvpEsxiHostDataSourceCrud) SetData() error {
 		s.D.Set("compute_availability_domain", *s.Res.ComputeAvailabilityDomain)
 	}
 
+	if s.Res.ComputeFaultDomain != nil {
+		s.D.Set("compute_fault_domain", *s.Res.ComputeFaultDomain)
+	}
+
 	if s.Res.ComputeInstanceId != nil {
 		s.D.Set("compute_instance_id", *s.Res.ComputeInstanceId)
 	}
@@ -141,6 +145,8 @@ func (s *OcvpEsxiHostDataSourceCrud) SetData() error {
 	if s.Res.HostShapeName != nil {
 		s.D.Set("host_shape_name", *s.Res.HostShapeName)
 	}
+
+	s.D.Set("initial_fault_domain_host_distribution", s.Res.InitialFaultDomainHostDistribution)
 
 	if s.Res.IsBillingContinuationInProgress != nil {
 		s.D.Set("is_billing_continuation_in_progress", *s.Res.IsBillingContinuationInProgress)

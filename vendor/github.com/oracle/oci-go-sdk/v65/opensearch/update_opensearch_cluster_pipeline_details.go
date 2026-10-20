@@ -15,7 +15,8 @@ import (
 	"strings"
 )
 
-// UpdateOpensearchClusterPipelineDetails The configuration to update on an existing OpenSearch cluster pipeline. You can only edit capacity limits and pipeline configurations. You can't edit its network settings.
+// UpdateOpensearchClusterPipelineDetails The configuration to update on an existing OpenSearch cluster pipeline.
+// You can only edit capacity limits and pipeline configurations. You can't edit its network settings.
 type UpdateOpensearchClusterPipelineDetails struct {
 
 	// The name of the pipeline. Avoid entering confidential information.

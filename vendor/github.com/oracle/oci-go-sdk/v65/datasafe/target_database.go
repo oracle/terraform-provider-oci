@@ -54,6 +54,9 @@ type TargetDatabase struct {
 	// The date and time of the target database update in Data Safe.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
+	// List of enabled features based on granted ORA_DSCS_* roles in target database
+	Features []string `mandatory:"false" json:"features"`
+
 	// The OCIDs of associated resources like database, Data Safe private endpoint, etc.
 	PeerTargetDatabases []PeerTargetDatabase `mandatory:"false" json:"peerTargetDatabases"`
 
@@ -99,6 +102,7 @@ func (m *TargetDatabase) UnmarshalJSON(data []byte) (e error) {
 		AssociatedResourceIds []string                          `json:"associatedResourceIds"`
 		LifecycleDetails      *string                           `json:"lifecycleDetails"`
 		TimeUpdated           *common.SDKTime                   `json:"timeUpdated"`
+		Features              []string                          `json:"features"`
 		PeerTargetDatabases   []PeerTargetDatabase              `json:"peerTargetDatabases"`
 		FreeformTags          map[string]string                 `json:"freeformTags"`
 		DefinedTags           map[string]map[string]interface{} `json:"definedTags"`
@@ -138,6 +142,8 @@ func (m *TargetDatabase) UnmarshalJSON(data []byte) (e error) {
 
 	m.TimeUpdated = model.TimeUpdated
 
+	m.Features = make([]string, len(model.Features))
+	copy(m.Features, model.Features)
 	m.PeerTargetDatabases = make([]PeerTargetDatabase, len(model.PeerTargetDatabases))
 	copy(m.PeerTargetDatabases, model.PeerTargetDatabases)
 	m.FreeformTags = model.FreeformTags

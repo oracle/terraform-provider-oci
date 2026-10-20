@@ -147,7 +147,7 @@ func (s *FunctionsApplicationsDataSourceCrud) SetData() error {
 			application["logging"] = nil
 		}
 
-		application["security_attributes"] = r.SecurityAttributes
+		application["security_attributes"] = tfresource.SecurityAttributesToMap(r.SecurityAttributes)
 
 		application["shape"] = r.Shape
 

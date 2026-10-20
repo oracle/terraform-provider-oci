@@ -38,7 +38,9 @@ The following attributes are exported:
 * `cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Cluster that the ESXi host belongs to. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the Cluster. 
 * `compute_availability_domain` - The availability domain of the ESXi host. 
-* `compute_instance_id` - In terms of implementation, an ESXi host is a Compute instance that is configured with the chosen bundle of VMware software. The `computeInstanceId` is the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of that Compute instance.
+* `compute_fault_domain` - The fault domain of the ESXi host. 
+* `compute_instance_id` - In terms of implementation, an ESXi host is a Compute instance that is configured with the chosen bundle of VMware software. The `computeInstanceId` is the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of that Compute instance. 
+* `current_commitment` - The billing option currently used by the ESXi host. [ListSupportedCommitments](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/SupportedCommitmentSummary/ListSupportedCommitments). 
 * `datastore_attachments` - List of DatastoreAttachment objects containing information about attachment details
 	* `block_volume_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Block Volume that belongs to the datastore.
 	* `datastore_id` - The [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Datastore that ESXi host is attached to. 
@@ -58,6 +60,7 @@ The following attributes are exported:
 * `host_ocpu_count` - The OCPU count of the ESXi host. 
 * `host_shape_name` - The compute shape name of the ESXi host. [ListSupportedHostShapes](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/SupportedHostShapes/ListSupportedHostShapes). 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ESXi host. 
+* `initial_fault_domain_host_distribution` - The initial fault domain host distribution mode for the ESXi host. 
 * `is_billing_continuation_in_progress` - Indicates whether this host is in the progress of billing continuation. 
 * `is_billing_swapping_in_progress` - Indicates whether this host is in the progress of swapping billing.
 * `is_vsan_byol_enabled` - Indicates whether this host embedded VMware vSAN with BYOL Allocation.
@@ -73,4 +76,3 @@ The following attributes are exported:
 * `upgraded_replacement_esxi_host_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ESXi host that is newly created to upgrade the original host. 
 * `vcf_byol_allocation_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Byol Allocation for VCF (VMware Cloud Foundation) deployment. 
 * `vmware_software_version` - The version of VMware software that Oracle Cloud VMware Solution installed on the ESXi hosts. 
-

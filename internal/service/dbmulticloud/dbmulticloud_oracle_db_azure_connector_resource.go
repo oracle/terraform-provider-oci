@@ -425,6 +425,12 @@ func (s *DbmulticloudOracleDbAzureConnectorResourceCrud) Get() error {
 
 func (s *DbmulticloudOracleDbAzureConnectorResourceCrud) Update() error {
 
+	if _, ok := s.D.GetOkExists(""); ok && s.D.HasChange("") {
+		err := s.RefreshOracleDbAzureConnector()
+		if err != nil {
+			return err
+		}
+	}
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -588,6 +594,26 @@ func (s *DbmulticloudOracleDbAzureConnectorResourceCrud) SetData() error {
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
+	return nil
+}
+
+func (s *DbmulticloudOracleDbAzureConnectorResourceCrud) RefreshOracleDbAzureConnector() error {
+	request := oci_dbmulticloud.RefreshOracleDbAzureConnectorRequest{}
+
+	idTmp := s.D.Id()
+	request.OracleDbAzureConnectorId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
+
+	_, err := s.Client.RefreshOracleDbAzureConnector(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
 

@@ -22,7 +22,7 @@ data "oci_identity_tag_defaults" "test_tag_defaults" {
 	compartment_id = var.compartment_id
 	id = var.tag_default_id
 	state = var.tag_default_state
-	tag_definition_id = oci_identity_tag_definition.test_tag_definition.id
+	tag_definition_id = oci_identity_tag.test_tag_definition.id
 }
 ```
 
@@ -59,4 +59,3 @@ The following attributes are exported:
 * `tag_namespace_id` - The OCID of the tag namespace that contains the tag definition. 
 * `time_created` - Date and time the `TagDefault` object was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `value` - The default value for the tag definition. This will be applied to all new resources created in the compartment. 
-

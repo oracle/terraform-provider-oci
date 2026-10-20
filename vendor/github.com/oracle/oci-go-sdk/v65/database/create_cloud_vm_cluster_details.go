@@ -145,6 +145,9 @@ type CreateCloudVmClusterDetails struct {
 	// Operating system version of the image.
 	SystemVersion *string `mandatory:"false" json:"systemVersion"`
 
+	// If true, the caller acknowledges selecting or applying an older DB, Grid Infrastructure, or operating system software version that is outside the latest default version window.
+	IsOlderVersionAcknowledged *bool `mandatory:"false" json:"isOlderVersionAcknowledged"`
+
 	// Details of the file system configuration of the VM cluster.
 	FileSystemConfigurationDetails []FileSystemConfigurationDetail `mandatory:"false" json:"fileSystemConfigurationDetails"`
 

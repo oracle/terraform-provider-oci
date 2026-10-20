@@ -111,6 +111,8 @@ func (s *DataSafeTargetDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	s.D.Set("features", s.Res.Features)
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.LifecycleDetails != nil {

@@ -95,6 +95,10 @@ func DatabaseBackupResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"aws_encryption_key_pool_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"azure_encryption_key_id": {
 							Type:     schema.TypeString,
 							Computed: true,

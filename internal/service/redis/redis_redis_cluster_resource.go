@@ -148,6 +148,10 @@ func RedisRedisClusterResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"primary_cluster_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"security_attributes": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -161,6 +165,65 @@ func RedisRedisClusterResource() *schema.Resource {
 			},
 
 			// Computed
+			"cluster_replication_topology": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"primary_cluster": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"oci_cache_cluster_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"region": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"secondary_clusters": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"oci_cache_cluster_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"region": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+			"cluster_role": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"discovery_endpoint_ip_address": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -391,6 +454,11 @@ func (s *RedisRedisClusterResourceCrud) CreateWithContext(ctx context.Context) e
 	if ociCacheConfigSetId, ok := s.D.GetOkExists("oci_cache_config_set_id"); ok {
 		tmp := ociCacheConfigSetId.(string)
 		request.OciCacheConfigSetId = &tmp
+	}
+
+	if primaryClusterId, ok := s.D.GetOkExists("primary_cluster_id"); ok {
+		tmp := primaryClusterId.(string)
+		request.PrimaryClusterId = &tmp
 	}
 
 	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
@@ -648,7 +716,8 @@ func (s *RedisRedisClusterResourceCrud) UpdateWithContext(ctx context.Context) e
 		}
 	}
 
-	if ociCacheConfigSetId, ok := s.D.GetOkExists("oci_cache_config_set_id"); ok && s.D.HasChange("oci_cache_config_set_id") {
+	// A version upgrade and its compatible config set must be sent together below.
+	if ociCacheConfigSetId, ok := s.D.GetOkExists("oci_cache_config_set_id"); ok && s.D.HasChange("oci_cache_config_set_id") && !s.D.HasChange("software_version") {
 		tmp := ociCacheConfigSetId.(string)
 		request := oci_redis.UpdateRedisClusterRequest{}
 		request.OciCacheConfigSetId = &tmp
@@ -694,9 +763,33 @@ func (s *RedisRedisClusterResourceCrud) UpdateWithContext(ctx context.Context) e
 	if softwareVersion, ok := s.D.GetOkExists("software_version"); ok && s.D.HasChange("software_version") {
 		request := oci_redis.UpdateRedisClusterRequest{}
 		request.SoftwareVersion = oci_redis.RedisClusterSoftwareVersionEnum(softwareVersion.(string))
+		if ociCacheConfigSetId, ok := s.D.GetOkExists("oci_cache_config_set_id"); ok && s.D.HasChange("oci_cache_config_set_id") {
+			tmp := ociCacheConfigSetId.(string)
+			request.OciCacheConfigSetId = &tmp
+		}
 		err := s.updateRedisCluster(ctx, request)
 		if err != nil {
 			return err
+		}
+	}
+
+	// Run the CRR topology-changing action after all regular cluster updates have succeeded.
+	if s.D.HasChange("primary_cluster_id") {
+		oldRaw, newRaw := s.D.GetChange("primary_cluster_id")
+		oldPrimaryClusterID, _ := oldRaw.(string)
+		newPrimaryClusterID, _ := newRaw.(string)
+
+		switch {
+		case oldPrimaryClusterID == "" && newPrimaryClusterID != "":
+			if err := s.convertToSecondaryCluster(ctx, newPrimaryClusterID); err != nil {
+				return err
+			}
+		case oldPrimaryClusterID != "" && newPrimaryClusterID == "":
+			if err := s.convertToStandaloneCluster(ctx); err != nil {
+				return err
+			}
+		case oldPrimaryClusterID != "" && newPrimaryClusterID != "":
+			return fmt.Errorf("changing primary_cluster_id from one primary cluster to another is not supported; first remove primary_cluster_id and apply to convert the cluster to standalone")
 		}
 	}
 
@@ -729,6 +822,14 @@ func (s *RedisRedisClusterResourceCrud) SetData() error {
 	}
 
 	s.D.Set("cluster_mode", s.Res.ClusterMode)
+
+	if s.Res.ClusterReplicationTopology != nil {
+		s.D.Set("cluster_replication_topology", []interface{}{ClusterReplicationTopologyToMap(s.Res.ClusterReplicationTopology)})
+	} else {
+		s.D.Set("cluster_replication_topology", nil)
+	}
+
+	s.D.Set("cluster_role", s.Res.ClusterRole)
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
@@ -786,6 +887,12 @@ func (s *RedisRedisClusterResourceCrud) SetData() error {
 		s.D.Set("oci_cache_config_set_id", *s.Res.OciCacheConfigSetId)
 	}
 
+	if s.Res.PrimaryClusterId != nil {
+		s.D.Set("primary_cluster_id", *s.Res.PrimaryClusterId)
+	} else {
+		s.D.Set("primary_cluster_id", nil)
+	}
+
 	if s.Res.PrimaryEndpointIpAddress != nil {
 		s.D.Set("primary_endpoint_ip_address", *s.Res.PrimaryEndpointIpAddress)
 	}
@@ -833,6 +940,22 @@ func (s *RedisRedisClusterResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func ClusterReplicationTopologyToMap(obj *oci_redis.ClusterReplicationTopology) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.PrimaryCluster != nil {
+		result["primary_cluster"] = []interface{}{MemberClusterToMap(obj.PrimaryCluster)}
+	}
+
+	secondaryClusters := []interface{}{}
+	for _, item := range obj.SecondaryClusters {
+		secondaryClusters = append(secondaryClusters, MemberClusterToMap(&item))
+	}
+	result["secondary_clusters"] = secondaryClusters
+
+	return result
 }
 
 func (s *RedisRedisClusterResourceCrud) mapToImportOciCacheFromObjectStorageDetails(fieldKeyFormat string) (oci_redis.ImportOciCacheFromObjectStorageDetails, error) {
@@ -909,6 +1032,20 @@ func ImportOciCacheFromObjectStorageObjectToMap(obj oci_redis.ImportOciCacheFrom
 	return result
 }
 
+func MemberClusterToMap(obj *oci_redis.MemberCluster) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.OciCacheClusterId != nil {
+		result["oci_cache_cluster_id"] = string(*obj.OciCacheClusterId)
+	}
+
+	if obj.Region != nil {
+		result["region"] = string(*obj.Region)
+	}
+
+	return result
+}
+
 func NodeToMap(obj oci_redis.Node) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -947,6 +1084,8 @@ func RedisClusterSummaryToMap(obj oci_redis.RedisClusterSummary, datasource bool
 	}
 
 	result["cluster_mode"] = string(obj.ClusterMode)
+
+	result["cluster_role"] = string(obj.ClusterRole)
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
@@ -998,6 +1137,10 @@ func RedisClusterSummaryToMap(obj oci_redis.RedisClusterSummary, datasource bool
 
 	if obj.OciCacheConfigSetId != nil {
 		result["oci_cache_config_set_id"] = string(*obj.OciCacheConfigSetId)
+	}
+
+	if obj.PrimaryClusterId != nil {
+		result["primary_cluster_id"] = string(*obj.PrimaryClusterId)
 	}
 
 	if obj.PrimaryEndpointIpAddress != nil {
@@ -1082,4 +1225,50 @@ func (s *RedisRedisClusterResourceCrud) updateRedisCluster(ctx context.Context, 
 
 	workId := response.OpcWorkRequestId
 	return s.getRedisClusterFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "redis"), oci_redis.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *RedisRedisClusterResourceCrud) convertToSecondaryCluster(ctx context.Context, primaryClusterID string) error {
+	if err := s.GetWithContext(ctx); err != nil {
+		return err
+	}
+	if s.Res.ClusterRole != oci_redis.RedisClusterClusterRoleStandalone {
+		return fmt.Errorf("primary_cluster_id can only be added to a standalone cluster; current cluster role is %s", s.Res.ClusterRole)
+	}
+
+	request := oci_redis.ConvertToSecondaryClusterRequest{
+		ConvertToSecondaryClusterDetails: oci_redis.ConvertToSecondaryClusterDetails{
+			PrimaryClusterId: &primaryClusterID,
+		},
+	}
+	id := s.D.Id()
+	request.RedisClusterId = &id
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "redis")
+
+	response, err := s.Client.ConvertToSecondaryCluster(ctx, request)
+	if err != nil {
+		return err
+	}
+
+	return s.getRedisClusterFromWorkRequest(ctx, response.OpcWorkRequestId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "redis"), oci_redis.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *RedisRedisClusterResourceCrud) convertToStandaloneCluster(ctx context.Context) error {
+	if err := s.GetWithContext(ctx); err != nil {
+		return err
+	}
+	if s.Res.ClusterRole != oci_redis.RedisClusterClusterRoleSecondary {
+		return fmt.Errorf("primary_cluster_id can only be removed from a secondary cluster; current cluster role is %s", s.Res.ClusterRole)
+	}
+
+	request := oci_redis.ConvertToStandaloneClusterRequest{}
+	id := s.D.Id()
+	request.RedisClusterId = &id
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "redis")
+
+	response, err := s.Client.ConvertToStandaloneCluster(ctx, request)
+	if err != nil {
+		return err
+	}
+
+	return s.getRedisClusterFromWorkRequest(ctx, response.OpcWorkRequestId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "redis"), oci_redis.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

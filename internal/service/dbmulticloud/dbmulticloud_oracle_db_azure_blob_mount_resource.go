@@ -47,7 +47,6 @@ func DbmulticloudOracleDbAzureBlobMountResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -62,7 +61,6 @@ func DbmulticloudOracleDbAzureBlobMountResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-
 			// Computed
 			"last_modification": {
 				Type:     schema.TypeString,

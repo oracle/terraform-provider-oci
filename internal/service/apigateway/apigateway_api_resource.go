@@ -346,13 +346,13 @@ func apiWaitForWorkRequest(ctx context.Context, wId *string, entityType string, 
 	response := oci_apigateway.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_apigateway.WorkRequestStatusInProgress),
 			string(oci_apigateway.WorkRequestStatusAccepted),
+			string(oci_apigateway.WorkRequestStatusInProgress),
 			string(oci_apigateway.WorkRequestStatusCanceling),
 		},
 		Target: []string{
-			string(oci_apigateway.WorkRequestStatusSucceeded),
 			string(oci_apigateway.WorkRequestStatusFailed),
+			string(oci_apigateway.WorkRequestStatusSucceeded),
 			string(oci_apigateway.WorkRequestStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {

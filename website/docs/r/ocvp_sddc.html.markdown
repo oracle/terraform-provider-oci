@@ -67,6 +67,7 @@ resource "oci_ocvp_sddc" "test_sddc" {
 			}
 			display_name = var.sddc_initial_configuration_initial_cluster_configurations_display_name
 			initial_commitment = var.sddc_initial_configuration_initial_cluster_configurations_initial_commitment
+			initial_fault_domain_host_distribution = var.sddc_initial_configuration_initial_cluster_configurations_initial_fault_domain_host_distribution
 			initial_host_ocpu_count = var.sddc_initial_configuration_initial_cluster_configurations_initial_host_ocpu_count
 			initial_host_shape_name = oci_core_shape.test_shape.name
 			initial_vcf_byol_allocation_id = oci_ocvp_byol_allocation.test_byol_allocation.id
@@ -138,6 +139,7 @@ The following arguments are supported:
 
 			**Note:** If you later delete EXSi hosts from a production Cluster to total less than 3, you are still billed for the 3 minimum recommended ESXi hosts. Also, you cannot add more VMware workloads to the Cluster until it again has at least 3 ESXi hosts. 
 		* `initial_commitment` - (Optional) The billing option selected during Cluster creation. [ListSupportedCommitments](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedCommitmentSummary/ListSupportedCommitments). 
+		* `initial_fault_domain_host_distribution` - (Optional) Initial Fault Domain Host distribution mode for the Cluster. 
 		* `initial_host_ocpu_count` - (Optional) The initial OCPU count of the Cluster's ESXi hosts. 
 		* `initial_host_shape_name` - (Optional) The initial compute shape of the Cluster's ESXi hosts. [ListSupportedHostShapes](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedHostShapes/ListSupportedHostShapes). 
 		* `initial_vcf_byol_allocation_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the initial VMware BYOL Allocation used to deploy VMware Cloud Foundation. 
@@ -279,8 +281,9 @@ The following attributes are exported:
 		* `esxi_hosts_count` - The number of ESXi hosts to create in the Cluster. You can add more hosts later (see [CreateEsxiHost](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost)). Creating a Cluster with a ESXi host count of 1 will be considered a single ESXi host Cluster.
 
 			**Note:** If you later delete EXSi hosts from a production Cluster to total less than 3, you are still billed for the 3 minimum recommended ESXi hosts. Also, you cannot add more VMware workloads to the Cluster until it again has at least 3 ESXi hosts. 
+		* `initial_commitment` - The billing option selected during Cluster creation. [ListSupportedCommitments](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedCommitmentSummary/ListSupportedCommitments). 
+		* `initial_fault_domain_host_distribution` - Initial Fault Domain Host distribution mode for the Cluster. 
 		* `actual_esxi_hosts_count` - The number of actual ESXi hosts in the SDDC on the cloud. This attribute will be different when esxi Host is added to an existing SDDC. **Deprecated**.
-        * `initial_commitment` - The billing option selected during Cluster creation. [ListSupportedCommitments](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedCommitmentSummary/ListSupportedCommitments). 
 		* `initial_host_ocpu_count` - The initial OCPU count of the Cluster's ESXi hosts. 
 		* `initial_host_shape_name` - The initial compute shape of the Cluster's ESXi hosts. [ListSupportedHostShapes](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedHostShapes/ListSupportedHostShapes). 
 		* `initial_vcf_byol_allocation_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the initial VMware BYOL Allocation used to deploy VMware Cloud Foundation. 
@@ -435,4 +438,3 @@ Sddcs can be imported using the `id`, e.g.
 ```
 $ terraform import oci_ocvp_sddc.test_sddc "id"
 ```
-

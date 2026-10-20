@@ -43,7 +43,6 @@ func HealthChecksHttpProbeResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
-
 			// Optional
 			"headers": {
 				Type:     schema.TypeMap,
@@ -85,7 +84,6 @@ func HealthChecksHttpProbeResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
-
 			// Computed
 			"home_region": {
 				Type:     schema.TypeString,

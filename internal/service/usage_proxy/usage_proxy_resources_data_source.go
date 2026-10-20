@@ -35,21 +35,11 @@ func UsageProxyResourcesDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"child_resources": {
 										Type:     schema.TypeList,
 										Computed: true,
@@ -94,11 +84,6 @@ func UsageProxyResourcesDataSource() *schema.Resource {
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"cloud_credit_type": {
 													Type:     schema.TypeString,
 													Computed: true,

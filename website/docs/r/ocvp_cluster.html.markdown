@@ -65,6 +65,7 @@ resource "oci_ocvp_cluster" "test_cluster" {
 	esxi_software_version = var.cluster_esxi_software_version
 	freeform_tags = {"Department"= "Finance"}
 	initial_commitment = var.cluster_initial_commitment
+	initial_fault_domain_host_distribution = var.cluster_initial_fault_domain_host_distribution
 	initial_host_ocpu_count = var.cluster_initial_host_ocpu_count
 	initial_host_shape_name = oci_core_shape.test_shape.name
 	initial_vcf_byol_allocation_id = oci_ocvp_byol_allocation.test_byol_allocation.id
@@ -97,6 +98,7 @@ The following arguments are supported:
 * `esxi_software_version` - (Optional) (Updatable) The ESXi software bundle to install on the ESXi hosts in the Cluster.  Only versions under the same vmwareSoftwareVersion and have been validate by Oracle Cloud VMware Solution will be accepted. To get a list of the available versions, use [ListSupportedVmwareSoftwareVersions](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20230701/SupportedVmwareSoftwareVersionSummary/ListSupportedVmwareSoftwareVersions). 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `initial_commitment` - (Optional) The billing option selected during Cluster creation. [ListSupportedCommitments](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedCommitmentSummary/ListSupportedCommitments). 
+* `initial_fault_domain_host_distribution` - (Optional) The initial fault domain host distribution mode for the Cluster. 
 * `initial_host_ocpu_count` - (Optional) The initial OCPU count of the Cluster's ESXi hosts. 
 * `initial_host_shape_name` - (Optional) The initial compute shape of the Cluster's ESXi hosts. [ListSupportedHostShapes](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedHostShapes/ListSupportedHostShapes). 
 * `initial_vcf_byol_allocation_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the initial VMware BYOL Allocation used to deploy VMware Cloud Foundation. 
@@ -182,6 +184,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Cluster. 
 * `initial_commitment` - The billing option selected during Cluster creation. [ListSupportedCommitments](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedCommitmentSummary/ListSupportedCommitments). 
+* `initial_fault_domain_host_distribution` - The initial fault domain host distribution mode for the Cluster. 
 * `initial_host_ocpu_count` - The initial OCPU count of the Cluster's ESXi hosts. 
 * `initial_host_shape_name` - The initial compute shape of the Cluster's ESXi hosts. [ListSupportedHostShapes](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedHostShapes/ListSupportedHostShapes). 
 * `initial_vcf_byol_allocation_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the initial VMware BYOL Allocation used to deploy VMware Cloud Foundation. 

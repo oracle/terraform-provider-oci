@@ -36,11 +36,6 @@ func JmsFleetBlocklistsDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"key": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -58,11 +53,6 @@ func JmsFleetBlocklistsDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"fleet_id": {
 										Type:     schema.TypeString,
 										Computed: true,

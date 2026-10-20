@@ -30,7 +30,7 @@ const (
 	CharsetWithoutDigits          = "abcdefghijklmnopqrstuvwxyz" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	OciImageIdsVariable           = `
 		variable "InstanceImageOCID" {
-			type = "map"
+			type = map(string)
 			default = {
 				// See https://docs.us-phoenix-1.oraclecloud.com/images/
 				// Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"

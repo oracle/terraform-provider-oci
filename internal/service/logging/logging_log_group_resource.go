@@ -261,13 +261,13 @@ func logGroupWaitForWorkRequest(wId *string, entityType string, action oci_loggi
 	response := oci_logging.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_logging.OperationStatusInProgress),
 			string(oci_logging.OperationStatusAccepted),
+			string(oci_logging.OperationStatusInProgress),
 			string(oci_logging.OperationStatusCancelling),
 		},
 		Target: []string{
-			string(oci_logging.OperationStatusSucceeded),
 			string(oci_logging.OperationStatusFailed),
+			string(oci_logging.OperationStatusSucceeded),
 			string(oci_logging.OperationStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {

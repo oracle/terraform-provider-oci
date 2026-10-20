@@ -48,7 +48,6 @@ func DbmulticloudOracleDbAzureBlobContainerResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -73,7 +72,6 @@ func DbmulticloudOracleDbAzureBlobContainerResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
-
 			// Computed
 			"last_modification": {
 				Type:     schema.TypeString,

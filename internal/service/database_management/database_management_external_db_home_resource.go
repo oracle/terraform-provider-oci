@@ -31,7 +31,6 @@ func DatabaseManagementExternalDbHomeResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -46,7 +45,6 @@ func DatabaseManagementExternalDbHomeResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-
 			// Computed
 			"additional_details": {
 				Type:     schema.TypeMap,

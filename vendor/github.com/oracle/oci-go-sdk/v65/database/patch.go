@@ -42,6 +42,9 @@ type Patch struct {
 
 	// The current state of the patch as a result of lastAction.
 	LifecycleState PatchLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// True when selecting or applying this DB, Grid Infrastructure, or operating system software version requires older-version acknowledgment.
+	IsOlderVersionAcknowledgmentRequired *bool `mandatory:"false" json:"isOlderVersionAcknowledgmentRequired"`
 }
 
 func (m Patch) String() string {

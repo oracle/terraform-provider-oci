@@ -1606,6 +1606,64 @@ func (client DatabaseMigrationClient) getConnection(ctx context.Context, request
 	return response, err
 }
 
+// GetDataVerificationDetail Returns availability and report status information used by the Data Verification UI.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/GetDataVerificationDetail.go.html to see an example of how to use GetDataVerificationDetail API.
+// A default retry strategy applies to this operation GetDataVerificationDetail()
+func (client DatabaseMigrationClient) GetDataVerificationDetail(ctx context.Context, request GetDataVerificationDetailRequest) (response GetDataVerificationDetailResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDataVerificationDetail, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDataVerificationDetailResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDataVerificationDetailResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDataVerificationDetailResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDataVerificationDetailResponse")
+	}
+	return
+}
+
+// getDataVerificationDetail implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) getDataVerificationDetail(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/migrations/{migrationId}/dataVerification/detail", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDataVerificationDetailResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseMigration", "GetDataVerificationDetail")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/DataVerificationDetail/GetDataVerificationDetail"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "GetDataVerificationDetail", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetJob Get a migration job.
 //
 // # See also
@@ -2473,6 +2531,182 @@ func (client DatabaseMigrationClient) listConnections(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/ConnectionSummary/ListConnections"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListConnections", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDataVerificationObjectStatuses Lists per-object status comparison results for a migration.
+// The `objectType` filter is a database-specific string and is validated by the backend.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListDataVerificationObjectStatuses.go.html to see an example of how to use ListDataVerificationObjectStatuses API.
+// A default retry strategy applies to this operation ListDataVerificationObjectStatuses()
+func (client DatabaseMigrationClient) ListDataVerificationObjectStatuses(ctx context.Context, request ListDataVerificationObjectStatusesRequest) (response ListDataVerificationObjectStatusesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDataVerificationObjectStatuses, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDataVerificationObjectStatusesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDataVerificationObjectStatusesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDataVerificationObjectStatusesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDataVerificationObjectStatusesResponse")
+	}
+	return
+}
+
+// listDataVerificationObjectStatuses implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) listDataVerificationObjectStatuses(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/migrations/{migrationId}/dataVerification/objectStatuses", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDataVerificationObjectStatusesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseMigration", "ListDataVerificationObjectStatuses")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/DataVerificationObjectStatusCollection/ListDataVerificationObjectStatuses"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListDataVerificationObjectStatuses", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDataVerificationObjectTypeCounts Lists object type count comparison results for a migration.
+// The `objectType` filter is a database-specific string and is validated by the backend.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListDataVerificationObjectTypeCounts.go.html to see an example of how to use ListDataVerificationObjectTypeCounts API.
+// A default retry strategy applies to this operation ListDataVerificationObjectTypeCounts()
+func (client DatabaseMigrationClient) ListDataVerificationObjectTypeCounts(ctx context.Context, request ListDataVerificationObjectTypeCountsRequest) (response ListDataVerificationObjectTypeCountsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDataVerificationObjectTypeCounts, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDataVerificationObjectTypeCountsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDataVerificationObjectTypeCountsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDataVerificationObjectTypeCountsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDataVerificationObjectTypeCountsResponse")
+	}
+	return
+}
+
+// listDataVerificationObjectTypeCounts implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) listDataVerificationObjectTypeCounts(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/migrations/{migrationId}/dataVerification/objectTypeCounts", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDataVerificationObjectTypeCountsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseMigration", "ListDataVerificationObjectTypeCounts")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/DataVerificationObjectTypeCountCollection/ListDataVerificationObjectTypeCounts"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListDataVerificationObjectTypeCounts", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDataVerificationTableRowCounts Lists table row count comparison results for a migration.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListDataVerificationTableRowCounts.go.html to see an example of how to use ListDataVerificationTableRowCounts API.
+// A default retry strategy applies to this operation ListDataVerificationTableRowCounts()
+func (client DatabaseMigrationClient) ListDataVerificationTableRowCounts(ctx context.Context, request ListDataVerificationTableRowCountsRequest) (response ListDataVerificationTableRowCountsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDataVerificationTableRowCounts, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDataVerificationTableRowCountsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDataVerificationTableRowCountsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDataVerificationTableRowCountsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDataVerificationTableRowCountsResponse")
+	}
+	return
+}
+
+// listDataVerificationTableRowCounts implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) listDataVerificationTableRowCounts(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/migrations/{migrationId}/dataVerification/tableRowCounts", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDataVerificationTableRowCountsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseMigration", "ListDataVerificationTableRowCounts")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/DataVerificationTableRowCountCollection/ListDataVerificationTableRowCounts"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListDataVerificationTableRowCounts", apiReferenceLink)
 		return response, err
 	}
 
@@ -3656,6 +3890,69 @@ func (client DatabaseMigrationClient) retrieveSupportedPhases(ctx context.Contex
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Migration/RetrieveSupportedPhases"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "RetrieveSupportedPhases", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RunDataVerification Runs Data Verification for a migration and returns the updated Data Verification summary.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/RunDataVerification.go.html to see an example of how to use RunDataVerification API.
+// A default retry strategy applies to this operation RunDataVerification()
+func (client DatabaseMigrationClient) RunDataVerification(ctx context.Context, request RunDataVerificationRequest) (response RunDataVerificationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.runDataVerification, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RunDataVerificationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RunDataVerificationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RunDataVerificationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RunDataVerificationResponse")
+	}
+	return
+}
+
+// runDataVerification implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) runDataVerification(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/migrations/{migrationId}/actions/runDataVerification", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RunDataVerificationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseMigration", "RunDataVerification")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Migration/RunDataVerification"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "RunDataVerification", apiReferenceLink)
 		return response, err
 	}
 

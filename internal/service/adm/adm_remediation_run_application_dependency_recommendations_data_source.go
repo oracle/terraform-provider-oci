@@ -35,21 +35,11 @@ func AdmRemediationRunApplicationDependencyRecommendationsDataSource() *schema.R
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"application_dependency_node_ids": {
 										Type:     schema.TypeList,
 										Computed: true,

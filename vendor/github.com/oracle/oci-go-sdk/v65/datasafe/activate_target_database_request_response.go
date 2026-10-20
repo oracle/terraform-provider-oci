@@ -18,11 +18,11 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ActivateTargetDatabase.go.html to see an example of how to use ActivateTargetDatabaseRequest.
 type ActivateTargetDatabaseRequest struct {
 
-	// The details used to reactivate a target database in Data Safe.
-	ActivateTargetDatabaseDetails `contributesTo:"body"`
-
 	// The OCID of the Data Safe target database.
 	TargetDatabaseId *string `mandatory:"true" contributesTo:"path" name:"targetDatabaseId"`
+
+	// The details used to reactivate a target database in Data Safe.
+	ActivateTargetDatabaseDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24

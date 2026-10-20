@@ -83,7 +83,7 @@ The following attributes are exported:
 		* `service_name` - Service name of the database.
 	* `dns_configuration` - Information about the DNS settings.
 		* `is_override_dns` - If isOverrideDns is true, then DNS settings will be overridden.
-		* `override_dns_ip` - Attribute to override the DNS IP value. This value will be honored only if isOverrideDns is set to true.
+		* `override_dns_ip` - Attribute to override the DNS IP value. This value is required only if isOverrideDns is set to true.
 	* `download_size_limit_in_bytes` - Download size limit in Bytes, at which to stop the transfer. Maximum download size limit is 5 MiB.
 	* `ftp_basic_authentication_details` - Details for basic authentication.
 		* `password` - Password.
@@ -145,6 +145,8 @@ The following attributes are exported:
 * `is_run_once` - If runOnce is enabled, then the monitor will run once.
 * `last_updated_by` - Name of the user that recently updated the monitor.
 * `maintenance_window_schedule` - Details required to schedule maintenance window.
+	* `recurrence_type` - Type of recurrence for a recurring maintenance window.
+	* `schedule_type` - Type of maintenance window schedule. If not provided, a schedule with timeStarted and timeEnded is treated as ONE_TIME.
 	* `time_ended` - End time of the maintenance window, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-12T22:47:12.613Z` 
 	* `time_started` - Start time of the maintenance window, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-12T22:47:12.613Z` 
 * `monitor_type` - Type of monitor.

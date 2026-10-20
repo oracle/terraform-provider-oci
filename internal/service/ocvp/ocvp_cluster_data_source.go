@@ -117,6 +117,8 @@ func (s *OcvpClusterDataSourceCrud) SetData() error {
 
 	s.D.Set("initial_commitment", s.Res.InitialCommitment)
 
+	s.D.Set("initial_fault_domain_host_distribution", s.Res.InitialFaultDomainHostDistribution)
+
 	if s.Res.InitialHostOcpuCount != nil {
 		s.D.Set("initial_host_ocpu_count", *s.Res.InitialHostOcpuCount)
 	}

@@ -1933,6 +1933,30 @@ func TestUnitGetExportConfigWithFakeProviderClient(t *testing.T) {
 	}
 }
 
+func TestUnitGetExportConfigTenancyOCIDErrorIncludesAuthAndDocumentation(t *testing.T) {
+	originalGetSdkConfigProvider := tfProviderGetSdkConfigProvider
+	originalTenancyOCID := sdkConfigProviderTenancyOCIDVar
+	defer func() {
+		tfProviderGetSdkConfigProvider = originalGetSdkConfigProvider
+		sdkConfigProviderTenancyOCIDVar = originalTenancyOCID
+	}()
+
+	tfProviderGetSdkConfigProvider = func(d *schema.ResourceData, clients *tf_client.OracleClients) (oci_common.ConfigurationProvider, error) {
+		clients.Configuration[globalvar.AuthAttrName] = globalvar.AuthAPIKeySetting
+		return acctest.MockConfigurationProvider{}, nil
+	}
+	sdkConfigProviderTenancyOCIDVar = func(sdkConfigProvider oci_common.ConfigurationProvider) (string, error) {
+		return "", errors.New("did not find a proper configuration for tenancy")
+	}
+
+	_, err := getExportConfig(nil)
+
+	assert.ErrorContains(t, err, "unable to configure resource discovery using auth=ApiKey")
+	assert.ErrorContains(t, err, "Resource Discovery reads authentication settings from environment variables and OCI configuration profiles; it does not read provider.tf")
+	assert.ErrorContains(t, err, "registry.terraform.io/providers/oracle/oci/latest/docs/guides/resource_discovery#authentication")
+	assert.ErrorContains(t, err, "did not find a proper configuration for tenancy")
+}
+
 /*
    This test is used to Create or destroy resources in a compartment using ORM stack
    Parameter:
@@ -2658,6 +2682,18 @@ func TestUnitResolveCompartmentId(t *testing.T) {
 	compartmentName := "dummy_commpartment"
 	id := "1"
 	exportConfigProvider = acctest.MockConfigurationProvider{}
+	originalListCompartments := identityClientListCompartmentsVar
+	originalGetTenancy := identityClientGetTenancyVar
+	defer func() {
+		identityClientListCompartmentsVar = originalListCompartments
+		identityClientGetTenancyVar = originalGetTenancy
+	}()
+	identityClientGetTenancyVar = func(clients *tf_client.OracleClients, req oci_identity.GetTenancyRequest) (oci_identity.GetTenancyResponse, error) {
+		tenancyName := "root"
+		return oci_identity.GetTenancyResponse{
+			Tenancy: oci_identity.Tenancy{Name: &tenancyName},
+		}, nil
+	}
 	identityClientListCompartmentsVar = func(clients *tf_client.OracleClients, req oci_identity.ListCompartmentsRequest) (oci_identity.ListCompartmentsResponse, error) {
 		opcRequestId := "dummy_opc"
 		return oci_identity.ListCompartmentsResponse{
@@ -2674,6 +2710,62 @@ func TestUnitResolveCompartmentId(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, compartmentId)
 	assert.Equal(t, id, *compartmentId)
+}
+
+func TestUnitResolveRootCompartmentId(t *testing.T) {
+	client := getTestClients()
+	rootCompartmentName := "root"
+	exportConfigProvider = acctest.MockConfigurationProvider{}
+	originalListCompartments := identityClientListCompartmentsVar
+	originalGetTenancy := identityClientGetTenancyVar
+	defer func() {
+		identityClientListCompartmentsVar = originalListCompartments
+		identityClientGetTenancyVar = originalGetTenancy
+	}()
+	identityClientGetTenancyVar = func(clients *tf_client.OracleClients, req oci_identity.GetTenancyRequest) (oci_identity.GetTenancyResponse, error) {
+		return oci_identity.GetTenancyResponse{
+			Tenancy: oci_identity.Tenancy{Name: &rootCompartmentName},
+		}, nil
+	}
+	identityClientListCompartmentsVar = func(clients *tf_client.OracleClients, req oci_identity.ListCompartmentsRequest) (oci_identity.ListCompartmentsResponse, error) {
+		return oci_identity.ListCompartmentsResponse{}, errors.New("ListCompartments should not be called for the root compartment")
+	}
+
+	compartmentId, err := resolveCompartmentId(client, &rootCompartmentName)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, compartmentId)
+	assert.Equal(t, "dummyTanancyOcid", *compartmentId)
+}
+
+func TestUnitResolveCompartmentIdFallsBackWhenTenancyLookupFails(t *testing.T) {
+	client := getTestClients()
+	compartmentName := "child"
+	compartmentID := "child-ocid"
+	exportConfigProvider = acctest.MockConfigurationProvider{}
+	originalListCompartments := identityClientListCompartmentsVar
+	originalGetTenancy := identityClientGetTenancyVar
+	defer func() {
+		identityClientListCompartmentsVar = originalListCompartments
+		identityClientGetTenancyVar = originalGetTenancy
+	}()
+	identityClientGetTenancyVar = func(clients *tf_client.OracleClients, req oci_identity.GetTenancyRequest) (oci_identity.GetTenancyResponse, error) {
+		return oci_identity.GetTenancyResponse{}, errors.New("not authorized to get tenancy")
+	}
+	identityClientListCompartmentsVar = func(clients *tf_client.OracleClients, req oci_identity.ListCompartmentsRequest) (oci_identity.ListCompartmentsResponse, error) {
+		return oci_identity.ListCompartmentsResponse{
+			Items: []oci_identity.Compartment{{
+				Id:   &compartmentID,
+				Name: &compartmentName,
+			}},
+		}, nil
+	}
+
+	resolvedCompartmentID, err := resolveCompartmentId(client, &compartmentName)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, resolvedCompartmentID)
+	assert.Equal(t, compartmentID, *resolvedCompartmentID)
 }
 
 func TestUnitGetTenancyOcidFromCompartment(t *testing.T) {

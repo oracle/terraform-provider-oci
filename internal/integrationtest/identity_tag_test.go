@@ -60,6 +60,9 @@ var (
 		"validator_type": acctest.Representation{RepType: acctest.Required, Create: `ENUM`},
 		"values":         acctest.Representation{RepType: acctest.Required, Create: []string{`value1`, `value2`}},
 	}
+	IdentityTagDefaultValidatorRepresentation = map[string]interface{}{
+		"validator_type": acctest.Representation{RepType: acctest.Required, Create: `DEFAULT`},
+	}
 
 	IdentityTagResourceDependencies = DefinedTagsDependencies
 )
@@ -124,13 +127,32 @@ func TestIdentityTagResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if err != nil {
+						return err
+					}
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						discoveryId, err := getTagCompositeId(resourceName)(s)
+						if err != nil {
+							return err
+						}
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&discoveryId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
 					return err
 				},
+			),
+		},
+		// verify default validator clears enum validation without requiring enum values
+		{
+			Config: config + compartmentIdVariableStr + IdentityTagResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_identity_tag", "test_tag", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(IdentityTagRepresentation, map[string]interface{}{
+						"validator": acctest.RepresentationGroup{RepType: acctest.Optional, Group: IdentityTagDefaultValidatorRepresentation},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "validator.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "validator.0.validator_type", "DEFAULT"),
 			),
 		},
 

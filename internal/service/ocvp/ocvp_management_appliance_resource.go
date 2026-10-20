@@ -38,7 +38,6 @@ func OcvpManagementApplianceResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"is_log_ingestion_enabled": {
 							Type:     schema.TypeBool,
 							Required: true,
@@ -47,8 +46,6 @@ func OcvpManagementApplianceResource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Required: true,
 						},
-
-						// Optional
 						"metrics": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -62,8 +59,6 @@ func OcvpManagementApplianceResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
-
-						// Computed
 					},
 				},
 			},
@@ -72,7 +67,6 @@ func OcvpManagementApplianceResource() *schema.Resource {
 				Required: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"credentials_secret_id": {
 							Type:     schema.TypeString,
 							Required: true,
@@ -81,10 +75,6 @@ func OcvpManagementApplianceResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Required: true,
 						},
-
-						// Optional
-
-						// Computed
 					},
 				},
 			},
@@ -97,7 +87,6 @@ func OcvpManagementApplianceResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -118,7 +107,6 @@ func OcvpManagementApplianceResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
-
 			// Computed
 			"compartment_id": {
 				Type:     schema.TypeString,
@@ -133,11 +121,6 @@ func OcvpManagementApplianceResource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"details": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -399,13 +382,13 @@ func managementApplianceWaitForWorkRequest(ctx context.Context, wId *string, ent
 	response := oci_ocvp.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_ocvp.OperationStatusInProgress),
 			string(oci_ocvp.OperationStatusAccepted),
+			string(oci_ocvp.OperationStatusInProgress),
 			string(oci_ocvp.OperationStatusCanceling),
 		},
 		Target: []string{
-			string(oci_ocvp.OperationStatusSucceeded),
 			string(oci_ocvp.OperationStatusFailed),
+			string(oci_ocvp.OperationStatusSucceeded),
 			string(oci_ocvp.OperationStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {

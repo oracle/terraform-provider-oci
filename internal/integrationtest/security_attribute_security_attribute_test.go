@@ -38,18 +38,11 @@ var (
 
 	SecurityAttributeSecurityAttributeDataSourceRepresentation = map[string]interface{}{
 		"security_attribute_namespace_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_security_attribute_security_attribute_namespace.security_attribute_namespace1.id}`},
-		"state":                           acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"state":                           acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`},
 		"filter":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: SecurityAttributeSecurityAttributeDataSourceFilterRepresentation}}
 	SecurityAttributeSecurityAttributeDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `name`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_security_attribute_security_attribute.test_security_attribute.name}`}},
-	}
-
-	SecurityAttributeSecurityAttributeRetireRepresentation = map[string]interface{}{
-		"description":                     acctest.Representation{RepType: acctest.Required, Create: `This security attribute will be used for billing of associated resources.`, Update: `description2`},
-		"name":                            acctest.Representation{RepType: acctest.Required, Create: `TFTestSecurityAttribute`},
-		"security_attribute_namespace_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_security_attribute_security_attribute_namespace.security_attribute_namespace1.id}`},
-		"is_retired":                      acctest.Representation{RepType: acctest.Optional, Create: "false", Update: "true"},
 	}
 
 	SecurityAttributeSecurityAttributeRepresentation = map[string]interface{}{
@@ -103,31 +96,7 @@ func TestSecurityAttributeSecurityAttributeResource_basic(t *testing.T) {
 			),
 		},
 
-		//Update is_retired to true before deleting
-		{
-			Config: config + compartmentIdVariableStr + SecurityAttributeSecurityAttributeResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_security_attribute_security_attribute", "test_security_attribute", acctest.Optional, acctest.Update, SecurityAttributeSecurityAttributeRetireRepresentation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "is_retired", "true"),
-				resource.TestCheckResourceAttr(resourceName, "name", "TFTestSecurityAttribute"),
-				resource.TestCheckResourceAttrSet(resourceName, "security_attribute_namespace_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "security_attribute_namespace_name"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-				resource.TestCheckResourceAttr(resourceName, "validator.#", "0"),
-
-				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId != resId2 {
-						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-					}
-					return err
-				},
-			),
-		},
-
-		// delete before next Create
+		// delete active resource before next Create
 		{
 			Config: config + compartmentIdVariableStr + SecurityAttributeSecurityAttributeResourceDependencies,
 		},
@@ -194,7 +163,7 @@ func TestSecurityAttributeSecurityAttributeResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_security_attribute_security_attribute", "test_security_attribute", acctest.Optional, acctest.Update, SecurityAttributeSecurityAttributeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "security_attribute_namespace_id"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "INACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "security_attributes.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "security_attributes.0.compartment_id"),

@@ -27,11 +27,6 @@ func CoreVirtualCircuitAssociatedTunnelsDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"ipsec_connection_id": {
 							Type:     schema.TypeString,
 							Computed: true,

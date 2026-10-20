@@ -94,6 +94,28 @@ func DataSafeTargetDatabaseGroupResource() *schema.Resource {
 										Computed: true,
 										Elem:     schema.TypeString,
 									},
+									"freeform_tags_in": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeList,
+											Elem: &schema.Schema{
+												Type: schema.TypeString,
+											},
+										},
+									},
+									"system_tags": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeList,
+											Elem: &schema.Schema{
+												Type: schema.TypeString,
+											},
+										},
+									},
 									"target_database_ids": {
 										Type:     schema.TypeList,
 										Optional: true,
@@ -684,6 +706,18 @@ func (s *DataSafeTargetDatabaseGroupResourceCrud) mapToInclude(fieldKeyFormat st
 		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if freeformTagsIn, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags_in")); ok {
+		result.FreeformTagsIn = freeformTagsIn.(map[string]interface{})
+	}
+
+	if systemTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "system_tags")); ok {
+		tmp, err := tfresource.MapToSystemTags(systemTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert system_tags, encountered error: %v", err)
+		}
+		result.SystemTags = tmp
+	}
+
 	if targetDatabaseIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target_database_ids")); ok {
 		interfaces := targetDatabaseIds.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -714,6 +748,12 @@ func IncludeToMap(obj *oci_data_safe.Include) map[string]interface{} {
 	}
 
 	result["freeform_tags"] = obj.FreeformTags
+
+	result["freeform_tags_in"] = obj.FreeformTagsIn
+
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
 
 	result["target_database_ids"] = obj.TargetDatabaseIds
 

@@ -21,6 +21,9 @@ func TestIdentityOperationsReturnLazyClientInitializationErrors(t *testing.T) {
 	if _, err := getCompartment(clients, oci_identity.GetCompartmentRequest{}); err == nil {
 		t.Fatal("getCompartment did not return the lazy client initialization error")
 	}
+	if _, err := getTenancy(clients, oci_identity.GetTenancyRequest{}); err == nil {
+		t.Fatal("getTenancy did not return the lazy client initialization error")
+	}
 }
 
 func TestRefreshProviderSchemaMapsRebuildsProviderSchemasAndPreservesDiscoveryEntries(t *testing.T) {

@@ -22,9 +22,17 @@ type DatabaseUpgradeWithDbHomeDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
 	DbHomeId *string `mandatory:"true" json:"dbHomeId"`
 
+	// If true, the caller acknowledges selecting or applying an older DB, Grid Infrastructure, or operating system software version that is outside the latest default version window.
+	IsOlderVersionAcknowledged *bool `mandatory:"false" json:"isOlderVersionAcknowledged"`
+
 	// Additional upgrade options supported by DBUA(Database Upgrade Assistant).
 	// Example: "-upgradeTimezone false -keepEvents"
 	Options *string `mandatory:"false" json:"options"`
+}
+
+// GetIsOlderVersionAcknowledged returns IsOlderVersionAcknowledged
+func (m DatabaseUpgradeWithDbHomeDetails) GetIsOlderVersionAcknowledged() *bool {
+	return m.IsOlderVersionAcknowledged
 }
 
 // GetOptions returns Options

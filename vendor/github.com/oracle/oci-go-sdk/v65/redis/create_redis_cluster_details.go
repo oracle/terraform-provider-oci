@@ -60,6 +60,9 @@ type CreateRedisClusterDetails struct {
 
 	ImportFromObjectStorageDetails *ImportOciCacheFromObjectStorageDetails `mandatory:"false" json:"importFromObjectStorageDetails"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the primary cluster from which data will be replicated.
+	PrimaryClusterId *string `mandatory:"false" json:"primaryClusterId"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

@@ -48,6 +48,14 @@ The following attributes are exported:
 
 * `backup_id` - The ID of the Oracle Cloud Infrastructure Cache Backup from which this cluster was created.
 * `cluster_mode` - Specifies whether the cluster is sharded or non-sharded.
+* `cluster_replication_topology` - Defines the replication topology of an Oracle Cloud Infrastructure cache cluster, including the primary cluster and associated secondary clusters participating in replication.
+	* `primary_cluster` - The details of a cluster participating in the replication setup.
+		* `oci_cache_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the Oracle Cloud Infrastructure Cache cluster.
+		* `region` - The Oracle Cloud Infrastructure region to which the cluster belongs.
+	* `secondary_clusters` - The list of secondary clusters that replicate data from the primary cluster.
+		* `oci_cache_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the Oracle Cloud Infrastructure Cache cluster.
+		* `region` - The Oracle Cloud Infrastructure region to which the cluster belongs.
+* `cluster_role` - The current role of the cluster.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the compartment that contains the cluster.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `discovery_endpoint_ip_address` - The private IP address of the API endpoint for sharded cluster discovery.
@@ -70,6 +78,7 @@ The following attributes are exported:
 * `node_memory_in_gbs` - The amount of memory allocated to the cluster's nodes, in gigabytes.
 * `nsg_ids` - A list of Network Security Group (NSG) [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this cluster. For more information, see [Using an NSG for Clusters](https://docs.cloud.oracle.com/iaas/Content/ocicache/connecttocluster.htm#connecttocluster__networksecuritygroup). 
 * `oci_cache_config_set_id` - The ID of the corresponding Oracle Cloud Infrastructure Cache Config Set for the cluster.
+* `primary_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the primary cluster in CRR.
 * `primary_endpoint_ip_address` - The private IP address of the API endpoint for the cluster's primary node.
 * `primary_fqdn` - The fully qualified domain name (FQDN) of the API endpoint for the cluster's primary node.
 * `replicas_endpoint_ip_address` - The private IP address of the API endpoint for the cluster's replica nodes.

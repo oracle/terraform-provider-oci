@@ -589,10 +589,6 @@ func DatabaseMigrationMigrationResource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
-						"job_mode": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
 
 						// Optional
 						"compatibility": {
@@ -721,6 +717,11 @@ func DatabaseMigrationMigrationResource() *schema.Resource {
 						},
 						"is_tz_utc": {
 							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"job_mode": {
+							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},

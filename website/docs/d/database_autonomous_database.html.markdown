@@ -86,6 +86,7 @@ The following attributes are exported:
 * `connection_urls` - The URLs for accessing Oracle Application Express (APEX) and SQL Developer Web with a browser from a Compute instance within your VCN or that has a direct connection to your VCN. Note that these URLs are provided by the console only for databases on [dedicated Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).  Example: `{"sqlDevWebUrl": "https://<hostname>/ords...", "apexUrl", "https://<hostname>/ords..."}` 
 	* `apex_url` - Oracle Application Express (APEX) URL.
 	* `database_transforms_url` - The URL of the Database Transforms for the Autonomous AI Database.
+	* `essbase_url` - Essbase URL for the Autonomous AI Database.
 	* `graph_studio_url` - The URL of the Graph Studio for the Autonomous AI Database.
 	* `machine_learning_notebook_url` - The URL of the Oracle Machine Learning (OML) Notebook for the Autonomous AI Database.
 	* `machine_learning_user_management_url` - Oracle Machine Learning user management URL.
@@ -187,7 +188,7 @@ The following attributes are exported:
 * `is_access_control_enabled` - Indicates if the database-level access control is enabled. If disabled, database access is defined by the network security rules. If enabled, database access is restricted to the IP addresses defined by the rules specified with the `whitelistedIps` property. While specifying `whitelistedIps` rules is optional, if database-level access control is enabled and no rules are specified, the database will become inaccessible. The rules can be added later using the `UpdateAutonomousDatabase` API operation or edit option in console. When creating a database clone, the desired access control setting should be specified. By default, database-level access control will be disabled for the clone.
 
 	This property is applicable only to Autonomous AI Databases on the Exadata Cloud@Customer platform. For Autonomous AI Database Serverless instances, `whitelistedIps` is used. 
-* `is_auto_scaling_enabled` - Indicates if auto scaling is enabled for the Autonomous AI Database CPU core count. The default value is `TRUE`. 
+* `is_auto_scaling_enabled` - Indicates if auto scaling is enabled for the Autonomous AI Database CPU core count. The default value is `TRUE`.
 * `is_auto_scaling_for_storage_enabled` - Indicates if auto scaling is enabled for the Autonomous AI Database storage. The default value is `FALSE`. 
 * `is_backup_retention_locked` - Indicates if the Autonomous AI Database is backup retention locked.
 * `is_data_guard_enabled` - **Deprecated.** Indicates whether the Autonomous AI Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous AI Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure. 
@@ -277,6 +278,7 @@ The following attributes are exported:
 * `public_connection_urls` - The Public URLs of Private Endpoint database for accessing Oracle Application Express (APEX) and SQL Developer Web with a browser from a Compute instance within your VCN or that has a direct connection to your VCN.
 	* `apex_url` - Oracle Application Express (APEX) URL.
 	* `database_transforms_url` - The URL of the Database Transforms for the Autonomous AI Database.
+	* `essbase_url` - Essbase URL for the Autonomous AI Database.
 	* `graph_studio_url` - The URL of the Graph Studio for the Autonomous AI Database.
 	* `machine_learning_notebook_url` - The URL of the Oracle Machine Learning (OML) Notebook for the Autonomous AI Database.
 	* `machine_learning_user_management_url` - Oracle Machine Learning user management URL.
@@ -382,6 +384,7 @@ The following attributes are exported:
 * `vanity_connection_urls` - The URLs for accessing Oracle Application Express (APEX) and SQL Developer Web with a browser from a Compute instance within your VCN or that has a direct connection to your VCN. Note that these URLs are provided by the console only for databases on [dedicated Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).  Example: `{"sqlDevWebUrl": "https://<hostname>/ords...", "apexUrl", "https://<hostname>/ords..."}`
 	* `apex_url` - Oracle Application Express (APEX) URL.
 	* `database_transforms_url` - The URL of the Database Transforms for the Autonomous Database.
+	* `essbase_url` - Essbase URL for the Autonomous AI Database.
 	* `graph_studio_url` - The URL of the Graph Studio for the Autonomous Database.
 	* `machine_learning_notebook_url` - The URL of the Oracle Machine Learning (OML) Notebook for the Autonomous Database.
 	* `machine_learning_user_management_url` - Oracle Machine Learning user management URL.

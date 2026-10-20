@@ -28,6 +28,7 @@ resource "oci_database_migration_assessment" "test_assessment" {
 	database_combination = var.assessment_database_combination
 	database_data_size = var.assessment_database_data_size
 	ddl_expectation = var.assessment_ddl_expectation
+	migration_scope = var.assessment_migration_scope
 	network_speed_megabit_per_second = var.assessment_network_speed_megabit_per_second
 	source_database_connection {
 		#Required
@@ -100,6 +101,7 @@ The following arguments are supported:
 	* `owner` - (Required when database_combination=ORACLE) Owner of the object (regular expression is allowed)
 	* `schema` - (Required when database_combination=MYSQL) Schema of the object (regular expression is allowed)
 	* `type` - (Optional) Type of object to exclude. If not specified, matching owners and object names of type TABLE would be excluded. 
+* `migration_scope` - (Optional) (Updatable) Assessment migration scope. Defaults to `SCHEMA`.
 * `network_speed_megabit_per_second` - (Required) (Updatable) A network speed in Megabits per second.
 * `source_database_connection` - (Required) (Updatable) Source Assessment Connection object
 	* `id` - (Required) (Updatable) The OCID of the resource being referenced.
@@ -132,6 +134,7 @@ The following attributes are exported:
 * `id` - The OCID of the resource being referenced.
 * `is_cdb_supported` - True if CDB should be defined, false otherwise.
 * `migration_id` - The OCID of the resource being referenced.
+* `migration_scope` - Assessment migration scope.
 * `network_speed_megabit_per_second` - A network speed in Megabits per second.
 * `source_database_connection` - Source Assessment Connection object
 	* `id` - The OCID of the resource being referenced.
@@ -161,4 +164,3 @@ Assessments can be imported using the `id`, e.g.
 ```
 $ terraform import oci_database_migration_assessment.test_assessment "id"
 ```
-

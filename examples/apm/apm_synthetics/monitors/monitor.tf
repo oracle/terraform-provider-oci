@@ -144,6 +144,14 @@ variable "monitor_availability_configuration_min_allowed_runs_per_interval" {
   default = 1
 }
 
+variable "monitor_maintenance_window_schedule_recurrence_type" {
+  default = "WEEKLY"
+}
+
+variable "monitor_maintenance_window_schedule_schedule_type" {
+  default = "RECURRING"
+}
+
 variable "monitor_maintenance_window_schedule_time_ended" {
   default = "2025-02-12T22:47:12.613Z"
 }
@@ -225,8 +233,10 @@ resource "oci_apm_synthetics_monitor" "test_monitor" {
     min_allowed_runs_per_interval      = var.monitor_availability_configuration_min_allowed_runs_per_interval
   }
   maintenance_window_schedule {
-    time_ended   = var.monitor_maintenance_window_schedule_time_ended
-    time_started = var.monitor_maintenance_window_schedule_time_started
+    recurrence_type = var.monitor_maintenance_window_schedule_recurrence_type
+    schedule_type   = var.monitor_maintenance_window_schedule_schedule_type
+    time_ended      = var.monitor_maintenance_window_schedule_time_ended
+    time_started    = var.monitor_maintenance_window_schedule_time_started
   }
 }
 
@@ -310,4 +320,3 @@ data "oci_apm_synthetics_scripts" "test_scripts" {
   content_type = var.script_content_type
   display_name = var.script_display_name
 }
-

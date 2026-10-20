@@ -70,6 +70,7 @@ The following attributes are exported:
 * `display_name` - A user-friendly display name for the backup. Avoid entering confidential information.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup.
+* `kms_key_id` - The OCID of the master encryption key for the backup.
 * `last_accepted_request_token` - lastAcceptedRequestToken from MP.
 * `last_completed_request_token` - lastCompletedRequestToken from MP.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

@@ -32,6 +32,7 @@ resource "oci_dbmulticloud_oracle_db_aws_key" "test_oracle_db_aws_key" {
 	freeform_tags = {"Department"= "Finance"}
 	is_aws_key_enabled = var.oracle_db_aws_key_is_aws_key_enabled
 	location = var.oracle_db_aws_key_location
+	oracle_db_aws_key_pool_id = oci_dbmulticloud_oracle_db_aws_key_pool.test_oracle_db_aws_key_pool.id
 	properties = var.oracle_db_aws_key_properties
 	type = var.oracle_db_aws_key_type
 }
@@ -49,6 +50,7 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `is_aws_key_enabled` - (Optional) The Oracle AWS Key resource is enabled or disabled at AWS.
 * `location` - (Optional) AWS Key resource Location.
+* `oracle_db_aws_key_pool_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB AWS Key Pool resource.
 * `oracle_db_connector_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB Connector resource.
 * `properties` - (Optional) AWS Key resource's properties.
 * `type` - (Optional) AWS Key resource type.
@@ -69,10 +71,13 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB AWS Key Ring resource.
 * `is_aws_key_enabled` - The Oracle AWS Key resource is enabled or disabled at AWS.
+* `is_oracle_aws_key_used` - Indicates whether the Oracle AWS Key resource is currently in use.
 * `lifecycle_state_details` - Description of the current lifecycle state in more detail.
 * `location` - AWS Key resource location.
+* `oracle_db_aws_key_pool_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB AWS Key Pool resource.
 * `oracle_db_connector_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB Connector resource.
 * `properties` - AWS Key resource's properties.
+* `ref_count` - The number of active references to the Oracle AWS Key resource.
 * `replication_metadata` - Replication metadata, it has information about replication and target region. 
 	* `replication_details` - List of all regions and their respective resource ID.
 		* `replication_state` - The lifecycle state of the Oracle DB Azure Vault resource.

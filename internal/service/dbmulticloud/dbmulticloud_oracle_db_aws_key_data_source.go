@@ -93,6 +93,10 @@ func (s *DbmulticloudOracleDbAwsKeyDataSourceCrud) SetData() error {
 		s.D.Set("is_aws_key_enabled", *s.Res.IsAwsKeyEnabled)
 	}
 
+	if s.Res.IsOracleAwsKeyUsed != nil {
+		s.D.Set("is_oracle_aws_key_used", *s.Res.IsOracleAwsKeyUsed)
+	}
+
 	if s.Res.LifecycleStateDetails != nil {
 		s.D.Set("lifecycle_state_details", *s.Res.LifecycleStateDetails)
 	}
@@ -101,11 +105,19 @@ func (s *DbmulticloudOracleDbAwsKeyDataSourceCrud) SetData() error {
 		s.D.Set("location", *s.Res.Location)
 	}
 
+	if s.Res.OracleDbAwsKeyPoolId != nil {
+		s.D.Set("oracle_db_aws_key_pool_id", *s.Res.OracleDbAwsKeyPoolId)
+	}
+
 	if s.Res.OracleDbConnectorId != nil {
 		s.D.Set("oracle_db_connector_id", *s.Res.OracleDbConnectorId)
 	}
 
 	s.D.Set("properties", s.Res.Properties)
+
+	if s.Res.RefCount != nil {
+		s.D.Set("ref_count", *s.Res.RefCount)
+	}
 
 	if s.Res.ReplicationMetadata != nil {
 		s.D.Set("replication_metadata", []interface{}{ReplicationMetadataAwsToMap(s.Res.ReplicationMetadata)})

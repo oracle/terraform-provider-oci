@@ -49,7 +49,6 @@ func HealthChecksHttpMonitorResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -103,7 +102,6 @@ func HealthChecksHttpMonitorResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
-
 			// Computed
 			"home_region": {
 				Type:     schema.TypeString,

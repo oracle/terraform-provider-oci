@@ -16,6 +16,14 @@ variable "private_key_path" {
 variable "region" {
 }
 
+variable "auth" {
+  default = "SecurityToken"
+}
+
+variable "config_file_profile" {
+  default = "terraform-federation-test"
+}
+
 variable "compartment_ocid" {
 }
 
@@ -35,11 +43,11 @@ variable "config" {
 
 variable "application_trace_config" {
   type = object({
-    domain_id = string
+    domain_id  = string
     is_enabled = bool
   })
   default = {
-    domain_id = ""
+    domain_id  = ""
     is_enabled = false
   }
 }
@@ -73,6 +81,27 @@ variable "function_image" {
 variable "function_image_digest" {
 }
 
+variable "function_archive_handler" {
+}
+
+variable "function_archive_namespace" {
+}
+
+variable "function_archive_bucket" {
+}
+
+variable "function_archive_object" {
+}
+
+variable "function_archive_object_version_id" {
+}
+
+variable "function_runtime_name" {
+}
+
+variable "function_direct_archive_file_path" {
+}
+
 variable "function_trace_config" {
   type = object({
     is_enabled = bool
@@ -104,6 +133,7 @@ variable "pbf_listing_id" {
 }
 
 variable "pbf_listing_version_id" {
+  default = ""
 }
 
 variable "pbf_trigger_name" {

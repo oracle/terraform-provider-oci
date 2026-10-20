@@ -734,6 +734,16 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 						// Required
 
 						// Optional
+						"recurrence_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"schedule_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"time_ended": {
 							Type:             schema.TypeString,
 							Optional:         true,
@@ -1664,6 +1674,14 @@ func SyntheticHeaderToMap(obj oci_apm_synthetics.Header) map[string]interface{} 
 func (s *ApmSyntheticsMonitorResourceCrud) mapToMaintenanceWindowSchedule(fieldKeyFormat string) (oci_apm_synthetics.MaintenanceWindowSchedule, error) {
 	result := oci_apm_synthetics.MaintenanceWindowSchedule{}
 
+	if recurrenceType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recurrence_type")); ok {
+		result.RecurrenceType = oci_apm_synthetics.MaintenanceWindowRecurrenceTypeEnum(recurrenceType.(string))
+	}
+
+	if scheduleType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "schedule_type")); ok {
+		result.ScheduleType = oci_apm_synthetics.MaintenanceWindowScheduleTypeEnum(scheduleType.(string))
+	}
+
 	if timeEnded, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_ended")); ok {
 		tmp, err := time.Parse(time.RFC3339, timeEnded.(string))
 		if err != nil {
@@ -1685,6 +1703,10 @@ func (s *ApmSyntheticsMonitorResourceCrud) mapToMaintenanceWindowSchedule(fieldK
 
 func MaintenanceWindowScheduleToMap(obj *oci_apm_synthetics.MaintenanceWindowSchedule) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	result["recurrence_type"] = string(obj.RecurrenceType)
+
+	result["schedule_type"] = string(obj.ScheduleType)
 
 	if obj.TimeEnded != nil {
 		result["time_ended"] = obj.TimeEnded.Format(time.RFC3339Nano)

@@ -101,39 +101,41 @@ var (
 	}
 
 	OcvpSddcInitialConfigurationInitialClusterConfigurationsRepresentation = map[string]interface{}{
-		"compute_availability_domain":     acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}`},
-		"esxi_hosts_count":                acctest.Representation{RepType: acctest.Required, Create: `3`},
-		"network_configuration":           acctest.RepresentationGroup{RepType: acctest.Required, Group: OcvpSddcInitialConfigurationInitialClusterConfigurationsNetworkConfigurationRepresentation},
-		"vsphere_type":                    acctest.Representation{RepType: acctest.Required, Create: `MANAGEMENT`},
-		"capacity_reservation_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id}`},
-		"cluster_byol_allocation_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: OcvpSddcInitialConfigurationInitialClusterConfigurationsClusterByolAllocationDetailsRepresentation},
-		"datastores":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: OcvpSddcDatastoresRepresentation},
-		"display_name":                    acctest.Representation{RepType: acctest.Optional, Create: "displayName"},
-		"initial_commitment":              acctest.Representation{RepType: acctest.Optional, Create: `HOUR`},
-		"initial_host_ocpu_count":         acctest.Representation{RepType: acctest.Optional, Create: sddcInitialHostOcpuCount},
-		"initial_host_shape_name":         acctest.Representation{RepType: acctest.Optional, Create: sddcInitialHostShapeName},
-		"initial_vcf_byol_allocation_id":  acctest.Representation{RepType: acctest.Optional, Create: `${oci_ocvp_byol_allocation.test_byol_allocation.id}`},
-		"instance_display_name_prefix":    acctest.Representation{RepType: acctest.Optional, Create: `tf-test-`},
-		"is_shielded_instance_enabled":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"workload_network_cidr":           acctest.Representation{RepType: acctest.Optional, Create: `172.20.0.0/24`},
+		"compute_availability_domain":            acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}`},
+		"esxi_hosts_count":                       acctest.Representation{RepType: acctest.Required, Create: `3`},
+		"network_configuration":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: OcvpSddcInitialConfigurationInitialClusterConfigurationsNetworkConfigurationRepresentation},
+		"vsphere_type":                           acctest.Representation{RepType: acctest.Required, Create: `MANAGEMENT`},
+		"capacity_reservation_id":                acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id}`},
+		"cluster_byol_allocation_details":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: OcvpSddcInitialConfigurationInitialClusterConfigurationsClusterByolAllocationDetailsRepresentation},
+		"datastores":                             acctest.RepresentationGroup{RepType: acctest.Optional, Group: OcvpSddcDatastoresRepresentation},
+		"display_name":                           acctest.Representation{RepType: acctest.Optional, Create: "displayName"},
+		"initial_commitment":                     acctest.Representation{RepType: acctest.Optional, Create: `HOUR`},
+		"initial_fault_domain_host_distribution": acctest.Representation{RepType: acctest.Optional, Create: `EVENLY_DISTRIBUTED`},
+		"initial_host_ocpu_count":                acctest.Representation{RepType: acctest.Optional, Create: sddcInitialHostOcpuCount},
+		"initial_host_shape_name":                acctest.Representation{RepType: acctest.Optional, Create: sddcInitialHostShapeName},
+		"initial_vcf_byol_allocation_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_ocvp_byol_allocation.test_byol_allocation.id}`},
+		"instance_display_name_prefix":           acctest.Representation{RepType: acctest.Optional, Create: `tf-test-`},
+		"is_shielded_instance_enabled":           acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"workload_network_cidr":                  acctest.Representation{RepType: acctest.Optional, Create: `172.20.0.0/24`},
 	}
 
 	OcvpSddcInitialConfigurationInitialClusterConfigurationsUpdateRepresentation = map[string]interface{}{
-		"network_configuration":           acctest.RepresentationGroup{RepType: acctest.Required, Group: OcvpSddcInitialConfigurationInitialClusterConfigurationsNetworkConfigurationUpdateRepresentation},
-		"compute_availability_domain":     acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}`},
-		"esxi_hosts_count":                acctest.Representation{RepType: acctest.Required, Create: `3`},
-		"vsphere_type":                    acctest.Representation{RepType: acctest.Required, Create: `MANAGEMENT`},
-		"capacity_reservation_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id}`},
-		"cluster_byol_allocation_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: OcvpSddcInitialConfigurationInitialClusterConfigurationsClusterByolAllocationDetailsRepresentation},
-		"datastores":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: OcvpSddcDatastoresRepresentation},
-		"display_name":                    acctest.Representation{RepType: acctest.Optional, Create: "displayName"},
-		"initial_commitment":              acctest.Representation{RepType: acctest.Optional, Create: `HOUR`},
-		"initial_host_ocpu_count":         acctest.Representation{RepType: acctest.Optional, Create: sddcInitialHostOcpuCount},
-		"initial_host_shape_name":         acctest.Representation{RepType: acctest.Optional, Create: sddcInitialHostShapeName},
-		"initial_vcf_byol_allocation_id":  acctest.Representation{RepType: acctest.Optional, Create: `${oci_ocvp_byol_allocation.test_byol_allocation.id}`},
-		"instance_display_name_prefix":    acctest.Representation{RepType: acctest.Optional, Create: `tf-test-`},
-		"is_shielded_instance_enabled":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"workload_network_cidr":           acctest.Representation{RepType: acctest.Optional, Create: `172.20.0.0/24`},
+		"network_configuration":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: OcvpSddcInitialConfigurationInitialClusterConfigurationsNetworkConfigurationUpdateRepresentation},
+		"compute_availability_domain":            acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}`},
+		"esxi_hosts_count":                       acctest.Representation{RepType: acctest.Required, Create: `3`},
+		"vsphere_type":                           acctest.Representation{RepType: acctest.Required, Create: `MANAGEMENT`},
+		"capacity_reservation_id":                acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id}`},
+		"cluster_byol_allocation_details":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: OcvpSddcInitialConfigurationInitialClusterConfigurationsClusterByolAllocationDetailsRepresentation},
+		"datastores":                             acctest.RepresentationGroup{RepType: acctest.Optional, Group: OcvpSddcDatastoresRepresentation},
+		"display_name":                           acctest.Representation{RepType: acctest.Optional, Create: "displayName"},
+		"initial_commitment":                     acctest.Representation{RepType: acctest.Optional, Create: `HOUR`},
+		"initial_fault_domain_host_distribution": acctest.Representation{RepType: acctest.Optional, Create: `EVENLY_DISTRIBUTED`},
+		"initial_host_ocpu_count":                acctest.Representation{RepType: acctest.Optional, Create: sddcInitialHostOcpuCount},
+		"initial_host_shape_name":                acctest.Representation{RepType: acctest.Optional, Create: sddcInitialHostShapeName},
+		"initial_vcf_byol_allocation_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_ocvp_byol_allocation.test_byol_allocation.id}`},
+		"instance_display_name_prefix":           acctest.Representation{RepType: acctest.Optional, Create: `tf-test-`},
+		"is_shielded_instance_enabled":           acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"workload_network_cidr":                  acctest.Representation{RepType: acctest.Optional, Create: `172.20.0.0/24`},
 	}
 
 	OcvpSddcInitialConfigurationInitialClusterConfigurationsUpdateRepresentationWithDatastoreCluster = acctest.RepresentationCopyWithNewProperties(
@@ -554,6 +556,9 @@ resource "oci_core_compute_capacity_reservation" "test_compute_capacity_reservat
 				  ocpus = 8
 				}
   }
+  lifecycle {
+    ignore_changes = [instance_reservation_configs]
+  }
 }
 `
 
@@ -821,6 +826,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_commitment", "HOUR"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_fault_domain_host_distribution", "EVENLY_DISTRIBUTED"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_host_ocpu_count", sddcInitialHostOcpuCount),
 				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_host_shape_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_vcf_byol_allocation_id"),
@@ -896,6 +902,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_commitment", "HOUR"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_fault_domain_host_distribution", "EVENLY_DISTRIBUTED"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_host_ocpu_count", sddcInitialHostOcpuCount),
 				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_host_shape_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_vcf_byol_allocation_id"),
@@ -967,6 +974,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_commitment", "HOUR"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_fault_domain_host_distribution", "EVENLY_DISTRIBUTED"),
 				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_host_ocpu_count", sddcInitialHostOcpuCount),
 				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_host_shape_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_vcf_byol_allocation_id"),
@@ -1054,6 +1062,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.display_name", "displayName"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_commitment", "HOUR"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_fault_domain_host_distribution", "EVENLY_DISTRIBUTED"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_host_ocpu_count", sddcInitialHostOcpuCount),
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.instance_display_name_prefix", "tf-test-"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.is_shielded_instance_enabled", "false"),

@@ -40,21 +40,11 @@ func DatabaseManagementManagedMySqlDatabaseSqlDataDataSource() *schema.Resource 
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"avg_timer_wait": {
 										Type:     schema.TypeFloat,
 										Computed: true,

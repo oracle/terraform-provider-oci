@@ -48,7 +48,6 @@ func TenantmanagercontrolplaneSenderInvitationsDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
 									"compartment_id": {
 										Type:     schema.TypeString,
 										Required: true,
@@ -57,8 +56,6 @@ func TenantmanagercontrolplaneSenderInvitationsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Required: true,
 									},
-
-									// Optional
 									"defined_tags": {
 										Type:             schema.TypeMap,
 										Optional:         true,
@@ -98,8 +95,6 @@ func TenantmanagercontrolplaneSenderInvitationsDataSource() *schema.Resource {
 											Type: schema.TypeString,
 										},
 									},
-
-									// Computed
 									"id": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -109,11 +104,6 @@ func TenantmanagercontrolplaneSenderInvitationsDataSource() *schema.Resource {
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"name": {
 													Type:     schema.TypeString,
 													Computed: true,

@@ -241,13 +241,13 @@ func webAppFirewallWaitForWorkRequest(wId *string, entityType string, action oci
 	response := oci_waf.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_waf.WorkRequestStatusInProgress),
 			string(oci_waf.WorkRequestStatusAccepted),
+			string(oci_waf.WorkRequestStatusInProgress),
 			string(oci_waf.WorkRequestStatusCanceling),
 		},
 		Target: []string{
-			string(oci_waf.WorkRequestStatusSucceeded),
 			string(oci_waf.WorkRequestStatusFailed),
+			string(oci_waf.WorkRequestStatusSucceeded),
 			string(oci_waf.WorkRequestStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {

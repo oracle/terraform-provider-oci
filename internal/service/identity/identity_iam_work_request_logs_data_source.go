@@ -27,11 +27,6 @@ func IdentityIamWorkRequestLogsDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"message": {
 							Type:     schema.TypeString,
 							Computed: true,

@@ -134,10 +134,20 @@ var exportDbmulticloudOracleDbAwsKeyHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportDbmulticloudOracleDbAwsKeyPoolHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_dbmulticloud_oracle_db_aws_key_pool",
+	DatasourceClass:        "oci_dbmulticloud_oracle_db_aws_key_pools",
+	DatasourceItemsAttr:    "oracle_db_aws_key_pool_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "oracle_db_aws_key_pool",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_dbmulticloud.OracleDbAwsKeyPoolLifecycleStateActive),
+	},
+}
+
 var dbmulticloudResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
-		{TerraformResourceHints: exportDbmulticloudOracleDbAzureVaultAssociationHints},
-		{TerraformResourceHints: exportDbmulticloudMultiCloudResourceDiscoveryHints},
 		{TerraformResourceHints: exportDbmulticloudOracleDbAzureBlobContainerHints},
 		{TerraformResourceHints: exportDbmulticloudOracleDbAzureBlobMountHints},
 		{TerraformResourceHints: exportDbmulticloudOracleDbAzureConnectorHints},
@@ -146,5 +156,20 @@ var dbmulticloudResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportDbmulticloudOracleDbGcpKeyRingHints},
 		{TerraformResourceHints: exportDbmulticloudOracleDbAwsIdentityConnectorHints},
 		{TerraformResourceHints: exportDbmulticloudOracleDbAwsKeyHints},
+		{TerraformResourceHints: exportDbmulticloudOracleDbAwsKeyPoolHints},
+		{
+			TerraformResourceHints: exportDbmulticloudMultiCloudResourceDiscoveryHints,
+			DatasourceQueryParams: map[string]string{
+				"resource_type": "'VAULTS'",
+			},
+		},
+	},
+	"oci_dbmulticloud_oracle_db_azure_vault": {
+		{
+			TerraformResourceHints: exportDbmulticloudOracleDbAzureVaultAssociationHints,
+			DatasourceQueryParams: map[string]string{
+				"oracle_db_azure_vault_id": "id",
+			},
+		},
 	},
 }

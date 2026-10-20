@@ -32,6 +32,9 @@ type PipelineInfrastructureConfigurationDetails struct {
 	// The size of the block storage volume to attach to the pipeline step run instance specified as a parameter. This overrides the blockStorageSizeInGBs value.
 	// The request will fail if the parameters used are null or invalid.
 	BlockStorageSizeInGBsParameterized *string `mandatory:"false" json:"blockStorageSizeInGBsParameterized"`
+
+	// This specifies the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer-managed compute capacity reservation to be used for launching pipelines.
+	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
 }
 
 func (m PipelineInfrastructureConfigurationDetails) String() string {

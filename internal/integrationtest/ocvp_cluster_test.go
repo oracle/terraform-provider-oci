@@ -50,26 +50,27 @@ var (
 	clusterInitialHostOcpuCount = "4"
 
 	OcvpClusterRepresentation = map[string]interface{}{
-		"compute_availability_domain":     acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}`},
-		"esxi_hosts_count":                acctest.Representation{RepType: acctest.Required, Create: `1`},
-		"network_configuration":           acctest.RepresentationGroup{RepType: acctest.Required, Group: OcvpClusterNetworkConfigurationRepresentation},
-		"sddc_id":                         acctest.Representation{RepType: acctest.Required, Create: `${local.upgraded_sddc_id}`},
-		"capacity_reservation_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id}`},
-		"cluster_byol_allocation_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: OcvpClusterClusterByolAllocationDetailsRepresentation},
-		"datastores":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: OcvpClusterDatastoresRepresentation},
-		"defined_tags":                    acctest.Representation{RepType: acctest.Optional, Create: ocvpDefinedTag, Update: ocvpDefinedTagUpdate},
-		"display_name":                    acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"esxi_software_version":           acctest.Representation{RepType: acctest.Optional, Create: `esxi7u3k-21313628-1`},
-		"freeform_tags":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"initial_commitment":              acctest.Representation{RepType: acctest.Optional, Create: `HOUR`},
-		"initial_host_ocpu_count":         acctest.Representation{RepType: acctest.Optional, Create: clusterInitialHostOcpuCount},
-		"initial_host_shape_name":         acctest.Representation{RepType: acctest.Required, Create: clusterInitialHostShapeName},
-		"initial_vcf_byol_allocation_id":  acctest.Representation{RepType: acctest.Optional, Create: `${oci_ocvp_byol_allocation.test_byol_allocation.id}`},
-		"instance_display_name_prefix":    acctest.Representation{RepType: acctest.Optional, Create: `tf-test-`},
-		"is_shielded_instance_enabled":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"vmware_software_version":         acctest.Representation{RepType: acctest.Optional, Create: noInstanceVmwareVersionV7},
-		"workload_network_cidr":           acctest.Representation{RepType: acctest.Optional, Create: `172.20.0.0/24`},
-		"lifecycle":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRepresentation},
+		"compute_availability_domain":            acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}`},
+		"esxi_hosts_count":                       acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"network_configuration":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: OcvpClusterNetworkConfigurationRepresentation},
+		"sddc_id":                                acctest.Representation{RepType: acctest.Required, Create: `${local.upgraded_sddc_id}`},
+		"capacity_reservation_id":                acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id}`},
+		"cluster_byol_allocation_details":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: OcvpClusterClusterByolAllocationDetailsRepresentation},
+		"datastores":                             acctest.RepresentationGroup{RepType: acctest.Optional, Group: OcvpClusterDatastoresRepresentation},
+		"defined_tags":                           acctest.Representation{RepType: acctest.Optional, Create: ocvpDefinedTag, Update: ocvpDefinedTagUpdate},
+		"display_name":                           acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"esxi_software_version":                  acctest.Representation{RepType: acctest.Optional, Create: `esxi7u3k-21313628-1`},
+		"freeform_tags":                          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"initial_commitment":                     acctest.Representation{RepType: acctest.Optional, Create: `HOUR`},
+		"initial_fault_domain_host_distribution": acctest.Representation{RepType: acctest.Optional, Create: `EVENLY_DISTRIBUTED`},
+		"initial_host_ocpu_count":                acctest.Representation{RepType: acctest.Optional, Create: clusterInitialHostOcpuCount},
+		"initial_host_shape_name":                acctest.Representation{RepType: acctest.Required, Create: clusterInitialHostShapeName},
+		"initial_vcf_byol_allocation_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_ocvp_byol_allocation.test_byol_allocation.id}`},
+		"instance_display_name_prefix":           acctest.Representation{RepType: acctest.Optional, Create: `tf-test-`},
+		"is_shielded_instance_enabled":           acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"vmware_software_version":                acctest.Representation{RepType: acctest.Optional, Create: noInstanceVmwareVersionV7},
+		"workload_network_cidr":                  acctest.Representation{RepType: acctest.Optional, Create: `172.20.0.0/24`},
+		"lifecycle":                              acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRepresentation},
 	}
 
 	OcvpClusterWithDatastoreClustersRepresentation = acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(OcvpClusterRepresentation, []string{"datastores"}), map[string]interface{}{
@@ -143,6 +144,9 @@ var (
 			  memory_in_gbs = 8
 			  ocpus = 8
 			}
+		}
+		lifecycle {
+			ignore_changes = [instance_reservation_configs]
 		}
 	}
 
@@ -222,6 +226,7 @@ func TestOcvpClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "initial_commitment", "HOUR"),
+				resource.TestCheckResourceAttr(resourceName, "initial_fault_domain_host_distribution", "EVENLY_DISTRIBUTED"),
 				resource.TestCheckResourceAttr(resourceName, "initial_host_ocpu_count", clusterInitialHostOcpuCount),
 				resource.TestCheckResourceAttrSet(resourceName, "initial_host_shape_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "initial_vcf_byol_allocation_id"),
@@ -383,6 +388,7 @@ func TestOcvpClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "initial_commitment", "HOUR"),
+				resource.TestCheckResourceAttr(resourceName, "initial_fault_domain_host_distribution", "EVENLY_DISTRIBUTED"),
 				resource.TestCheckResourceAttr(resourceName, "initial_host_ocpu_count", clusterInitialHostOcpuCount),
 				resource.TestCheckResourceAttrSet(resourceName, "initial_host_shape_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "initial_vcf_byol_allocation_id"),
@@ -449,6 +455,7 @@ func TestOcvpClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_commitment", "HOUR"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_fault_domain_host_distribution", "EVENLY_DISTRIBUTED"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_host_ocpu_count", clusterInitialHostOcpuCount),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_display_name_prefix", "tf-test-"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_shielded_instance_enabled", "false"),

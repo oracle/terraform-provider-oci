@@ -31,21 +31,11 @@ func FleetAppsManagementComplianceRecordCountsDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"compliance_record_count_count": {
 										Type:     schema.TypeInt,
 										Computed: true,
@@ -55,11 +45,6 @@ func FleetAppsManagementComplianceRecordCountsDataSource() *schema.Resource {
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"compliance_level": {
 													Type:     schema.TypeString,
 													Computed: true,

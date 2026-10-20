@@ -44,6 +44,9 @@ type CreateDatabaseForStandbyDbSystemDetails struct {
 	// The database software image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`
 
+	// If true, the caller acknowledges selecting or applying an older DB, Grid Infrastructure, or operating system software version that is outside the latest default version window.
+	IsOlderVersionAcknowledged *bool `mandatory:"false" json:"isOlderVersionAcknowledged"`
+
 	// True if active Data Guard is enabled.
 	IsActiveDataGuardEnabled *bool `mandatory:"false" json:"isActiveDataGuardEnabled"`
 
@@ -97,6 +100,7 @@ func (m *CreateDatabaseForStandbyDbSystemDetails) UnmarshalJSON(data []byte) (e 
 	model := struct {
 		TdeWalletPassword                  *string                                                   `json:"tdeWalletPassword"`
 		DatabaseSoftwareImageId            *string                                                   `json:"databaseSoftwareImageId"`
+		IsOlderVersionAcknowledged         *bool                                                     `json:"isOlderVersionAcknowledged"`
 		IsActiveDataGuardEnabled           *bool                                                     `json:"isActiveDataGuardEnabled"`
 		DbDomain                           *string                                                   `json:"dbDomain"`
 		SidPrefix                          *string                                                   `json:"sidPrefix"`
@@ -118,6 +122,8 @@ func (m *CreateDatabaseForStandbyDbSystemDetails) UnmarshalJSON(data []byte) (e 
 	m.TdeWalletPassword = model.TdeWalletPassword
 
 	m.DatabaseSoftwareImageId = model.DatabaseSoftwareImageId
+
+	m.IsOlderVersionAcknowledged = model.IsOlderVersionAcknowledged
 
 	m.IsActiveDataGuardEnabled = model.IsActiveDataGuardEnabled
 

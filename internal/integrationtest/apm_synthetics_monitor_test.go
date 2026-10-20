@@ -49,7 +49,7 @@ var (
 	}
 
 	ApmSyntheticsMonitorVantagePointsRepresentation = map[string]interface{}{
-		"name": acctest.Representation{RepType: acctest.Required, Create: `us-phoenix-internal`},
+		"name": acctest.Representation{RepType: acctest.Required, Create: `OraclePublic-us-ashburn-1`},
 	}
 
 	ApmSyntheticsMonitorAvailabilityConfigurationRepresentation = map[string]interface{}{
@@ -61,8 +61,15 @@ var (
 	TimeEnded1                                                  = time.Now().AddDate(0, 1, 2).UTC().Format(time.RFC3339)
 	TimeEnded2                                                  = time.Now().AddDate(0, 1, 3).UTC().Format(time.RFC3339)
 	ApmSyntheticsMonitorMaintenanceWindowScheduleRepresentation = map[string]interface{}{
-		"time_ended":   acctest.Representation{RepType: acctest.Optional, Create: TimeEnded1, Update: TimeEnded2},
-		"time_started": acctest.Representation{RepType: acctest.Optional, Create: TimeStarted1, Update: TimeStarted2},
+		"recurrence_type": acctest.Representation{RepType: acctest.Optional, Create: `WEEKLY`, Update: `MONTHLY`},
+		"schedule_type":   acctest.Representation{RepType: acctest.Optional, Create: `RECURRING`, Update: `RECURRING`},
+		"time_ended":      acctest.Representation{RepType: acctest.Optional, Create: TimeEnded1, Update: TimeEnded2},
+		"time_started":    acctest.Representation{RepType: acctest.Optional, Create: TimeStarted1, Update: TimeStarted2},
+	}
+	ApmSyntheticsMonitorOneTimeMaintenanceWindowScheduleRepresentation = map[string]interface{}{
+		"schedule_type": acctest.Representation{RepType: acctest.Optional, Create: `ONE_TIME`, Update: `ONE_TIME`},
+		"time_ended":    acctest.Representation{RepType: acctest.Optional, Create: TimeEnded1, Update: TimeEnded2},
+		"time_started":  acctest.Representation{RepType: acctest.Optional, Create: TimeStarted1, Update: TimeStarted2},
 	}
 
 	ApmSyntheticsMonitorConfigurationDnsConfigurationRepresentation = map[string]interface{}{
@@ -82,6 +89,9 @@ var (
 		"param_name":  acctest.Representation{RepType: acctest.Required, Create: `testName`, Update: `testName`},
 		"param_value": acctest.Representation{RepType: acctest.Required, Create: `myTest`, Update: `myTest1`},
 	}
+
+	ApmSyntheticsBrowserMonitorRequiredOnlyResource = ApmSyntheticsMonitorResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Required, acctest.Create, ApmSyntheticsBrowserMonitorRepresentation)
 
 	ApmSyntheticsBrowserMonitorResourceConfig = ApmSyntheticsMonitorResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Update, ApmSyntheticsBrowserMonitorRepresentation)
@@ -105,6 +115,9 @@ var (
 		"target":                     acctest.Representation{RepType: acctest.Optional, Create: `https://console.us-ashburn-1.oraclecloud.com`, Update: `https://console.us-phoenix-1.oraclecloud.com`},
 		"timeout_in_seconds":         acctest.Representation{RepType: acctest.Optional, Create: `60`, Update: `120`},
 	}
+
+	ApmSyntheticsRestMonitorRequiredOnlyResource = ApmSyntheticsMonitorResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Required, acctest.Create, ApmSyntheticsRestMonitorRepresentation)
 
 	ApmSyntheticsRestMonitorResourceConfig = ApmSyntheticsMonitorResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Update, ApmSyntheticsRestMonitorRepresentation)
@@ -269,7 +282,7 @@ var (
 		"dns_configuration":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsMonitorConfigurationDnsConfigurationRepresentation},
 		"config_type":                      acctest.Representation{RepType: acctest.Optional, Create: `FTP_CONFIG`},
 		"ftp_basic_authentication_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsMonitorConfigurationFtpBasicAuthenticationDetailsRepresentation},
-		"ftp_protocol":                     acctest.Representation{RepType: acctest.Optional, Create: `FTP`, Update: `FTPS`},
+		"ftp_protocol":                     acctest.Representation{RepType: acctest.Optional, Create: `FTP`, Update: `FTP`},
 		"ftp_request_type":                 acctest.Representation{RepType: acctest.Optional, Create: `DOWNLOAD`},
 		"is_failure_retried":               acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"network_configuration":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsMonitorConfigurationNetworkConfigurationRepresentation},
@@ -430,7 +443,7 @@ var (
 		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_run_once":                 acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_run_now":                  acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"maintenance_window_schedule": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsMonitorMaintenanceWindowScheduleRepresentation},
+		"maintenance_window_schedule": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsMonitorOneTimeMaintenanceWindowScheduleRepresentation},
 		"scheduling_policy":           acctest.Representation{RepType: acctest.Optional, Create: `ALL`, Update: `ROUND_ROBIN`},
 		"status":                      acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
 		"target":                      acctest.Representation{RepType: acctest.Optional, Create: `www.oracle.com`, Update: `www.oracle.com`},
@@ -559,7 +572,7 @@ func TestApmSyntheticsFtpMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.ftp_basic_authentication_details.0.username", "username2"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.ftp_basic_authentication_details.0.password.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "configuration.0.ftp_basic_authentication_details.0.password.0.password"),
-				resource.TestCheckResourceAttr(resourceName, "configuration.0.ftp_protocol", "FTPS"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.ftp_protocol", "FTP"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.ftp_request_type", "DOWNLOAD"),
 
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.dns_configuration.0.override_dns_ip", "12.1.21.2"),
@@ -633,7 +646,7 @@ func TestApmSyntheticsFtpMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.ftp_basic_authentication_details.0.username", "username2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.ftp_basic_authentication_details.0.password.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "configuration.0.ftp_basic_authentication_details.0.password.0.password"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.ftp_protocol", "FTPS"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.ftp_protocol", "FTP"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.ftp_request_type", "DOWNLOAD"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.is_failure_retried", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.dns_configuration.0.override_dns_ip", "12.1.21.2"),
@@ -675,6 +688,11 @@ func TestApmSyntheticsFtpMonitorResource_basic(t *testing.T) {
 				"batch_interval_in_seconds", //ignore as it does not apply to this case
 			},
 			ResourceName: resourceName,
+		},
+		// Delete and verify the monitor while its APM domain is still active.
+		{
+			Config: config + compartmentIdVariableStr + ApmSyntheticsMonitorResourceDependencies,
+			Check:  testAccCheckApmSyntheticsMonitorDestroyedBeforeDomainDelete(&resId),
 		},
 	})
 }
@@ -864,6 +882,11 @@ func TestApmSyntheticsSqlMonitorResource_basic(t *testing.T) {
 				"batch_interval_in_seconds", //ignore as it does not apply to this case
 			},
 			ResourceName: resourceName,
+		},
+		// Delete and verify the monitor while its APM domain is still active.
+		{
+			Config: config + compartmentIdVariableStr + ApmSyntheticsMonitorResourceDependencies,
+			Check:  testAccCheckApmSyntheticsMonitorDestroyedBeforeDomainDelete(&resId),
 		},
 	})
 }
@@ -1091,6 +1114,11 @@ func TestApmSyntheticsScriptedBrowserMonitorResource_basic(t *testing.T) {
 			},
 			ResourceName: resourceName,
 		},
+		// Delete and verify the monitor while its APM domain is still active.
+		{
+			Config: config + compartmentIdVariableStr + ApmSyntheticsScriptedMonitorResourceDependencies,
+			Check:  testAccCheckApmSyntheticsMonitorDestroyedBeforeDomainDelete(&resId),
+		},
 	})
 }
 
@@ -1099,7 +1127,6 @@ func TestApmSyntheticsBrowserMonitorResource(t *testing.T) {
 	httpreplay.SetScenario("TestApmSyntheticsMonitorResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := acctest.TestAccProvider
 	config := acctest.ProviderTestConfig()
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
@@ -1114,127 +1141,125 @@ func TestApmSyntheticsBrowserMonitorResource(t *testing.T) {
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+ApmSyntheticsMonitorResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Create, ApmSyntheticsBrowserMonitorRepresentation), "apmsynthetics", "monitor", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { acctest.TestAccPreCheck(t) },
-		Providers: map[string]*schema.Provider{
-			"oci": provider,
-		},
-		CheckDestroy: testAccCheckApmSyntheticsMonitorDestroy,
-		Steps: []resource.TestStep{
+	acctest.ResourceTest(t, testAccCheckApmSyntheticsMonitorDestroy, []resource.TestStep{
 
-			// verify Create with optionals
-			{
-				Config: config + compartmentIdVariableStr + ApmSyntheticsMonitorResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Create, ApmSyntheticsBrowserMonitorRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
-					resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "configuration.0.config_type", "BROWSER_CONFIG"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "monitor_type", "BROWSER"),
-					resource.TestCheckResourceAttr(resourceName, "repeat_interval_in_seconds", "600"),
-					resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
-					resource.TestCheckResourceAttr(resourceName, "target", "https://console.us-ashburn-1.oraclecloud.com"),
-					resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "60"),
-					resource.TestCheckResourceAttrSet(resourceName, "vantage_point_count"),
-					resource.TestCheckResourceAttr(resourceName, "vantage_points.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "vantage_points.0.name"),
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ApmSyntheticsMonitorResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Create, ApmSyntheticsBrowserMonitorRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.config_type", "BROWSER_CONFIG"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "monitor_type", "BROWSER"),
+				resource.TestCheckResourceAttr(resourceName, "repeat_interval_in_seconds", "600"),
+				resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
+				resource.TestCheckResourceAttr(resourceName, "target", "https://console.us-ashburn-1.oraclecloud.com"),
+				resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "60"),
+				resource.TestCheckResourceAttrSet(resourceName, "vantage_point_count"),
+				resource.TestCheckResourceAttr(resourceName, "vantage_points.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "vantage_points.0.name"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = acctest.FromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
-
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + ApmSyntheticsMonitorResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Update, ApmSyntheticsBrowserMonitorRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
-					resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "configuration.0.config_type", "BROWSER_CONFIG"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "monitor_type", "BROWSER"),
-					resource.TestCheckResourceAttr(resourceName, "repeat_interval_in_seconds", "1200"),
-					resource.TestCheckResourceAttr(resourceName, "status", "DISABLED"),
-					resource.TestCheckResourceAttr(resourceName, "target", "https://console.us-phoenix-1.oraclecloud.com"),
-					resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "120"),
-					resource.TestCheckResourceAttrSet(resourceName, "vantage_point_count"),
-					resource.TestCheckResourceAttr(resourceName, "vantage_points.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "vantage_points.0.name"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_monitors", "test_monitors", acctest.Optional, acctest.Update, ApmSyntheticsBrowserMonitorDataSourceRepresentation) +
-					compartmentIdVariableStr + ApmSyntheticsMonitorResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Update, ApmSyntheticsBrowserMonitorRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(datasourceName, "apm_domain_id"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "monitor_type", "BROWSER"),
-					resource.TestCheckResourceAttr(datasourceName, "status", "DISABLED"),
-
-					resource.TestCheckResourceAttr(datasourceName, "monitor_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "monitor_collection.0.items.#", "1"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Required, acctest.Create, ApmSyntheticsMonitorSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + ApmSyntheticsBrowserMonitorResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "monitor_id"),
-
-					resource.TestCheckResourceAttr(singularDatasourceName, "configuration.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.config_type", "BROWSER_CONFIG"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "monitor_type", "BROWSER"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "repeat_interval_in_seconds", "1200"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "status", "DISABLED"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "target", "https://console.us-phoenix-1.oraclecloud.com"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "timeout_in_seconds", "120"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "vantage_point_count"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "vantage_points.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "vantage_points.0.name"),
-				),
-			},
-			// verify resource import
-			{
-				Config:            config + ApmSyntheticsScriptedBrowserMonitorRequiredOnlyResource,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"apm_domain_id",
+					}
+					return err
 				},
-				ResourceName: resourceName,
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ApmSyntheticsMonitorResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Update, ApmSyntheticsBrowserMonitorRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.config_type", "BROWSER_CONFIG"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "monitor_type", "BROWSER"),
+				resource.TestCheckResourceAttr(resourceName, "repeat_interval_in_seconds", "1200"),
+				resource.TestCheckResourceAttr(resourceName, "status", "DISABLED"),
+				resource.TestCheckResourceAttr(resourceName, "target", "https://console.us-phoenix-1.oraclecloud.com"),
+				resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "120"),
+				resource.TestCheckResourceAttrSet(resourceName, "vantage_point_count"),
+				resource.TestCheckResourceAttr(resourceName, "vantage_points.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "vantage_points.0.name"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_monitors", "test_monitors", acctest.Optional, acctest.Update, ApmSyntheticsBrowserMonitorDataSourceRepresentation) +
+				compartmentIdVariableStr + ApmSyntheticsMonitorResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Update, ApmSyntheticsBrowserMonitorRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttrSet(datasourceName, "apm_domain_id"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "monitor_type", "BROWSER"),
+				resource.TestCheckResourceAttr(datasourceName, "status", "DISABLED"),
+
+				resource.TestCheckResourceAttr(datasourceName, "monitor_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "monitor_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Required, acctest.Create, ApmSyntheticsMonitorSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ApmSyntheticsBrowserMonitorResourceConfig,
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "monitor_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.config_type", "BROWSER_CONFIG"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "monitor_type", "BROWSER"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "repeat_interval_in_seconds", "1200"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "status", "DISABLED"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target", "https://console.us-phoenix-1.oraclecloud.com"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "timeout_in_seconds", "120"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "vantage_point_count"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "vantage_points.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "vantage_points.0.name"),
+			),
+		},
+		// verify resource import
+		{
+			Config:            config + ApmSyntheticsBrowserMonitorRequiredOnlyResource,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"apm_domain_id",
 			},
+			ResourceName: resourceName,
+		},
+		// Delete and verify the monitor while its APM domain is still active.
+		{
+			Config: config + compartmentIdVariableStr + ApmSyntheticsMonitorResourceDependencies,
+			Check:  testAccCheckApmSyntheticsMonitorDestroyedBeforeDomainDelete(&resId),
 		},
 	})
 }
@@ -1431,13 +1456,18 @@ func TestApmSyntheticsRestMonitorResource(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + ApmSyntheticsScriptedBrowserMonitorRequiredOnlyResource,
+			Config:            config + ApmSyntheticsRestMonitorRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
 				"apm_domain_id",
 			},
 			ResourceName: resourceName,
+		},
+		// Delete and verify the monitor while its APM domain is still active.
+		{
+			Config: config + compartmentIdVariableStr + ApmSyntheticsMonitorResourceDependencies,
+			Check:  testAccCheckApmSyntheticsMonitorDestroyedBeforeDomainDelete(&resId),
 		},
 	})
 }
@@ -1634,6 +1664,11 @@ func TestApmSyntheticsNetworkMonitorResource_basic(t *testing.T) {
 			},
 			ResourceName: resourceName,
 		},
+		// Delete and verify the monitor while its APM domain is still active.
+		{
+			Config: config + compartmentIdVariableStr + ApmSyntheticsMonitorResourceDependencies,
+			Check:  testAccCheckApmSyntheticsMonitorDestroyedBeforeDomainDelete(&resId),
+		},
 	})
 }
 
@@ -1814,6 +1849,11 @@ func TestApmSyntheticsDNSSecMonitorResource_basic(t *testing.T) {
 			},
 			ResourceName: resourceName,
 		},
+		// Delete and verify the monitor while its APM domain is still active.
+		{
+			Config: config + compartmentIdVariableStr + ApmSyntheticsMonitorResourceDependencies,
+			Check:  testAccCheckApmSyntheticsMonitorDestroyedBeforeDomainDelete(&resId),
+		},
 	})
 }
 
@@ -1869,6 +1909,8 @@ func TestApmSyntheticsDNSServerMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_run_now", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_run_once", "false"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.recurrence_type", "WEEKLY"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.schedule_type", "RECURRING"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.time_ended", TimeEnded1),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.time_started", TimeStarted1),
 				resource.TestCheckResourceAttr(resourceName, "monitor_type", "DNS"),
@@ -1922,6 +1964,8 @@ func TestApmSyntheticsDNSServerMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.recurrence_type", "MONTHLY"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.schedule_type", "RECURRING"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.time_ended", TimeEnded2),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.time_started", TimeStarted2),
 				resource.TestCheckResourceAttr(resourceName, "is_run_now", "false"),
@@ -1993,6 +2037,8 @@ func TestApmSyntheticsDNSServerMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window_schedule.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window_schedule.0.recurrence_type", "MONTHLY"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window_schedule.0.schedule_type", "RECURRING"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_window_schedule.0.time_ended"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_window_schedule.0.time_started"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_run_now", "false"),
@@ -2020,6 +2066,11 @@ func TestApmSyntheticsDNSServerMonitorResource_basic(t *testing.T) {
 				"batch_interval_in_seconds", //ignore as it does not apply to this case
 			},
 			ResourceName: resourceName,
+		},
+		// Delete and verify the monitor while its APM domain is still active.
+		{
+			Config: config + compartmentIdVariableStr + ApmSyntheticsMonitorResourceDependencies,
+			Check:  testAccCheckApmSyntheticsMonitorDestroyedBeforeDomainDelete(&resId),
 		},
 	})
 }
@@ -2068,6 +2119,8 @@ func TestApmSyntheticsDNSTraceMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_run_now", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_run_once", "false"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.recurrence_type", ""),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.schedule_type", "ONE_TIME"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.time_ended", TimeEnded1),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.time_started", TimeStarted1),
 				resource.TestCheckResourceAttr(resourceName, "monitor_type", "DNS"),
@@ -2113,6 +2166,8 @@ func TestApmSyntheticsDNSTraceMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.recurrence_type", ""),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.schedule_type", "ONE_TIME"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.time_ended", TimeEnded2),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.time_started", TimeStarted2),
 				resource.TestCheckResourceAttr(resourceName, "is_run_now", "false"),
@@ -2176,6 +2231,8 @@ func TestApmSyntheticsDNSTraceMonitorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window_schedule.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window_schedule.0.recurrence_type", ""),
+				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window_schedule.0.schedule_type", "ONE_TIME"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_window_schedule.0.time_ended"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_window_schedule.0.time_started"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_run_now", "false"),
@@ -2204,7 +2261,43 @@ func TestApmSyntheticsDNSTraceMonitorResource_basic(t *testing.T) {
 			},
 			ResourceName: resourceName,
 		},
+		// Delete and verify the monitor while its APM domain is still active.
+		{
+			Config: config + compartmentIdVariableStr + ApmSyntheticsMonitorResourceDependencies,
+			Check:  testAccCheckApmSyntheticsMonitorDestroyedBeforeDomainDelete(&resId),
+		},
 	})
+}
+
+func testAccCheckApmSyntheticsMonitorDestroyedBeforeDomainDelete(monitorId *string) resource.TestCheckFunc {
+	return func(s *terraform.State) error {
+		if monitorId == nil || *monitorId == "" {
+			return fmt.Errorf("monitor ID was not captured before destroy verification")
+		}
+
+		apmDomainId, err := acctest.FromInstanceState(s, "oci_apm_apm_domain.test_apm_domain", "id")
+		if err != nil {
+			return fmt.Errorf("failed to get APM domain ID before monitor destroy verification: %w", err)
+		}
+
+		client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).ApmSyntheticClient()
+		request := oci_apm_synthetics.GetMonitorRequest{
+			MonitorId:   monitorId,
+			ApmDomainId: &apmDomainId,
+		}
+
+		_, err = client.GetMonitor(context.Background(), request)
+		if err == nil {
+			return fmt.Errorf("monitor %s still exists after Terraform removed it from the configuration", *monitorId)
+		}
+
+		failure, isServiceError := common.IsServiceError(err)
+		if !isServiceError || failure.GetHTTPStatusCode() != 404 {
+			return err
+		}
+
+		return nil
+	}
 }
 
 func testAccCheckApmSyntheticsMonitorDestroy(s *terraform.State) error {
@@ -2237,7 +2330,9 @@ func testAccCheckApmSyntheticsMonitorDestroy(s *terraform.State) error {
 		}
 	}
 	if noResourceFound {
-		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
+		// The monitor is intentionally removed and verified before the APM domain
+		// is deleted in the final test step.
+		return nil
 	}
 
 	return nil

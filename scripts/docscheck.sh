@@ -18,7 +18,15 @@ for doc in $docs; do
       ;;
 
     "d" | "r")
-      # Resources and data sources require a subcategory
+      # Resources and data sources require valid YAML front matter. The Registry
+      # uses the front matter to place a page under its service subcategory.
+      IFS= read -r first_line < "$doc"
+      if [[ $first_line != "---" ]]; then
+        echo "Doc must begin with YAML front matter (---): $doc"
+        error=true
+      fi
+
+      # Resources and data sources require a subcategory.
       if ! grep "^subcategory: " "$doc" > /dev/null; then
         echo "Doc is missing a subcategory: $doc"
         error=true
@@ -32,6 +40,35 @@ for doc in $docs; do
       ;;
   esac
 done
+
+# Terraform Registry only reads a page's subcategory when its complete YAML
+# front matter is valid. Checking for individual lines is not sufficient.
+if ! ruby -ryaml -e '
+  failed = false
+  ARGV.each do |path|
+    content = File.binread(path)
+    front_matter = content.match(/\A---\r?\n(.*?)\r?\n---(?:\r?\n|\z)/m)
+    unless front_matter
+      warn "Doc has invalid YAML front matter: #{path}"
+      failed = true
+      next
+    end
+
+    begin
+      data = YAML.load(front_matter[1])
+      unless data.is_a?(Hash) && data["subcategory"]
+        warn "Doc is missing a front-matter subcategory: #{path}"
+        failed = true
+      end
+    rescue Psych::Exception => error
+      warn "Doc has invalid YAML front matter: #{path}: #{error.message.lines.first.strip}"
+      failed = true
+    end
+  end
+  exit 1 if failed
+' website/docs/d/*.markdown website/docs/r/*.markdown; then
+  error=true
+fi
 
 if $error; then
   exit 1

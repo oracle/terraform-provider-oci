@@ -43,7 +43,6 @@ func HealthChecksPingProbeResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
-
 			// Optional
 			"port": {
 				Type:     schema.TypeInt,
@@ -66,7 +65,6 @@ func HealthChecksPingProbeResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
-
 			// Computed
 			"home_region": {
 				Type:     schema.TypeString,

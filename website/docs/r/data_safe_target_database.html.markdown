@@ -158,6 +158,7 @@ The following arguments are supported:
 	* `status` - (Required) (Updatable) Status to represent whether the database connection is TLS enabled or not.
 	* `store_password` - (Optional) (Updatable) The password to read the trust store and key store files, if they are password protected.
 	* `trust_store_content` - (Optional) (Updatable) Base64 encoded string of trust store file content.
+* `manage_privileges_trigger` - (Optional) (Updatable) An optional property when incremented triggers Manage Privileges. Could be set to any integer value.
 
 
 ** IMPORTANT **
@@ -192,6 +193,7 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description of the target database in Data Safe.
 * `display_name` - The display name of the target database in Data Safe.
+* `features` - List of enabled features based on granted ORA_DSCS_* roles in target database
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the Data Safe target database.
 * `lifecycle_details` - Details about the current state of the target database in Data Safe.

@@ -60,7 +60,7 @@ func newFunctionsManagementClientFromBaseClient(baseClient common.BaseClient, co
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 
 	client = FunctionsManagementClient{BaseClient: baseClient}
-	client.BasePath = "20181201"
+	client.BasePath = "20260325"
 	err = client.setConfigurationProvider(configProvider)
 	return
 }
@@ -141,7 +141,7 @@ func (client FunctionsManagementClient) changeApplicationCompartment(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/Application/ChangeApplicationCompartment"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20260325/Application/ChangeApplicationCompartment"
 		err = common.PostProcessServiceError(err, "FunctionsManagement", "ChangeApplicationCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -199,7 +199,7 @@ func (client FunctionsManagementClient) createApplication(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/Application/CreateApplication"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FunctionsManagement", "CreateApplication", apiReferenceLink)
 		return response, err
 	}
@@ -257,7 +257,7 @@ func (client FunctionsManagementClient) createFunction(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/Function/CreateFunction"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "FunctionsManagement", "CreateFunction", apiReferenceLink)
 		return response, err
 	}
@@ -315,7 +315,7 @@ func (client FunctionsManagementClient) deleteApplication(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/Application/DeleteApplication"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20260325/Application/DeleteApplication"
 		err = common.PostProcessServiceError(err, "FunctionsManagement", "DeleteApplication", apiReferenceLink)
 		return response, err
 	}
@@ -373,7 +373,7 @@ func (client FunctionsManagementClient) deleteFunction(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/Function/DeleteFunction"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20260325/Function/DeleteFunction"
 		err = common.PostProcessServiceError(err, "FunctionsManagement", "DeleteFunction", apiReferenceLink)
 		return response, err
 	}
@@ -431,7 +431,7 @@ func (client FunctionsManagementClient) getApplication(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/Application/GetApplication"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20260325/Application/GetApplication"
 		err = common.PostProcessServiceError(err, "FunctionsManagement", "GetApplication", apiReferenceLink)
 		return response, err
 	}
@@ -489,8 +489,124 @@ func (client FunctionsManagementClient) getFunction(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/Function/GetFunction"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20260325/Function/GetFunction"
 		err = common.PostProcessServiceError(err, "FunctionsManagement", "GetFunction", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetFunctionsRuntime Fetches a FunctionsRuntime by ID. Returns a FunctionsRuntime response model.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/functions/GetFunctionsRuntime.go.html to see an example of how to use GetFunctionsRuntime API.
+// A default retry strategy applies to this operation GetFunctionsRuntime()
+func (client FunctionsManagementClient) GetFunctionsRuntime(ctx context.Context, request GetFunctionsRuntimeRequest) (response GetFunctionsRuntimeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getFunctionsRuntime, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetFunctionsRuntimeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetFunctionsRuntimeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetFunctionsRuntimeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetFunctionsRuntimeResponse")
+	}
+	return
+}
+
+// getFunctionsRuntime implements the OCIOperation interface (enables retrying operations)
+func (client FunctionsManagementClient) getFunctionsRuntime(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/functionsRuntimes/{functionsRuntimeId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetFunctionsRuntimeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "functionsManagement", "GetFunctionsRuntime")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20260325/FunctionsRuntime/GetFunctionsRuntime"
+		err = common.PostProcessServiceError(err, "FunctionsManagement", "GetFunctionsRuntime", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetFunctionsRuntimeVersion Fetches a FunctionsRuntimeVersion by ID. Returns a FunctionsRuntimeVersion response model.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/functions/GetFunctionsRuntimeVersion.go.html to see an example of how to use GetFunctionsRuntimeVersion API.
+// A default retry strategy applies to this operation GetFunctionsRuntimeVersion()
+func (client FunctionsManagementClient) GetFunctionsRuntimeVersion(ctx context.Context, request GetFunctionsRuntimeVersionRequest) (response GetFunctionsRuntimeVersionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getFunctionsRuntimeVersion, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetFunctionsRuntimeVersionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetFunctionsRuntimeVersionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetFunctionsRuntimeVersionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetFunctionsRuntimeVersionResponse")
+	}
+	return
+}
+
+// getFunctionsRuntimeVersion implements the OCIOperation interface (enables retrying operations)
+func (client FunctionsManagementClient) getFunctionsRuntimeVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/functionsRuntimeVersions/{functionsRuntimeVersionId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetFunctionsRuntimeVersionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "functionsManagement", "GetFunctionsRuntimeVersion")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20260325/FunctionsRuntimeVersion/GetFunctionsRuntimeVersion"
+		err = common.PostProcessServiceError(err, "FunctionsManagement", "GetFunctionsRuntimeVersion", apiReferenceLink)
 		return response, err
 	}
 
@@ -547,7 +663,7 @@ func (client FunctionsManagementClient) getPbfListing(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/PbfListing/GetPbfListing"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20260325/PbfListing/GetPbfListing"
 		err = common.PostProcessServiceError(err, "FunctionsManagement", "GetPbfListing", apiReferenceLink)
 		return response, err
 	}
@@ -605,7 +721,7 @@ func (client FunctionsManagementClient) getPbfListingVersion(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/PbfListingVersion/GetPbfListingVersion"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20260325/PbfListingVersion/GetPbfListingVersion"
 		err = common.PostProcessServiceError(err, "FunctionsManagement", "GetPbfListingVersion", apiReferenceLink)
 		return response, err
 	}
@@ -663,7 +779,7 @@ func (client FunctionsManagementClient) listApplications(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/ApplicationSummary/ListApplications"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20260325/ApplicationSummary/ListApplications"
 		err = common.PostProcessServiceError(err, "FunctionsManagement", "ListApplications", apiReferenceLink)
 		return response, err
 	}
@@ -721,8 +837,126 @@ func (client FunctionsManagementClient) listFunctions(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/FunctionSummary/ListFunctions"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20260325/FunctionSummary/ListFunctions"
 		err = common.PostProcessServiceError(err, "FunctionsManagement", "ListFunctions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListFunctionsRuntimeVersions Fetches a wrapped list of all FunctionsRuntimeVersions. Returns a FunctionsRuntimeVersionCollection containing
+// an array of FunctionsRuntimeVersionSummary response models.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/functions/ListFunctionsRuntimeVersions.go.html to see an example of how to use ListFunctionsRuntimeVersions API.
+// A default retry strategy applies to this operation ListFunctionsRuntimeVersions()
+func (client FunctionsManagementClient) ListFunctionsRuntimeVersions(ctx context.Context, request ListFunctionsRuntimeVersionsRequest) (response ListFunctionsRuntimeVersionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listFunctionsRuntimeVersions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListFunctionsRuntimeVersionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListFunctionsRuntimeVersionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListFunctionsRuntimeVersionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListFunctionsRuntimeVersionsResponse")
+	}
+	return
+}
+
+// listFunctionsRuntimeVersions implements the OCIOperation interface (enables retrying operations)
+func (client FunctionsManagementClient) listFunctionsRuntimeVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/functionsRuntimeVersions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListFunctionsRuntimeVersionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "functionsManagement", "ListFunctionsRuntimeVersions")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20260325/FunctionsRuntimeVersion/ListFunctionsRuntimeVersions"
+		err = common.PostProcessServiceError(err, "FunctionsManagement", "ListFunctionsRuntimeVersions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListFunctionsRuntimes Fetches a wrapped list of all FunctionsRuntimes. Returns a FunctionsRuntimeCollection containing
+// an array of FunctionsRuntimeSummary response models.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/functions/ListFunctionsRuntimes.go.html to see an example of how to use ListFunctionsRuntimes API.
+// A default retry strategy applies to this operation ListFunctionsRuntimes()
+func (client FunctionsManagementClient) ListFunctionsRuntimes(ctx context.Context, request ListFunctionsRuntimesRequest) (response ListFunctionsRuntimesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listFunctionsRuntimes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListFunctionsRuntimesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListFunctionsRuntimesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListFunctionsRuntimesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListFunctionsRuntimesResponse")
+	}
+	return
+}
+
+// listFunctionsRuntimes implements the OCIOperation interface (enables retrying operations)
+func (client FunctionsManagementClient) listFunctionsRuntimes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/functionsRuntimes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListFunctionsRuntimesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "functionsManagement", "ListFunctionsRuntimes")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20260325/FunctionsRuntime/ListFunctionsRuntimes"
+		err = common.PostProcessServiceError(err, "FunctionsManagement", "ListFunctionsRuntimes", apiReferenceLink)
 		return response, err
 	}
 
@@ -782,7 +1016,7 @@ func (client FunctionsManagementClient) listPbfListingVersions(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/PbfListingVersion/ListPbfListingVersions"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20260325/PbfListingVersion/ListPbfListingVersions"
 		err = common.PostProcessServiceError(err, "FunctionsManagement", "ListPbfListingVersions", apiReferenceLink)
 		return response, err
 	}
@@ -841,7 +1075,7 @@ func (client FunctionsManagementClient) listPbfListings(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/PbfListing/ListPbfListings"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20260325/PbfListing/ListPbfListings"
 		err = common.PostProcessServiceError(err, "FunctionsManagement", "ListPbfListings", apiReferenceLink)
 		return response, err
 	}
@@ -899,7 +1133,7 @@ func (client FunctionsManagementClient) listTriggers(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/TriggersCollection/ListTriggers"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20260325/TriggersCollection/ListTriggers"
 		err = common.PostProcessServiceError(err, "FunctionsManagement", "ListTriggers", apiReferenceLink)
 		return response, err
 	}
@@ -957,7 +1191,7 @@ func (client FunctionsManagementClient) updateApplication(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/Application/UpdateApplication"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20260325/Application/UpdateApplication"
 		err = common.PostProcessServiceError(err, "FunctionsManagement", "UpdateApplication", apiReferenceLink)
 		return response, err
 	}
@@ -1015,7 +1249,7 @@ func (client FunctionsManagementClient) updateFunction(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/Function/UpdateFunction"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20260325/Function/UpdateFunction"
 		err = common.PostProcessServiceError(err, "FunctionsManagement", "UpdateFunction", apiReferenceLink)
 		return response, err
 	}

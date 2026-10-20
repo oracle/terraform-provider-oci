@@ -18,7 +18,7 @@ import (
 // RunSecurityAssessmentDetails The details required to create an on-demand saved security assessment.
 type RunSecurityAssessmentDetails struct {
 
-	// The OCID of the compartment that contains the security assessment.
+	// This field is ignored when refreshing a security assessment.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// The display name of the security assessment.

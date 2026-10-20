@@ -327,6 +327,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"essbase_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"graph_studio_url": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -992,6 +996,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"essbase_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"graph_studio_url": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -1426,6 +1434,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"database_transforms_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"essbase_url": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},

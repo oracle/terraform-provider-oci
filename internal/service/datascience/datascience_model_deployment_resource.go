@@ -1319,13 +1319,13 @@ func modelDeploymentWaitForWorkRequest(wId *string, entityType string, action oc
 	response := oci_datascience.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_datascience.WorkRequestStatusInProgress),
 			string(oci_datascience.WorkRequestStatusAccepted),
+			string(oci_datascience.WorkRequestStatusInProgress),
 			string(oci_datascience.WorkRequestStatusCanceling),
 		},
 		Target: []string{
-			string(oci_datascience.WorkRequestStatusSucceeded),
 			string(oci_datascience.WorkRequestStatusFailed),
+			string(oci_datascience.WorkRequestStatusSucceeded),
 			string(oci_datascience.WorkRequestStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {

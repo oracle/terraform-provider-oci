@@ -12,7 +12,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_opensearch "github.com/oracle/oci-go-sdk/v65/opensearch"
 
@@ -390,6 +390,48 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 					},
 				},
 			},
+			"remote_reindex_trust_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"remote_sources": {
+							Type:     schema.TypeList,
+							Required: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"certificate_id": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"endpoint": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+									"endpoint_resolution_ip": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
 			"reverse_connection_endpoint_customer_ips": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -436,6 +478,76 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 				Default:  nil,
 				Elem:     schema.TypeString,
 			},
+			"security_master_user_auth_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"user_details": {
+							Type:     schema.TypeList,
+							Required: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"password_details": {
+										Type:     schema.TypeList,
+										Required: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"source_type": {
+													Type:             schema.TypeString,
+													Required:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"OCI_VAULT_SECRET",
+														"PLAIN_PASSWORD",
+													}, true),
+												},
+
+												// Optional
+												"plain_password": {
+													Type:      schema.TypeString,
+													Optional:  true,
+													Computed:  true,
+													Sensitive: true,
+												},
+												"vault_secret_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"username": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
 			"security_master_user_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -447,6 +559,11 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 				Computed:  true,
 				Sensitive: true,
 			},
+			"security_mode": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"security_saml_config": {
 				Type:      schema.TypeList,
 				Optional:  true,
@@ -457,31 +574,26 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
-						"is_enabled": {
-							Type:     schema.TypeBool,
-							Required: true,
-						},
-						// Required
-						"idp_metadata_content": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
-						// Required
 						"idp_entity_id": {
 							Type:     schema.TypeString,
 							Required: true,
 						},
-						"opendashboard_url": {
+						"idp_metadata_content": {
 							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
+							Required: true,
 						},
+						"is_enabled": {
+							Type:     schema.TypeBool,
+							Required: true,
+						},
+
+						// Optional
 						"admin_backend_role": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
-						"subject_key": {
+						"opendashboard_url": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -491,13 +603,15 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"subject_key": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
 					},
 				},
-			},
-			"security_mode": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
 			},
 			"system_tags": {
 				Type:     schema.TypeMap,
@@ -929,6 +1043,17 @@ func (s *OpensearchOpensearchClusterResourceCrud) Create() error {
 		}
 	}
 
+	if remoteReindexTrustConfig, ok := s.D.GetOkExists("remote_reindex_trust_config"); ok {
+		if tmpList := remoteReindexTrustConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "remote_reindex_trust_config", 0)
+			tmp, err := s.mapToRemoteReindexTrustConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.RemoteReindexTrustConfig = &tmp
+		}
+	}
+
 	if reverseConnectionEndpointCustomerIps, ok := s.D.GetOkExists("reverse_connection_endpoint_customer_ips"); ok {
 		interfaces := reverseConnectionEndpointCustomerIps.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -975,14 +1100,29 @@ func (s *OpensearchOpensearchClusterResourceCrud) Create() error {
 		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 	}
 
-	if securityMasterUserName, ok := s.D.GetOkExists("security_master_user_name"); ok {
-		tmp := securityMasterUserName.(string)
-		request.SecurityMasterUserName = &tmp
+	hasSecurityMasterUserAuthDetails := false
+	if securityMasterUserAuthDetails, ok := s.D.GetOkExists("security_master_user_auth_details"); ok {
+		if tmpList := securityMasterUserAuthDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "security_master_user_auth_details", 0)
+			tmp, err := s.mapToSecurityUserAuthenticationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.SecurityMasterUserAuthDetails = &tmp
+			hasSecurityMasterUserAuthDetails = true
+		}
 	}
 
-	if securityMasterUserPasswordHash, ok := s.D.GetOkExists("security_master_user_password_hash"); ok {
-		tmp := securityMasterUserPasswordHash.(string)
-		request.SecurityMasterUserPasswordHash = &tmp
+	if !hasSecurityMasterUserAuthDetails {
+		if securityMasterUserName, ok := s.D.GetOkExists("security_master_user_name"); ok {
+			tmp := securityMasterUserName.(string)
+			request.SecurityMasterUserName = &tmp
+		}
+
+		if securityMasterUserPasswordHash, ok := s.D.GetOkExists("security_master_user_password_hash"); ok {
+			tmp := securityMasterUserPasswordHash.(string)
+			request.SecurityMasterUserPasswordHash = &tmp
+		}
 	}
 
 	if securitySamlConfig, ok := s.D.GetOkExists("security_saml_config"); ok {
@@ -1107,13 +1247,13 @@ func opensearchClusterWaitForWorkRequest(wId *string, entityType string, action 
 	response := oci_opensearch.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_opensearch.OperationStatusInProgress),
 			string(oci_opensearch.OperationStatusAccepted),
+			string(oci_opensearch.OperationStatusInProgress),
 			string(oci_opensearch.OperationStatusCanceling),
 		},
 		Target: []string{
-			string(oci_opensearch.OperationStatusSucceeded),
 			string(oci_opensearch.OperationStatusFailed),
+			string(oci_opensearch.OperationStatusSucceeded),
 			string(oci_opensearch.OperationStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {
@@ -1273,6 +1413,7 @@ func (s *OpensearchOpensearchClusterResourceCrud) UpdateConditionMet() (result b
 		"outbound_cluster_config",
 		"reverse_connection_endpoint_customer_ips",
 		"security_attributes",
+		"security_master_user_auth_details",
 		"security_master_user_name",
 		"security_master_user_password_hash",
 		"security_mode",
@@ -1410,6 +1551,17 @@ func (s *OpensearchOpensearchClusterResourceCrud) Update() error {
 		}
 	}
 
+	if remoteReindexTrustConfig, ok := s.D.GetOkExists("remote_reindex_trust_config"); ok {
+		if tmpList := remoteReindexTrustConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "remote_reindex_trust_config", 0)
+			tmp, err := s.mapToRemoteReindexTrustConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.RemoteReindexTrustConfig = &tmp
+		}
+	}
+
 	if reverseConnectionEndpointCustomerIps, ok := s.D.GetOkExists("reverse_connection_endpoint_customer_ips"); ok {
 		interfaces := reverseConnectionEndpointCustomerIps.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -1429,14 +1581,29 @@ func (s *OpensearchOpensearchClusterResourceCrud) Update() error {
 		request.SecurityAttributes = nil
 	}
 
-	if securityMasterUserName, ok := s.D.GetOkExists("security_master_user_name"); ok {
-		tmp := securityMasterUserName.(string)
-		request.SecurityMasterUserName = &tmp
+	hasSecurityMasterUserAuthDetails := false
+	if securityMasterUserAuthDetails, ok := s.D.GetOkExists("security_master_user_auth_details"); ok {
+		if tmpList := securityMasterUserAuthDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "security_master_user_auth_details", 0)
+			tmp, err := s.mapToSecurityUserAuthenticationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.SecurityMasterUserAuthDetails = &tmp
+			hasSecurityMasterUserAuthDetails = true
+		}
 	}
 
-	if securityMasterUserPasswordHash, ok := s.D.GetOkExists("security_master_user_password_hash"); ok {
-		tmp := securityMasterUserPasswordHash.(string)
-		request.SecurityMasterUserPasswordHash = &tmp
+	if !hasSecurityMasterUserAuthDetails {
+		if securityMasterUserName, ok := s.D.GetOkExists("security_master_user_name"); ok {
+			tmp := securityMasterUserName.(string)
+			request.SecurityMasterUserName = &tmp
+		}
+
+		if securityMasterUserPasswordHash, ok := s.D.GetOkExists("security_master_user_password_hash"); ok {
+			tmp := securityMasterUserPasswordHash.(string)
+			request.SecurityMasterUserPasswordHash = &tmp
+		}
 	}
 
 	if securitySamlConfig, ok := s.D.GetOkExists("security_saml_config"); ok {
@@ -1668,6 +1835,12 @@ func (s *OpensearchOpensearchClusterResourceCrud) SetData() error {
 		s.D.Set("outbound_cluster_config", []interface{}{OutboundClusterConfigToMap(s.Res.OutboundClusterConfig)})
 	} else {
 		s.D.Set("outbound_cluster_config", nil)
+	}
+
+	if s.Res.RemoteReindexTrustConfig != nil {
+		s.D.Set("remote_reindex_trust_config", []interface{}{RemoteReindexTrustConfigToMap(s.Res.RemoteReindexTrustConfig)})
+	} else {
+		s.D.Set("remote_reindex_trust_config", nil)
 	}
 
 	s.D.Set("reverse_connection_endpoint_customer_ips", s.Res.ReverseConnectionEndpointCustomerIps)
@@ -2195,6 +2368,10 @@ func OpensearchClusterSummaryToMap(obj oci_opensearch.OpensearchClusterSummary) 
 		result["outbound_cluster_config"] = []interface{}{OutboundClusterConfigToMap(obj.OutboundClusterConfig)}
 	}
 
+	if obj.RemoteReindexTrustConfig != nil {
+		result["remote_reindex_trust_config"] = []interface{}{RemoteReindexTrustConfigToMap(obj.RemoteReindexTrustConfig)}
+	}
+
 	if obj.SecurityAttributes != nil {
 		result["security_attributes"] = tfresource.SecurityAttributesToMap(obj.SecurityAttributes)
 	} else {
@@ -2326,6 +2503,80 @@ func OutboundClusterSummaryToMap(obj oci_opensearch.OutboundClusterSummary) map[
 	return result
 }
 
+func (s *OpensearchOpensearchClusterResourceCrud) mapToRemoteReindexSourceDetails(fieldKeyFormat string) (oci_opensearch.RemoteReindexSourceDetails, error) {
+	result := oci_opensearch.RemoteReindexSourceDetails{}
+
+	if certificateId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate_id")); ok {
+		tmp := certificateId.(string)
+		result.CertificateId = &tmp
+	}
+
+	if endpoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
+		tmp := endpoint.(string)
+		result.Endpoint = &tmp
+	}
+
+	if endpointResolutionIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint_resolution_ip")); ok {
+		tmp := endpointResolutionIp.(string)
+		result.EndpointResolutionIp = &tmp
+	}
+
+	return result, nil
+}
+
+func RemoteReindexSourceDetailsToMap(obj oci_opensearch.RemoteReindexSourceDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CertificateId != nil {
+		result["certificate_id"] = string(*obj.CertificateId)
+	}
+
+	if obj.Endpoint != nil {
+		result["endpoint"] = string(*obj.Endpoint)
+	}
+
+	if obj.EndpointResolutionIp != nil {
+		result["endpoint_resolution_ip"] = string(*obj.EndpointResolutionIp)
+	}
+
+	return result
+}
+
+func (s *OpensearchOpensearchClusterResourceCrud) mapToRemoteReindexTrustConfig(fieldKeyFormat string) (oci_opensearch.RemoteReindexTrustConfig, error) {
+	result := oci_opensearch.RemoteReindexTrustConfig{}
+
+	if remoteSources, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "remote_sources")); ok {
+		interfaces := remoteSources.([]interface{})
+		tmp := make([]oci_opensearch.RemoteReindexSourceDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "remote_sources"), stateDataIndex)
+			converted, err := s.mapToRemoteReindexSourceDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "remote_sources")) {
+			result.RemoteSources = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func RemoteReindexTrustConfigToMap(obj *oci_opensearch.RemoteReindexTrustConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	remoteSources := []interface{}{}
+	for _, item := range obj.RemoteSources {
+		remoteSources = append(remoteSources, RemoteReindexSourceDetailsToMap(item))
+	}
+	result["remote_sources"] = remoteSources
+
+	return result
+}
+
 func ReverseConnectionEndpointToMap(obj oci_opensearch.ReverseConnectionEndpoint) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -2410,6 +2661,127 @@ func SecuritySamlConfigToMap(obj *oci_opensearch.SecuritySamlConfig) map[string]
 
 	if obj.SubjectKey != nil {
 		result["subject_key"] = string(*obj.SubjectKey)
+	}
+
+	return result
+}
+
+func (s *OpensearchOpensearchClusterResourceCrud) mapToSecurityUserAuthenticationDetails(fieldKeyFormat string) (oci_opensearch.SecurityUserAuthenticationDetails, error) {
+	result := oci_opensearch.SecurityUserAuthenticationDetails{}
+
+	if userDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "user_details")); ok {
+		if tmpList := userDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "user_details"), 0)
+			tmp, err := s.mapToSecurityUserDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert user_details, encountered error: %v", err)
+			}
+			result.UserDetails = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+func SecurityUserAuthenticationDetailsToMap(obj *oci_opensearch.SecurityUserAuthenticationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.UserDetails != nil {
+		result["user_details"] = []interface{}{SecurityUserDetailsToMap(obj.UserDetails)}
+	}
+
+	return result
+}
+
+func (s *OpensearchOpensearchClusterResourceCrud) mapToSecurityUserDetails(fieldKeyFormat string) (oci_opensearch.SecurityUserDetails, error) {
+	result := oci_opensearch.SecurityUserDetails{}
+
+	if passwordDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password_details")); ok {
+		if tmpList := passwordDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "password_details"), 0)
+			tmp, err := s.mapToSecurityUserPasswordDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert password_details, encountered error: %v", err)
+			}
+			result.PasswordDetails = tmp
+		}
+	}
+
+	if username, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "username")); ok {
+		tmp := username.(string)
+		result.Username = &tmp
+	}
+
+	return result, nil
+}
+
+func SecurityUserDetailsToMap(obj *oci_opensearch.SecurityUserDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.PasswordDetails != nil {
+		passwordDetailsArray := []interface{}{}
+		if passwordDetailsMap := SecurityUserPasswordDetailsToMap(&obj.PasswordDetails); passwordDetailsMap != nil {
+			passwordDetailsArray = append(passwordDetailsArray, passwordDetailsMap)
+		}
+		result["password_details"] = passwordDetailsArray
+	}
+
+	if obj.Username != nil {
+		result["username"] = string(*obj.Username)
+	}
+
+	return result
+}
+
+func (s *OpensearchOpensearchClusterResourceCrud) mapToSecurityUserPasswordDetails(fieldKeyFormat string) (oci_opensearch.SecurityUserPasswordDetails, error) {
+	var baseObject oci_opensearch.SecurityUserPasswordDetails
+	//discriminator
+	sourceTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_type"))
+	var sourceType string
+	if ok {
+		sourceType = sourceTypeRaw.(string)
+	} else {
+		sourceType = "" // default value
+	}
+	switch strings.ToLower(sourceType) {
+	case strings.ToLower("OCI_VAULT_SECRET"):
+		details := oci_opensearch.VaultSecretSecurityUserPasswordDetails{}
+		if vaultSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vault_secret_id")); ok {
+			tmp := vaultSecretId.(string)
+			details.VaultSecretId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("PLAIN_PASSWORD"):
+		details := oci_opensearch.PlainPasswordSecurityUserPasswordDetails{}
+		if plainPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "plain_password")); ok {
+			tmp := plainPassword.(string)
+			details.PlainPassword = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown source_type '%v' was specified", sourceType)
+	}
+	return baseObject, nil
+}
+
+func SecurityUserPasswordDetailsToMap(obj *oci_opensearch.SecurityUserPasswordDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_opensearch.VaultSecretSecurityUserPasswordDetails:
+		result["source_type"] = "OCI_VAULT_SECRET"
+
+		if v.VaultSecretId != nil {
+			result["vault_secret_id"] = string(*v.VaultSecretId)
+		}
+	case oci_opensearch.PlainPasswordSecurityUserPasswordDetails:
+		result["source_type"] = "PLAIN_PASSWORD"
+
+		if v.PlainPassword != nil {
+			result["plain_password"] = string(*v.PlainPassword)
+		}
+	default:
+		log.Printf("[WARN] Received 'source_type' of unknown type %v", *obj)
+		return nil
 	}
 
 	return result

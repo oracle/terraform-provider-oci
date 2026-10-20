@@ -61,6 +61,7 @@ The following attributes are exported:
 * `id` - The OCID of the resource being referenced.
 * `is_cdb_supported` - True if CDB should be defined, false otherwise.
 * `migration_id` - The OCID of the resource being referenced.
+* `migration_scope` - Assessment migration scope.
 * `network_speed_megabit_per_second` - A network speed in Megabits per second.
 * `source_database_connection` - Source Assessment Connection object
 	* `id` - The OCID of the resource being referenced.

@@ -75,6 +75,8 @@ type OpensearchClusterSummary struct {
 	OutboundClusterConfig *OutboundClusterConfig `mandatory:"false" json:"outboundClusterConfig"`
 
 	LoadBalancerConfig *LoadBalancerConfig `mandatory:"false" json:"loadBalancerConfig"`
+
+	RemoteReindexTrustConfig *RemoteReindexTrustConfig `mandatory:"false" json:"remoteReindexTrustConfig"`
 }
 
 func (m OpensearchClusterSummary) String() string {

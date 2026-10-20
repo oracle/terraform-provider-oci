@@ -148,14 +148,14 @@ func iotFlowRuntimeDeactivateWaitForWorkRequest(ctx context.Context, wId *string
 	response := oci_iot.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_iot.OperationStatusInProgress),
 			string(oci_iot.OperationStatusAccepted),
+			string(oci_iot.OperationStatusInProgress),
 			string(oci_iot.OperationStatusWaiting),
+			string(oci_iot.OperationStatusNeedsAttention),
 		},
 		Target: []string{
-			string(oci_iot.OperationStatusSucceeded),
 			string(oci_iot.OperationStatusFailed),
-			string(oci_iot.OperationStatusNeedsAttention),
+			string(oci_iot.OperationStatusSucceeded),
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error

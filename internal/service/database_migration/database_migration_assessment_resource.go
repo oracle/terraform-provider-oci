@@ -58,6 +58,15 @@ func DatabaseMigrationAssessmentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"migration_scope": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Default:  "SCHEMA",
+				ValidateFunc: validation.StringInSlice([]string{
+					"FULL",
+					"SCHEMA",
+				}, true),
+			},
 			"network_speed_megabit_per_second": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -546,6 +555,8 @@ func (s *DatabaseMigrationAssessmentResourceCrud) SetData() error {
 	case oci_database_migration.MySqlAssessment:
 		s.D.Set("database_combination", "MYSQL")
 
+		s.D.Set("migration_scope", v.MigrationScope)
+
 		s.D.Set("acceptable_downtime", v.AcceptableDowntime)
 
 		s.D.Set("assessment_migration_type", v.AssessmentMigrationType)
@@ -611,6 +622,8 @@ func (s *DatabaseMigrationAssessmentResourceCrud) SetData() error {
 		if v.IsCdbSupported != nil {
 			s.D.Set("is_cdb_supported", *v.IsCdbSupported)
 		}
+
+		s.D.Set("migration_scope", v.MigrationScope)
 
 		s.D.Set("acceptable_downtime", v.AcceptableDowntime)
 
@@ -683,12 +696,16 @@ func AssessmentSummaryToMap(obj oci_database_migration.AssessmentSummary) map[st
 	switch v := (obj).(type) {
 	case oci_database_migration.MySqlAssessmentSummary:
 		result["database_combination"] = "MYSQL"
+
+		result["migration_scope"] = string(v.MigrationScope)
 	case oci_database_migration.OracleAssessmentSummary:
 		result["database_combination"] = "ORACLE"
 
 		if v.IsCdbSupported != nil {
 			result["is_cdb_supported"] = bool(*v.IsCdbSupported)
 		}
+
+		result["migration_scope"] = string(v.MigrationScope)
 	default:
 		log.Printf("[WARN] Received 'database_combination' of unknown type %v", obj)
 		return nil
@@ -864,6 +881,9 @@ func (s *DatabaseMigrationAssessmentResourceCrud) populateTopLevelPolymorphicCre
 				details.IncludeObjects = tmp
 			}
 		}
+		if migrationScope, ok := s.D.GetOkExists("migration_scope"); ok {
+			details.MigrationScope = oci_database_migration.MigrationScopeMySqlEnum(migrationScope.(string))
+		}
 		if acceptableDowntime, ok := s.D.GetOkExists("acceptable_downtime"); ok {
 			details.AcceptableDowntime = oci_database_migration.AcceptableDowntimeEnum(acceptableDowntime.(string))
 		}
@@ -960,6 +980,9 @@ func (s *DatabaseMigrationAssessmentResourceCrud) populateTopLevelPolymorphicCre
 				details.IncludeObjects = tmp
 			}
 		}
+		if migrationScope, ok := s.D.GetOkExists("migration_scope"); ok {
+			details.MigrationScope = oci_database_migration.MigrationScopeOracleEnum(migrationScope.(string))
+		}
 		if acceptableDowntime, ok := s.D.GetOkExists("acceptable_downtime"); ok {
 			details.AcceptableDowntime = oci_database_migration.AcceptableDowntimeEnum(acceptableDowntime.(string))
 		}
@@ -1036,6 +1059,9 @@ func (s *DatabaseMigrationAssessmentResourceCrud) populateTopLevelPolymorphicUpd
 	switch strings.ToLower(databaseCombination) {
 	case strings.ToLower("MYSQL"):
 		details := oci_database_migration.UpdateMySqlAssessmentDetails{}
+		if migrationScope, ok := s.D.GetOkExists("migration_scope"); ok {
+			details.MigrationScope = oci_database_migration.MigrationScopeMySqlEnum(migrationScope.(string))
+		}
 		if acceptableDowntime, ok := s.D.GetOkExists("acceptable_downtime"); ok {
 			details.AcceptableDowntime = oci_database_migration.AcceptableDowntimeEnum(acceptableDowntime.(string))
 		}
@@ -1094,6 +1120,9 @@ func (s *DatabaseMigrationAssessmentResourceCrud) populateTopLevelPolymorphicUpd
 		request.UpdateAssessmentDetails = details
 	case strings.ToLower("ORACLE"):
 		details := oci_database_migration.UpdateOracleAssessmentDetails{}
+		if migrationScope, ok := s.D.GetOkExists("migration_scope"); ok {
+			details.MigrationScope = oci_database_migration.MigrationScopeOracleEnum(migrationScope.(string))
+		}
 		if acceptableDowntime, ok := s.D.GetOkExists("acceptable_downtime"); ok {
 			details.AcceptableDowntime = oci_database_migration.AcceptableDowntimeEnum(acceptableDowntime.(string))
 		}

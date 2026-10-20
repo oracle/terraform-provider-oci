@@ -221,6 +221,12 @@ func OcvpClusterResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"initial_fault_domain_host_distribution": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"initial_host_ocpu_count": {
 				Type:     schema.TypeFloat,
 				Optional: true,
@@ -509,6 +515,10 @@ func (s *OcvpClusterResourceCrud) Create() error {
 		request.InitialCommitment = oci_ocvp.CommitmentEnum(initialCommitment.(string))
 	}
 
+	if initialFaultDomainHostDistribution, ok := s.D.GetOkExists("initial_fault_domain_host_distribution"); ok {
+		request.InitialFaultDomainHostDistribution = oci_ocvp.FaultDomainHostDistributionModesEnum(initialFaultDomainHostDistribution.(string))
+	}
+
 	if initialHostOcpuCount, ok := s.D.GetOkExists("initial_host_ocpu_count"); ok {
 		tmp := float32(initialHostOcpuCount.(float64))
 		request.InitialHostOcpuCount = &tmp
@@ -634,13 +644,13 @@ func clusterWaitForWorkRequest(wId *string, entityType string, action oci_ocvp.A
 	response := oci_ocvp.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_ocvp.OperationStatusInProgress),
 			string(oci_ocvp.OperationStatusAccepted),
+			string(oci_ocvp.OperationStatusInProgress),
 			string(oci_ocvp.OperationStatusCanceling),
 		},
 		Target: []string{
-			string(oci_ocvp.OperationStatusSucceeded),
 			string(oci_ocvp.OperationStatusFailed),
+			string(oci_ocvp.OperationStatusSucceeded),
 			string(oci_ocvp.OperationStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {
@@ -865,6 +875,8 @@ func (s *OcvpClusterResourceCrud) SetData() error {
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	s.D.Set("initial_commitment", s.Res.InitialCommitment)
+
+	s.D.Set("initial_fault_domain_host_distribution", s.Res.InitialFaultDomainHostDistribution)
 
 	if s.Res.InitialHostOcpuCount != nil {
 		s.D.Set("initial_host_ocpu_count", *s.Res.InitialHostOcpuCount)

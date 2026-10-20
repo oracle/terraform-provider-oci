@@ -46,6 +46,12 @@ const (
 	OperationTypeExportOciCacheBackupToOs           OperationTypeEnum = "EXPORT_OCI_CACHE_BACKUP_TO_OS"
 	OperationTypePatchOciCacheCluster               OperationTypeEnum = "PATCH_OCI_CACHE_CLUSTER"
 	OperationTypeReplaceOciCacheNode                OperationTypeEnum = "REPLACE_OCI_CACHE_NODE"
+	OperationTypeConvertToSecondaryCluster          OperationTypeEnum = "CONVERT_TO_SECONDARY_CLUSTER"
+	OperationTypeConvertToStandaloneCluster         OperationTypeEnum = "CONVERT_TO_STANDALONE_CLUSTER"
+	OperationTypeRollbackCrrSetup                   OperationTypeEnum = "ROLLBACK_CRR_SETUP"
+	OperationTypeSwitchover                         OperationTypeEnum = "SWITCHOVER"
+	OperationTypeSetupCrr                           OperationTypeEnum = "SETUP_CRR"
+	OperationTypeChangeRoleToSecondary              OperationTypeEnum = "CHANGE_ROLE_TO_SECONDARY"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -77,6 +83,12 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"EXPORT_OCI_CACHE_BACKUP_TO_OS":           OperationTypeExportOciCacheBackupToOs,
 	"PATCH_OCI_CACHE_CLUSTER":                 OperationTypePatchOciCacheCluster,
 	"REPLACE_OCI_CACHE_NODE":                  OperationTypeReplaceOciCacheNode,
+	"CONVERT_TO_SECONDARY_CLUSTER":            OperationTypeConvertToSecondaryCluster,
+	"CONVERT_TO_STANDALONE_CLUSTER":           OperationTypeConvertToStandaloneCluster,
+	"ROLLBACK_CRR_SETUP":                      OperationTypeRollbackCrrSetup,
+	"SWITCHOVER":                              OperationTypeSwitchover,
+	"SETUP_CRR":                               OperationTypeSetupCrr,
+	"CHANGE_ROLE_TO_SECONDARY":                OperationTypeChangeRoleToSecondary,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -108,6 +120,12 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"export_oci_cache_backup_to_os":           OperationTypeExportOciCacheBackupToOs,
 	"patch_oci_cache_cluster":                 OperationTypePatchOciCacheCluster,
 	"replace_oci_cache_node":                  OperationTypeReplaceOciCacheNode,
+	"convert_to_secondary_cluster":            OperationTypeConvertToSecondaryCluster,
+	"convert_to_standalone_cluster":           OperationTypeConvertToStandaloneCluster,
+	"rollback_crr_setup":                      OperationTypeRollbackCrrSetup,
+	"switchover":                              OperationTypeSwitchover,
+	"setup_crr":                               OperationTypeSetupCrr,
+	"change_role_to_secondary":                OperationTypeChangeRoleToSecondary,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -150,6 +168,12 @@ func GetOperationTypeEnumStringValues() []string {
 		"EXPORT_OCI_CACHE_BACKUP_TO_OS",
 		"PATCH_OCI_CACHE_CLUSTER",
 		"REPLACE_OCI_CACHE_NODE",
+		"CONVERT_TO_SECONDARY_CLUSTER",
+		"CONVERT_TO_STANDALONE_CLUSTER",
+		"ROLLBACK_CRR_SETUP",
+		"SWITCHOVER",
+		"SETUP_CRR",
+		"CHANGE_ROLE_TO_SECONDARY",
 	}
 }
 

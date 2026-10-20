@@ -105,6 +105,7 @@ import (
 	tf_nosql "github.com/oracle/terraform-provider-oci/internal/service/nosql"
 	tf_objectstorage "github.com/oracle/terraform-provider-oci/internal/service/objectstorage"
 	tf_oce "github.com/oracle/terraform-provider-oci/internal/service/oce"
+	tf_oci_product_catalog "github.com/oracle/terraform-provider-oci/internal/service/oci_product_catalog"
 	tf_ocvp "github.com/oracle/terraform-provider-oci/internal/service/ocvp"
 	tf_oda "github.com/oracle/terraform-provider-oci/internal/service/oda"
 	tf_onesubscription "github.com/oracle/terraform-provider-oci/internal/service/onesubscription"
@@ -146,7 +147,6 @@ import (
 	tf_waa "github.com/oracle/terraform-provider-oci/internal/service/waa"
 	tf_waas "github.com/oracle/terraform-provider-oci/internal/service/waas"
 	tf_waf "github.com/oracle/terraform-provider-oci/internal/service/waf"
-	tf_wlms "github.com/oracle/terraform-provider-oci/internal/service/wlms"
 	tf_zpr "github.com/oracle/terraform-provider-oci/internal/service/zpr"
 )
 
@@ -454,6 +454,9 @@ func init() {
 	if common.CheckForEnabledServices("oce") {
 		tf_oce.RegisterResource()
 	}
+	if common.CheckForEnabledServices("ociproductcatalog") {
+		tf_oci_product_catalog.RegisterResource()
+	}
 	if common.CheckForEnabledServices("ocvp") {
 		tf_ocvp.RegisterResource()
 	}
@@ -576,9 +579,6 @@ func init() {
 	}
 	if common.CheckForEnabledServices("waf") {
 		tf_waf.RegisterResource()
-	}
-	if common.CheckForEnabledServices("wlms") {
-		tf_wlms.RegisterResource()
 	}
 	if common.CheckForEnabledServices("zpr") {
 		tf_zpr.RegisterResource()

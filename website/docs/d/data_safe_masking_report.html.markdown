@@ -43,6 +43,7 @@ The following attributes are exported:
 * `parallel_degree` - Indicates if parallel execution was enabled during the masking operation. 
 * `recompile` - Indicates how invalid objects were recompiled post the masking operation. 
 * `state` - The current state of the masking report.
+* `subsetting_report_id` - The OCID of the subsetting report associated with this masking report
 * `target_id` - The OCID of the target database masked.
 * `time_created` - The date and time the masking report was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 
 * `time_masking_finished` - The date and time data masking finished, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339)

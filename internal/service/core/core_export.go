@@ -16,6 +16,7 @@ func init() {
 	exportCoreInstancePoolInstanceHints.GetIdFn = getCoreInstancePoolInstanceId
 	exportCoreNetworkSecurityGroupSecurityRuleHints.GetIdFn = getCoreNetworkSecurityGroupSecurityRuleId
 	exportCoreDrgRouteTableRouteRuleHints.GetIdFn = getCoreDrgRouteTableRouteRuleId
+	exportCoreDrgNatPolicyDrgNatRuleHints.GetIdFn = getCoreDrgNatPolicyDrgNatRuleId
 	exportCoreBootVolumeHints.ProcessDiscoveredResourcesFn = filterSourcedBootVolumes
 	exportCoreCrossConnectGroupHints.DiscoverableLifecycleStates = append(exportCoreCrossConnectGroupHints.DiscoverableLifecycleStates, string(oci_core.CrossConnectGroupLifecycleStateInactive))
 	exportCoreDhcpOptionsHints.ProcessDiscoveredResourcesFn = processDefaultDhcpOptions
@@ -40,6 +41,8 @@ func init() {
 	exportCoreDrgRouteTableRouteRuleHints.DatasourceClass = "oci_core_drg_route_table_route_rules"
 	exportCoreDrgRouteTableRouteRuleHints.DatasourceItemsAttr = "drg_route_rules"
 	exportCoreDrgRouteTableRouteRuleHints.ProcessDiscoveredResourcesFn = processDrgRouteTableRouteRules
+	exportCoreDrgNatPolicyDrgNatRuleHints.DatasourceClass = "oci_core_drg_nat_policy_drg_nat_rules"
+	exportCoreDrgNatPolicyDrgNatRuleHints.DatasourceItemsAttr = "drg_nat_rules"
 	exportCoreDrgRouteDistributionHints.ProcessDiscoveredResourcesFn = processDrgRouteDistributions
 	tf_export.RegisterCompartmentGraphs("core", coreResourceGraph)
 	tf_export.RegisterRelatedResourcesGraph("oci_core_instance", relatedcoreinstance)
@@ -492,6 +495,16 @@ func getCoreDrgRouteTableRouteRuleId(resource *tf_export.OCIResource) (string, e
 		return "", fmt.Errorf("[ERROR] unable to find drgRouteTableId for Core DrgRouteTableRouteRule")
 	}
 	return GetDrgRouteTableRouteRuleCompositeId(drgRouteTableId, drgRouteRuleId), nil
+}
+
+func getCoreDrgNatPolicyDrgNatRuleId(resource *tf_export.OCIResource) (string, error) {
+
+	drgNatPolicyId := resource.Parent.Id
+	drgNatRuleId, ok := resource.SourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find drgNatRuleId for Core DrgNatPolicyDrgNatRule")
+	}
+	return GetDrgNatPolicyDrgNatRuleCompositeId(drgNatPolicyId, drgNatRuleId), nil
 }
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -1084,6 +1097,21 @@ var exportCoreComputeHostGroupHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportCoreDrgNatPolicyHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_core_drg_nat_policy",
+	DatasourceClass:      "oci_core_drg_nat_policies",
+	DatasourceItemsAttr:  "drg_nat_policies",
+	ResourceAbbreviation: "drg_nat_policy",
+	DiscoverableLifecycleStates: []string{
+		string(oci_core.DrgNatPolicyLifecycleStateActive),
+	},
+}
+
+var exportCoreDrgNatPolicyDrgNatRuleHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_core_drg_nat_policy_drg_nat_rule",
+	ResourceAbbreviation: "drg_route_table_route_rule",
+}
+
 var coreResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportCoreBootVolumeBackupHints},
@@ -1140,6 +1168,7 @@ var coreResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportCoreComputeGpuMemoryFabricHints},
 		{TerraformResourceHints: exportCoreComputeHostHints},
 		{TerraformResourceHints: exportCoreComputeHostGroupHints},
+		{TerraformResourceHints: exportCoreDrgNatPolicyHints},
 	},
 	"oci_core_boot_volume": {
 		{
@@ -1222,6 +1251,14 @@ var coreResourceGraph = tf_export.TerraformResourceGraph{
 			TerraformResourceHints: exportCoreDrgRouteTableRouteRuleHints,
 			DatasourceQueryParams: map[string]string{
 				"drg_route_table_id": "id",
+			},
+		},
+	},
+	"oci_core_drg_nat_policy": {
+		{
+			TerraformResourceHints: exportCoreDrgNatPolicyDrgNatRuleHints,
+			DatasourceQueryParams: map[string]string{
+				"drg_nat_policy_id": "id",
 			},
 		},
 	},

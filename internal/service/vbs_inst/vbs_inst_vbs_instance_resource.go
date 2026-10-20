@@ -44,7 +44,6 @@ func VbsInstVbsInstanceResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -75,7 +74,6 @@ func VbsInstVbsInstanceResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
-
 			// Computed
 			"lifecyle_details": {
 				Type:     schema.TypeString,
@@ -293,13 +291,13 @@ func vbsInstanceWaitForWorkRequest(wId *string, entityType string, action oci_vb
 	response := oci_vbs_inst.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_vbs_inst.OperationStatusInProgress),
 			string(oci_vbs_inst.OperationStatusAccepted),
+			string(oci_vbs_inst.OperationStatusInProgress),
 			string(oci_vbs_inst.OperationStatusCanceling),
 		},
 		Target: []string{
-			string(oci_vbs_inst.OperationStatusSucceeded),
 			string(oci_vbs_inst.OperationStatusFailed),
+			string(oci_vbs_inst.OperationStatusSucceeded),
 			string(oci_vbs_inst.OperationStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {

@@ -1,0 +1,15 @@
+# Copy this file to terraform.tfvars and replace the placeholder values.
+# primary_cluster_id is an existing ACTIVE primary in the paired primary region.
+# secondary_oci_cache_config_set_id is an existing config set in this (secondary) region.
+
+compartment_id                    = "ocid1.compartment.oc1..replace-me"
+primary_cluster_id                = "ocid1.rediscluster.oc1.<primary-region>.replace-me"
+secondary_oci_cache_config_set_id = "ocid1.ocicacheconfigset.oc1.<secondary-region>.replace-me"
+
+# Optional overrides
+# config_file_profile = "DEFAULT"
+# region              = "us-phoenix-1"
+# display_name        = "my-crr-secondary"
+# node_count          = 1
+# node_memory_in_gbs  = 8
+# software_version    = "REDIS_7_0"

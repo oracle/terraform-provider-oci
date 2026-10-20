@@ -11,10 +11,7 @@ variable "partner_subscription_display_name" {
   default = "displayName"
 }
 
-variable "listing_id" {
-  type = string
-  default = "listing_id"
-}
+
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -26,9 +23,10 @@ provider "oci" {
 
 data "oci_self_partner_subscriptions" "test_partner_subscriptions" {
   #Required
-  listing_id = var.listing_id
+  listing_id = oci_marketplace_listing.test_listing.id
 
   #Optional
   display_name = var.partner_subscription_display_name
+
 }
 

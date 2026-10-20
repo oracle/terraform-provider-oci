@@ -447,13 +447,13 @@ func pathAnalysiWaitForWorkRequest(wId *string, entityType string, action oci_vn
 	response := oci_vn_monitoring.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_vn_monitoring.OperationStatusInProgress),
 			string(oci_vn_monitoring.OperationStatusAccepted),
+			string(oci_vn_monitoring.OperationStatusInProgress),
 			string(oci_vn_monitoring.OperationStatusCanceling),
 		},
 		Target: []string{
-			string(oci_vn_monitoring.OperationStatusSucceeded),
 			string(oci_vn_monitoring.OperationStatusFailed),
+			string(oci_vn_monitoring.OperationStatusSucceeded),
 			string(oci_vn_monitoring.OperationStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {
