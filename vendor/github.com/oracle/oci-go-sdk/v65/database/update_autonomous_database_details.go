@@ -175,7 +175,7 @@ type UpdateAutonomousDatabaseDetails struct {
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	StandbyWhitelistedIps []string `mandatory:"false" json:"standbyWhitelistedIps"`
 
-	// Indicates whether auto scaling is enabled for the Autonomous AI Database CPU core count. Setting to `TRUE` enables auto scaling. Setting to `FALSE` disables auto scaling. The default value is `TRUE`. Auto scaling is only available for Autonomous AI Database Serverless instances (https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/).
+	// Indicates whether auto scaling is enabled for the Autonomous AI Database CPU core count. Setting to `TRUE` enables auto scaling. Setting to `FALSE` disables auto scaling. The default value is null. Auto scaling is only available for Autonomous AI Database Serverless instances (https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/).
 	IsAutoScalingEnabled *bool `mandatory:"false" json:"isAutoScalingEnabled"`
 
 	// Indicates if the Autonomous AI Database is a refreshable clone.
@@ -208,6 +208,7 @@ type UpdateAutonomousDatabaseDetails struct {
 	// When you specify 23ai for dbversion, the system will provision a 23ai database, but the UI will display it as 26ai.
 	// When you specify 26ai for dbversion, the system will provision and display a 26ai database as expected.
 	// For new databases, it is recommended to use either 19c or 26ai.
+	// The default database version is the Oracle-recommended version. You can retrieve the default DB version by calling the ListAutonomousDbVersions operation.
 	// **Note** Starting December 2026, 23ai will not be supported as a valid value for this parameter.
 	DbVersion *string `mandatory:"false" json:"dbVersion"`
 

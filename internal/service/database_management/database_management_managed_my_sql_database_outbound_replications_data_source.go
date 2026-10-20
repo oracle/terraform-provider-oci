@@ -28,21 +28,11 @@ func DatabaseManagementManagedMySqlDatabaseOutboundReplicationsDataSource() *sch
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"replica_host": {
 										Type:     schema.TypeString,
 										Computed: true,

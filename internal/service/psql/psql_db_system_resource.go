@@ -135,6 +135,11 @@ func PsqlDbSystemResource() *schema.Resource {
 							ValidateFunc:     tfresource.ValidateInt64TypeString,
 							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 						},
+						"kms_key_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 					},
@@ -423,6 +428,14 @@ func PsqlDbSystemResource() *schema.Resource {
 												},
 
 												// Optional
+												"kms_key_ids": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
 												"regions": {
 													Type:     schema.TypeList,
 													Required: true,
@@ -1752,6 +1765,19 @@ func (s *PsqlDbSystemResourceCrud) mapToBackupCopyPolicy(fieldKeyFormat string) 
 		result.CompartmentId = &tmp
 	}
 
+	if kmsKeyIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_ids")); ok {
+		interfaces := kmsKeyIds.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "kms_key_ids")) {
+			result.KmsKeyIds = tmp
+		}
+	}
+
 	if regions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "regions")); ok {
 		interfaces := regions.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -1779,6 +1805,8 @@ func BackupCopyPolicyToMap(obj *oci_psql.BackupCopyPolicy) map[string]interface{
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
+
+	result["kms_key_ids"] = obj.KmsKeyIds
 
 	result["regions"] = obj.Regions
 
@@ -2842,6 +2870,10 @@ func (s *PsqlDbSystemResourceCrud) mapToStorageDetails(fieldKeyFormat string) (o
 			tmp := isRegionallyDurable.(bool)
 			details.IsRegionallyDurable = &tmp
 		}
+		if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
+			tmp := kmsKeyId.(string)
+			details.KmsKeyId = &tmp
+		}
 		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown system_type '%v' was specified", systemType)
@@ -2870,7 +2902,11 @@ func (s *PsqlDbSystemResourceCrud) mapToUpdateStorageDetailsParams(fieldKeyForma
 			}
 			details.Iops = &tmpInt64
 		}
-		baseObject = oci_psql.UpdateStorageDetailsParams{Iops: details.Iops}
+		if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
+			tmp := kmsKeyId.(string)
+			details.KmsKeyId = &tmp
+		}
+		baseObject = oci_psql.UpdateStorageDetailsParams{Iops: details.Iops, KmsKeyId: details.KmsKeyId}
 	default:
 		return baseObject, fmt.Errorf("unknown system_type '%v' was specified", systemType)
 	}
@@ -2893,6 +2929,10 @@ func StorageDetailsToMap(obj *oci_psql.StorageDetails) map[string]interface{} {
 
 		if v.IsRegionallyDurable != nil {
 			result["is_regionally_durable"] = bool(*v.IsRegionallyDurable)
+		}
+
+		if v.KmsKeyId != nil {
+			result["kms_key_id"] = string(*v.KmsKeyId)
 		}
 	default:
 		log.Printf("[WARN] Received 'system_type' of unknown type %v", *obj)

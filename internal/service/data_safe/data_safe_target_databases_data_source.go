@@ -43,6 +43,10 @@ func DataSafeTargetDatabasesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"enablement_resource_ocid": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"infrastructure_type": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -113,6 +117,11 @@ func (s *DataSafeTargetDatabasesDataSourceCrud) GetWithContext(ctx context.Conte
 		request.DisplayName = &tmp
 	}
 
+	if enablementResourceOcid, ok := s.D.GetOkExists("enablement_resource_ocid"); ok {
+		tmp := enablementResourceOcid.(string)
+		request.EnablementResourceOcid = &tmp
+	}
+
 	if infrastructureType, ok := s.D.GetOkExists("infrastructure_type"); ok {
 		request.InfrastructureType = oci_data_safe.ListTargetDatabasesInfrastructureTypeEnum(infrastructureType.(string))
 	}
@@ -177,6 +186,8 @@ func (s *DataSafeTargetDatabasesDataSourceCrud) SetData() error {
 		if r.DisplayName != nil {
 			targetDatabase["display_name"] = *r.DisplayName
 		}
+
+		targetDatabase["features"] = r.Features
 
 		targetDatabase["freeform_tags"] = r.FreeformTags
 

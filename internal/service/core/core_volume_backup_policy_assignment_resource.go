@@ -35,7 +35,6 @@ func CoreVolumeBackupPolicyAssignmentResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
 			"xrc_kms_key_id": {
 				Type:     schema.TypeString,
@@ -43,7 +42,6 @@ func CoreVolumeBackupPolicyAssignmentResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
-
 			// Computed
 			"time_created": {
 				Type:     schema.TypeString,

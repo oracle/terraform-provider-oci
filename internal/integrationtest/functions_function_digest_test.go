@@ -114,11 +114,15 @@ func TestFunctionsFunctionResource_digest(t *testing.T) {
 					if err != nil {
 						return err
 					}
-					if *fn.Image != imageA1 {
-						return fmt.Errorf("Resource did not have the expected image: %s != %s", *fn.Image, imageA1)
+					image, imageDigest, err := getFunctionImageAndDigest(fn)
+					if err != nil {
+						return err
 					}
-					if *fn.ImageDigest != imageA1Digest {
-						return fmt.Errorf("Resource did not have the expected digest: %s != %s", *fn.ImageDigest, imageA1Digest)
+					if *image != imageA1 {
+						return fmt.Errorf("Resource did not have the expected image: %s != %s", *image, imageA1)
+					}
+					if *imageDigest != imageA1Digest {
+						return fmt.Errorf("Resource did not have the expected digest: %s != %s", *imageDigest, imageA1Digest)
 					}
 					return nil
 				},
@@ -145,11 +149,15 @@ func TestFunctionsFunctionResource_digest(t *testing.T) {
 					if err != nil {
 						return err
 					}
-					if *fn.Image != tc2.expectedImage {
-						return fmt.Errorf("Resource did not Update to the expected image: %s != %s", *fn.Image, tc2.expectedImage)
+					image, imageDigest, err := getFunctionImageAndDigest(fn)
+					if err != nil {
+						return err
 					}
-					if *fn.ImageDigest != tc2.expectedDigest {
-						return fmt.Errorf("Resource did not Update to the expected digest: %s != %s", *fn.ImageDigest, tc2.expectedDigest)
+					if *image != tc2.expectedImage {
+						return fmt.Errorf("Resource did not Update to the expected image: %s != %s", *image, tc2.expectedImage)
+					}
+					if *imageDigest != tc2.expectedDigest {
+						return fmt.Errorf("Resource did not Update to the expected digest: %s != %s", *imageDigest, tc2.expectedDigest)
 					}
 					return nil
 				},
@@ -236,6 +244,17 @@ func retrieveFunctionResourceFromControlPlane(id string) (oci_functions.GetFunct
 	return client.GetFunction(context.Background(), request)
 }
 
+func getFunctionImageAndDigest(fn oci_functions.GetFunctionResponse) (*string, *string, error) {
+	switch sourceDetails := fn.SourceDetails.(type) {
+	case oci_functions.ContainerImageFunctionSourceDetails:
+		return sourceDetails.Image, sourceDetails.ImageDigest, nil
+	case *oci_functions.ContainerImageFunctionSourceDetails:
+		return sourceDetails.Image, sourceDetails.ImageDigest, nil
+	default:
+		return nil, nil, fmt.Errorf("expected container image source details, got %T", fn.SourceDetails)
+	}
+}
+
 // issue-routing-tag: containerengine/default
 func TestFunctionsFunctionResource_digest_create(t *testing.T) {
 	httpreplay.SetScenario("TestFunctionsFunctionResource_digest_create")
@@ -292,11 +311,15 @@ func TestFunctionsFunctionResource_digest_create(t *testing.T) {
 					if err != nil {
 						return err
 					}
-					if *fn.Image != imageA1 {
-						return fmt.Errorf("Resource did not have the expected image: %s != %s", *fn.Image, imageA1)
+					image, imageDigest, err := getFunctionImageAndDigest(fn)
+					if err != nil {
+						return err
 					}
-					if *fn.ImageDigest != imageA1Digest {
-						return fmt.Errorf("Resource did not have the expected digest: %s != %s", *fn.ImageDigest, imageA1Digest)
+					if *image != imageA1 {
+						return fmt.Errorf("Resource did not have the expected image: %s != %s", *image, imageA1)
+					}
+					if *imageDigest != imageA1Digest {
+						return fmt.Errorf("Resource did not have the expected digest: %s != %s", *imageDigest, imageA1Digest)
 					}
 					return nil
 				},

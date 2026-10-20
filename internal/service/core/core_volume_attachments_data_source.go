@@ -146,6 +146,10 @@ func (s *CoreVolumeAttachmentsDataSourceCrud) SetData() error {
 				result["instance_id"] = string(*v.InstanceId)
 			}
 
+			if v.IsEncryptionInTransitEnabled != nil {
+				result["is_encryption_in_transit_enabled"] = bool(*v.IsEncryptionInTransitEnabled)
+			}
+
 			if v.IsMultipath != nil {
 				result["is_multipath"] = bool(*v.IsMultipath)
 			}
@@ -240,6 +244,72 @@ func (s *CoreVolumeAttachmentsDataSourceCrud) SetData() error {
 				result["instance_id"] = string(*v.InstanceId)
 			}
 
+			if v.IsEncryptionInTransitEnabled != nil {
+				result["is_encryption_in_transit_enabled"] = bool(*v.IsEncryptionInTransitEnabled)
+			}
+
+			if v.IsMultipath != nil {
+				result["is_multipath"] = bool(*v.IsMultipath)
+			}
+
+			if v.IsPvEncryptionInTransitEnabled != nil {
+				result["is_pv_encryption_in_transit_enabled"] = bool(*v.IsPvEncryptionInTransitEnabled)
+			}
+
+			if v.IsReadOnly != nil {
+				result["is_read_only"] = bool(*v.IsReadOnly)
+			}
+
+			if v.IsShareable != nil {
+				result["is_shareable"] = bool(*v.IsShareable)
+			}
+
+			if v.IsVolumeCreatedDuringLaunch != nil {
+				result["is_volume_created_during_launch"] = bool(*v.IsVolumeCreatedDuringLaunch)
+			}
+
+			result["iscsi_login_state"] = string(v.IscsiLoginState)
+
+			result["state"] = string(v.LifecycleState)
+
+			if v.TimeCreated != nil {
+				result["time_created"] = v.TimeCreated.String()
+			}
+
+			if v.VolumeId != nil {
+				result["volume_id"] = string(*v.VolumeId)
+			}
+		case oci_core.NvmeVolumeAttachment:
+			result["attachment_type"] = "nvme"
+
+			if v.AvailabilityDomain != nil {
+				result["availability_domain"] = string(*v.AvailabilityDomain)
+			}
+
+			if v.CompartmentId != nil {
+				result["compartment_id"] = string(*v.CompartmentId)
+			}
+
+			if v.Device != nil {
+				result["device"] = string(*v.Device)
+			}
+
+			if v.DisplayName != nil {
+				result["display_name"] = string(*v.DisplayName)
+			}
+
+			if v.Id != nil {
+				result["id"] = string(*v.Id)
+			}
+
+			if v.InstanceId != nil {
+				result["instance_id"] = string(*v.InstanceId)
+			}
+
+			if v.IsEncryptionInTransitEnabled != nil {
+				result["is_encryption_in_transit_enabled"] = bool(*v.IsEncryptionInTransitEnabled)
+			}
+
 			if v.IsMultipath != nil {
 				result["is_multipath"] = bool(*v.IsMultipath)
 			}
@@ -298,6 +368,10 @@ func (s *CoreVolumeAttachmentsDataSourceCrud) SetData() error {
 				result["instance_id"] = string(*v.InstanceId)
 			}
 
+			if v.IsEncryptionInTransitEnabled != nil {
+				result["is_encryption_in_transit_enabled"] = bool(*v.IsEncryptionInTransitEnabled)
+			}
+
 			if v.IsMultipath != nil {
 				result["is_multipath"] = bool(*v.IsMultipath)
 			}
@@ -308,10 +382,6 @@ func (s *CoreVolumeAttachmentsDataSourceCrud) SetData() error {
 
 			if v.IsReadOnly != nil {
 				result["is_read_only"] = bool(*v.IsReadOnly)
-			}
-
-			if v.IsShareable != nil {
-				result["is_shareable"] = bool(*v.IsShareable)
 			}
 
 			if v.IsVolumeCreatedDuringLaunch != nil {

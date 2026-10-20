@@ -32,21 +32,11 @@ func SelfPartnerSubscriptionsDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"defined_tags": {
 										Type:     schema.TypeMap,
 										Computed: true,
@@ -107,7 +97,7 @@ func readSelfPartnerSubscriptionsWithContext(ctx context.Context, d *schema.Reso
 type SelfPartnerSubscriptionsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_self.PartnerIntegerationClient
-	Res    *oci_self.ListingSubscriptionsResponse
+	Res    *oci_self.ListingSubscriptionsDeprecatedResponse
 }
 
 func (s *SelfPartnerSubscriptionsDataSourceCrud) VoidState() {
@@ -115,7 +105,7 @@ func (s *SelfPartnerSubscriptionsDataSourceCrud) VoidState() {
 }
 
 func (s *SelfPartnerSubscriptionsDataSourceCrud) GetWithContext(ctx context.Context) error {
-	request := oci_self.ListingSubscriptionsRequest{}
+	request := oci_self.ListingSubscriptionsDeprecatedRequest{}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
@@ -129,7 +119,7 @@ func (s *SelfPartnerSubscriptionsDataSourceCrud) GetWithContext(ctx context.Cont
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "self")
 
-	response, err := s.Client.ListingSubscriptions(ctx, request)
+	response, err := s.Client.ListingSubscriptionsDeprecated(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -138,7 +128,7 @@ func (s *SelfPartnerSubscriptionsDataSourceCrud) GetWithContext(ctx context.Cont
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListingSubscriptions(ctx, request)
+		listResponse, err := s.Client.ListingSubscriptionsDeprecated(ctx, request)
 		if err != nil {
 			return err
 		}

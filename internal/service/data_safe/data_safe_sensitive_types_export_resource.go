@@ -36,7 +36,6 @@ func DataSafeSensitiveTypesExportResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -76,7 +75,6 @@ func DataSafeSensitiveTypesExportResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
-
 			// Computed
 			"state": {
 				Type:     schema.TypeString,

@@ -53,21 +53,11 @@ func WafProtectionCapabilitiesDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"collaborative_action_threshold": {
 										Type:     schema.TypeInt,
 										Computed: true,
@@ -77,11 +67,6 @@ func WafProtectionCapabilitiesDataSource() *schema.Resource {
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"display_name": {
 													Type:     schema.TypeString,
 													Computed: true,

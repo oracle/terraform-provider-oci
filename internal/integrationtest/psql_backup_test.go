@@ -260,6 +260,7 @@ func TestPsqlBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "terrafrom-backup-test-2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "kms_key_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "retention_period", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "source_backup_details.#", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "source_type"),

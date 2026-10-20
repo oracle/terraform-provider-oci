@@ -6,6 +6,7 @@ package redis
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_redis "github.com/oracle/oci-go-sdk/v65/redis"
 
@@ -19,15 +20,15 @@ func RedisRedisClusterDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(RedisRedisClusterResource(), fieldMap, readSingularRedisRedisCluster)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(RedisRedisClusterResource(), fieldMap, readSingularRedisRedisClusterWithContext)
 }
 
-func readSingularRedisRedisCluster(d *schema.ResourceData, m interface{}) error {
+func readSingularRedisRedisClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &RedisRedisClusterDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).RedisClusterClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type RedisRedisClusterDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *RedisRedisClusterDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *RedisRedisClusterDataSourceCrud) Get() error {
+func (s *RedisRedisClusterDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_redis.GetRedisClusterRequest{}
 
 	if redisClusterId, ok := s.D.GetOkExists("redis_cluster_id"); ok {
@@ -50,7 +51,7 @@ func (s *RedisRedisClusterDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "redis")
 
-	response, err := s.Client.GetRedisCluster(context.Background(), request)
+	response, err := s.Client.GetRedisCluster(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -71,6 +72,14 @@ func (s *RedisRedisClusterDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("cluster_mode", s.Res.ClusterMode)
+
+	if s.Res.ClusterReplicationTopology != nil {
+		s.D.Set("cluster_replication_topology", []interface{}{ClusterReplicationTopologyToMap(s.Res.ClusterReplicationTopology)})
+	} else {
+		s.D.Set("cluster_replication_topology", nil)
+	}
+
+	s.D.Set("cluster_role", s.Res.ClusterRole)
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
@@ -124,6 +133,10 @@ func (s *RedisRedisClusterDataSourceCrud) SetData() error {
 		s.D.Set("oci_cache_config_set_id", *s.Res.OciCacheConfigSetId)
 	}
 
+	if s.Res.PrimaryClusterId != nil {
+		s.D.Set("primary_cluster_id", *s.Res.PrimaryClusterId)
+	}
+
 	if s.Res.PrimaryEndpointIpAddress != nil {
 		s.D.Set("primary_endpoint_ip_address", *s.Res.PrimaryEndpointIpAddress)
 	}
@@ -141,7 +154,9 @@ func (s *RedisRedisClusterDataSourceCrud) SetData() error {
 	}
 
 	if s.Res.SecurityAttributes != nil {
-		s.D.Set("security_attributes", s.Res.SecurityAttributes)
+		s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+	} else {
+		s.D.Set("security_attributes", nil)
 	}
 
 	if s.Res.ShardCount != nil {

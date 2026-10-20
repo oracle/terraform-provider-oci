@@ -36,9 +36,6 @@ func EmailSuppressionResource() *schema.Resource {
 				ForceNew:         true,
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 			},
-
-			// Optional
-
 			// Computed
 			"error_detail": {
 				Type:     schema.TypeString,

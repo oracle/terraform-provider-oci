@@ -41,11 +41,6 @@ func DatabaseDbSystemOsPatchHistoryEntriesDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"action": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -67,21 +62,11 @@ func DatabaseDbSystemOsPatchHistoryEntriesDataSource() *schema.Resource {
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"items": {
 													Type:     schema.TypeList,
 													Computed: true,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
-															// Required
-
-															// Optional
-
-															// Computed
 															"db_node_id": {
 																Type:     schema.TypeString,
 																Computed: true,

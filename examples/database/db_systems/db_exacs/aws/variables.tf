@@ -8,6 +8,7 @@ variable "private_key_path" {}
 variable "region" {}
 
 variable "aws_encryption_key" {default = "awsKey"}
+variable "aws_encryption_key_pool" {default = "awsKeyPool"}
 
 variable "compartment_ocid" {}
 

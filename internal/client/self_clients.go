@@ -27,7 +27,7 @@ func initSelfPartnerIntegerationClient(configProvider oci_common.ConfigurationPr
 	if serviceClientOverrides.HostUrlOverride != "" {
 		client.Host = serviceClientOverrides.HostUrlOverride
 	}
-	client.Host = "https://self.us-ashburn-1.oci.oc-test.com/"
+	client.Host = "https://self.us-ashburn-1.oci.oc-test.com"
 	return &client, nil
 }
 
@@ -48,7 +48,7 @@ func initSelfSubscriptionClient(configProvider oci_common.ConfigurationProvider,
 	if serviceClientOverrides.HostUrlOverride != "" {
 		client.Host = serviceClientOverrides.HostUrlOverride
 	}
-	client.Host = "https://self.us-ashburn-1.oci.oc-test.com/"
+	client.Host = "https://self.us-ashburn-1.oci.oc-test.com"
 	return &client, nil
 }
 

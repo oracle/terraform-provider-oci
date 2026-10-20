@@ -1,3 +1,88 @@
+## 9.10.0 (October 14, 2026)
+
+### Added
+- DEXREQ-9012: Database Migration Data Verification support
+- Support for ADBS: Essbase Integration as External App
+- Support for DBMCI - Key Pool for Oracle Database@AWS
+- Support for DBAAS - Key Pool for Oracle Database@AWS
+- Support OpenSearch master user authentication details
+
+### Bug Fix
+- cosmetic changes to reduce patches
+- Retry KMS key creation on DNS NXDOMAIN
+- TERSI-5525 correct identity tag default documentation references
+- Support DEFAULT validator type for identity tag
+
+## 9.9.0 (October 6, 2026)
+
+### Added
+- Support for Alloy - SKU Configuration/Enablement
+- Support remote NVMe volumes
+- Support for TERSI-4567 Extension to be Completed GenAI API Key Support
+
+### Bug Fix
+- remove duplicate shape argument from core instance example
+- Correct OAC management attribute references
+- Support OCI Cache upgrades with custom configuration sets
+- TERSI-5553 support non-IAM hosted deployment destroy
+- Metering Computation resource discovery only at tenancy scope
+
+## 9.8.0 (September 30, 2026)
+
+### Added
+- Fixed root compartment export name resolution
+- Fixed documentation categorization and explicitly mention unavailable resources
+- Support for Data Safe - ExaDB-C@C and ExaDB-D integration for target registration at scale
+- Support for NatOnDrg
+- Support for VM Cluster horizontal scaling | ADB-D & ADB-C@C - Phase 2
+- Support for Data Safe - Data Subsetting support
+
+### Deprecation
+- Add kms_key_id deprecation notice for Fusion Environment
+
+### Bug Fix
+- Fixed indentation in of markdown files for database_migration & ocvp services
+- Resource Discovery authentication error guidance
+- Propagate context while retrieving DB home information
+- Fix artifacts container configuration Terraform documentation
+- Handle Data Safe finding details returned as strings and stabilize refresh
+- Remove privateIpId suppression from instance configuration.
+- Refresh current DB home after database upgrade
+
+## 9.3.0 (September 22, 2026)
+
+### Added
+- DEXREQ-8552: fix generated Assessment conflicts
+- Support for Generative AI model discovery and routing profiles
+- support for Data Safe Crypto Posture Assessment
+- Support for Usage Based SaaS listings on Marketplace [SELF v2]
+- OCI Functions source_details support for container images, archives, pre-built sources, runtime configuration, runtime data sources, validation, work-request waits, tests, examples, deprecation message and documentations
+- Support for Recurring Maintenance Window
+- Support for Data Science: Bring Your Own Reservations
+
+### Deprecation
+- WLMS EOL - deprecating terraform resources
+
+### Bug Fix
+- Retire security attribute before delete
+
+## 9.2.0 (September 16, 2026)
+
+### Added
+- Support OCVP VMware binary action data sources
+- Support for BYOK - Bring Your Own Keys for PSQL.
+
+
+## 9.1.0 (September 9, 2026)
+
+### Added
+- Support for Configurable fault domain
+- Redis CRR secondary and standalone conversion support with tests and documentation
+
+### Bug Fix
+- Fix ResolverEndpoint security attributes state handling
+- ignore empty string for maximum_surge and maximum_unavailable
+
 ## 9.0.0 (September 2, 2026)
 
 ### Added

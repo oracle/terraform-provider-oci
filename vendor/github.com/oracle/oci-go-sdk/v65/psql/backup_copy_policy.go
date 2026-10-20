@@ -27,6 +27,9 @@ type BackupCopyPolicy struct {
 
 	// List of region names of the remote region
 	Regions []string `mandatory:"false" json:"regions"`
+
+	// List of key ids of the remote regions
+	KmsKeyIds []string `mandatory:"false" json:"kmsKeyIds"`
 }
 
 func (m BackupCopyPolicy) String() string {

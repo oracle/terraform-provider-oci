@@ -32,7 +32,6 @@ func JmsFleetDrsFilesDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
 									"bucket": {
 										Type:     schema.TypeString,
 										Required: true,
@@ -49,10 +48,6 @@ func JmsFleetDrsFilesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Required: true,
 									},
-
-									// Optional
-
-									// Computed
 									"checksum_type": {
 										Type:     schema.TypeString,
 										Computed: true,

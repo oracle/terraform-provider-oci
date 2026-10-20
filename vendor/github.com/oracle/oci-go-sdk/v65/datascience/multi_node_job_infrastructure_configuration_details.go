@@ -25,6 +25,9 @@ type MultiNodeJobInfrastructureConfigurationDetails struct {
 	// The size of the block storage volume to attach to the instance running the job
 	BlockStorageSizeInGBs *int `mandatory:"true" json:"blockStorageSizeInGBs"`
 
+	// This specifies the list of OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer-managed compute capacity reservation to be used for launching jobs.
+	CapacityReservationIds []string `mandatory:"false" json:"capacityReservationIds"`
+
 	JobShapeConfigDetails *JobShapeConfigDetails `mandatory:"false" json:"jobShapeConfigDetails"`
 }
 

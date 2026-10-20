@@ -49,6 +49,9 @@ type CreateOracleDbAwsKeyDetails struct {
 	// Oracle DB AWS Key resource name.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB AWS Key Pool resource.
+	OracleDbAwsKeyPoolId *string `mandatory:"false" json:"oracleDbAwsKeyPoolId"`
+
 	// Amazon resource name of AWS Key.
 	AwsKeyArn *string `mandatory:"false" json:"awsKeyArn"`
 

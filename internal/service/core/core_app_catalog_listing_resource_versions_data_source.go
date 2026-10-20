@@ -27,11 +27,6 @@ func CoreAppCatalogListingResourceVersionsDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"accessible_ports": {
 							Type:     schema.TypeList,
 							Computed: true,

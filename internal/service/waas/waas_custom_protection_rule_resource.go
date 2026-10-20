@@ -38,7 +38,6 @@ func WaasCustomProtectionRuleResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -58,7 +57,6 @@ func WaasCustomProtectionRuleResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-
 			// Computed
 			"mod_security_rule_ids": {
 				Type:     schema.TypeList,

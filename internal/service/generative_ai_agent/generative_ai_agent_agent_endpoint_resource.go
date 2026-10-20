@@ -42,7 +42,6 @@ func GenerativeAiAgentAgentEndpointResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
 			// Optional
 			"content_moderation_config": {
 				Type:     schema.TypeList,
@@ -52,9 +51,6 @@ func GenerativeAiAgentAgentEndpointResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
 						"should_enable_on_input": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -65,8 +61,6 @@ func GenerativeAiAgentAgentEndpointResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
-
-						// Computed
 					},
 				},
 			},
@@ -101,9 +95,6 @@ func GenerativeAiAgentAgentEndpointResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
 						"content_moderation_config": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -112,9 +103,6 @@ func GenerativeAiAgentAgentEndpointResource() *schema.Resource {
 							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
 									"input_guardrail_mode": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -125,8 +113,6 @@ func GenerativeAiAgentAgentEndpointResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
-
-									// Computed
 								},
 							},
 						},
@@ -138,9 +124,6 @@ func GenerativeAiAgentAgentEndpointResource() *schema.Resource {
 							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
 									"input_guardrail_mode": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -151,8 +134,6 @@ func GenerativeAiAgentAgentEndpointResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
-
-									// Computed
 								},
 							},
 						},
@@ -164,21 +145,14 @@ func GenerativeAiAgentAgentEndpointResource() *schema.Resource {
 							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
 									"input_guardrail_mode": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-
-									// Computed
 								},
 							},
 						},
-
-						// Computed
 					},
 				},
 			},
@@ -190,15 +164,10 @@ func GenerativeAiAgentAgentEndpointResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"should_enable_human_input": {
 							Type:     schema.TypeBool,
 							Required: true,
 						},
-
-						// Optional
-
-						// Computed
 					},
 				},
 			},
@@ -216,7 +185,6 @@ func GenerativeAiAgentAgentEndpointResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"output_location": {
 							Type:     schema.TypeList,
 							Required: true,
@@ -224,7 +192,6 @@ func GenerativeAiAgentAgentEndpointResource() *schema.Resource {
 							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
 									"bucket": {
 										Type:     schema.TypeString,
 										Required: true,
@@ -241,27 +208,19 @@ func GenerativeAiAgentAgentEndpointResource() *schema.Resource {
 											"OBJECT_STORAGE_PREFIX",
 										}, true),
 									},
-
-									// Optional
 									"prefix": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-
-									// Computed
 								},
 							},
 						},
-
-						// Optional
 						"retention_period_in_minutes": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-
-						// Computed
 					},
 				},
 			},
@@ -273,13 +232,10 @@ func GenerativeAiAgentAgentEndpointResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"provisioned_capacity_id": {
 							Type:     schema.TypeString,
 							Required: true,
 						},
-
-						// Optional
 						"platform_runtime_config": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -288,9 +244,6 @@ func GenerativeAiAgentAgentEndpointResource() *schema.Resource {
 							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
 									"platform_runtime_config_type": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -301,8 +254,6 @@ func GenerativeAiAgentAgentEndpointResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
-
-									// Computed
 								},
 							},
 						},
@@ -312,25 +263,18 @@ func GenerativeAiAgentAgentEndpointResource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
 									"tool_runtime_config_type": {
 										Type:     schema.TypeString,
 										Required: true,
 									},
-
-									// Optional
 									"version": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-
-									// Computed
 								},
 							},
 						},
-
-						// Computed
 					},
 				},
 			},
@@ -342,16 +286,11 @@ func GenerativeAiAgentAgentEndpointResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
 						"idle_timeout_in_seconds": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
-
-						// Computed
 					},
 				},
 			},
@@ -376,7 +315,6 @@ func GenerativeAiAgentAgentEndpointResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
-
 			// Computed
 			"lifecycle_details": {
 				Type:     schema.TypeString,

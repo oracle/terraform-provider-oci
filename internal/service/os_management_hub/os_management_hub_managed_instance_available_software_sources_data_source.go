@@ -42,21 +42,11 @@ func OsManagementHubManagedInstanceAvailableSoftwareSourcesDataSource() *schema.
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"compartment_id": {
 										Type:     schema.TypeString,
 										Computed: true,

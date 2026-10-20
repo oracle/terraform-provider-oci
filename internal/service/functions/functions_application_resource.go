@@ -7,8 +7,11 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -202,6 +205,7 @@ func createFunctionsApplication(d *schema.ResourceData, m interface{}) error {
 	sync := &FunctionsApplicationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FunctionsManagementClient()
+	sync.WorkRequestClient = m.(*client.OracleClients).FunctionsWorkRequestManagementClient()
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -218,6 +222,7 @@ func updateFunctionsApplication(d *schema.ResourceData, m interface{}) error {
 	sync := &FunctionsApplicationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FunctionsManagementClient()
+	sync.WorkRequestClient = m.(*client.OracleClients).FunctionsWorkRequestManagementClient()
 
 	return tfresource.UpdateResource(d, sync)
 }
@@ -227,6 +232,7 @@ func deleteFunctionsApplication(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FunctionsManagementClient()
 	sync.DisableNotFoundRetries = true
+	sync.WorkRequestClient = m.(*client.OracleClients).FunctionsWorkRequestManagementClient()
 
 	return tfresource.DeleteResource(d, sync)
 }
@@ -236,6 +242,7 @@ type FunctionsApplicationResourceCrud struct {
 	Client                 *oci_functions.FunctionsManagementClient
 	Res                    *oci_functions.Application
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_functions.WorkRequestManagementClient
 }
 
 func (s *FunctionsApplicationResourceCrud) ID() string {
@@ -375,8 +382,144 @@ func (s *FunctionsApplicationResourceCrud) Create() error {
 		return err
 	}
 
-	s.Res = &response.Application
-	return nil
+	workId := response.OpcWorkRequestId
+	var identifier *string
+	identifier = response.Id
+	if identifier != nil {
+		s.D.SetId(*identifier)
+	}
+	return s.getApplicationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "functions"), oci_functions.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+}
+
+// getApplicationFromWorkRequest waits for an async application operation and refreshes Terraform state.
+func (s *FunctionsApplicationResourceCrud) getApplicationFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+	actionTypeEnum oci_functions.ActionTypeEnum, timeout time.Duration) error {
+
+	// Wait until it finishes
+	applicationId, err := applicationWaitForWorkRequest(workId, "application",
+		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
+
+	if err != nil {
+		// Try to cancel the work request
+		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, applicationId)
+		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(context.Background(),
+			oci_functions.CancelWorkRequestRequest{
+				WorkRequestId: workId,
+				RequestMetadata: oci_common.RequestMetadata{
+					RetryPolicy: retryPolicy,
+				},
+			})
+		if cancelErr != nil {
+			log.Printf("[DEBUG] cleanup cancelWorkRequest failed with the error: %v\n", cancelErr)
+		}
+		return err
+	}
+	s.D.SetId(*applicationId)
+
+	return s.Get()
+}
+
+// applicationWorkRequestShouldRetryFunc keeps polling until the work request finishes or times out.
+func applicationWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
+	startTime := time.Now()
+	stopTime := startTime.Add(timeout)
+	return func(response oci_common.OCIOperationResponse) bool {
+
+		// Stop after timeout has elapsed
+		if time.Now().After(stopTime) {
+			return false
+		}
+
+		// Make sure we stop on default rules
+		if tfresource.ShouldRetry(response, false, "functions", startTime) {
+			return true
+		}
+
+		// Only stop if the time Finished is set
+		if workRequestResponse, ok := response.Response.(oci_functions.GetWorkRequestResponse); ok {
+			return workRequestResponse.TimeFinished == nil
+		}
+		return false
+	}
+}
+
+// applicationWaitForWorkRequest polls a work request and returns the affected application identifier.
+func applicationWaitForWorkRequest(wId *string, entityType string, action oci_functions.ActionTypeEnum,
+	timeout time.Duration, disableFoundRetries bool, client *oci_functions.WorkRequestManagementClient) (*string, error) {
+	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "functions")
+	retryPolicy.ShouldRetryOperation = applicationWorkRequestShouldRetryFunc(timeout)
+
+	response := oci_functions.GetWorkRequestResponse{}
+	stateConf := &retry.StateChangeConf{
+		Pending: []string{
+			string(oci_functions.OperationStatusInProgress),
+			string(oci_functions.OperationStatusAccepted),
+			string(oci_functions.OperationStatusCanceling),
+		},
+		Target: []string{
+			string(oci_functions.OperationStatusSucceeded),
+			string(oci_functions.OperationStatusFailed),
+			string(oci_functions.OperationStatusCanceled),
+		},
+		Refresh: func() (interface{}, string, error) {
+			var err error
+			response, err = client.GetWorkRequest(context.Background(),
+				oci_functions.GetWorkRequestRequest{
+					WorkRequestId: wId,
+					RequestMetadata: oci_common.RequestMetadata{
+						RetryPolicy: retryPolicy,
+					},
+				})
+			wr := &response.WorkRequest
+			return wr, string(wr.Status), err
+		},
+		Timeout: timeout,
+	}
+	if _, e := stateConf.WaitForState(); e != nil {
+		return nil, e
+	}
+
+	var identifier *string
+	// The work request response contains an array of objects that finished the operation
+	for _, res := range response.Resources {
+		if strings.Contains(strings.ToLower(*res.EntityType), entityType) {
+			if res.ActionType == action {
+				identifier = res.Identifier
+				break
+			}
+		}
+	}
+
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
+	if identifier == nil || response.Status == oci_functions.OperationStatusFailed || response.Status == oci_functions.OperationStatusCanceled {
+		return nil, getErrorFromFunctionsApplicationWorkRequest(client, wId, retryPolicy, entityType, action)
+	}
+
+	return identifier, nil
+}
+
+// getErrorFromFunctionsApplicationWorkRequest converts OCI work request errors into a Terraform error.
+func getErrorFromFunctionsApplicationWorkRequest(client *oci_functions.WorkRequestManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_functions.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
+		oci_functions.ListWorkRequestErrorsRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: retryPolicy,
+			},
+		})
+	if err != nil {
+		return err
+	}
+
+	allErrs := make([]string, 0)
+	for _, wrkErr := range response.Items {
+		allErrs = append(allErrs, *wrkErr.Message)
+	}
+	errorMessage := strings.Join(allErrs, "\n")
+
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
+
+	return workRequestErr
 }
 
 func (s *FunctionsApplicationResourceCrud) Get() error {
@@ -490,8 +633,8 @@ func (s *FunctionsApplicationResourceCrud) Update() error {
 		return err
 	}
 
-	s.Res = &response.Application
-	return nil
+	workId := response.OpcWorkRequestId
+	return s.getApplicationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "functions"), oci_functions.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *FunctionsApplicationResourceCrud) Delete() error {
@@ -502,8 +645,16 @@ func (s *FunctionsApplicationResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "functions")
 
-	_, err := s.Client.DeleteApplication(context.Background(), request)
-	return err
+	response, err := s.Client.DeleteApplication(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	// Wait until it finishes
+	_, delWorkRequestErr := applicationWaitForWorkRequest(workId, "application",
+		oci_functions.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
+	return delWorkRequestErr
 }
 
 func (s *FunctionsApplicationResourceCrud) SetData() error {
@@ -541,7 +692,7 @@ func (s *FunctionsApplicationResourceCrud) SetData() error {
 	}
 	s.D.Set("network_security_group_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, networkSecurityGroupIds))
 
-	s.D.Set("security_attributes", s.Res.SecurityAttributes)
+	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
 
 	s.D.Set("shape", s.Res.Shape)
 
@@ -694,16 +845,13 @@ func (s *FunctionsApplicationResourceCrud) updateCompartment(compartment interfa
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "functions")
 
-	_, err := s.Client.ChangeApplicationCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeApplicationCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
-		return waitErr
-	}
-
-	return nil
+	workId := response.OpcWorkRequestId
+	return s.getApplicationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "functions"), oci_functions.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *FunctionsApplicationResourceCrud) ExtraWaitPostDelete() time.Duration {

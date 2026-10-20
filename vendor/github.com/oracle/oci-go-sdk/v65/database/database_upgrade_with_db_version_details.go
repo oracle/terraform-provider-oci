@@ -23,9 +23,17 @@ type DatabaseUpgradeWithDbVersionDetails struct {
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	DbVersion *string `mandatory:"true" json:"dbVersion"`
 
+	// If true, the caller acknowledges selecting or applying an older DB, Grid Infrastructure, or operating system software version that is outside the latest default version window.
+	IsOlderVersionAcknowledged *bool `mandatory:"false" json:"isOlderVersionAcknowledged"`
+
 	// Additional upgrade options supported by DBUA(Database Upgrade Assistant).
 	// Example: "-upgradeTimezone false -keepEvents"
 	Options *string `mandatory:"false" json:"options"`
+}
+
+// GetIsOlderVersionAcknowledged returns IsOlderVersionAcknowledged
+func (m DatabaseUpgradeWithDbVersionDetails) GetIsOlderVersionAcknowledged() *bool {
+	return m.IsOlderVersionAcknowledged
 }
 
 // GetOptions returns Options

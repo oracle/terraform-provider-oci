@@ -124,6 +124,11 @@ The following attributes are exported:
 		* `mode` - Mode for the cross cluster connection
 		* `ping_schedule` - Sets the time interval between regular application-level ping messages that are sent to try and keep outbound cluster connections alive. If set to -1, application-level ping messages to this outbound cluster are not sent. If unset, application-level ping messages are sent according to the global transport.ping_schedule setting, which defaults to -1 meaning that pings are not sent.
 		* `seed_cluster_id` - OCID of the Outbound cluster
+* `remote_reindex_trust_config` - Configuration that allows this OpenSearch cluster to trust a remote cluster for reindexing.
+	* `remote_sources` - Remote cluster sources to trust for reindexing.
+		* `certificate_id` - OCID of the certificate or CA chain used to verify the remote cluster's HTTPS certificate.
+		* `endpoint` - HTTPS endpoint of the remote Elasticsearch or OpenSearch cluster. The hostname and port are used to allow remote reindexing. Use a DNS hostname, rather than an IP address, when endpointResolutionIp is specified.
+		* `endpoint_resolution_ip` - Optional IP address to which the endpoint hostname is resolved from within the OpenSearch cluster. The original hostname remains in the connection URL and is used for TLS verification.
 * `reverse_connection_endpoint_customer_ips` - The customer IP addresses of the endpoint in customer VCN
 * `reverse_connection_endpoints` - The list of reverse connection endpoints.
 	* `customer_ip` - The IP addresses of the endpoint in customer VCN

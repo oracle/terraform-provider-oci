@@ -59,11 +59,14 @@ func SelfSubscriptionResource() *schema.Resource {
 							Type:     schema.TypeList,
 							Required: true,
 							ForceNew: true,
-							MaxItems: 1,
-							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
+									"billing_model": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
 									"meters": {
 										Type:     schema.TypeList,
 										Required: true,
@@ -114,6 +117,11 @@ func SelfSubscriptionResource() *schema.Resource {
 										},
 									},
 									"metric_type": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+									"pricing_plan_key": {
 										Type:     schema.TypeString,
 										Required: true,
 										ForceNew: true,
@@ -196,6 +204,76 @@ func SelfSubscriptionResource() *schema.Resource {
 									},
 
 									// Optional
+									"dimensions": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"dimension_billing_frequency": {
+													Type:     schema.TypeString,
+													Required: true,
+													ForceNew: true,
+												},
+												"dimension_description": {
+													Type:     schema.TypeString,
+													Required: true,
+													ForceNew: true,
+												},
+												"dimension_key": {
+													Type:     schema.TypeString,
+													Required: true,
+													ForceNew: true,
+												},
+												"dimension_name": {
+													Type:     schema.TypeString,
+													Required: true,
+													ForceNew: true,
+												},
+												"metric_type": {
+													Type:     schema.TypeString,
+													Required: true,
+													ForceNew: true,
+												},
+												"rates": {
+													Type:     schema.TypeList,
+													Required: true,
+													ForceNew: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"currency": {
+																Type:     schema.TypeString,
+																Required: true,
+																ForceNew: true,
+															},
+															"rate": {
+																Type:     schema.TypeFloat,
+																Required: true,
+																ForceNew: true,
+															},
+
+															// Optional
+
+															// Computed
+														},
+													},
+												},
+
+												// Optional
+												"included_quantity": {
+													Type:     schema.TypeFloat,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+											},
+										},
+									},
 									"plan_description": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -379,6 +457,7 @@ type SelfSubscriptionResourceCrud struct {
 	Client                 *oci_self.SubscriptionClient
 	Res                    *oci_self.Subscription
 	DisableNotFoundRetries bool
+	DeleteConflict         bool
 }
 
 func (s *SelfSubscriptionResourceCrud) ID() string {
@@ -400,10 +479,13 @@ func (s *SelfSubscriptionResourceCrud) DeletedPending() []string {
 }
 
 func (s *SelfSubscriptionResourceCrud) DeletedTarget() []string {
-	return []string{
+	targets := []string{
 		string(oci_self.LifecycleStateEnumDeleted),
-		string(oci_self.LifecycleStateEnumActive),
 	}
+	if s.DeleteConflict {
+		targets = append(targets, string(oci_self.LifecycleStateEnumActive))
+	}
+	return targets
 }
 
 func (s *SelfSubscriptionResourceCrud) CreateWithContext(ctx context.Context) error {
@@ -586,7 +668,7 @@ func subscriptionWaitForWorkRequest(ctx context.Context, wId *string, entityType
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -714,6 +796,7 @@ func (s *SelfSubscriptionResourceCrud) DeleteWithContext(ctx context.Context) er
 	_, err := s.Client.DeleteSubscription(ctx, request)
 	if err != nil {
 		if failure, isServiceError := oci_common.IsServiceError(err); isServiceError && failure.GetHTTPStatusCode() == 409 {
+			s.DeleteConflict = true
 			return nil
 		}
 		return err
@@ -800,6 +883,10 @@ func (s *SelfSubscriptionResourceCrud) SetData() error {
 func (s *SelfSubscriptionResourceCrud) mapToBillingDetails(fieldKeyFormat string) (oci_self.BillingDetails, error) {
 	result := oci_self.BillingDetails{}
 
+	if billingModel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "billing_model")); ok {
+		result.BillingModel = oci_self.BillingDetailsBillingModelEnum(billingModel.(string))
+	}
+
 	if hasGovSku, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "has_gov_sku")); ok {
 		tmp := hasGovSku.(bool)
 		result.HasGovSku = &tmp
@@ -826,6 +913,11 @@ func (s *SelfSubscriptionResourceCrud) mapToBillingDetails(fieldKeyFormat string
 		result.MetricType = oci_self.MetricTypeEnum(metricType.(string))
 	}
 
+	if pricingPlanKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pricing_plan_key")); ok {
+		tmp := pricingPlanKey.(string)
+		result.PricingPlanKey = &tmp
+	}
+
 	if rateAllocation, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "rate_allocation")); ok {
 		tmp := float32(rateAllocation.(float64))
 		result.RateAllocation = &tmp
@@ -839,8 +931,10 @@ func (s *SelfSubscriptionResourceCrud) mapToBillingDetails(fieldKeyFormat string
 	return result, nil
 }
 
-func BillingDetailsToMap(obj *oci_self.BillingDetails) map[string]interface{} {
+func BillingDetailsToMap(obj oci_self.BillingDetails) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	result["billing_model"] = string(obj.BillingModel)
 
 	if obj.HasGovSku != nil {
 		result["has_gov_sku"] = bool(*obj.HasGovSku)
@@ -853,6 +947,10 @@ func BillingDetailsToMap(obj *oci_self.BillingDetails) map[string]interface{} {
 	result["meters"] = meters
 
 	result["metric_type"] = string(obj.MetricType)
+
+	if obj.PricingPlanKey != nil {
+		result["pricing_plan_key"] = string(*obj.PricingPlanKey)
+	}
 
 	if obj.RateAllocation != nil {
 		result["rate_allocation"] = float32(*obj.RateAllocation)
@@ -951,9 +1049,26 @@ func MeterToMap(obj oci_self.Meter) map[string]interface{} {
 func (s *SelfSubscriptionResourceCrud) mapToPricingPlan(fieldKeyFormat string) (oci_self.PricingPlan, error) {
 	result := oci_self.PricingPlan{}
 
-	//if billingFrequency, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "billing_frequency")); ok {
-	//	result.BillingFrequency = oci_self.PricingPlanBillingFrequencyEnum(billingFrequency.(string))
-	//}
+	if billingFrequency, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "billing_frequency")); ok {
+		result.BillingFrequency = oci_self.BillingFrequencyEnum(billingFrequency.(string))
+	}
+
+	if dimensions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dimensions")); ok {
+		interfaces := dimensions.([]interface{})
+		tmp := make([]oci_self.UsageDimension, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "dimensions"), stateDataIndex)
+			converted, err := s.mapToUsageDimension(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "dimensions")) {
+			result.Dimensions = tmp
+		}
+	}
 
 	if planDescription, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "plan_description")); ok {
 		tmp := planDescription.(string)
@@ -997,6 +1112,12 @@ func PricingPlanToMap(obj *oci_self.PricingPlan) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	result["billing_frequency"] = string(obj.BillingFrequency)
+
+	dimensions := []interface{}{}
+	for _, item := range obj.Dimensions {
+		dimensions = append(dimensions, UsageDimensionToMap(item))
+	}
+	result["dimensions"] = dimensions
 
 	if obj.PlanDescription != nil {
 		result["plan_description"] = string(*obj.PlanDescription)
@@ -1057,16 +1178,22 @@ func (s *SelfSubscriptionResourceCrud) mapToSubscriptionDetails(fieldKeyFormat s
 		result.Amount = &tmp
 	}
 
-	//if billingDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "billing_details")); ok {
-	//	if tmpList := billingDetails.([]interface{}); len(tmpList) > 0 {
-	//		fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "billing_details"), 0)
-	//		tmp, err := s.mapToBillingDetails(fieldKeyFormatNextLevel)
-	//		if err != nil {
-	//			return result, fmt.Errorf("unable to convert billing_details, encountered error: %v", err)
-	//		}
-	//		result.BillingDetails = &tmp
-	//	}
-	//}
+	if billingDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "billing_details")); ok {
+		interfaces := billingDetails.([]interface{})
+		tmp := make([]oci_self.BillingDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "billing_details"), stateDataIndex)
+			converted, err := s.mapToBillingDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "billing_details")) {
+			result.BillingDetails = tmp
+		}
+	}
 
 	if currency, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "currency")); ok {
 		tmp := currency.(string)
@@ -1104,9 +1231,11 @@ func SubscriptionDetailsToMap(obj *oci_self.SubscriptionDetails) map[string]inte
 		result["amount"] = float32(*obj.Amount)
 	}
 
-	//if obj.BillingDetails != nil {
-	//	result["billing_details"] = []interface{}{BillingDetailsToMap(obj.BillingDetails)}
-	//}
+	billingDetails := []interface{}{}
+	for _, item := range obj.BillingDetails {
+		billingDetails = append(billingDetails, BillingDetailsToMap(item))
+	}
+	result["billing_details"] = billingDetails
 
 	if obj.Currency != nil {
 		result["currency"] = string(*obj.Currency)
@@ -1187,6 +1316,89 @@ func SubscriptionSummaryToMap(obj oci_self.SubscriptionSummary) map[string]inter
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
 	}
+
+	return result
+}
+
+func (s *SelfSubscriptionResourceCrud) mapToUsageDimension(fieldKeyFormat string) (oci_self.UsageDimension, error) {
+	result := oci_self.UsageDimension{}
+
+	if dimensionBillingFrequency, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dimension_billing_frequency")); ok {
+		result.DimensionBillingFrequency = oci_self.BillingFrequencyEnum(dimensionBillingFrequency.(string))
+	}
+
+	if dimensionDescription, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dimension_description")); ok {
+		tmp := dimensionDescription.(string)
+		result.DimensionDescription = &tmp
+	}
+
+	if dimensionKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dimension_key")); ok {
+		tmp := dimensionKey.(string)
+		result.DimensionKey = &tmp
+	}
+
+	if dimensionName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dimension_name")); ok {
+		tmp := dimensionName.(string)
+		result.DimensionName = &tmp
+	}
+
+	if includedQuantity, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "included_quantity")); ok {
+		tmp := float32(includedQuantity.(float64))
+		result.IncludedQuantity = &tmp
+	}
+
+	if metricType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metric_type")); ok {
+		result.MetricType = oci_self.MetricTypeEnum(metricType.(string))
+	}
+
+	if rates, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "rates")); ok {
+		interfaces := rates.([]interface{})
+		tmp := make([]oci_self.PricingRate, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "rates"), stateDataIndex)
+			converted, err := s.mapToPricingRate(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "rates")) {
+			result.Rates = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func UsageDimensionToMap(obj oci_self.UsageDimension) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["dimension_billing_frequency"] = string(obj.DimensionBillingFrequency)
+
+	if obj.DimensionDescription != nil {
+		result["dimension_description"] = string(*obj.DimensionDescription)
+	}
+
+	if obj.DimensionKey != nil {
+		result["dimension_key"] = string(*obj.DimensionKey)
+	}
+
+	if obj.DimensionName != nil {
+		result["dimension_name"] = string(*obj.DimensionName)
+	}
+
+	if obj.IncludedQuantity != nil {
+		result["included_quantity"] = float32(*obj.IncludedQuantity)
+	}
+
+	result["metric_type"] = string(obj.MetricType)
+
+	rates := []interface{}{}
+	for _, item := range obj.Rates {
+		rates = append(rates, PricingRateToMap(item))
+	}
+	result["rates"] = rates
 
 	return result
 }

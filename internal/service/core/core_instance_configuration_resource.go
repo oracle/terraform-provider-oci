@@ -67,7 +67,6 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"availability_domain": {
 							Type:             schema.TypeString,
 							Required:         true,
@@ -75,11 +74,6 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 						},
 						"compartment_id": {
-							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
-						},
-						"instance_configuration_id": {
 							Type:     schema.TypeString,
 							Required: true,
 							ForceNew: true,
@@ -116,6 +110,14 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 							MinItems: 1,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
+									// Optional
+									"is_downsize_enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
 									// Required
 									"is_upsize_enabled": {
 										Type:     schema.TypeBool,
@@ -124,12 +126,6 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 									},
 
 									// Optional
-									"is_downsize_enabled": {
-										Type:     schema.TypeBool,
-										Optional: true,
-										Computed: true,
-										ForceNew: true,
-									},
 									"target_size": {
 										Type:             schema.TypeString,
 										Optional:         true,
@@ -143,6 +139,14 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 								},
 							},
 						},
+						// Required
+						"instance_configuration_id": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
 						"size": {
 							Type:             schema.TypeString,
 							Optional:         true,
@@ -205,6 +209,7 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 													ValidateFunc: validation.StringInSlice([]string{
 														"iscsi",
+														"nvme",
 														"paravirtualized",
 													}, true),
 												},
@@ -372,6 +377,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Elem:     schema.TypeString,
 												},
 												"is_auto_tune_enabled": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"is_reservations_enabled": {
 													Type:     schema.TypeBool,
 													Optional: true,
 													Computed: true,
@@ -694,11 +705,10 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													ForceNew: true,
 												},
 												"private_ip_id": {
-													Type:             schema.TypeString,
-													Optional:         true,
-													Computed:         true,
-													ForceNew:         true,
-													DiffSuppressFunc: privateIpIdOrIpv6IdDiffSuppress,
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
 												},
 												"security_attributes": {
 													Type:     schema.TypeMap,
@@ -843,6 +853,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													ForceNew: true,
 												},
 												"is_consistent_volume_naming_enabled": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"is_encryption_in_transit_enabled": {
 													Type:     schema.TypeBool,
 													Optional: true,
 													Computed: true,
@@ -1310,6 +1326,7 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 																DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 																ValidateFunc: validation.StringInSlice([]string{
 																	"iscsi",
+																	"nvme",
 																	"paravirtualized",
 																}, true),
 															},
@@ -1481,6 +1498,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 																Computed: true,
 																ForceNew: true,
 															},
+															"is_reservations_enabled": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
 															"kms_key_id": {
 																Type:     schema.TypeString,
 																Optional: true,
@@ -1644,16 +1667,16 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 															// Required
 
 															// Optional
+															"is_live_migration_preferred": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+															},
 															"recovery_action": {
 																Type:     schema.TypeString,
 																Optional: true,
 																Computed: true,
 																ForceNew: true,
-															},
-															"is_live_migration_preferred": {
-																Type:     schema.TypeBool,
-																Optional: true,
-																Computed: true,
 															},
 
 															// Computed
@@ -1798,11 +1821,10 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 																ForceNew: true,
 															},
 															"private_ip_id": {
-																Type:             schema.TypeString,
-																Optional:         true,
-																Computed:         true,
-																ForceNew:         true,
-																DiffSuppressFunc: privateIpIdOrIpv6IdDiffSuppress,
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
 															},
 															"security_attributes": {
 																Type:     schema.TypeMap,
@@ -1952,6 +1974,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 																Computed: true,
 																ForceNew: true,
 															},
+															"is_encryption_in_transit_enabled": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
 															"is_pv_encryption_in_transit_enabled": {
 																Type:     schema.TypeBool,
 																Optional: true,
@@ -2073,6 +2101,13 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 																Optional: true,
 																Computed: true,
 																ForceNew: true,
+															},
+															"config_map": {
+																Type:     schema.TypeMap,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+																Elem:     schema.TypeString,
 															},
 															"is_access_control_service_enabled": {
 																Type:     schema.TypeBool,
@@ -2310,12 +2345,6 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 																Computed: true,
 																ForceNew: true,
 															},
-															"kms_key_id": {
-																Type:     schema.TypeString,
-																Optional: true,
-																Computed: true,
-																ForceNew: true,
-															},
 															"instance_source_image_filter_details": {
 																Type:     schema.TypeList,
 																Optional: true,
@@ -2357,6 +2386,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 																		// Computed
 																	},
 																},
+															},
+															"kms_key_id": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
 															},
 
 															// Computed
@@ -2486,11 +2521,10 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 																ForceNew: true,
 															},
 															"private_ip_id": {
-																Type:             schema.TypeString,
-																Optional:         true,
-																Computed:         true,
-																ForceNew:         true,
-																DiffSuppressFunc: privateIpIdOrIpv6IdDiffSuppress,
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
 															},
 															"security_attributes": {
 																Type:     schema.TypeMap,
@@ -2661,11 +2695,10 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													ForceNew: true,
 												},
 												"private_ip_id": {
-													Type:             schema.TypeString,
-													Optional:         true,
-													Computed:         true,
-													ForceNew:         true,
-													DiffSuppressFunc: privateIpIdOrIpv6IdDiffSuppress,
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
 												},
 												"security_attributes": {
 													Type:     schema.TypeMap,
@@ -3109,6 +3142,25 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationAttach
 			details.IsShareable = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("nvme"):
+		details := oci_core.InstanceConfigurationNvmeAttachVolumeDetails{}
+		if device, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "device")); ok {
+			tmp := device.(string)
+			details.Device = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if isReadOnly, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_read_only")); ok {
+			tmp := isReadOnly.(bool)
+			details.IsReadOnly = &tmp
+		}
+		if isShareable, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_shareable")); ok {
+			tmp := isShareable.(bool)
+			details.IsShareable = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("paravirtualized"):
 		details := oci_core.InstanceConfigurationParavirtualizedAttachVolumeDetails{}
 		if isPvEncryptionInTransitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_pv_encryption_in_transit_enabled")); ok {
@@ -3163,6 +3215,8 @@ func InstanceConfigurationAttachVolumeDetailsToMap(obj *oci_core.InstanceConfigu
 		if v.IsShareable != nil {
 			result["is_shareable"] = bool(*v.IsShareable)
 		}
+	case oci_core.InstanceConfigurationNvmeAttachVolumeDetails:
+		result["type"] = "nvme"
 	case oci_core.InstanceConfigurationParavirtualizedAttachVolumeDetails:
 		result["type"] = "paravirtualized"
 
@@ -3614,6 +3668,11 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 		result.IsAutoTuneEnabled = &tmp
 	}
 
+	if isReservationsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_reservations_enabled")); ok {
+		tmp := isReservationsEnabled.(bool)
+		result.IsReservationsEnabled = &tmp
+	}
+
 	if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
 		tmp := kmsKeyId.(string)
 		result.KmsKeyId = &tmp
@@ -3699,6 +3758,10 @@ func InstanceConfigurationCreateVolumeDetailsToMap(obj *oci_core.InstanceConfigu
 
 	if obj.IsAutoTuneEnabled != nil {
 		result["is_auto_tune_enabled"] = bool(*obj.IsAutoTuneEnabled)
+	}
+
+	if obj.IsReservationsEnabled != nil {
+		result["is_reservations_enabled"] = bool(*obj.IsReservationsEnabled)
 	}
 
 	if obj.KmsKeyId != nil {
@@ -5395,6 +5458,11 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 		result.IsConsistentVolumeNamingEnabled = &tmp
 	}
 
+	if isEncryptionInTransitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_encryption_in_transit_enabled")); ok {
+		tmp := isEncryptionInTransitEnabled.(bool)
+		result.IsEncryptionInTransitEnabled = &tmp
+	}
+
 	if isPvEncryptionInTransitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_pv_encryption_in_transit_enabled")); ok {
 		tmp := isPvEncryptionInTransitEnabled.(bool)
 		result.IsPvEncryptionInTransitEnabled = &tmp
@@ -5420,6 +5488,10 @@ func InstanceConfigurationLaunchOptionsToMap(obj *oci_core.InstanceConfiguration
 
 	if obj.IsConsistentVolumeNamingEnabled != nil {
 		result["is_consistent_volume_naming_enabled"] = bool(*obj.IsConsistentVolumeNamingEnabled)
+	}
+
+	if obj.IsEncryptionInTransitEnabled != nil {
+		result["is_encryption_in_transit_enabled"] = bool(*obj.IsEncryptionInTransitEnabled)
 	}
 
 	if obj.IsPvEncryptionInTransitEnabled != nil {

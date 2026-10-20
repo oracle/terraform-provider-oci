@@ -26,6 +26,9 @@ type PatchDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database software image.
 	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`
 
+	// If true, the caller acknowledges selecting or applying an older DB, Grid Infrastructure, or operating system software version that is outside the latest default version window.
+	IsOlderVersionAcknowledged *bool `mandatory:"false" json:"isOlderVersionAcknowledged"`
+
 	// The action to perform on the patch.
 	Action PatchDetailsActionEnum `mandatory:"false" json:"action,omitempty"`
 

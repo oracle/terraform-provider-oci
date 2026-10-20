@@ -57,7 +57,6 @@ func MonitoringMetricDataDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"compartment_id": {
 							Type:     schema.TypeString,
 							Required: true,
@@ -70,8 +69,6 @@ func MonitoringMetricDataDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Required: true,
 						},
-
-						// Optional
 						"compartment_id_in_subtree": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -99,18 +96,11 @@ func MonitoringMetricDataDataSource() *schema.Resource {
 							Computed:         true,
 							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 						},
-
-						// Computed
 						"aggregated_datapoints": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"timestamp": {
 										Type:     schema.TypeString,
 										Computed: true,

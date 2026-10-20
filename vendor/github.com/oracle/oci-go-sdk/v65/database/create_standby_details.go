@@ -67,6 +67,8 @@ type CreateStandbyDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	AutoFailoverConfiguration *AutoFailoverConfiguration `mandatory:"false" json:"autoFailoverConfiguration"`
+
+	DataSafeRegistrationDetails *DataSafeRegistrationRequestDetails `mandatory:"false" json:"dataSafeRegistrationDetails"`
 }
 
 func (m CreateStandbyDetails) String() string {
@@ -102,6 +104,7 @@ func (m *CreateStandbyDetails) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags                       map[string]string                      `json:"freeformTags"`
 		DefinedTags                        map[string]map[string]interface{}      `json:"definedTags"`
 		AutoFailoverConfiguration          *AutoFailoverConfiguration             `json:"autoFailoverConfiguration"`
+		DataSafeRegistrationDetails        *DataSafeRegistrationRequestDetails    `json:"dataSafeRegistrationDetails"`
 		SourceDatabaseId                   *string                                `json:"sourceDatabaseId"`
 		DatabaseAdminPassword              *string                                `json:"databaseAdminPassword"`
 		SourceTdeWalletPassword            *string                                `json:"sourceTdeWalletPassword"`
@@ -137,6 +140,8 @@ func (m *CreateStandbyDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.AutoFailoverConfiguration = model.AutoFailoverConfiguration
+
+	m.DataSafeRegistrationDetails = model.DataSafeRegistrationDetails
 
 	m.SourceDatabaseId = model.SourceDatabaseId
 

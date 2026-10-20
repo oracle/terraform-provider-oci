@@ -40,21 +40,11 @@ func DatabaseMigrationAssessmentAssessorsDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"actions": {
 										Type:     schema.TypeList,
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"description": {
 													Type:     schema.TypeString,
 													Computed: true,
@@ -84,11 +74,6 @@ func DatabaseMigrationAssessmentAssessorsDataSource() *schema.Resource {
 													Computed: true,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
-															// Required
-
-															// Optional
-
-															// Computed
 															"description": {
 																Type:     schema.TypeString,
 																Computed: true,
@@ -110,11 +95,6 @@ func DatabaseMigrationAssessmentAssessorsDataSource() *schema.Resource {
 																Computed: true,
 																Elem: &schema.Resource{
 																	Schema: map[string]*schema.Schema{
-																		// Required
-
-																		// Optional
-
-																		// Computed
 																		"default_value": {
 																			Type:     schema.TypeString,
 																			Computed: true,
@@ -148,11 +128,6 @@ func DatabaseMigrationAssessmentAssessorsDataSource() *schema.Resource {
 																			Computed: true,
 																			Elem: &schema.Resource{
 																				Schema: map[string]*schema.Schema{
-																					// Required
-
-																					// Optional
-
-																					// Computed
 																					"description": {
 																						Type:     schema.TypeString,
 																						Computed: true,
@@ -194,21 +169,11 @@ func DatabaseMigrationAssessmentAssessorsDataSource() *schema.Resource {
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"actions": {
 													Type:     schema.TypeList,
 													Computed: true,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
-															// Required
-
-															// Optional
-
-															// Computed
 															"description": {
 																Type:     schema.TypeString,
 																Computed: true,
@@ -238,11 +203,6 @@ func DatabaseMigrationAssessmentAssessorsDataSource() *schema.Resource {
 																Computed: true,
 																Elem: &schema.Resource{
 																	Schema: map[string]*schema.Schema{
-																		// Required
-
-																		// Optional
-
-																		// Computed
 																		"description": {
 																			Type:     schema.TypeString,
 																			Computed: true,
@@ -264,11 +224,6 @@ func DatabaseMigrationAssessmentAssessorsDataSource() *schema.Resource {
 																			Computed: true,
 																			Elem: &schema.Resource{
 																				Schema: map[string]*schema.Schema{
-																					// Required
-
-																					// Optional
-
-																					// Computed
 																					"default_value": {
 																						Type:     schema.TypeString,
 																						Computed: true,
@@ -302,11 +257,6 @@ func DatabaseMigrationAssessmentAssessorsDataSource() *schema.Resource {
 																						Computed: true,
 																						Elem: &schema.Resource{
 																							Schema: map[string]*schema.Schema{
-																								// Required
-
-																								// Optional
-
-																								// Computed
 																								"description": {
 																									Type:     schema.TypeString,
 																									Computed: true,

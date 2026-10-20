@@ -5106,6 +5106,139 @@ func TestDatabaseAutonomousDatabaseResource_dbTools(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: database/dbaas-adb
+func TestDatabaseAutonomousDatabaseResource_dbToolsEcpu(t *testing.T) {
+	shouldSkipADBStest := os.Getenv("TF_VAR_should_skip_adbs_test")
+	if shouldSkipADBStest == "true" {
+		t.Skip("Skipping TestDatabaseAutonomousDatabaseResource_dbToolsEcpu test.\nCurrent TF_VAR_should_skip_adbs_test=" + shouldSkipADBStest)
+	}
+
+	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseResource_dbToolsEcpu")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+	resourceName := "oci_database_autonomous_database.test_autonomous_database"
+	var resId string
+
+	updateDbTools := func(essbase map[string]interface{}) map[string]interface{} {
+		return acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRepresentationECPU, map[string]interface{}{
+			"is_mtls_connection_required": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+			"db_tools_details": []acctest.RepresentationGroup{
+				{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationApex},
+				{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDataTransform},
+				{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDatabaseActions},
+				{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationGraphStudio},
+				{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationSpatialStudio},
+				{RepType: acctest.Optional, Group: essbase},
+				{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDla},
+				{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationMongodbApi},
+				{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationOml},
+				{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationOrds},
+			},
+		}), []string{"scheduled_operations", "admin_password", "customer_contacts", "freeform_tags", "defined_tags", "display_name", "autonomous_maintenance_schedule_type"})
+	}
+
+	checkTool := func(name, enabled string) resource.TestCheckFunc {
+		return acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
+			"name": name, "is_enabled": enabled,
+		}, nil)
+	}
+	checkToolWithCapacity := func(name, enabled, computeCount, maxIdleTime string) resource.TestCheckFunc {
+		return acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
+			"name": name, "is_enabled": enabled, "compute_count": computeCount, "max_idle_time_in_minutes": maxIdleTime,
+		}, nil)
+	}
+
+	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
+		// Create ECPU database with DB tools.
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, autonomousDatabaseRepresentationECPU),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "ECPU"),
+				resource.TestCheckResourceAttrSet(resourceName, "maintenance_target_component"),
+				resource.TestCheckResourceAttr(resourceName, "transportable_tablespace.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "transportable_tablespace.0.tts_bundle_url", "ttsBundleUrl"),
+				resource.TestCheckResourceAttr(resourceName, "db_tools_details.#", "9"),
+				checkTool("APEX", "true"), checkToolWithCapacity("DATA_TRANSFORMS", "true", "8", "10"), checkTool("DATABASE_ACTIONS", "false"),
+				checkToolWithCapacity("GRAPH_STUDIO", "true", "8", "240"), checkTool("MONGODB_API", "false"), checkToolWithCapacity("DLA", "true", "32", "10"),
+				checkToolWithCapacity("OML", "true", "8", "60"), checkTool("ORDS", "true"), checkToolWithCapacity("SPATIAL_STUDIO", "true", "8", "240"),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// Enable ESSBASE while applying the ECPU DB tools update.
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update, updateDbTools(DatabaseAutonomousDatabaseDbToolsDetailsRepresentationEssbase)),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "db_tools_details.#", "10"),
+				resource.TestCheckResourceAttr(resourceName, "transportable_tablespace.0.tts_bundle_url", "newTtsBundleUrl"),
+				checkTool("APEX", "false"), checkTool("DATA_TRANSFORMS", "false"), checkTool("DATABASE_ACTIONS", "true"),
+				checkTool("GRAPH_STUDIO", "false"), checkTool("MONGODB_API", "false"), checkTool("OML", "false"),
+				checkTool("ORDS", "true"), checkTool("SPATIAL_STUDIO", "false"), checkTool("ESSBASE", "true"), checkTool("DLA", "false"),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+			),
+		},
+		// Disable ESSBASE without changing the remaining DB tools.
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update, updateDbTools(DatabaseAutonomousDatabaseDbToolsDetailsRepresentationEssbaseDisable)),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "db_tools_details.#", "10"),
+				resource.TestCheckResourceAttr(resourceName, "transportable_tablespace.0.tts_bundle_url", "newTtsBundleUrl"),
+				checkTool("APEX", "false"), checkTool("DATA_TRANSFORMS", "false"), checkTool("DATABASE_ACTIONS", "true"),
+				checkTool("GRAPH_STUDIO", "false"), checkTool("MONGODB_API", "false"), checkTool("OML", "false"),
+				checkTool("ORDS", "true"), checkTool("SPATIAL_STUDIO", "false"), checkTool("ESSBASE", "false"), checkTool("DLA", "false"),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+			),
+		},
+		// Update the maintenance schedule without recreating the ECPU database.
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRepresentationECPU, map[string]interface{}{
+						"autonomous_maintenance_schedule_type": acctest.Representation{RepType: acctest.Required, Create: `EARLY`},
+					}), []string{"license_model", "db_tools_details", "cpu_core_count", "display_name"})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "EARLY"),
+				func(s *terraform.State) (err error) {
+					resId2, err := acctest.FromInstanceState(s, resourceName, "id")
+					if err == nil && resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+		// Update backup retention without recreating the ECPU database.
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRepresentationECPU, map[string]interface{}{
+						"backup_retention_period_in_days": acctest.Representation{RepType: acctest.Required, Create: `20`},
+					}), []string{"license_model", "db_tools_details", "cpu_core_count", "display_name", "autonomous_maintenance_schedule_type"})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "backup_retention_period_in_days", "20"),
+				func(s *terraform.State) (err error) {
+					resId2, err := acctest.FromInstanceState(s, resourceName, "id")
+					if err == nil && resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+	})
+}
+
 func TestResourceDatabaseAutonomousDatabaseDedicateResource_undelete(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseDedicateResource_undelete")
 	defer httpreplay.SaveScenario()

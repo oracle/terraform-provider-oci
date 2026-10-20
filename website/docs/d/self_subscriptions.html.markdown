@@ -64,7 +64,8 @@ The following attributes are exported:
 * `state` - The current lifecycle state of the Subscription.
 * `subscription_details` - The details of a subscription
 	* `amount` - Tha amount for the currency type.
-	* `billing_details` - Sku details for billing subscription.
+	* `billing_details` - Billing details associated with the subscription plan and its usage dimensions.
+		* `billing_model` - The billing model this billing detail applies to.
 		* `has_gov_sku` - Whether this sku is assign to gov product.
 		* `meters` - The meters associated with sku.
 			* `extended_metadata` - Additional data give by sku.
@@ -73,15 +74,26 @@ The following attributes are exported:
 			* `name` - Name of meter.
 			* `rate_allocation` - Tha rate of this sku meter.
 		* `metric_type` - The part's metric.
+		* `pricing_plan_key` - Unique key used to map this SKU to the pricing plan.
 		* `rate_allocation` - Tha rate of this sku meter.
 		* `sku` - Sku for service.
 	* `currency` - The currency supported, in the format specified by ISO-4217
 	* `is_auto_renew` - Whether subscription should be auto-renewed at the end of cycle.
 	* `partner_registration_url` - The activation link given by the partner.
 	* `pricing_plan` - A pricing plan details provided by the Publisher.
-		* `billing_frequency` - Specifies the interval at which billing occurs for the subscription plan.
+		* `billing_frequency` - Specifies the interval at which billing occurs for the subscription plan or usage dimension.
+		* `dimensions` - Metered usage dimensions associated with the pricing plan.
+			* `dimension_billing_frequency` - Specifies the interval at which the usage dimension is billed.
+			* `dimension_description` - A detailed explanation of the usage dimension.
+			* `dimension_key` - The stable key used internally to map this usage dimension to billing details.
+			* `dimension_name` - The name of the usage dimension.
+			* `included_quantity` - Quantity included in the base fee for hybrid plans.
+			* `metric_type` - The metric type in which usage is measured.
+			* `rates` - Dimension-level rates in various supported currencies.
+				* `currency` - The currency supported, in the format specified by ISO-4217
+				* `rate` - The amount charged for the plan in the specified currency.
 		* `plan_description` - A detailed explanation of the subscription plan.
-		* `plan_duration` - Specifies the interval at which billing occurs for the subscription plan.
+		* `plan_duration` - Specifies the duration of the subscription plan.
 		* `plan_name` - The name of the subscription plan used to identify the plan.
 		* `plan_type` - The type of the subscription plan.
 		* `rates` - The pricing details of the subscription plan in various supported currencies.

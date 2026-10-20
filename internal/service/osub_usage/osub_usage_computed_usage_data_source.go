@@ -82,11 +82,6 @@ func OsubUsageComputedUsageDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"billing_category": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -131,11 +126,6 @@ func OsubUsageComputedUsageDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"billing_category": {
 							Type:     schema.TypeString,
 							Computed: true,

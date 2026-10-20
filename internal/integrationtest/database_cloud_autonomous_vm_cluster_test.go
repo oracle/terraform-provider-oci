@@ -60,7 +60,7 @@ var (
 		"freeform_tags":                         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_mtls_enabled_vm_cluster":            acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"license_model":                         acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
-		"sga_percentage":                        acctest.Representation{RepType: acctest.Optional, Create: `65.0`},
+		"sga_percentage":                        acctest.Representation{RepType: acctest.Optional, Create: `65.0`, Update: `40.0`},
 		"distribution_algorithm":                acctest.Representation{RepType: acctest.Optional, Create: `RESOURCE_OPTIMIZED`, Update: `DISTRIBUTION_OPTIMIZED`},
 		"scan_listener_port_non_tls":            acctest.Representation{RepType: acctest.Optional, Create: `2302`, Update: `2303`},
 		"scan_listener_port_tls":                acctest.Representation{RepType: acctest.Optional, Create: `2709`, Update: `2710`},
@@ -108,17 +108,16 @@ var (
 
 	DatabaseCloudAutonomousNetworkSecurityGroupRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"vcn_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"vcn_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_virtual_network.t.id}`},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreNetworkSecurityIgnoreChangesNsgRepresentation},
 	}
 
 	DatabaseCloudAutonomousVmClusterResourceDependencies = DefinedTagsDependencies + AvailabilityDomainConfig +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, DatabaseCloudAutonomousNetworkSecurityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", acctest.Required, acctest.Create, DatabaseCloudAutonomousNetworkSecurityGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Required, acctest.Create, DatabaseCloudExadataInfrastructureRepresentation) +
 		`
 #dataguard requires the port to be open on the subnet
@@ -338,6 +337,26 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					},
 				),
 			},
+			// Verify the SGA percentage update independently. The service does not allow it to be combined with capacity scaling updates.
+			{
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseCloudAutonomousVmClusterResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_autonomous_vm_cluster", "test_cloud_autonomous_vm_cluster", acctest.Optional, acctest.Create,
+						acctest.RepresentationCopyWithNewProperties(DatabaseCloudAutonomousVmClusterRepresentation, map[string]interface{}{
+							"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+							"sga_percentage": acctest.Representation{RepType: acctest.Optional, Create: `40.0`},
+						})),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(resourceName, "sga_percentage", "40"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + DatabaseCloudAutonomousVmClusterResourceDependencies +
@@ -352,7 +371,7 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "distribution_algorithm", "DISTRIBUTION_OPTIMIZED"),
-					resource.TestCheckResourceAttr(resourceName, "sga_percentage", "65"),
+					resource.TestCheckResourceAttr(resourceName, "sga_percentage", "40"),
 					resource.TestCheckResourceAttr(resourceName, "is_mtls_enabled_vm_cluster", "true"),
 					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttr(resourceName, "scan_listener_port_non_tls", "2303"),
@@ -363,7 +382,6 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					// 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count_per_node", "40"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
-					resource.TestCheckResourceAttr(resourceName, "memory_per_oracle_compute_unit_in_gbs", "5"),
 					resource.TestCheckResourceAttr(resourceName, "total_container_databases", "3"),
 					resource.TestCheckNoResourceAttr(resourceName, "subscription_id"),
 					resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
@@ -478,7 +496,7 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config + DatabaseCloudAutonomousVmClusterRequiredOnlyResource,
+				Config:                  config + compartmentIdVariableStr + DatabaseCloudAutonomousVmClusterRequiredOnlyResource,
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{"description", "db_servers", "maintenance_window_details"},

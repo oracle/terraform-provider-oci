@@ -31,11 +31,6 @@ func CoreImageShapeDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"max_in_gbs": {
 							Type:     schema.TypeInt,
 							Computed: true,
@@ -52,11 +47,6 @@ func CoreImageShapeDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"max": {
 							Type:     schema.TypeInt,
 							Computed: true,

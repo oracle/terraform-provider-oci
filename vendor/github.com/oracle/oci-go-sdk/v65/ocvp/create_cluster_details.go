@@ -85,6 +85,9 @@ type CreateClusterDetails struct {
 	// ListSupportedVmwareSoftwareVersions.
 	EsxiSoftwareVersion *string `mandatory:"false" json:"esxiSoftwareVersion"`
 
+	// The initial fault domain host distribution mode for the Cluster.
+	InitialFaultDomainHostDistribution FaultDomainHostDistributionModesEnum `mandatory:"false" json:"initialFaultDomainHostDistribution,omitempty"`
+
 	ClusterByolAllocationDetails *ClusterByolAllocationDetails `mandatory:"false" json:"clusterByolAllocationDetails"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the initial VMware BYOL Allocation used to deploy VMware Cloud Foundation.
@@ -113,6 +116,9 @@ func (m CreateClusterDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingCommitmentEnum(string(m.InitialCommitment)); !ok && m.InitialCommitment != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InitialCommitment: %s. Supported values are: %s.", m.InitialCommitment, strings.Join(GetCommitmentEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingFaultDomainHostDistributionModesEnum(string(m.InitialFaultDomainHostDistribution)); !ok && m.InitialFaultDomainHostDistribution != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InitialFaultDomainHostDistribution: %s. Supported values are: %s.", m.InitialFaultDomainHostDistribution, strings.Join(GetFaultDomainHostDistributionModesEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

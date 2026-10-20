@@ -36,7 +36,6 @@ func IdentityAuthenticationPolicyResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
 			"network_policy": {
 				Type:     schema.TypeList,
@@ -46,9 +45,6 @@ func IdentityAuthenticationPolicyResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
 						"network_source_ids": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -57,8 +53,6 @@ func IdentityAuthenticationPolicyResource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
-
-						// Computed
 					},
 				},
 			},
@@ -70,9 +64,6 @@ func IdentityAuthenticationPolicyResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
 						"is_lowercase_characters_required": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -103,13 +94,9 @@ func IdentityAuthenticationPolicyResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
-
-						// Computed
 					},
 				},
 			},
-
-			// Computed
 		},
 	}
 }

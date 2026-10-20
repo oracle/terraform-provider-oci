@@ -109,6 +109,9 @@ type EsxiHostSummary struct {
 	// is newly created to upgrade the original host.
 	UpgradedReplacementEsxiHostId *string `mandatory:"false" json:"upgradedReplacementEsxiHostId"`
 
+	// The fault domain of the ESXi host.
+	ComputeFaultDomain *string `mandatory:"false" json:"computeFaultDomain"`
+
 	// The OCPU count of the ESXi host.
 	HostOcpuCount *float32 `mandatory:"false" json:"hostOcpuCount"`
 

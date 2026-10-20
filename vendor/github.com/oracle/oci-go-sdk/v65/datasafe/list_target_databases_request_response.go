@@ -24,6 +24,9 @@ type ListTargetDatabasesRequest struct {
 	// A filter to return the target databases that are associated to the resource id passed in as a parameter value.
 	AssociatedResourceId *string `mandatory:"false" contributesTo:"query" name:"associatedResourceId"`
 
+	// A filter to return target databases filtered by the enablementResourceOcid column (always a DbaasDatabase OCID).
+	EnablementResourceOcid *string `mandatory:"false" contributesTo:"query" name:"enablementResourceOcid"`
+
 	// A filter to return the target database that matches the specified OCID.
 	TargetDatabaseId *string `mandatory:"false" contributesTo:"query" name:"targetDatabaseId"`
 

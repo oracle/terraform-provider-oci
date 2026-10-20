@@ -91,6 +91,12 @@ type RedisClusterSummary struct {
 	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
 	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 
+	// The current role of the cluster.
+	ClusterRole RedisClusterClusterRoleEnum `mandatory:"false" json:"clusterRole,omitempty"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the primary cluster in CRR.
+	PrimaryClusterId *string `mandatory:"false" json:"primaryClusterId"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -122,6 +128,9 @@ func (m RedisClusterSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingRedisClusterClusterModeEnum(string(m.ClusterMode)); !ok && m.ClusterMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ClusterMode: %s. Supported values are: %s.", m.ClusterMode, strings.Join(GetRedisClusterClusterModeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingRedisClusterClusterRoleEnum(string(m.ClusterRole)); !ok && m.ClusterRole != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ClusterRole: %s. Supported values are: %s.", m.ClusterRole, strings.Join(GetRedisClusterClusterRoleEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

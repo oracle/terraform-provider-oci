@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_database_migration_job_advisor_report"
 sidebar_current: "docs-oci-datasource-database_migration-job_advisor_report"
 description: |-
-Provides details about a specific Job Advisor Report in Oracle Cloud Infrastructure Database Migration service
+  Provides details about a specific Job Advisor Report in Oracle Cloud Infrastructure Database Migration service
 ---
 
 # Data Source: oci_database_migration_job_advisor_report

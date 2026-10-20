@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_core_cluster_network"
 sidebar_current: "docs-oci-datasource-core-cluster_network"
 description: |-
-	Provides details about a specific Cluster Network in Oracle Cloud Infrastructure Core service
+  Provides details about a specific Cluster Network in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_cluster_network

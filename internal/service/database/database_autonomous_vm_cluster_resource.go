@@ -222,7 +222,6 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"scan_listener_port_non_tls": {
 				Type:     schema.TypeInt,
@@ -238,7 +237,6 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 				Type:     schema.TypeFloat,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"time_zone": {
 				Type:     schema.TypeString,
@@ -772,6 +770,11 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) UpdateWithContext(ctx context.
 		}
 	}
 
+	if memoryPerOracleComputeUnitInGBs, ok := s.D.GetOkExists("memory_per_oracle_compute_unit_in_gbs"); ok {
+		tmp := memoryPerOracleComputeUnitInGBs.(int)
+		request.MemoryPerOracleComputeUnitInGBs = &tmp
+	}
+
 	if scanListenerPortNonTls, ok := s.D.GetOkExists("scan_listener_port_non_tls"); ok {
 		tmp := scanListenerPortNonTls.(int)
 		request.ScanListenerPortNonTls = &tmp
@@ -780,6 +783,11 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) UpdateWithContext(ctx context.
 	if scanListenerPortTls, ok := s.D.GetOkExists("scan_listener_port_tls"); ok {
 		tmp := scanListenerPortTls.(int)
 		request.ScanListenerPortTls = &tmp
+	}
+
+	if sgaPercentage, ok := s.D.GetOkExists("sga_percentage"); ok {
+		tmp := float32(sgaPercentage.(float64))
+		request.SgaPercentage = &tmp
 	}
 
 	if timeZone, ok := s.D.GetOkExists("time_zone"); ok {

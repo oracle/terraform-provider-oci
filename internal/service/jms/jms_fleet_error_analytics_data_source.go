@@ -31,31 +31,16 @@ func JmsFleetErrorAnalyticsDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"fleet_error_aggregations": {
 										Type:     schema.TypeList,
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"fleet_error_analytic_count": {
 													Type:     schema.TypeInt,
 													Computed: true,

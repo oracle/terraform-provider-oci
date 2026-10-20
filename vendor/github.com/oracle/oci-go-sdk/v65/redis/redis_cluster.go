@@ -95,6 +95,14 @@ type RedisCluster struct {
 	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
 	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 
+	// The current role of the cluster.
+	ClusterRole RedisClusterClusterRoleEnum `mandatory:"false" json:"clusterRole,omitempty"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the primary cluster in CRR.
+	PrimaryClusterId *string `mandatory:"false" json:"primaryClusterId"`
+
+	ClusterReplicationTopology *ClusterReplicationTopology `mandatory:"false" json:"clusterReplicationTopology"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -126,6 +134,9 @@ func (m RedisCluster) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingRedisClusterClusterModeEnum(string(m.ClusterMode)); !ok && m.ClusterMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ClusterMode: %s. Supported values are: %s.", m.ClusterMode, strings.Join(GetRedisClusterClusterModeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingRedisClusterClusterRoleEnum(string(m.ClusterRole)); !ok && m.ClusterRole != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ClusterRole: %s. Supported values are: %s.", m.ClusterRole, strings.Join(GetRedisClusterClusterRoleEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -280,5 +291,51 @@ func GetRedisClusterClusterModeEnumStringValues() []string {
 // GetMappingRedisClusterClusterModeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingRedisClusterClusterModeEnum(val string) (RedisClusterClusterModeEnum, bool) {
 	enum, ok := mappingRedisClusterClusterModeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// RedisClusterClusterRoleEnum Enum with underlying type: string
+type RedisClusterClusterRoleEnum string
+
+// Set of constants representing the allowable values for RedisClusterClusterRoleEnum
+const (
+	RedisClusterClusterRolePrimary    RedisClusterClusterRoleEnum = "PRIMARY"
+	RedisClusterClusterRoleSecondary  RedisClusterClusterRoleEnum = "SECONDARY"
+	RedisClusterClusterRoleStandalone RedisClusterClusterRoleEnum = "STANDALONE"
+)
+
+var mappingRedisClusterClusterRoleEnum = map[string]RedisClusterClusterRoleEnum{
+	"PRIMARY":    RedisClusterClusterRolePrimary,
+	"SECONDARY":  RedisClusterClusterRoleSecondary,
+	"STANDALONE": RedisClusterClusterRoleStandalone,
+}
+
+var mappingRedisClusterClusterRoleEnumLowerCase = map[string]RedisClusterClusterRoleEnum{
+	"primary":    RedisClusterClusterRolePrimary,
+	"secondary":  RedisClusterClusterRoleSecondary,
+	"standalone": RedisClusterClusterRoleStandalone,
+}
+
+// GetRedisClusterClusterRoleEnumValues Enumerates the set of values for RedisClusterClusterRoleEnum
+func GetRedisClusterClusterRoleEnumValues() []RedisClusterClusterRoleEnum {
+	values := make([]RedisClusterClusterRoleEnum, 0)
+	for _, v := range mappingRedisClusterClusterRoleEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetRedisClusterClusterRoleEnumStringValues Enumerates the set of values in String for RedisClusterClusterRoleEnum
+func GetRedisClusterClusterRoleEnumStringValues() []string {
+	return []string{
+		"PRIMARY",
+		"SECONDARY",
+		"STANDALONE",
+	}
+}
+
+// GetMappingRedisClusterClusterRoleEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingRedisClusterClusterRoleEnum(val string) (RedisClusterClusterRoleEnum, bool) {
+	enum, ok := mappingRedisClusterClusterRoleEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

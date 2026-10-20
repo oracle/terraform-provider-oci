@@ -33,6 +33,7 @@ type LaunchOptions struct {
 	// volumes on platform images.
 	// * `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block
 	// storage volumes on platform images.
+	// * `NVME` - NVMe attached remote block storage device.
 	BootVolumeType LaunchOptionsBootVolumeTypeEnum `mandatory:"false" json:"bootVolumeType,omitempty"`
 
 	// Firmware used to boot VM. Select the option that matches your operating system.
@@ -58,11 +59,14 @@ type LaunchOptions struct {
 	// volumes on platform images.
 	// * `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block
 	// storage volumes on platform images.
+	// * `NVME` - NVMe attached remote block storage device.
 	RemoteDataVolumeType LaunchOptionsRemoteDataVolumeTypeEnum `mandatory:"false" json:"remoteDataVolumeType,omitempty"`
 
-	// Deprecated. Instead use `isPvEncryptionInTransitEnabled` in
-	// LaunchInstanceDetails.
+	// Deprecated. Use `isEncryptionInTransitEnabled` instead.
 	IsPvEncryptionInTransitEnabled *bool `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
+
+	// Specifies whether in-transit encryption is enabled for the data volume's attachment.
+	IsEncryptionInTransitEnabled *bool `mandatory:"false" json:"isEncryptionInTransitEnabled"`
 
 	// Whether to enable consistent volume naming feature. Defaults to false.
 	IsConsistentVolumeNamingEnabled *bool `mandatory:"false" json:"isConsistentVolumeNamingEnabled"`
@@ -106,6 +110,7 @@ const (
 	LaunchOptionsBootVolumeTypeIde             LaunchOptionsBootVolumeTypeEnum = "IDE"
 	LaunchOptionsBootVolumeTypeVfio            LaunchOptionsBootVolumeTypeEnum = "VFIO"
 	LaunchOptionsBootVolumeTypeParavirtualized LaunchOptionsBootVolumeTypeEnum = "PARAVIRTUALIZED"
+	LaunchOptionsBootVolumeTypeNvme            LaunchOptionsBootVolumeTypeEnum = "NVME"
 )
 
 var mappingLaunchOptionsBootVolumeTypeEnum = map[string]LaunchOptionsBootVolumeTypeEnum{
@@ -114,6 +119,7 @@ var mappingLaunchOptionsBootVolumeTypeEnum = map[string]LaunchOptionsBootVolumeT
 	"IDE":             LaunchOptionsBootVolumeTypeIde,
 	"VFIO":            LaunchOptionsBootVolumeTypeVfio,
 	"PARAVIRTUALIZED": LaunchOptionsBootVolumeTypeParavirtualized,
+	"NVME":            LaunchOptionsBootVolumeTypeNvme,
 }
 
 var mappingLaunchOptionsBootVolumeTypeEnumLowerCase = map[string]LaunchOptionsBootVolumeTypeEnum{
@@ -122,6 +128,7 @@ var mappingLaunchOptionsBootVolumeTypeEnumLowerCase = map[string]LaunchOptionsBo
 	"ide":             LaunchOptionsBootVolumeTypeIde,
 	"vfio":            LaunchOptionsBootVolumeTypeVfio,
 	"paravirtualized": LaunchOptionsBootVolumeTypeParavirtualized,
+	"nvme":            LaunchOptionsBootVolumeTypeNvme,
 }
 
 // GetLaunchOptionsBootVolumeTypeEnumValues Enumerates the set of values for LaunchOptionsBootVolumeTypeEnum
@@ -141,6 +148,7 @@ func GetLaunchOptionsBootVolumeTypeEnumStringValues() []string {
 		"IDE",
 		"VFIO",
 		"PARAVIRTUALIZED",
+		"NVME",
 	}
 }
 
@@ -252,6 +260,7 @@ const (
 	LaunchOptionsRemoteDataVolumeTypeIde             LaunchOptionsRemoteDataVolumeTypeEnum = "IDE"
 	LaunchOptionsRemoteDataVolumeTypeVfio            LaunchOptionsRemoteDataVolumeTypeEnum = "VFIO"
 	LaunchOptionsRemoteDataVolumeTypeParavirtualized LaunchOptionsRemoteDataVolumeTypeEnum = "PARAVIRTUALIZED"
+	LaunchOptionsRemoteDataVolumeTypeNvme            LaunchOptionsRemoteDataVolumeTypeEnum = "NVME"
 )
 
 var mappingLaunchOptionsRemoteDataVolumeTypeEnum = map[string]LaunchOptionsRemoteDataVolumeTypeEnum{
@@ -260,6 +269,7 @@ var mappingLaunchOptionsRemoteDataVolumeTypeEnum = map[string]LaunchOptionsRemot
 	"IDE":             LaunchOptionsRemoteDataVolumeTypeIde,
 	"VFIO":            LaunchOptionsRemoteDataVolumeTypeVfio,
 	"PARAVIRTUALIZED": LaunchOptionsRemoteDataVolumeTypeParavirtualized,
+	"NVME":            LaunchOptionsRemoteDataVolumeTypeNvme,
 }
 
 var mappingLaunchOptionsRemoteDataVolumeTypeEnumLowerCase = map[string]LaunchOptionsRemoteDataVolumeTypeEnum{
@@ -268,6 +278,7 @@ var mappingLaunchOptionsRemoteDataVolumeTypeEnumLowerCase = map[string]LaunchOpt
 	"ide":             LaunchOptionsRemoteDataVolumeTypeIde,
 	"vfio":            LaunchOptionsRemoteDataVolumeTypeVfio,
 	"paravirtualized": LaunchOptionsRemoteDataVolumeTypeParavirtualized,
+	"nvme":            LaunchOptionsRemoteDataVolumeTypeNvme,
 }
 
 // GetLaunchOptionsRemoteDataVolumeTypeEnumValues Enumerates the set of values for LaunchOptionsRemoteDataVolumeTypeEnum
@@ -287,6 +298,7 @@ func GetLaunchOptionsRemoteDataVolumeTypeEnumStringValues() []string {
 		"IDE",
 		"VFIO",
 		"PARAVIRTUALIZED",
+		"NVME",
 	}
 }
 

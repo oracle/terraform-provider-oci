@@ -28,6 +28,9 @@ type DbVersionSummary struct {
 	// True if this version of the Oracle Database software supports pluggable databases.
 	SupportsPdb *bool `mandatory:"false" json:"supportsPdb"`
 
+	// True when selecting or applying this DB, Grid Infrastructure, or operating system software version requires older-version acknowledgment.
+	IsOlderVersionAcknowledgmentRequired *bool `mandatory:"false" json:"isOlderVersionAcknowledgmentRequired"`
+
 	// True if this version of the Oracle Database software is the preview version.
 	IsPreviewDbVersion *bool `mandatory:"false" json:"isPreviewDbVersion"`
 

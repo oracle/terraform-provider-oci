@@ -31,21 +31,11 @@ func PsqlShapesDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"id": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -71,11 +61,6 @@ func PsqlShapesDataSource() *schema.Resource {
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"default_per_ocpu_in_gbs": {
 													Type:     schema.TypeInt,
 													Computed: true,
@@ -104,11 +89,6 @@ func PsqlShapesDataSource() *schema.Resource {
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"max": {
 													Type:     schema.TypeInt,
 													Computed: true,

@@ -57,16 +57,17 @@ The following attributes are exported:
 * `chap_username` - The volume's system-generated Challenge-Handshake-Authentication-Protocol (CHAP) user name. See [RFC 1994](https://tools.ietf.org/html/rfc1994) for more on CHAP.  Example: `ocid1.volume.oc1.phx.<unique_ID>`
 * `compartment_id` - The OCID of the compartment.
 * `device` - The device name.
-* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
-* `encryption_in_transit_type` - Refer the top-level definition of encryptionInTransitType. The default value is NONE.
+* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+* `encryption_in_transit_type` - Deprecated. Use `isEncryptionInTransitEnabled` instead. 
 * `id` - The OCID of the volume attachment.
 * `instance_id` - The OCID of the instance the volume is attached to.
 * `ipv4` - The volume's iSCSI IP address.  Example: `169.254.0.2` 
 * `ipv6` - The volume's iSCSI IPv6 address.  Example: `2001:db8::1/64` 
 * `iqn` - The target volume's iSCSI Qualified Name in the format defined by [RFC 3720](https://tools.ietf.org/html/rfc3720#page-32).  Example: `iqn.2015-12.us.oracle.com:<CHAP_username>` 
 * `is_agent_auto_iscsi_login_enabled` - Whether Oracle Cloud Agent is enabled perform the iSCSI login and logout commands after the volume attach or detach operations for non multipath-enabled iSCSI attachments. 
+* `is_encryption_in_transit_enabled` - Whether in-transit encryption for the data volume's attachment is enabled or not.
 * `is_multipath` - Whether the Iscsi or Paravirtualized attachment is multipath or not, it is not applicable to NVMe attachment.
-* `is_pv_encryption_in_transit_enabled` - Whether in-transit encryption for the data volume's paravirtualized attachment is enabled or not.
+* `is_pv_encryption_in_transit_enabled` - Deprecated. Use `isEncryptionInTransitEnabled` instead. 
 * `is_read_only` - Whether the attachment was created in read-only mode.
 * `is_shareable` - Whether the attachment should be created in shareable mode. If an attachment is created in shareable mode, then other instances can attach the same volume, provided that they also create their attachments in shareable mode. Only certain volume types can be attached in shareable mode. Defaults to false if not specified.
 * `is_volume_created_during_launch` - Flag indicating if this volume was created for the customer as part of a simplified launch. Used to determine whether the volume requires deletion on instance termination. 

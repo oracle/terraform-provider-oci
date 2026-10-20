@@ -6,10 +6,12 @@ package integrationtest
 import (
 	"fmt"
 	"log"
+	"strconv"
 	"testing"
 	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -113,6 +115,7 @@ func TestDnsResolverEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_listening", "false"),
 				resource.TestCheckResourceAttr(resourceName, "name", "endpointNameRequired"),
 				resource.TestCheckResourceAttrSet(resourceName, "resolver_id"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "0"),
 
 				func(s *terraform.State) (err error) {
 					_, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -151,12 +154,11 @@ func TestDnsResolverEndpointResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					// Resource discovery is disabled for Resolver Endpoints
-					//if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-					//	if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-					//		return errExport
-					//	}
-					//}
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
 					return err
 				},
 			),

@@ -31,6 +31,9 @@ type OciOptimizedStorageDetails struct {
 	// If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified.
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
+	// The OCID of the Vault service key to assign as the master encryption key for the database system.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
 	// Guaranteed input/output storage requests per second (IOPS) available to the database system.
 	Iops *int64 `mandatory:"false" json:"iops"`
 }
@@ -43,6 +46,11 @@ func (m OciOptimizedStorageDetails) GetIsRegionallyDurable() *bool {
 // GetAvailabilityDomain returns AvailabilityDomain
 func (m OciOptimizedStorageDetails) GetAvailabilityDomain() *string {
 	return m.AvailabilityDomain
+}
+
+// GetKmsKeyId returns KmsKeyId
+func (m OciOptimizedStorageDetails) GetKmsKeyId() *string {
+	return m.KmsKeyId
 }
 
 func (m OciOptimizedStorageDetails) String() string {

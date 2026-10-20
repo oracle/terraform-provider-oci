@@ -353,6 +353,8 @@ func (s *DnsResolverEndpointResourceCrud) SetData() error {
 		}
 		if v.SecurityAttributes != nil {
 			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		} else {
+			s.D.Set("security_attributes", map[string]interface{}{})
 		}
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)

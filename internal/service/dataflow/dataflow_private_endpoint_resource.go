@@ -357,14 +357,14 @@ func privateEndpointWaitForWorkRequest(wId *string, entityType string, action oc
 	response := oci_dataflow.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_dataflow.WorkRequestStatusInprogress),
 			string(oci_dataflow.WorkRequestStatusAccepted),
 			string(oci_dataflow.WorkRequestStatusCancelling),
+			string(oci_dataflow.WorkRequestStatusInprogress),
 		},
 		Target: []string{
-			string(oci_dataflow.WorkRequestStatusSucceeded),
-			string(oci_dataflow.WorkRequestStatusFailed),
 			string(oci_dataflow.WorkRequestStatusCancelled),
+			string(oci_dataflow.WorkRequestStatusFailed),
+			string(oci_dataflow.WorkRequestStatusSucceeded),
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error

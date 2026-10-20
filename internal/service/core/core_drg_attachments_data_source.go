@@ -34,6 +34,10 @@ func CoreDrgAttachmentsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"drg_nat_policy_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"drg_route_table_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -99,6 +103,11 @@ func (s *CoreDrgAttachmentsDataSourceCrud) Get() error {
 		request.DrgId = &tmp
 	}
 
+	if drgNatPolicyId, ok := s.D.GetOkExists("drg_nat_policy_id"); ok {
+		tmp := drgNatPolicyId.(string)
+		request.DrgNatPolicyId = &tmp
+	}
+
 	if drgRouteTableId, ok := s.D.GetOkExists("drg_route_table_id"); ok {
 		tmp := drgRouteTableId.(string)
 		request.DrgRouteTableId = &tmp
@@ -162,8 +171,18 @@ func (s *CoreDrgAttachmentsDataSourceCrud) SetData() error {
 			drgAttachment["display_name"] = *r.DisplayName
 		}
 
+		if r.DoesPreserveOriginalRoutesWithNat != nil {
+			drgAttachment["does_preserve_original_routes_with_nat"] = *r.DoesPreserveOriginalRoutesWithNat
+		}
+
 		if r.DrgId != nil {
 			drgAttachment["drg_id"] = *r.DrgId
+		}
+
+		if r.DrgNatPolicyId != nil {
+			drgAttachment["drg_nat_policy_id"] = *r.DrgNatPolicyId
+		} else {
+			drgAttachment["drg_nat_policy_id"] = nil
 		}
 
 		if r.DrgRouteTableId != nil {

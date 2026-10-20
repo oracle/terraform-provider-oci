@@ -437,6 +437,7 @@ const (
 	ListReportsDataSourceEvents             ListReportsDataSourceEnum = "EVENTS"
 	ListReportsDataSourceAlerts             ListReportsDataSourceEnum = "ALERTS"
 	ListReportsDataSourceSecurityAssessment ListReportsDataSourceEnum = "SECURITY_ASSESSMENT"
+	ListReportsDataSourceCryptoAssessment   ListReportsDataSourceEnum = "CRYPTO_ASSESSMENT"
 	ListReportsDataSourceViolations         ListReportsDataSourceEnum = "VIOLATIONS"
 	ListReportsDataSourceAllowedSql         ListReportsDataSourceEnum = "ALLOWED_SQL"
 )
@@ -445,6 +446,7 @@ var mappingListReportsDataSourceEnum = map[string]ListReportsDataSourceEnum{
 	"EVENTS":              ListReportsDataSourceEvents,
 	"ALERTS":              ListReportsDataSourceAlerts,
 	"SECURITY_ASSESSMENT": ListReportsDataSourceSecurityAssessment,
+	"CRYPTO_ASSESSMENT":   ListReportsDataSourceCryptoAssessment,
 	"VIOLATIONS":          ListReportsDataSourceViolations,
 	"ALLOWED_SQL":         ListReportsDataSourceAllowedSql,
 }
@@ -453,6 +455,7 @@ var mappingListReportsDataSourceEnumLowerCase = map[string]ListReportsDataSource
 	"events":              ListReportsDataSourceEvents,
 	"alerts":              ListReportsDataSourceAlerts,
 	"security_assessment": ListReportsDataSourceSecurityAssessment,
+	"crypto_assessment":   ListReportsDataSourceCryptoAssessment,
 	"violations":          ListReportsDataSourceViolations,
 	"allowed_sql":         ListReportsDataSourceAllowedSql,
 }
@@ -472,6 +475,7 @@ func GetListReportsDataSourceEnumStringValues() []string {
 		"EVENTS",
 		"ALERTS",
 		"SECURITY_ASSESSMENT",
+		"CRYPTO_ASSESSMENT",
 		"VIOLATIONS",
 		"ALLOWED_SQL",
 	}

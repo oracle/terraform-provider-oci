@@ -214,16 +214,6 @@ func ContainerengineNodePoolResource() *schema.Resource {
 							Optional: true,
 							ForceNew: true,
 						},
-						"is_pv_encryption_in_transit_enabled": {
-							Type:     schema.TypeBool,
-							Optional: true,
-							Computed: true,
-						},
-						"kms_key_id": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
 						"defined_tags": {
 							Type:             schema.TypeMap,
 							Optional:         true,
@@ -236,6 +226,16 @@ func ContainerengineNodePoolResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 							Elem:     schema.TypeString,
+						},
+						"is_pv_encryption_in_transit_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"kms_key_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
 						},
 						"node_pool_pod_network_option_details": {
 							Type:     schema.TypeList,
@@ -1151,13 +1151,13 @@ func nodePoolWaitForWorkRequest(wId *string, entityType string, action oci_conta
 	response := oci_containerengine.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_containerengine.WorkRequestStatusInProgress),
 			string(oci_containerengine.WorkRequestStatusAccepted),
+			string(oci_containerengine.WorkRequestStatusInProgress),
 			string(oci_containerengine.WorkRequestStatusCanceling),
 		},
 		Target: []string{
-			string(oci_containerengine.WorkRequestStatusSucceeded),
 			string(oci_containerengine.WorkRequestStatusFailed),
+			string(oci_containerengine.WorkRequestStatusSucceeded),
 			string(oci_containerengine.WorkRequestStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {
@@ -2132,12 +2132,12 @@ func (s *ContainerengineNodePoolResourceCrud) mapToNodePoolCyclingDetails(fieldK
 		result.IsNodeCyclingEnabled = &tmp
 	}
 
-	if maximumSurge, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maximum_surge")); ok {
+	if maximumSurge, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "maximum_surge")); ok {
 		tmp := maximumSurge.(string)
 		result.MaximumSurge = &tmp
 	}
 
-	if maximumUnavailable, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maximum_unavailable")); ok {
+	if maximumUnavailable, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "maximum_unavailable")); ok {
 		tmp := maximumUnavailable.(string)
 		result.MaximumUnavailable = &tmp
 	}

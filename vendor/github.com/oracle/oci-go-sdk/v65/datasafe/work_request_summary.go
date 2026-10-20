@@ -91,6 +91,7 @@ const (
 	WorkRequestSummaryOperationTypeUpdateTargetDatabase                          WorkRequestSummaryOperationTypeEnum = "UPDATE_TARGET_DATABASE"
 	WorkRequestSummaryOperationTypeActivateTargetDatabase                        WorkRequestSummaryOperationTypeEnum = "ACTIVATE_TARGET_DATABASE"
 	WorkRequestSummaryOperationTypeDeactivateTargetDatabase                      WorkRequestSummaryOperationTypeEnum = "DEACTIVATE_TARGET_DATABASE"
+	WorkRequestSummaryOperationTypeUpdateTargetDatabasePrivilege                 WorkRequestSummaryOperationTypeEnum = "UPDATE_TARGET_DATABASE_PRIVILEGE"
 	WorkRequestSummaryOperationTypeDeleteTargetDatabase                          WorkRequestSummaryOperationTypeEnum = "DELETE_TARGET_DATABASE"
 	WorkRequestSummaryOperationTypeChangeTargetDatabaseCompartment               WorkRequestSummaryOperationTypeEnum = "CHANGE_TARGET_DATABASE_COMPARTMENT"
 	WorkRequestSummaryOperationTypeCreatePeerTargetDatabase                      WorkRequestSummaryOperationTypeEnum = "CREATE_PEER_TARGET_DATABASE"
@@ -124,6 +125,13 @@ const (
 	WorkRequestSummaryOperationTypePatchChecks                                   WorkRequestSummaryOperationTypeEnum = "PATCH_CHECKS"
 	WorkRequestSummaryOperationTypeUpdateFindingSeverity                         WorkRequestSummaryOperationTypeEnum = "UPDATE_FINDING_SEVERITY"
 	WorkRequestSummaryOperationTypeApplyTemplate                                 WorkRequestSummaryOperationTypeEnum = "APPLY_TEMPLATE"
+	WorkRequestSummaryOperationTypeUpdateCryptoAssessment                        WorkRequestSummaryOperationTypeEnum = "UPDATE_CRYPTO_ASSESSMENT"
+	WorkRequestSummaryOperationTypeCreateCryptoAssessment                        WorkRequestSummaryOperationTypeEnum = "CREATE_CRYPTO_ASSESSMENT"
+	WorkRequestSummaryOperationTypeRefreshCryptoAssessment                       WorkRequestSummaryOperationTypeEnum = "REFRESH_CRYPTO_ASSESSMENT"
+	WorkRequestSummaryOperationTypeGenerateCryptoAssessmentReport                WorkRequestSummaryOperationTypeEnum = "GENERATE_CRYPTO_ASSESSMENT_REPORT"
+	WorkRequestSummaryOperationTypeDownloadCryptoAssessmentReport                WorkRequestSummaryOperationTypeEnum = "DOWNLOAD_CRYPTO_ASSESSMENT_REPORT"
+	WorkRequestSummaryOperationTypeChangeCryptoAssessmentCompartment             WorkRequestSummaryOperationTypeEnum = "CHANGE_CRYPTO_ASSESSMENT_COMPARTMENT"
+	WorkRequestSummaryOperationTypeDeleteCryptoAssessment                        WorkRequestSummaryOperationTypeEnum = "DELETE_CRYPTO_ASSESSMENT"
 	WorkRequestSummaryOperationTypeDeleteSqlFirewallAllowedSql                   WorkRequestSummaryOperationTypeEnum = "DELETE_SQL_FIREWALL_ALLOWED_SQL"
 	WorkRequestSummaryOperationTypeBulkCreateSqlFirewallAllowedSql               WorkRequestSummaryOperationTypeEnum = "BULK_CREATE_SQL_FIREWALL_ALLOWED_SQL"
 	WorkRequestSummaryOperationTypeBulkDeleteSqlFirewallAllowedSql               WorkRequestSummaryOperationTypeEnum = "BULK_DELETE_SQL_FIREWALL_ALLOWED_SQL"
@@ -260,6 +268,28 @@ const (
 	WorkRequestSummaryOperationTypeUpdateAttributeSet                            WorkRequestSummaryOperationTypeEnum = "UPDATE_ATTRIBUTE_SET"
 	WorkRequestSummaryOperationTypeDeleteAttributeSet                            WorkRequestSummaryOperationTypeEnum = "DELETE_ATTRIBUTE_SET"
 	WorkRequestSummaryOperationTypeChangeAttributeSetCompartment                 WorkRequestSummaryOperationTypeEnum = "CHANGE_ATTRIBUTE_SET_COMPARTMENT"
+	WorkRequestSummaryOperationTypeCreateRegistrationPolicy                      WorkRequestSummaryOperationTypeEnum = "CREATE_REGISTRATION_POLICY"
+	WorkRequestSummaryOperationTypeUpdateRegistrationPolicy                      WorkRequestSummaryOperationTypeEnum = "UPDATE_REGISTRATION_POLICY"
+	WorkRequestSummaryOperationTypeDeleteRegistrationPolicy                      WorkRequestSummaryOperationTypeEnum = "DELETE_REGISTRATION_POLICY"
+	WorkRequestSummaryOperationTypeChangeRegistrationPolicyCompartment           WorkRequestSummaryOperationTypeEnum = "CHANGE_REGISTRATION_POLICY_COMPARTMENT"
+	WorkRequestSummaryOperationTypeCreateSubsettingPolicy                        WorkRequestSummaryOperationTypeEnum = "CREATE_SUBSETTING_POLICY"
+	WorkRequestSummaryOperationTypeUpdateSubsettingPolicy                        WorkRequestSummaryOperationTypeEnum = "UPDATE_SUBSETTING_POLICY"
+	WorkRequestSummaryOperationTypeDeleteSubsettingPolicy                        WorkRequestSummaryOperationTypeEnum = "DELETE_SUBSETTING_POLICY"
+	WorkRequestSummaryOperationTypeCreateSubsettingRule                          WorkRequestSummaryOperationTypeEnum = "CREATE_SUBSETTING_RULE"
+	WorkRequestSummaryOperationTypeUpdateSubsettingRule                          WorkRequestSummaryOperationTypeEnum = "UPDATE_SUBSETTING_RULE"
+	WorkRequestSummaryOperationTypePatchSubsettingRules                          WorkRequestSummaryOperationTypeEnum = "PATCH_SUBSETTING_RULES"
+	WorkRequestSummaryOperationTypeDeleteSubsettingRule                          WorkRequestSummaryOperationTypeEnum = "DELETE_SUBSETTING_RULE"
+	WorkRequestSummaryOperationTypeSubsettingJob                                 WorkRequestSummaryOperationTypeEnum = "SUBSETTING_JOB"
+	WorkRequestSummaryOperationTypeDeleteSubsettingReport                        WorkRequestSummaryOperationTypeEnum = "DELETE_SUBSETTING_REPORT"
+	WorkRequestSummaryOperationTypeSubsettingPolicyGenerateHealthReport          WorkRequestSummaryOperationTypeEnum = "SUBSETTING_POLICY_GENERATE_HEALTH_REPORT"
+	WorkRequestSummaryOperationTypeSubsettingPolicyDeleteHealthReport            WorkRequestSummaryOperationTypeEnum = "SUBSETTING_POLICY_DELETE_HEALTH_REPORT"
+	WorkRequestSummaryOperationTypeUploadSubsettingPolicy                        WorkRequestSummaryOperationTypeEnum = "UPLOAD_SUBSETTING_POLICY"
+	WorkRequestSummaryOperationTypeExportSubsettingPolicy                        WorkRequestSummaryOperationTypeEnum = "EXPORT_SUBSETTING_POLICY"
+	WorkRequestSummaryOperationTypeGenerateSubsettingReport                      WorkRequestSummaryOperationTypeEnum = "GENERATE_SUBSETTING_REPORT"
+	WorkRequestSummaryOperationTypeCreateSubsettingSchemaRelation                WorkRequestSummaryOperationTypeEnum = "CREATE_SUBSETTING_SCHEMA_RELATION"
+	WorkRequestSummaryOperationTypeDeleteSubsettingSchemaRelation                WorkRequestSummaryOperationTypeEnum = "DELETE_SUBSETTING_SCHEMA_RELATION"
+	WorkRequestSummaryOperationTypeUpdateProcChainObj                            WorkRequestSummaryOperationTypeEnum = "UPDATE_PROC_CHAIN_OBJ"
+	WorkRequestSummaryOperationTypeEstimateSubsettingTableSizes                  WorkRequestSummaryOperationTypeEnum = "ESTIMATE_SUBSETTING_TABLE_SIZES"
 )
 
 var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOperationTypeEnum{
@@ -281,6 +311,7 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"UPDATE_TARGET_DATABASE":                             WorkRequestSummaryOperationTypeUpdateTargetDatabase,
 	"ACTIVATE_TARGET_DATABASE":                           WorkRequestSummaryOperationTypeActivateTargetDatabase,
 	"DEACTIVATE_TARGET_DATABASE":                         WorkRequestSummaryOperationTypeDeactivateTargetDatabase,
+	"UPDATE_TARGET_DATABASE_PRIVILEGE":                   WorkRequestSummaryOperationTypeUpdateTargetDatabasePrivilege,
 	"DELETE_TARGET_DATABASE":                             WorkRequestSummaryOperationTypeDeleteTargetDatabase,
 	"CHANGE_TARGET_DATABASE_COMPARTMENT":                 WorkRequestSummaryOperationTypeChangeTargetDatabaseCompartment,
 	"CREATE_PEER_TARGET_DATABASE":                        WorkRequestSummaryOperationTypeCreatePeerTargetDatabase,
@@ -314,6 +345,13 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"PATCH_CHECKS":                                       WorkRequestSummaryOperationTypePatchChecks,
 	"UPDATE_FINDING_SEVERITY":                            WorkRequestSummaryOperationTypeUpdateFindingSeverity,
 	"APPLY_TEMPLATE":                                     WorkRequestSummaryOperationTypeApplyTemplate,
+	"UPDATE_CRYPTO_ASSESSMENT":                           WorkRequestSummaryOperationTypeUpdateCryptoAssessment,
+	"CREATE_CRYPTO_ASSESSMENT":                           WorkRequestSummaryOperationTypeCreateCryptoAssessment,
+	"REFRESH_CRYPTO_ASSESSMENT":                          WorkRequestSummaryOperationTypeRefreshCryptoAssessment,
+	"GENERATE_CRYPTO_ASSESSMENT_REPORT":                  WorkRequestSummaryOperationTypeGenerateCryptoAssessmentReport,
+	"DOWNLOAD_CRYPTO_ASSESSMENT_REPORT":                  WorkRequestSummaryOperationTypeDownloadCryptoAssessmentReport,
+	"CHANGE_CRYPTO_ASSESSMENT_COMPARTMENT":               WorkRequestSummaryOperationTypeChangeCryptoAssessmentCompartment,
+	"DELETE_CRYPTO_ASSESSMENT":                           WorkRequestSummaryOperationTypeDeleteCryptoAssessment,
 	"DELETE_SQL_FIREWALL_ALLOWED_SQL":                    WorkRequestSummaryOperationTypeDeleteSqlFirewallAllowedSql,
 	"BULK_CREATE_SQL_FIREWALL_ALLOWED_SQL":               WorkRequestSummaryOperationTypeBulkCreateSqlFirewallAllowedSql,
 	"BULK_DELETE_SQL_FIREWALL_ALLOWED_SQL":               WorkRequestSummaryOperationTypeBulkDeleteSqlFirewallAllowedSql,
@@ -450,6 +488,28 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"UPDATE_ATTRIBUTE_SET":                               WorkRequestSummaryOperationTypeUpdateAttributeSet,
 	"DELETE_ATTRIBUTE_SET":                               WorkRequestSummaryOperationTypeDeleteAttributeSet,
 	"CHANGE_ATTRIBUTE_SET_COMPARTMENT":                   WorkRequestSummaryOperationTypeChangeAttributeSetCompartment,
+	"CREATE_REGISTRATION_POLICY":                         WorkRequestSummaryOperationTypeCreateRegistrationPolicy,
+	"UPDATE_REGISTRATION_POLICY":                         WorkRequestSummaryOperationTypeUpdateRegistrationPolicy,
+	"DELETE_REGISTRATION_POLICY":                         WorkRequestSummaryOperationTypeDeleteRegistrationPolicy,
+	"CHANGE_REGISTRATION_POLICY_COMPARTMENT":             WorkRequestSummaryOperationTypeChangeRegistrationPolicyCompartment,
+	"CREATE_SUBSETTING_POLICY":                           WorkRequestSummaryOperationTypeCreateSubsettingPolicy,
+	"UPDATE_SUBSETTING_POLICY":                           WorkRequestSummaryOperationTypeUpdateSubsettingPolicy,
+	"DELETE_SUBSETTING_POLICY":                           WorkRequestSummaryOperationTypeDeleteSubsettingPolicy,
+	"CREATE_SUBSETTING_RULE":                             WorkRequestSummaryOperationTypeCreateSubsettingRule,
+	"UPDATE_SUBSETTING_RULE":                             WorkRequestSummaryOperationTypeUpdateSubsettingRule,
+	"PATCH_SUBSETTING_RULES":                             WorkRequestSummaryOperationTypePatchSubsettingRules,
+	"DELETE_SUBSETTING_RULE":                             WorkRequestSummaryOperationTypeDeleteSubsettingRule,
+	"SUBSETTING_JOB":                                     WorkRequestSummaryOperationTypeSubsettingJob,
+	"DELETE_SUBSETTING_REPORT":                           WorkRequestSummaryOperationTypeDeleteSubsettingReport,
+	"SUBSETTING_POLICY_GENERATE_HEALTH_REPORT":           WorkRequestSummaryOperationTypeSubsettingPolicyGenerateHealthReport,
+	"SUBSETTING_POLICY_DELETE_HEALTH_REPORT":             WorkRequestSummaryOperationTypeSubsettingPolicyDeleteHealthReport,
+	"UPLOAD_SUBSETTING_POLICY":                           WorkRequestSummaryOperationTypeUploadSubsettingPolicy,
+	"EXPORT_SUBSETTING_POLICY":                           WorkRequestSummaryOperationTypeExportSubsettingPolicy,
+	"GENERATE_SUBSETTING_REPORT":                         WorkRequestSummaryOperationTypeGenerateSubsettingReport,
+	"CREATE_SUBSETTING_SCHEMA_RELATION":                  WorkRequestSummaryOperationTypeCreateSubsettingSchemaRelation,
+	"DELETE_SUBSETTING_SCHEMA_RELATION":                  WorkRequestSummaryOperationTypeDeleteSubsettingSchemaRelation,
+	"UPDATE_PROC_CHAIN_OBJ":                              WorkRequestSummaryOperationTypeUpdateProcChainObj,
+	"ESTIMATE_SUBSETTING_TABLE_SIZES":                    WorkRequestSummaryOperationTypeEstimateSubsettingTableSizes,
 }
 
 var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequestSummaryOperationTypeEnum{
@@ -471,6 +531,7 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"update_target_database":                             WorkRequestSummaryOperationTypeUpdateTargetDatabase,
 	"activate_target_database":                           WorkRequestSummaryOperationTypeActivateTargetDatabase,
 	"deactivate_target_database":                         WorkRequestSummaryOperationTypeDeactivateTargetDatabase,
+	"update_target_database_privilege":                   WorkRequestSummaryOperationTypeUpdateTargetDatabasePrivilege,
 	"delete_target_database":                             WorkRequestSummaryOperationTypeDeleteTargetDatabase,
 	"change_target_database_compartment":                 WorkRequestSummaryOperationTypeChangeTargetDatabaseCompartment,
 	"create_peer_target_database":                        WorkRequestSummaryOperationTypeCreatePeerTargetDatabase,
@@ -504,6 +565,13 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"patch_checks":                                       WorkRequestSummaryOperationTypePatchChecks,
 	"update_finding_severity":                            WorkRequestSummaryOperationTypeUpdateFindingSeverity,
 	"apply_template":                                     WorkRequestSummaryOperationTypeApplyTemplate,
+	"update_crypto_assessment":                           WorkRequestSummaryOperationTypeUpdateCryptoAssessment,
+	"create_crypto_assessment":                           WorkRequestSummaryOperationTypeCreateCryptoAssessment,
+	"refresh_crypto_assessment":                          WorkRequestSummaryOperationTypeRefreshCryptoAssessment,
+	"generate_crypto_assessment_report":                  WorkRequestSummaryOperationTypeGenerateCryptoAssessmentReport,
+	"download_crypto_assessment_report":                  WorkRequestSummaryOperationTypeDownloadCryptoAssessmentReport,
+	"change_crypto_assessment_compartment":               WorkRequestSummaryOperationTypeChangeCryptoAssessmentCompartment,
+	"delete_crypto_assessment":                           WorkRequestSummaryOperationTypeDeleteCryptoAssessment,
 	"delete_sql_firewall_allowed_sql":                    WorkRequestSummaryOperationTypeDeleteSqlFirewallAllowedSql,
 	"bulk_create_sql_firewall_allowed_sql":               WorkRequestSummaryOperationTypeBulkCreateSqlFirewallAllowedSql,
 	"bulk_delete_sql_firewall_allowed_sql":               WorkRequestSummaryOperationTypeBulkDeleteSqlFirewallAllowedSql,
@@ -640,6 +708,28 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"update_attribute_set":                               WorkRequestSummaryOperationTypeUpdateAttributeSet,
 	"delete_attribute_set":                               WorkRequestSummaryOperationTypeDeleteAttributeSet,
 	"change_attribute_set_compartment":                   WorkRequestSummaryOperationTypeChangeAttributeSetCompartment,
+	"create_registration_policy":                         WorkRequestSummaryOperationTypeCreateRegistrationPolicy,
+	"update_registration_policy":                         WorkRequestSummaryOperationTypeUpdateRegistrationPolicy,
+	"delete_registration_policy":                         WorkRequestSummaryOperationTypeDeleteRegistrationPolicy,
+	"change_registration_policy_compartment":             WorkRequestSummaryOperationTypeChangeRegistrationPolicyCompartment,
+	"create_subsetting_policy":                           WorkRequestSummaryOperationTypeCreateSubsettingPolicy,
+	"update_subsetting_policy":                           WorkRequestSummaryOperationTypeUpdateSubsettingPolicy,
+	"delete_subsetting_policy":                           WorkRequestSummaryOperationTypeDeleteSubsettingPolicy,
+	"create_subsetting_rule":                             WorkRequestSummaryOperationTypeCreateSubsettingRule,
+	"update_subsetting_rule":                             WorkRequestSummaryOperationTypeUpdateSubsettingRule,
+	"patch_subsetting_rules":                             WorkRequestSummaryOperationTypePatchSubsettingRules,
+	"delete_subsetting_rule":                             WorkRequestSummaryOperationTypeDeleteSubsettingRule,
+	"subsetting_job":                                     WorkRequestSummaryOperationTypeSubsettingJob,
+	"delete_subsetting_report":                           WorkRequestSummaryOperationTypeDeleteSubsettingReport,
+	"subsetting_policy_generate_health_report":           WorkRequestSummaryOperationTypeSubsettingPolicyGenerateHealthReport,
+	"subsetting_policy_delete_health_report":             WorkRequestSummaryOperationTypeSubsettingPolicyDeleteHealthReport,
+	"upload_subsetting_policy":                           WorkRequestSummaryOperationTypeUploadSubsettingPolicy,
+	"export_subsetting_policy":                           WorkRequestSummaryOperationTypeExportSubsettingPolicy,
+	"generate_subsetting_report":                         WorkRequestSummaryOperationTypeGenerateSubsettingReport,
+	"create_subsetting_schema_relation":                  WorkRequestSummaryOperationTypeCreateSubsettingSchemaRelation,
+	"delete_subsetting_schema_relation":                  WorkRequestSummaryOperationTypeDeleteSubsettingSchemaRelation,
+	"update_proc_chain_obj":                              WorkRequestSummaryOperationTypeUpdateProcChainObj,
+	"estimate_subsetting_table_sizes":                    WorkRequestSummaryOperationTypeEstimateSubsettingTableSizes,
 }
 
 // GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestSummaryOperationTypeEnum
@@ -672,6 +762,7 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"UPDATE_TARGET_DATABASE",
 		"ACTIVATE_TARGET_DATABASE",
 		"DEACTIVATE_TARGET_DATABASE",
+		"UPDATE_TARGET_DATABASE_PRIVILEGE",
 		"DELETE_TARGET_DATABASE",
 		"CHANGE_TARGET_DATABASE_COMPARTMENT",
 		"CREATE_PEER_TARGET_DATABASE",
@@ -705,6 +796,13 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"PATCH_CHECKS",
 		"UPDATE_FINDING_SEVERITY",
 		"APPLY_TEMPLATE",
+		"UPDATE_CRYPTO_ASSESSMENT",
+		"CREATE_CRYPTO_ASSESSMENT",
+		"REFRESH_CRYPTO_ASSESSMENT",
+		"GENERATE_CRYPTO_ASSESSMENT_REPORT",
+		"DOWNLOAD_CRYPTO_ASSESSMENT_REPORT",
+		"CHANGE_CRYPTO_ASSESSMENT_COMPARTMENT",
+		"DELETE_CRYPTO_ASSESSMENT",
 		"DELETE_SQL_FIREWALL_ALLOWED_SQL",
 		"BULK_CREATE_SQL_FIREWALL_ALLOWED_SQL",
 		"BULK_DELETE_SQL_FIREWALL_ALLOWED_SQL",
@@ -841,6 +939,28 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"UPDATE_ATTRIBUTE_SET",
 		"DELETE_ATTRIBUTE_SET",
 		"CHANGE_ATTRIBUTE_SET_COMPARTMENT",
+		"CREATE_REGISTRATION_POLICY",
+		"UPDATE_REGISTRATION_POLICY",
+		"DELETE_REGISTRATION_POLICY",
+		"CHANGE_REGISTRATION_POLICY_COMPARTMENT",
+		"CREATE_SUBSETTING_POLICY",
+		"UPDATE_SUBSETTING_POLICY",
+		"DELETE_SUBSETTING_POLICY",
+		"CREATE_SUBSETTING_RULE",
+		"UPDATE_SUBSETTING_RULE",
+		"PATCH_SUBSETTING_RULES",
+		"DELETE_SUBSETTING_RULE",
+		"SUBSETTING_JOB",
+		"DELETE_SUBSETTING_REPORT",
+		"SUBSETTING_POLICY_GENERATE_HEALTH_REPORT",
+		"SUBSETTING_POLICY_DELETE_HEALTH_REPORT",
+		"UPLOAD_SUBSETTING_POLICY",
+		"EXPORT_SUBSETTING_POLICY",
+		"GENERATE_SUBSETTING_REPORT",
+		"CREATE_SUBSETTING_SCHEMA_RELATION",
+		"DELETE_SUBSETTING_SCHEMA_RELATION",
+		"UPDATE_PROC_CHAIN_OBJ",
+		"ESTIMATE_SUBSETTING_TABLE_SIZES",
 	}
 }
 

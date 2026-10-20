@@ -1,26 +1,12 @@
 // Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
+variable "tenancy_ocid" {}
+variable "user_ocid" {}
+variable "fingerprint" {}
+variable "private_key_path" {}
+variable "region" {}
 
-variable "tenancy_ocid" {
-  default = "tenancy_ocid"
-}
-variable "user_ocid" {
-  default = "user_id"
-}
-variable "fingerprint" {
-  default = ""
-}
-variable "private_key_path" {
-  default = "private_key"
-}
-variable "region" {
-  default = "region"
-}
-
-variable "subscriptionId" {
-  default = "subscription_id"
-}
 
 
 provider "oci" {
@@ -31,8 +17,8 @@ provider "oci" {
   region           = var.region
 }
 
-data "oci_self_subscription_token" "test_subscription_token" {
+data "oci_self_subscription_tokens" "test_subscription_tokens" {
   #Required
-  subscription_id = var.subscriptionId
+  subscription_id = oci_self_subscription.test_subscription.id
 }
 

@@ -25,6 +25,9 @@ type ReplaceHostDetails struct {
 	// ListSupportedVmwareSoftwareVersions.
 	EsxiSoftwareVersion *string `mandatory:"false" json:"esxiSoftwareVersion"`
 
+	// Initial Fault Domain Host distribution mode for the ESXi host.
+	InitialFaultDomainHostDistribution FaultDomainHostDistributionModesEnum `mandatory:"false" json:"initialFaultDomainHostDistribution,omitempty"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Byol Allocation for VCF (VMware Cloud Foundation) deployment.
 	VcfByolAllocationId *string `mandatory:"false" json:"vcfByolAllocationId"`
 }
@@ -39,6 +42,9 @@ func (m ReplaceHostDetails) String() string {
 func (m ReplaceHostDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingFaultDomainHostDistributionModesEnum(string(m.InitialFaultDomainHostDistribution)); !ok && m.InitialFaultDomainHostDistribution != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InitialFaultDomainHostDistribution: %s. Supported values are: %s.", m.InitialFaultDomainHostDistribution, strings.Join(GetFaultDomainHostDistributionModesEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

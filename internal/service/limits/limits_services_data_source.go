@@ -32,11 +32,6 @@ func LimitsServicesDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"description": {
 							Type:     schema.TypeString,
 							Computed: true,

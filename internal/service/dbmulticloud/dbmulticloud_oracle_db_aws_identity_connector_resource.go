@@ -471,6 +471,13 @@ func (s *DbmulticloudOracleDbAwsIdentityConnectorResourceCrud) GetWithContext(ct
 }
 
 func (s *DbmulticloudOracleDbAwsIdentityConnectorResourceCrud) UpdateWithContext(ctx context.Context) error {
+
+	if _, ok := s.D.GetOkExists(""); ok && s.D.HasChange("") {
+		err := s.RefreshOracleDbAwsIdentityConnector(ctx)
+		if err != nil {
+			return err
+		}
+	}
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -641,6 +648,26 @@ func (s *DbmulticloudOracleDbAwsIdentityConnectorResourceCrud) SetData() error {
 
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	}
+
+	return nil
+}
+
+func (s *DbmulticloudOracleDbAwsIdentityConnectorResourceCrud) RefreshOracleDbAwsIdentityConnector(ctx context.Context) error {
+	request := oci_dbmulticloud.RefreshOracleDbAwsIdentityConnectorRequest{}
+
+	idTmp := s.D.Id()
+	request.OracleDbAwsIdentityConnectorId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
+
+	_, err := s.Client.RefreshOracleDbAwsIdentityConnector(ctx, request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
+		return waitErr
 	}
 
 	return nil

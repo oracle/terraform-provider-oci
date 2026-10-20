@@ -55,6 +55,35 @@ func CoreShapesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"bs_nvme_attachments_config": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"max_remote_nvme_volume_attachments_per_core": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"max_total_remote_nvme_volume_attachments": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"min_cores": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"vf_enable_count": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"gpu_description": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -634,6 +663,12 @@ func (s *CoreShapesDataSourceCrud) SetData() error {
 
 		shape["billing_type"] = r.BillingType
 
+		if r.BsNvmeAttachmentsConfig != nil {
+			shape["bs_nvme_attachments_config"] = []interface{}{BsNvmeAttachmentsConfigToMap(r.BsNvmeAttachmentsConfig)}
+		} else {
+			shape["bs_nvme_attachments_config"] = nil
+		}
+
 		if r.GpuDescription != nil {
 			shape["gpu_description"] = *r.GpuDescription
 		}
@@ -764,6 +799,28 @@ func (s *CoreShapesDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func BsNvmeAttachmentsConfigToMap(obj *oci_core.BsNvmeAttachmentsConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.MaxRemoteNvmeVolumeAttachmentsPerCore != nil {
+		result["max_remote_nvme_volume_attachments_per_core"] = int(*obj.MaxRemoteNvmeVolumeAttachmentsPerCore)
+	}
+
+	if obj.MaxTotalRemoteNvmeVolumeAttachments != nil {
+		result["max_total_remote_nvme_volume_attachments"] = int(*obj.MaxTotalRemoteNvmeVolumeAttachments)
+	}
+
+	if obj.MinCores != nil {
+		result["min_cores"] = int(*obj.MinCores)
+	}
+
+	if obj.VfEnableCount != nil {
+		result["vf_enable_count"] = int(*obj.VfEnableCount)
+	}
+
+	return result
 }
 
 func PercentageOfCoresEnabledOptionsToMap(obj *oci_core.PercentageOfCoresEnabledOptions) map[string]interface{} {

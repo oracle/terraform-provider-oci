@@ -55,7 +55,11 @@ the resources. It is recommended to specify a user that has access to inspect an
 
 Resource discovery supports API Key based authentication and Instance Principal based authentication.
 
-The authentication information can be specified using the following environment variables:
+When you run the `terraform-provider-oci` executable directly, Resource Discovery reads authentication settings from environment variables and OCI configuration profiles. It does not read provider settings from a `provider.tf` file.
+
+#### API Key Authentication
+
+The authentication information for API Key authentication can be specified using the following environment variables:
 
 ```
 export TF_VAR_tenancy_ocid=<value>
@@ -65,12 +69,26 @@ export TF_VAR_private_key_path=<path to your private key>
 export TF_VAR_region=<region of the resources, e.g. "us-phoenix-1">
 ```
 
-
 If your private key is password-encrypted, you may also need to specify a password with this variable:
 
 ```
 export TF_VAR_private_key_password=<password for private key>
 ```
+
+#### Instance Principal Authentication
+
+To use Instance Principal authentication, run Resource Discovery from an OCI compute instance and set the authentication method and region as environment variables:
+
+```
+export TF_VAR_auth=InstancePrincipal
+export TF_VAR_region=<region of the resources, e.g. "us-phoenix-1">
+```
+
+`OCI_AUTH=InstancePrincipal` and `OCI_REGION=<region>` can be used as alternatives instead of the `TF_VAR_*` environment variables.
+
+Instance Principal authentication does not require `tenancy_ocid`, `user_ocid`, `fingerprint`, or a private key. When using Instance Principal authentication, specify the target compartment with the `-compartment_id` command parameter.
+
+For the complete OCI Terraform provider authentication reference, see [Configuring the Provider](https://docs.oracle.com/en-us/iaas/Content/dev/terraform/configuring.htm).
 
 The authentication information can also be specified using a configuration file. For details on setting this up, see [SDK and CLI configuration file](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm)
 A non-default profile can be set using environment variable:
@@ -166,7 +184,6 @@ Make sure the `output_path` is empty before running resource discovery
     * `datascience` - Discovers datascience resources within the specified compartment
     * `dblm` - Discovers dblm resources within the specified compartment
     * `dbmulticloud` - Discovers dbmulticloud resources within the specified compartment
-    * `ddfs` - Discovers ddfs resources within the specified compartment
     * `delegate_access_control` - Discovers delegate_access_control resources within the specified compartment
     * `demand_signal` - Discovers demand_signal resources within the specified compartment
     * `desktops` - Discovers desktop pool resources within the specified compartment
@@ -205,7 +222,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `management_agent` - Discovers management_agent resources within the specified compartment
     * `marketplace` - Discovers marketplace resources within the specified compartment
     * `media_services` - Discovers media_services resources within the specified compartment
-    * `metering_computation` - Discovers metering_computation resources within the specified compartment
+    * `metering_computation` - Discovers metering_computation resources across the tenancy
     * `monitoring` - Discovers monitoring resources within the specified compartment
     * `mysql` - Discovers mysql resources within the specified compartment
     * `network_firewall` - Discovers network_firewall resources within the specified compartment
@@ -213,6 +230,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `nosql` - Discovers nosql resources within the specified compartment
     * `object_storage` - Discovers object storage resources within the specified compartment
     * `oce` - Discovers oce resources within the specified compartment
+    * `oci_product_catalog` - Discovers oci_product_catalog resources within the specified compartment
     * `ocvp` - Discovers ocvp resources within the specified compartment
     * `oda` - Discovers oda resources within the specified compartment
     * `ons` - Discovers ons resources within the specified compartment
@@ -620,6 +638,8 @@ core
 * oci\_core\_compute\_gpu\_memory\_fabric
 * oci\_core\_compute\_host
 * oci\_core\_compute\_host\_group
+* oci\_core\_drg\_nat\_policy
+* oci\_core\_drg\_nat\_policy\_drg\_nat\_rule
 
 data_labeling_service
 
@@ -673,6 +693,12 @@ data_safe
 * oci\_data\_safe\_unified\_audit\_policy\_definition
 * oci\_data\_safe\_unified\_audit\_policy
 * oci\_data\_safe\_target\_database\_group
+* oci\_data\_safe\_crypto\_assessment
+* oci\_data\_safe\_subsetting\_policy\_subsetting\_rule\_processing\_chain\_object
+* oci\_data\_safe\_subsetting\_policy\_subsetting\_rule
+* oci\_data\_safe\_subsetting\_policy
+* oci\_data\_safe\_subsetting\_policy\_subsetting\_schema\_relation
+* oci\_data\_safe\_registration\_policy
 
 database
 
@@ -824,15 +850,7 @@ dbmulticloud
 * oci\_dbmulticloud\_oracle\_db\_gcp\_key\_ring
 * oci\_dbmulticloud\_oracle\_db\_aws\_identity\_connector
 * oci\_dbmulticloud\_oracle\_db\_aws\_key
-
-ddfs
-    
-* oci\_ddfs\_instance
-
-delegate_access_control
-    
-* oci\_delegate\_access\_control\_delegation\_subscription
-* oci\_delegate\_access\_control\_delegation\_control
+* oci\_dbmulticloud\_oracle\_db\_aws\_key\_pool
 
 demand_signal
 
@@ -954,6 +972,7 @@ generative_ai
 * oci\_generative\_ai\_hosted\_deployment
 * oci\_generative\_ai\_project
 * oci\_generative\_ai\_hosted\_application\_iam
+* oci\_generative\_ai\_routing\_profile
 
 generative_ai_agent
 
@@ -1249,6 +1268,11 @@ object_storage
 oce
 
 * oci\_oce\_oce\_instance
+
+oci_product_catalog
+
+* oci\_oci\_product\_catalog\_internal\_admin\_product
+* oci\_oci\_product\_catalog\_internal\_product
 
 ocvp
 

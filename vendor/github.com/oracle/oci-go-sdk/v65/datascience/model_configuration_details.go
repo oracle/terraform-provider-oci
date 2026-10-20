@@ -24,6 +24,9 @@ type ModelConfigurationDetails struct {
 
 	InstanceConfiguration *InstanceConfiguration `mandatory:"true" json:"instanceConfiguration"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a model artifact signature.
+	ModelArtifactSignatureId *string `mandatory:"false" json:"modelArtifactSignatureId"`
+
 	ScalingPolicy ScalingPolicy `mandatory:"false" json:"scalingPolicy"`
 
 	// The minimum network bandwidth for the model deployment.
@@ -52,11 +55,12 @@ func (m ModelConfigurationDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *ModelConfigurationDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		ScalingPolicy         scalingpolicy          `json:"scalingPolicy"`
-		BandwidthMbps         *int                   `json:"bandwidthMbps"`
-		MaximumBandwidthMbps  *int                   `json:"maximumBandwidthMbps"`
-		ModelId               *string                `json:"modelId"`
-		InstanceConfiguration *InstanceConfiguration `json:"instanceConfiguration"`
+		ModelArtifactSignatureId *string                `json:"modelArtifactSignatureId"`
+		ScalingPolicy            scalingpolicy          `json:"scalingPolicy"`
+		BandwidthMbps            *int                   `json:"bandwidthMbps"`
+		MaximumBandwidthMbps     *int                   `json:"maximumBandwidthMbps"`
+		ModelId                  *string                `json:"modelId"`
+		InstanceConfiguration    *InstanceConfiguration `json:"instanceConfiguration"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -64,6 +68,8 @@ func (m *ModelConfigurationDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.ModelArtifactSignatureId = model.ModelArtifactSignatureId
+
 	nn, e = model.ScalingPolicy.UnmarshalPolymorphicJSON(model.ScalingPolicy.JsonData)
 	if e != nil {
 		return

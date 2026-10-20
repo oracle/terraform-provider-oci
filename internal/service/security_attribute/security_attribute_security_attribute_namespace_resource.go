@@ -40,7 +40,6 @@ func SecurityAttributeSecurityAttributeNamespaceResource() *schema.Resource {
 				ForceNew:         true,
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -60,7 +59,6 @@ func SecurityAttributeSecurityAttributeNamespaceResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
-
 			// Computed
 			"mode": {
 				Type:     schema.TypeList,

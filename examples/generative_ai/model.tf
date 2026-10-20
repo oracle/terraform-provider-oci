@@ -71,6 +71,10 @@ data "oci_generative_ai_models" "test_models" {
   compartment_id                = var.compartment_ocid
 }
 
+data "oci_generative_ai_model_discoveries" "test_model_discoveries" {
+  compartment_id = var.compartment_ocid
+}
+
 locals {
 
   filtered_base_models = [

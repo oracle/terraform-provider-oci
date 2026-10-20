@@ -109,6 +109,12 @@ var (
 		"system_type":           acctest.Representation{RepType: acctest.Required, Create: `OCI_OPTIMIZED_STORAGE`},
 		"iops":                  acctest.Representation{RepType: acctest.Optional, Create: `300000`},
 	}
+	PsqlDbSystemStorageDetailsWithKmsRepresentation = acctest.RepresentationCopyWithNewProperties(PsqlDbSystemStorageDetailsRepresentation, map[string]interface{}{
+		"kms_key_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_id}`},
+	})
+	PsqlDbSystemRepresentationWithKms = acctest.RepresentationCopyWithNewProperties(PsqlDbSystemRepresentation, map[string]interface{}{
+		"storage_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: PsqlDbSystemStorageDetailsWithKmsRepresentation},
+	})
 
 	PsqlDbSystemInstancesDetailsRepresentation = map[string]interface{}{
 		"description":  acctest.Representation{RepType: acctest.Optional, Create: `Terraform federated test dbSystem`},
@@ -181,8 +187,9 @@ var (
 	}
 
 	PsqlDbSystemIpNetworkDetailsRepresentation = map[string]interface{}{
-		"subnet_id": acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
-		"nsg_ids":   acctest.Representation{RepType: acctest.Required, Create: []string{}},
+		"subnet_id":                      acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
+		"nsg_ids":                        acctest.Representation{RepType: acctest.Required, Create: []string{}},
+		"primary_db_endpoint_private_ip": acctest.Representation{RepType: acctest.Required, Create: `10.0.1.10`, Update: `10.0.1.11`},
 	}
 
 	PsqlFlexDbSystemIpNetworkDetailsRepresentation = map[string]interface{}{
@@ -265,6 +272,9 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 	backupId := utils.GetEnvSettingWithBlankDefault("backup_id")
 	backupIdVariableStr := fmt.Sprintf("variable \"backup_id\" { default = \"%s\" }\n", backupId)
 
+	kmsKeyId := utils.GetEnvSettingWithBlankDefault("kms_key_id")
+	kmsKeyIdVariableStr := fmt.Sprintf("variable \"kms_key_id\" { default = \"%s\" }\n", kmsKeyId)
+
 	resourceName := "oci_psql_db_system.test_db_system"
 	test2_resourceName := "oci_psql_db_system.test_db_system_2"
 	datasourceName := "data.oci_psql_db_systems.test_db_systems"
@@ -274,8 +284,8 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 	var resId string
 	var resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+PsqlDbSystemResourceDependencies+configIdVariableStr+
-		acctest.GenerateResourceFromRepresentationMap("oci_psql_db_system", "test_db_system", acctest.Optional, acctest.Create, PsqlDbSystemRepresentation), "psql", "dbSystem", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+PsqlDbSystemResourceDependencies+configIdVariableStr+kmsKeyIdVariableStr+
+		acctest.GenerateResourceFromRepresentationMap("oci_psql_db_system", "test_db_system", acctest.Optional, acctest.Create, PsqlDbSystemRepresentationWithKms), "psql", "dbSystem", t)
 
 	acctest.ResourceTest(t, testAccCheckPsqlDbSystemDestroy, []resource.TestStep{
 		// Flex Test
@@ -411,8 +421,8 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + subnetIdVariableStr + PsqlDbSystemResourceDependencies + configIdVariableStr + nsgIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_psql_db_system", "test_db_system", acctest.Optional, acctest.Create, PsqlDbSystemRepresentation),
+			Config: config + compartmentIdVariableStr + subnetIdVariableStr + PsqlDbSystemResourceDependencies + configIdVariableStr + nsgIdVariableStr + kmsKeyIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_psql_db_system", "test_db_system", acctest.Optional, acctest.Create, PsqlDbSystemRepresentationWithKms),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "config_id"),
@@ -459,6 +469,7 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "storage_details.0.availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "storage_details.0.iops", "300000"),
 				resource.TestCheckResourceAttr(resourceName, "storage_details.0.is_regionally_durable", "false"),
+				resource.TestCheckResourceAttr(resourceName, "storage_details.0.kms_key_id", kmsKeyId),
 				resource.TestCheckResourceAttr(resourceName, "storage_details.0.system_type", "OCI_OPTIMIZED_STORAGE"),
 				resource.TestCheckResourceAttr(resourceName, "system_type", "OCI_OPTIMIZED_STORAGE"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),

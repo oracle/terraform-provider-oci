@@ -59,6 +59,7 @@ The following attributes are exported:
 * `lifecycle_details` - Details about the state of the notebook session.
 * `notebook_session_config_details` - Details for the notebook session configuration.
 	* `block_storage_size_in_gbs` - A notebook session instance is provided with a block storage volume. This specifies the size of the volume in GBs. 
+	* `capacity_reservation_id` - This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer-managed compute capacity reservation to be used for launching notebook sessions. 
 	* `notebook_session_shape_config_details` - Details for the notebook session shape configuration.
 		* `cpu_baseline` - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left bank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 		* `memory_in_gbs` - The total amount of memory available to the notebook session instance, in gigabytes. 
@@ -68,6 +69,7 @@ The following attributes are exported:
 	* `subnet_id` - A notebook session instance is provided with a VNIC for network access.  This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT gateway for egress to the internet. 
 * `notebook_session_configuration_details` - Details for the notebook session configuration.
 	* `block_storage_size_in_gbs` - A notebook session instance is provided with a block storage volume. This specifies the size of the volume in GBs. 
+	* `capacity_reservation_id` - This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer-managed compute capacity reservation to be used for launching notebook sessions. 
 	* `notebook_session_shape_config_details` - Details for the notebook session shape configuration.
 		* `cpu_baseline` - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left bank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 		* `memory_in_gbs` - The total amount of memory available to the notebook session instance, in gigabytes. 

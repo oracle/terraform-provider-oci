@@ -466,6 +466,10 @@ resource "oci_core_compute_capacity_reservation" "test_compute_capacity_reservat
     reserved_count = 1
     fault_domain = "FAULT-DOMAIN-3"
   }
+
+  lifecycle {
+    ignore_changes = ["instance_reservation_configs"]
+  }
 }
 
 resource "oci_ocvp_sddc" "test_sddc" {
@@ -510,6 +514,7 @@ resource "oci_ocvp_sddc" "test_sddc" {
         datastore_type   = "MANAGEMENT"
       }
       workload_network_cidr = "172.20.0.0/24"
+      initial_fault_domain_host_distribution = "EVENLY_DISTRIBUTED"
     }
   }
 
@@ -553,6 +558,7 @@ resource "oci_ocvp_cluster" "test_cluster" {
   initial_host_shape_name     = var.instance_shape
   capacity_reservation_id     = oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id
   is_shielded_instance_enabled = true
+  initial_fault_domain_host_distribution = "EVENLY_DISTRIBUTED"
   initial_vcf_byol_allocation_id = oci_ocvp_byol_allocation.test_byol_vcf_allocation.id
   cluster_byol_allocation_details {
     firewall_byol_allocation_id = oci_ocvp_byol_allocation.test_byol_vdefend_allocation.id
@@ -574,6 +580,7 @@ resource "oci_ocvp_esxi_host" "test_esxi_host" {
   host_shape_name             = var.instance_shape
   vcf_byol_allocation_id      = oci_ocvp_byol_allocation.test_byol_vcf_allocation.id
   is_vsan_byol_enabled        = false
+  initial_fault_domain_host_distribution = "EVENLY_DISTRIBUTED"
   #defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.esxihost_defined_tags_value}"}
   #display_name  = var.esxihost_display_name
   #freeform_tags = var.esxihost_freeform_tags

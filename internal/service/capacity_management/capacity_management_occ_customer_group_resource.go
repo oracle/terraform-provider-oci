@@ -36,7 +36,6 @@ func CapacityManagementOccCustomerGroupResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
 			// Optional
 			"customers_list": {
 				Type:     schema.TypeList,
@@ -45,7 +44,6 @@ func CapacityManagementOccCustomerGroupResource() *schema.Resource {
 				ForceNew: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"display_name": {
 							Type:     schema.TypeString,
 							Required: true,
@@ -56,8 +54,6 @@ func CapacityManagementOccCustomerGroupResource() *schema.Resource {
 							Required: true,
 							ForceNew: true,
 						},
-
-						// Optional
 						"description": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -70,8 +66,6 @@ func CapacityManagementOccCustomerGroupResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
-
-						// Computed
 						"occ_customer_group_id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -108,7 +102,6 @@ func CapacityManagementOccCustomerGroupResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
-
 			// Computed
 			"state": {
 				Type:     schema.TypeString,

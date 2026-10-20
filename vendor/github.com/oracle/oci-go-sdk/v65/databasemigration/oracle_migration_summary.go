@@ -16,7 +16,9 @@ import (
 	"strings"
 )
 
-// OracleMigrationSummary Oracle Migration Summary
+// OracleMigrationSummary Oracle Migration Summary.
+// Deprecated: The parent-level Oracle migration configuration properties on this model are deprecated.
+// Use `migrationSettings` instead.
 type OracleMigrationSummary struct {
 
 	// The OCID of the resource being referenced.
@@ -61,6 +63,8 @@ type OracleMigrationSummary struct {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	MigrationSettings OracleMigrationSettingsSummary `mandatory:"false" json:"migrationSettings"`
 
 	// The OCID of the resource being referenced.
 	SourceContainerDatabaseConnectionId *string `mandatory:"false" json:"sourceContainerDatabaseConnectionId"`
@@ -196,4 +200,82 @@ func (m OracleMigrationSummary) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *OracleMigrationSummary) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		ExecutingJobId                      *string                           `json:"executingJobId"`
+		AssessmentId                        *string                           `json:"assessmentId"`
+		TimeUpdated                         *common.SDKTime                   `json:"timeUpdated"`
+		TimeLastMigration                   *common.SDKTime                   `json:"timeLastMigration"`
+		LifecycleDetails                    MigrationStatusEnum               `json:"lifecycleDetails"`
+		FreeformTags                        map[string]string                 `json:"freeformTags"`
+		DefinedTags                         map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags                          map[string]map[string]interface{} `json:"systemTags"`
+		MigrationSettings                   oraclemigrationsettingssummary    `json:"migrationSettings"`
+		SourceContainerDatabaseConnectionId *string                           `json:"sourceContainerDatabaseConnectionId"`
+		SourceStandbyDatabaseConnectionId   *string                           `json:"sourceStandbyDatabaseConnectionId"`
+		Id                                  *string                           `json:"id"`
+		DisplayName                         *string                           `json:"displayName"`
+		CompartmentId                       *string                           `json:"compartmentId"`
+		Type                                MigrationTypesEnum                `json:"type"`
+		SourceDatabaseConnectionId          *string                           `json:"sourceDatabaseConnectionId"`
+		TargetDatabaseConnectionId          *string                           `json:"targetDatabaseConnectionId"`
+		TimeCreated                         *common.SDKTime                   `json:"timeCreated"`
+		LifecycleState                      MigrationLifecycleStatesEnum      `json:"lifecycleState"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.ExecutingJobId = model.ExecutingJobId
+
+	m.AssessmentId = model.AssessmentId
+
+	m.TimeUpdated = model.TimeUpdated
+
+	m.TimeLastMigration = model.TimeLastMigration
+
+	m.LifecycleDetails = model.LifecycleDetails
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
+
+	nn, e = model.MigrationSettings.UnmarshalPolymorphicJSON(model.MigrationSettings.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.MigrationSettings = nn.(OracleMigrationSettingsSummary)
+	} else {
+		m.MigrationSettings = nil
+	}
+
+	m.SourceContainerDatabaseConnectionId = model.SourceContainerDatabaseConnectionId
+
+	m.SourceStandbyDatabaseConnectionId = model.SourceStandbyDatabaseConnectionId
+
+	m.Id = model.Id
+
+	m.DisplayName = model.DisplayName
+
+	m.CompartmentId = model.CompartmentId
+
+	m.Type = model.Type
+
+	m.SourceDatabaseConnectionId = model.SourceDatabaseConnectionId
+
+	m.TargetDatabaseConnectionId = model.TargetDatabaseConnectionId
+
+	m.TimeCreated = model.TimeCreated
+
+	m.LifecycleState = model.LifecycleState
+
+	return
 }

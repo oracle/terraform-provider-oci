@@ -35,7 +35,6 @@ func CoreCpeResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
 			"cpe_device_shape_id": {
 				Type:     schema.TypeString,
@@ -66,7 +65,6 @@ func CoreCpeResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
-
 			// Computed
 			"time_created": {
 				Type:     schema.TypeString,

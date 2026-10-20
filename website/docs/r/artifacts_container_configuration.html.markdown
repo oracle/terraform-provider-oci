@@ -19,6 +19,9 @@ Example terraform configs related to the resource : https://github.com/oracle/te
 
 ```hcl
 resource "oci_artifacts_container_configuration" "test_container_configuration" {
+	# Required
+	compartment_id = var.compartment_id
+	is_repository_created_on_first_push = var.container_configuration_is_repository_created_on_first_push
 }
 ```
 
@@ -26,6 +29,8 @@ resource "oci_artifacts_container_configuration" "test_container_configuration" 
 
 The following arguments are supported:
 
+* `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `is_repository_created_on_first_push` - (Required) (Updatable) Whether to create a new container repository when a container image is pushed to a new repository path. Repositories created in this way belong to the root compartment.
 
 
 ** IMPORTANT **
@@ -35,7 +40,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `is_repository_created_on_first_push` - Whether to create a new container repository when a container is pushed to a new repository path. Repositories created in this way belong to the root compartment. 
+* `is_repository_created_on_first_push` - Whether to create a new container repository when a container image is pushed to a new repository path. Repositories created in this way belong to the root compartment.
 * `namespace` - The tenancy namespace used in the container repository path.
 
 ## Timeouts
@@ -53,4 +58,3 @@ ContainerConfiguration can be imported using the `id`, e.g.
 ```
 $ terraform import oci_artifacts_container_configuration.test_container_configuration "container/configuration/compartmentId/{compartmentId}" 
 ```
-

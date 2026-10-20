@@ -27,15 +27,10 @@ func BdsBdsInstanceListOsPatchesDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"bds_instance_id": {
 							Type:     schema.TypeString,
 							Required: true,
 						},
-
-						// Optional
-
-						// Computed
 						"os_patch_version": {
 							Type:     schema.TypeString,
 							Computed: true,

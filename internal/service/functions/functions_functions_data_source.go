@@ -7,11 +7,11 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_functions "github.com/oracle/oci-go-sdk/v65/functions"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func FunctionsFunctionsDataSource() *schema.Resource {
@@ -38,7 +38,7 @@ func FunctionsFunctionsDataSource() *schema.Resource {
 			"functions": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     tfresource.GetDataSourceItemSchema(FunctionsFunctionResource()),
+				Elem:     functionsFunctionDataSourceItemSchema(),
 			},
 		},
 	}
@@ -152,14 +152,6 @@ func (s *FunctionsFunctionsDataSourceCrud) SetData() error {
 			function["id"] = *r.Id
 		}
 
-		if r.Image != nil {
-			function["image"] = *r.Image
-		}
-
-		if r.ImageDigest != nil {
-			function["image_digest"] = *r.ImageDigest
-		}
-
 		if r.InvokeEndpoint != nil {
 			function["invoke_endpoint"] = *r.InvokeEndpoint
 		}
@@ -186,8 +178,14 @@ func (s *FunctionsFunctionsDataSourceCrud) SetData() error {
 				sourceDetailsArray = append(sourceDetailsArray, sourceDetailsMap)
 			}
 			function["source_details"] = sourceDetailsArray
+
+			// During the compatibility window, expose deprecated top-level image fields for
+			// container-image functions even though source_details is canonical.
+			addLegacyContainerImageFieldsToMap(function, r.SourceDetails)
 		} else {
 			function["source_details"] = nil
+			function["image"] = ""
+			function["image_digest"] = ""
 		}
 
 		function["state"] = r.LifecycleState

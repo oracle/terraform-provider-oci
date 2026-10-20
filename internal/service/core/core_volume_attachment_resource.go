@@ -37,6 +37,7 @@ func CoreVolumeAttachmentResource() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{
 					"emulated",
 					"iscsi",
+					"nvme",
 					"paravirtualized",
 				}, true),
 			},
@@ -129,8 +130,13 @@ func CoreVolumeAttachmentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"iqn": { // iSCSI Qualified Name per RFC 3720
+			// iSCSI Qualified Name per RFC 3720
+			"iqn": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"is_encryption_in_transit_enabled": {
+				Type:     schema.TypeBool,
 				Computed: true,
 			},
 			"is_multipath": {
@@ -319,6 +325,10 @@ func (s *CoreVolumeAttachmentResourceCrud) SetData() error {
 			s.D.Set("instance_id", *v.InstanceId)
 		}
 
+		if v.IsEncryptionInTransitEnabled != nil {
+			s.D.Set("is_encryption_in_transit_enabled", *v.IsEncryptionInTransitEnabled)
+		}
+
 		if v.IsMultipath != nil {
 			s.D.Set("is_multipath", *v.IsMultipath)
 		}
@@ -409,6 +419,65 @@ func (s *CoreVolumeAttachmentResourceCrud) SetData() error {
 			s.D.Set("instance_id", *v.InstanceId)
 		}
 
+		if v.IsEncryptionInTransitEnabled != nil {
+			s.D.Set("is_encryption_in_transit_enabled", *v.IsEncryptionInTransitEnabled)
+		}
+
+		if v.IsMultipath != nil {
+			s.D.Set("is_multipath", *v.IsMultipath)
+		}
+
+		if v.IsPvEncryptionInTransitEnabled != nil {
+			s.D.Set("is_pv_encryption_in_transit_enabled", *v.IsPvEncryptionInTransitEnabled)
+		}
+
+		if v.IsReadOnly != nil {
+			s.D.Set("is_read_only", *v.IsReadOnly)
+		}
+
+		if v.IsVolumeCreatedDuringLaunch != nil {
+			s.D.Set("is_volume_created_during_launch", *v.IsVolumeCreatedDuringLaunch)
+		}
+
+		s.D.Set("iscsi_login_state", v.IscsiLoginState)
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.VolumeId != nil {
+			s.D.Set("volume_id", *v.VolumeId)
+		}
+	case oci_core.NvmeVolumeAttachment:
+		s.D.Set("attachment_type", "nvme")
+		s.D.Set("multipath_devices", []interface{}{})
+
+		if v.AvailabilityDomain != nil {
+			s.D.Set("availability_domain", *v.AvailabilityDomain)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.Device != nil {
+			s.D.Set("device", *v.Device)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.InstanceId != nil {
+			s.D.Set("instance_id", *v.InstanceId)
+		}
+
+		if v.IsEncryptionInTransitEnabled != nil {
+			s.D.Set("is_encryption_in_transit_enabled", *v.IsEncryptionInTransitEnabled)
+		}
+
 		if v.IsMultipath != nil {
 			s.D.Set("is_multipath", *v.IsMultipath)
 		}
@@ -461,6 +530,10 @@ func (s *CoreVolumeAttachmentResourceCrud) SetData() error {
 
 		if v.InstanceId != nil {
 			s.D.Set("instance_id", *v.InstanceId)
+		}
+
+		if v.IsEncryptionInTransitEnabled != nil {
+			s.D.Set("is_encryption_in_transit_enabled", *v.IsEncryptionInTransitEnabled)
 		}
 
 		if v.IsMultipath != nil {
@@ -593,6 +666,33 @@ func (s *CoreVolumeAttachmentResourceCrud) populateTopLevelPolymorphicAttachVolu
 			tmp := useChap.(bool)
 			details.UseChap = &tmp
 		}
+		if device, ok := s.D.GetOkExists("device"); ok {
+			tmp := device.(string)
+			details.Device = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if instanceId, ok := s.D.GetOkExists("instance_id"); ok {
+			tmp := instanceId.(string)
+			details.InstanceId = &tmp
+		}
+		if isReadOnly, ok := s.D.GetOkExists("is_read_only"); ok {
+			tmp := isReadOnly.(bool)
+			details.IsReadOnly = &tmp
+		}
+		if isShareable, ok := s.D.GetOkExists("is_shareable"); ok {
+			tmp := isShareable.(bool)
+			details.IsShareable = &tmp
+		}
+		if volumeId, ok := s.D.GetOkExists("volume_id"); ok {
+			tmp := volumeId.(string)
+			details.VolumeId = &tmp
+		}
+		request.AttachVolumeDetails = details
+	case strings.ToLower("nvme"):
+		details := oci_core.AttachNvmeVolumeDetails{}
 		if device, ok := s.D.GetOkExists("device"); ok {
 			tmp := device.(string)
 			details.Device = &tmp

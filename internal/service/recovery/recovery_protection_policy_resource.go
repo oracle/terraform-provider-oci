@@ -43,7 +43,6 @@ func RecoveryProtectionPolicyResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -69,7 +68,6 @@ func RecoveryProtectionPolicyResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
-
 			// Computed
 			"is_predefined_policy": {
 				Type:     schema.TypeBool,

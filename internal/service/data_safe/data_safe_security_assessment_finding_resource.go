@@ -92,6 +92,10 @@ func DataSafeSecurityAssessmentFindingResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"doclink": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"has_target_db_risk_level_changed": {
 				Type:     schema.TypeBool,
 				Computed: true,
@@ -143,6 +147,10 @@ func DataSafeSecurityAssessmentFindingResource() *schema.Resource {
 							Computed: true,
 						},
 						"obp": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"orp": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -507,19 +515,6 @@ func (s *DataSafeSecurityAssessmentFindingResourceCrud) GetWithContext(ctx conte
 		request.SecurityAssessmentId = &tmp
 	}
 
-	if severity, ok := s.D.GetOkExists("severity"); ok {
-		request.Severity = oci_data_safe.ListFindingsSeverityEnum(severity.(string))
-	}
-
-	if state, ok := s.D.GetOkExists("state"); ok {
-		request.LifecycleState = oci_data_safe.ListFindingsLifecycleStateEnum(state.(string))
-	}
-
-	if targetId, ok := s.D.GetOkExists("target_id"); ok {
-		tmp := targetId.(string)
-		request.TargetId = &tmp
-	}
-
 	if targetIds, ok := s.D.GetOkExists("target_ids"); ok {
 		interfaces := targetIds.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -563,6 +558,9 @@ func (s *DataSafeSecurityAssessmentFindingResourceCrud) UpdateWithContext(ctx co
 }
 
 func (s *DataSafeSecurityAssessmentFindingResourceCrud) SetData() error {
+	if s.Res == nil {
+		return fmt.Errorf("security assessment finding response was empty")
+	}
 
 	securityAssessmentId, err := parseSecurityAssessmentFindingCompositeId(s.D.Id())
 	if err == nil {
@@ -580,9 +578,21 @@ func (s *DataSafeSecurityAssessmentFindingResourceCrud) SetData() error {
 	// }
 
 	if s.Res.Details != nil {
-		s.D.Set("details", []interface{}{objectToMap((*s.Res.Details).(map[string]interface{}))})
+		details, err := securityAssessmentFindingDetailsToState(*s.Res.Details)
+		if err != nil {
+			return err
+		}
+		if err := s.D.Set("details", details); err != nil {
+			return fmt.Errorf("error setting details: %w", err)
+		}
 	} else {
-		s.D.Set("details", nil)
+		if err := s.D.Set("details", nil); err != nil {
+			return fmt.Errorf("error clearing details: %w", err)
+		}
+	}
+
+	if s.Res.Doclink != nil {
+		s.D.Set("doclink", *s.Res.Doclink)
 	}
 
 	if s.Res.HasTargetDbRiskLevelChanged != nil {
@@ -616,7 +626,7 @@ func (s *DataSafeSecurityAssessmentFindingResourceCrud) SetData() error {
 	s.D.Set("oracle_defined_severity", s.Res.OracleDefinedSeverity)
 
 	if s.Res.References != nil {
-		s.D.Set("references", []interface{}{ReferencesToMap(s.Res.References)})
+		s.D.Set("references", []interface{}{securityAssessmentFindingReferencesToMap(s.Res.References)})
 	} else {
 		s.D.Set("references", nil)
 	}
@@ -650,6 +660,49 @@ func (s *DataSafeSecurityAssessmentFindingResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func securityAssessmentFindingDetailsToState(details interface{}) ([]interface{}, error) {
+	switch value := details.(type) {
+	case nil:
+		return nil, nil
+	case string:
+		return []interface{}{value}, nil
+	case map[string]interface{}:
+		jsonValue, err := tfresource.ConvertObjectToJsonString(value)
+		if err != nil {
+			return nil, fmt.Errorf("error converting security assessment finding details to JSON: %w", err)
+		}
+		return []interface{}{jsonValue}, nil
+	default:
+		return nil, fmt.Errorf("unsupported security assessment finding details type %T; expected string or object", details)
+	}
+}
+
+func securityAssessmentFindingReferencesToMap(obj *oci_data_safe.References) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Cis != nil {
+		result["cis"] = string(*obj.Cis)
+	}
+
+	if obj.Gdpr != nil {
+		result["gdpr"] = string(*obj.Gdpr)
+	}
+
+	if obj.Obp != nil {
+		result["obp"] = string(*obj.Obp)
+	}
+
+	if obj.Orp != nil {
+		result["orp"] = string(*obj.Orp)
+	}
+
+	if obj.Stig != nil {
+		result["stig"] = string(*obj.Stig)
+	}
+
+	return result
 }
 
 func GetSecurityAssessmentFindingCompositeId(securityAssessmentId string) string {

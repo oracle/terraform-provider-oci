@@ -33,7 +33,10 @@ type BaseccVmClusterSummary struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Total CPU cores for the BaseDB C@C VM cluster.
+	// The number of ECPUs to enable per VM for the BaseDB C@C VM cluster.
+	// Minimum: 8 ECPUs per VM for Enterprise Edition Extreme Performance VM clusters, and 4 ECPUs per VM for other editions.
+	// Maximum: 32 ECPUs per VM for Standard Edition, and 240 ECPUs per VM for other editions.
+	// For a two-VM Enterprise Edition Extreme Performance VM Cluster, the maximum is 480 total ECPUs (240 ECPUs per VM).
 	CpusEnabled *int `mandatory:"true" json:"cpusEnabled"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of Oracle Data Cloud@Customer Infrastructure.
@@ -109,7 +112,9 @@ type BaseccVmClusterSummary struct {
 	// The RECO Disk Group size in GB for the Base Database Service on Cloud@Customer (BaseDB-C@C) VM cluster.
 	RecoStorageSizeInGBs *int `mandatory:"false" json:"recoStorageSizeInGBs"`
 
-	// The total memory to be allocated, in GBs, for the Base Database Service on Cloud@Customer (BaseDB-C@C) VM cluster. The minimum is 11GB for every 4 ECPU.
+	// The total memory to be allocated, in GBs, for the Base Database Service on Cloud@Customer (BaseDB-C@C) VM cluster.
+	// Minimum for Extreme Performance Edition 1-node or 2-node systems is 16 GB per VM.
+	// Minimum for all other editions is 11 GB.
 	MemorySizeInGBs *int `mandatory:"false" json:"memorySizeInGBs"`
 
 	// The Oracle license model that applies to the Base Database Service on Cloud@Customer (BaseDB-C@C) VM cluster. The default is LICENSE_INCLUDED.

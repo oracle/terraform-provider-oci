@@ -40,7 +40,6 @@ func DataSafeSensitiveDataModelResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
 			// Optional
 			"app_suite_name": {
 				Type:     schema.TypeString,
@@ -122,13 +121,10 @@ func DataSafeSensitiveDataModelResource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"schema_name": {
 							Type:     schema.TypeString,
 							Required: true,
 						},
-
-						// Optional
 						"table_names": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -137,12 +133,9 @@ func DataSafeSensitiveDataModelResource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
-
-						// Computed
 					},
 				},
 			},
-
 			// Computed
 			"state": {
 				Type:     schema.TypeString,

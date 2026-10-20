@@ -37,21 +37,11 @@ func DatabaseToolsDatabaseToolsMcpToolsetVersionsDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"default_version": {
 										Type:     schema.TypeInt,
 										Computed: true,
@@ -65,11 +55,6 @@ func DatabaseToolsDatabaseToolsMcpToolsetVersionsDataSource() *schema.Resource {
 										Computed: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
 												"default_allowed_roles": {
 													Type:     schema.TypeList,
 													Computed: true,
@@ -100,11 +85,6 @@ func DatabaseToolsDatabaseToolsMcpToolsetVersionsDataSource() *schema.Resource {
 													Computed: true,
 													Elem: &schema.Resource{
 														Schema: map[string]*schema.Schema{
-															// Required
-
-															// Optional
-
-															// Computed
 															"default_allowed_roles": {
 																Type:     schema.TypeList,
 																Computed: true,

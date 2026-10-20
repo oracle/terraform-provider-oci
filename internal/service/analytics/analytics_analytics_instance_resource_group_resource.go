@@ -231,13 +231,13 @@ func analyticsInstanceResourceGroupWaitForWorkRequest(ctx context.Context, wId *
 	response := oci_analytics.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_analytics.WorkRequestStatusInProgress),
 			string(oci_analytics.WorkRequestStatusAccepted),
+			string(oci_analytics.WorkRequestStatusInProgress),
 			string(oci_analytics.WorkRequestStatusCanceling),
 		},
 		Target: []string{
-			string(oci_analytics.WorkRequestStatusSucceeded),
 			string(oci_analytics.WorkRequestStatusFailed),
+			string(oci_analytics.WorkRequestStatusSucceeded),
 			string(oci_analytics.WorkRequestStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {

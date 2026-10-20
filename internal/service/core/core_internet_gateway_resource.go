@@ -35,7 +35,6 @@ func CoreInternetGatewayResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -65,7 +64,6 @@ func CoreInternetGatewayResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
-
 			// Computed
 			"state": {
 				Type:     schema.TypeString,

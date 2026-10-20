@@ -29,6 +29,7 @@ data "oci_core_drg_attachments" "test_drg_attachments" {
 	attachment_type = var.drg_attachment_attachment_type
 	display_name = var.drg_attachment_display_name
 	drg_id = oci_core_drg.test_drg.id
+	drg_nat_policy_id = oci_core_drg_nat_policy.test_drg_nat_policy.id
 	drg_route_table_id = oci_core_drg_route_table.test_drg_route_table.id
 	network_id = oci_core_network.test_network.id
 	state = var.drg_attachment_state
@@ -44,6 +45,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
 * `drg_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.
+* `drg_nat_policy_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DrgNatPolicy.
 * `drg_route_table_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table assigned to the DRG attachment.
 * `network_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource (virtual circuit, VCN, IPSec tunnel, or remote peering connection) attached to the DRG.
 * `state` - (Optional) A filter to return only resources that match the specified lifecycle state. The value is case insensitive. 
@@ -64,6 +66,7 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `drg_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.
+* `drg_nat_policy_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG attachment's DRG NAT policy. 
 * `drg_route_table_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table that is assigned to this attachment.
 
 	The DRG route table manages traffic inside the DRG. 

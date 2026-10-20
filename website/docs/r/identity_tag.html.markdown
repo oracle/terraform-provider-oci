@@ -74,8 +74,8 @@ The following arguments are supported:
 	If you define a validator after a value has been set for a defined tag, then any updates that attempt to change the value must pass the additional validation defined by the current rule. Previously set values (even those that would fail the current validation) are not updated. You can still update other attributes to resources that contain a non-valid defined tag.
 
 	To clear the validator call UpdateTag with [DefaultTagDefinitionValidator](https://docs.cloud.oracle.com/iaas/api/#/en/identity/latest/datatypes/DefaultTagDefinitionValidator). 
-	* `validator_type` - (Required) (Updatable) Specifies the type of validation: a static value (no validation) or a list. 
-	* `values` - (Applicable when validator_type=ENUM) (Updatable) The list of allowed values for a definedTag value. 
+	* `validator_type` - (Required) (Updatable) Specifies the type of validation. Use `ENUM` to restrict a tag to a list of allowed values, or `DEFAULT` for no value validation.
+	* `values` - (Required when `validator_type` is `ENUM`) (Updatable) The list of allowed values for a definedTag value. Omit this property when `validator_type` is `DEFAULT`; it is not used for default validation.
 * `is_retired` - (Optional) (Updatable) Indicates whether the tag is retired. See [Retiring Key Definitions and Namespace Definitions](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/taggingoverview.htm#Retiring).
 
 
@@ -101,8 +101,8 @@ The following attributes are exported:
 	If you define a validator after a value has been set for a defined tag, then any updates that attempt to change the value must pass the additional validation defined by the current rule. Previously set values (even those that would fail the current validation) are not updated. You can still update other attributes to resources that contain a non-valid defined tag.
 
 	To clear the validator call UpdateTag with [DefaultTagDefinitionValidator](https://docs.cloud.oracle.com/iaas/api/#/en/identity/latest/datatypes/DefaultTagDefinitionValidator). 
-	* `validator_type` - Specifies the type of validation: a static value (no validation) or a list. 
-	* `values` - The list of allowed values for a definedTag value. 
+	* `validator_type` - Specifies the type of validation. `ENUM` restricts a tag to a list of allowed values, while `DEFAULT` applies no value validation.
+	* `values` - The list of allowed values for a definedTag value. This is present only when `validator_type` is `ENUM`.
 
 ## Timeouts
 
@@ -119,4 +119,3 @@ Tags can be imported using the `tagNamespaceId` and `tagName`, e.g.
 ```
 $ terraform import oci_identity_tag.test_tag "tagNamespaces/{tagNamespaceId}/tags/{tagName}" 
 ```
-

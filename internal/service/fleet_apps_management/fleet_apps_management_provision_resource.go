@@ -60,7 +60,6 @@ func FleetAppsManagementProvisionResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -97,7 +96,6 @@ func FleetAppsManagementProvisionResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
-
 			// Computed
 			"config_catalog_item_display_name": {
 				Type:     schema.TypeString,
@@ -116,11 +114,6 @@ func FleetAppsManagementProvisionResource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"mode": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -130,16 +123,11 @@ func FleetAppsManagementProvisionResource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
 									"compartment_id": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-
-									// Computed
 									"id": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -204,11 +192,6 @@ func FleetAppsManagementProvisionResource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"is_sensitive": {
 							Type:     schema.TypeBool,
 							Computed: true,

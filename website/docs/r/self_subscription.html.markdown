@@ -28,6 +28,7 @@ resource "oci_self_subscription" "test_subscription" {
 		#Required
 		billing_details {
 			#Required
+			billing_model = var.subscription_subscription_details_billing_details_billing_model
 			meters {
 				#Required
 				name = var.subscription_subscription_details_billing_details_meters_name
@@ -41,6 +42,7 @@ resource "oci_self_subscription" "test_subscription" {
 				}
 			}
 			metric_type = var.subscription_subscription_details_billing_details_metric_type
+			pricing_plan_key = var.subscription_subscription_details_billing_details_pricing_plan_key
 			rate_allocation = var.subscription_subscription_details_billing_details_rate_allocation
 			sku = var.subscription_subscription_details_billing_details_sku
 
@@ -60,6 +62,22 @@ resource "oci_self_subscription" "test_subscription" {
 			}
 
 			#Optional
+			dimensions {
+				#Required
+				dimension_billing_frequency = var.subscription_subscription_details_pricing_plan_dimensions_dimension_billing_frequency
+				dimension_description = var.subscription_subscription_details_pricing_plan_dimensions_dimension_description
+				dimension_key = var.subscription_subscription_details_pricing_plan_dimensions_dimension_key
+				dimension_name = var.subscription_subscription_details_pricing_plan_dimensions_dimension_name
+				metric_type = var.subscription_subscription_details_pricing_plan_dimensions_metric_type
+				rates {
+					#Required
+					currency = var.subscription_subscription_details_pricing_plan_dimensions_rates_currency
+					rate = var.subscription_subscription_details_pricing_plan_dimensions_rates_rate
+				}
+
+				#Optional
+				included_quantity = var.subscription_subscription_details_pricing_plan_dimensions_included_quantity
+			}
 			plan_description = var.subscription_subscription_details_pricing_plan_plan_description
 			plan_duration = var.subscription_subscription_details_pricing_plan_plan_duration
 		}
@@ -104,7 +122,8 @@ The following arguments are supported:
 * `source_type` - (Optional) The type of seller in SELF Service.
 * `subscription_details` - (Required) The details of a subscription
 	* `amount` - (Optional) Tha amount for the currency type.
-	* `billing_details` - (Required) Sku details for billing subscription.
+	* `billing_details` - (Required) Billing details associated with the subscription plan and its usage dimensions.
+		* `billing_model` - (Required) The billing model this billing detail applies to.
 		* `has_gov_sku` - (Optional) Whether this sku is assign to gov product.
 		* `meters` - (Required) The meters associated with sku.
 			* `extended_metadata` - (Optional) Additional data give by sku.
@@ -113,15 +132,26 @@ The following arguments are supported:
 			* `name` - (Required) Name of meter.
 			* `rate_allocation` - (Required) Tha rate of this sku meter.
 		* `metric_type` - (Required) The part's metric.
+		* `pricing_plan_key` - (Required) Unique key used to map this SKU to the pricing plan.
 		* `rate_allocation` - (Required) Tha rate of this sku meter.
 		* `sku` - (Required) Sku for service.
 	* `currency` - (Optional) The currency supported, in the format specified by ISO-4217
 	* `is_auto_renew` - (Optional) Whether subscription should be auto-renewed at the end of cycle.
 	* `partner_registration_url` - (Required) The activation link given by the partner.
 	* `pricing_plan` - (Required) A pricing plan details provided by the Publisher.
-		* `billing_frequency` - (Required) Specifies the interval at which billing occurs for the subscription plan.
+		* `billing_frequency` - (Required) Specifies the interval at which billing occurs for the subscription plan or usage dimension.
+		* `dimensions` - (Optional) Metered usage dimensions associated with the pricing plan.
+			* `dimension_billing_frequency` - (Required) Specifies the interval at which the usage dimension is billed.
+			* `dimension_description` - (Required) A detailed explanation of the usage dimension.
+			* `dimension_key` - (Required) The stable key used internally to map this usage dimension to billing details.
+			* `dimension_name` - (Required) The name of the usage dimension.
+			* `included_quantity` - (Optional) Quantity included in the base fee for hybrid plans.
+			* `metric_type` - (Required) The metric type in which usage is measured.
+			* `rates` - (Required) Dimension-level rates in various supported currencies.
+				* `currency` - (Required) The currency supported, in the format specified by ISO-4217
+				* `rate` - (Required) The amount charged for the plan in the specified currency.
 		* `plan_description` - (Optional) A detailed explanation of the subscription plan.
-		* `plan_duration` - (Optional) Specifies the interval at which billing occurs for the subscription plan.
+		* `plan_duration` - (Optional) Specifies the duration of the subscription plan.
 		* `plan_name` - (Required) The name of the subscription plan used to identify the plan.
 		* `plan_type` - (Required) The type of the subscription plan.
 		* `rates` - (Required) The pricing details of the subscription plan in various supported currencies.
@@ -154,7 +184,8 @@ The following attributes are exported:
 * `state` - The current lifecycle state of the Subscription.
 * `subscription_details` - The details of a subscription
 	* `amount` - Tha amount for the currency type.
-	* `billing_details` - Sku details for billing subscription.
+	* `billing_details` - Billing details associated with the subscription plan and its usage dimensions.
+		* `billing_model` - The billing model this billing detail applies to.
 		* `has_gov_sku` - Whether this sku is assign to gov product.
 		* `meters` - The meters associated with sku.
 			* `extended_metadata` - Additional data give by sku.
@@ -163,15 +194,26 @@ The following attributes are exported:
 			* `name` - Name of meter.
 			* `rate_allocation` - Tha rate of this sku meter.
 		* `metric_type` - The part's metric.
+		* `pricing_plan_key` - Unique key used to map this SKU to the pricing plan.
 		* `rate_allocation` - Tha rate of this sku meter.
 		* `sku` - Sku for service.
 	* `currency` - The currency supported, in the format specified by ISO-4217
 	* `is_auto_renew` - Whether subscription should be auto-renewed at the end of cycle.
 	* `partner_registration_url` - The activation link given by the partner.
 	* `pricing_plan` - A pricing plan details provided by the Publisher.
-		* `billing_frequency` - Specifies the interval at which billing occurs for the subscription plan.
+		* `billing_frequency` - Specifies the interval at which billing occurs for the subscription plan or usage dimension.
+		* `dimensions` - Metered usage dimensions associated with the pricing plan.
+			* `dimension_billing_frequency` - Specifies the interval at which the usage dimension is billed.
+			* `dimension_description` - A detailed explanation of the usage dimension.
+			* `dimension_key` - The stable key used internally to map this usage dimension to billing details.
+			* `dimension_name` - The name of the usage dimension.
+			* `included_quantity` - Quantity included in the base fee for hybrid plans.
+			* `metric_type` - The metric type in which usage is measured.
+			* `rates` - Dimension-level rates in various supported currencies.
+				* `currency` - The currency supported, in the format specified by ISO-4217
+				* `rate` - The amount charged for the plan in the specified currency.
 		* `plan_description` - A detailed explanation of the subscription plan.
-		* `plan_duration` - Specifies the interval at which billing occurs for the subscription plan.
+		* `plan_duration` - Specifies the duration of the subscription plan.
 		* `plan_name` - The name of the subscription plan used to identify the plan.
 		* `plan_type` - The type of the subscription plan.
 		* `rates` - The pricing details of the subscription plan in various supported currencies.

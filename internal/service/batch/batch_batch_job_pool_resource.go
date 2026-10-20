@@ -41,7 +41,6 @@ func BatchBatchJobPoolResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -76,7 +75,6 @@ func BatchBatchJobPoolResource() *schema.Resource {
 					string(oci_batch.BatchJobPoolLifecycleStateActive),
 				}, true),
 			},
-
 			// Computed
 			"system_tags": {
 				Type:     schema.TypeMap,

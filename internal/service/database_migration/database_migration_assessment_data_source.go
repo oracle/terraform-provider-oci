@@ -70,6 +70,8 @@ func (s *DatabaseMigrationAssessmentDataSourceCrud) SetData() error {
 	case oci_database_migration.MySqlAssessment:
 		s.D.Set("database_combination", "MYSQL")
 
+		s.D.Set("migration_scope", v.MigrationScope)
+
 		s.D.Set("acceptable_downtime", v.AcceptableDowntime)
 
 		s.D.Set("assessment_migration_type", v.AssessmentMigrationType)
@@ -135,6 +137,8 @@ func (s *DatabaseMigrationAssessmentDataSourceCrud) SetData() error {
 		if v.IsCdbSupported != nil {
 			s.D.Set("is_cdb_supported", *v.IsCdbSupported)
 		}
+
+		s.D.Set("migration_scope", v.MigrationScope)
 
 		s.D.Set("acceptable_downtime", v.AcceptableDowntime)
 

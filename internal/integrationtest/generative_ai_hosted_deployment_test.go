@@ -204,6 +204,69 @@ func TestGenerativeAiHostedDeploymentResource_basic(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: generative_ai/default
+func TestGenerativeAiHostedDeploymentResource_nonIamApplicationCascadeDelete(t *testing.T) {
+	httpreplay.SetScenario("TestGenerativeAiHostedDeploymentResource_nonIamApplicationCascadeDelete")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	hostedApplicationConfig := acctest.GenerateResourceFromRepresentationMap(
+		"oci_generative_ai_hosted_application",
+		"test_hosted_application",
+		acctest.Required,
+		acctest.Create,
+		GenerativeAiHostedApplicationRepresentation,
+	)
+	nonIamDeploymentRepresentation := map[string]interface{}{
+		"active_artifact":       acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiHostedDeploymentActiveArtifactRepresentation},
+		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"hosted_application_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_generative_ai_hosted_application.test_hosted_application.id}`},
+	}
+	hostedDeploymentConfig := acctest.GenerateResourceFromRepresentationMap(
+		"oci_generative_ai_hosted_deployment",
+		"test_hosted_deployment",
+		acctest.Required,
+		acctest.Create,
+		nonIamDeploymentRepresentation,
+	)
+
+	resourceName := "oci_generative_ai_hosted_deployment.test_hosted_deployment"
+	applicationResourceName := "oci_generative_ai_hosted_application.test_hosted_application"
+	var resId string
+
+	checkDestroy := acctest.ComposeAggregateTestCheckFuncWrapper(
+		testAccCheckGenerativeAiHostedDeploymentDestroy,
+		testAccCheckGenerativeAiHostedApplicationDestroy,
+	)
+	acctest.ResourceTest(t, checkDestroy, []resource.TestStep{
+		{
+			Config: config + compartmentIdVariableStr + hostedApplicationConfig + hostedDeploymentConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(applicationResourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "hosted_application_id"),
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+		// Terraform destroys the deployment before the application. The deployment
+		// delete handler must delete the application and its active deployment.
+		{
+			Config: config + compartmentIdVariableStr,
+		},
+	})
+}
+
 func testAccCheckGenerativeAiHostedDeploymentDestroy(s *terraform.State) error {
 	noResourceFound := true
 	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).GenerativeAiClient()

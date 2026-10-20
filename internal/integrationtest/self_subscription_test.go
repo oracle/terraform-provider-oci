@@ -26,6 +26,90 @@ import (
 const dispName = "display_name21"
 const updatedDispName = "updated_display_name5"
 
+const selfSubscriptionAcceptanceResource = `
+resource "oci_self_subscription" "test_subscription" {
+  compartment_id = var.compartment_id
+  tenant_id      = var.tenant_id
+  seller_id      = var.seller_id
+  product_id     = var.product_id
+  display_name   = "S-Open-AI-Test-Listing-${formatdate("YYYYMMDDhhmmss", timestamp())}"
+  source_type    = "THIRD_PARTY"
+  realm          = "OC1"
+  region         = "us-ashburn-1"
+
+  subscription_details {
+    amount        = 89
+    currency      = "USD"
+    is_auto_renew = true
+    partner_registration_url = "https://www.google.com/"
+
+    billing_details {
+      pricing_plan_key = "16ff7edf-a17f-4f77-88b8-1a09bef6df8f"
+      billing_model = "FLAT_RATE"
+      sku = "MP10257"
+      metric_type = "INSTANCE_HOURS"
+      rate_allocation = 1
+      has_gov_sku = false
+      meters {
+        name = "MP_INSP_JX"
+        rate_allocation = 1
+      }
+    }
+
+    billing_details {
+      pricing_plan_key = "16ff7edf-a17f-4f77-88b8-1a09bef6df8f"
+      billing_model = "USAGE_BASED"
+      sku = "MP10258"
+      metric_type = "INSTANCE_HOURS"
+      rate_allocation = 1
+      has_gov_sku = false
+      meters {
+        name = "MP_INSP_JY"
+        rate_allocation = 1
+      }
+    }
+
+    pricing_plan {
+      plan_type = "HYBRID"
+      plan_name = "Pro-Enterprice"
+      plan_description = "Enterprise marketplace listing with licensed-user and output-token usage dimensions."
+      billing_frequency = "ANNUAL"
+      plan_duration = "ANNUAL"
+      rates {
+        currency = "USD"
+        rate = 89
+      }
+
+      dimensions {
+        dimension_key = "f5325c5f-a0fd-4a10-b026-abe93e3e5963"
+        dimension_name = "Starter-Monthly-Licensed-User-Subscription"
+        dimension_description = "Starter-Monthly-Licensed-User-Subscription"
+        metric_type = "EACH"
+        dimension_billing_frequency = "ANNUAL"
+        included_quantity = 98
+        rates {
+          currency = "USD"
+          rate = 87
+        }
+      }
+
+      dimensions {
+        dimension_key = "373936ee-23cc-4f06-92bc-4e8f926714e8"
+        dimension_name = "Starter-Output-Token-Generation-Volume"
+        dimension_description = "Starter-Output-Token-Generation-Volume"
+        metric_type = "EACH"
+        dimension_billing_frequency = "ANNUAL"
+        included_quantity = 909
+        rates {
+          currency = "USD"
+          rate = 768
+        }
+      }
+    }
+  }
+}
+`
+
 var (
 	SelfSubscriptionRequiredOnlyResource = SelfSubscriptionResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_self_subscription", "test_subscription", acctest.Required, acctest.Create, SelfSubscriptionRepresentation)
@@ -63,43 +147,59 @@ var (
 	}
 	SelfSubscriptionSubscriptionDetailsRepresentation = map[string]interface{}{
 		"billing_details":          acctest.RepresentationGroup{RepType: acctest.Required, Group: SelfSubscriptionSubscriptionDetailsBillingDetailsRepresentation},
-		"partner_registration_url": acctest.Representation{RepType: acctest.Required, Create: `https://oracle.com`},
+		"partner_registration_url": acctest.Representation{RepType: acctest.Required, Create: `https://www.google.com/`},
 		"pricing_plan":             acctest.RepresentationGroup{RepType: acctest.Required, Group: SelfSubscriptionSubscriptionDetailsPricingPlanRepresentation},
-		"amount":                   acctest.Representation{RepType: acctest.Optional, Create: `5000`},
-		"currency":                 acctest.Representation{RepType: acctest.Optional, Create: `USD`},
-		"is_auto_renew":            acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"amount":                   acctest.Representation{RepType: acctest.Required, Create: `89`},
+		"currency":                 acctest.Representation{RepType: acctest.Required, Create: `USD`},
+		"is_auto_renew":            acctest.Representation{RepType: acctest.Required, Create: `true`},
 	}
 	SelfSubscriptionAdditionalDetailsRepresentation = map[string]interface{}{
 		"key":   acctest.Representation{RepType: acctest.Required, Create: `key`},
 		"value": acctest.Representation{RepType: acctest.Required, Create: `value`},
 	}
 	SelfSubscriptionSubscriptionDetailsBillingDetailsRepresentation = map[string]interface{}{
-		"meters":          acctest.RepresentationGroup{RepType: acctest.Required, Group: SelfSubscriptionSubscriptionDetailsBillingDetailsMetersRepresentation},
-		"metric_type":     acctest.Representation{RepType: acctest.Required, Create: `OCPU_HOURS`},
-		"rate_allocation": acctest.Representation{RepType: acctest.Required, Create: `1.0`},
-		"sku":             acctest.Representation{RepType: acctest.Required, Create: `MP00385`},
-		"has_gov_sku":     acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"billing_model":    acctest.Representation{RepType: acctest.Required, Create: `FLAT_RATE`},
+		"meters":           acctest.RepresentationGroup{RepType: acctest.Required, Group: SelfSubscriptionSubscriptionDetailsBillingDetailsMetersRepresentation},
+		"metric_type":      acctest.Representation{RepType: acctest.Required, Create: `INSTANCE_HOURS`},
+		"pricing_plan_key": acctest.Representation{RepType: acctest.Required, Create: `16ff7edf-a17f-4f77-88b8-1a09bef6df8f`},
+		"rate_allocation":  acctest.Representation{RepType: acctest.Required, Create: `1.0`},
+		"sku":              acctest.Representation{RepType: acctest.Required, Create: `MP10257`},
+		"has_gov_sku":      acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 	SelfSubscriptionSubscriptionDetailsPricingPlanRepresentation = map[string]interface{}{
 		"billing_frequency": acctest.Representation{RepType: acctest.Required, Create: `YEARLY`},
-		"plan_name":         acctest.Representation{RepType: acctest.Required, Create: `Base`},
-		"plan_type":         acctest.Representation{RepType: acctest.Required, Create: `FIXED`},
+		"plan_name":         acctest.Representation{RepType: acctest.Required, Create: `Pro-Enterprice`},
+		"plan_type":         acctest.Representation{RepType: acctest.Required, Create: `HYBRID`},
 		"rates":             acctest.RepresentationGroup{RepType: acctest.Required, Group: SelfSubscriptionSubscriptionDetailsPricingPlanRatesRepresentation},
-		"plan_description":  acctest.Representation{RepType: acctest.Optional, Create: `planDescription`},
-		"plan_duration":     acctest.Representation{RepType: acctest.Optional, Create: `ANNUAL`},
+		"dimensions":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: SelfSubscriptionSubscriptionDetailsPricingPlanDimensionsRepresentation},
+		"plan_description":  acctest.Representation{RepType: acctest.Required, Create: `These longer names are more descriptive and suitable for enterprise marketplace listings, billing dimensions, and SaaS metering systems.`},
+		"plan_duration":     acctest.Representation{RepType: acctest.Required, Create: `ANNUAL`},
 	}
 	SelfSubscriptionSubscriptionDetailsBillingDetailsMetersRepresentation = map[string]interface{}{
-		"name":              acctest.Representation{RepType: acctest.Required, Create: `MP_BOBO_OX`},
+		"name":              acctest.Representation{RepType: acctest.Required, Create: `MP_INSP_JX`},
 		"rate_allocation":   acctest.Representation{RepType: acctest.Required, Create: `1`},
 		"extended_metadata": acctest.RepresentationGroup{RepType: acctest.Optional, Group: SelfSubscriptionSubscriptionDetailsBillingDetailsMetersExtendedMetadataRepresentation},
 	}
 	SelfSubscriptionSubscriptionDetailsPricingPlanRatesRepresentation = map[string]interface{}{
 		"currency": acctest.Representation{RepType: acctest.Required, Create: `USD`},
-		"rate":     acctest.Representation{RepType: acctest.Required, Create: `5000`},
+		"rate":     acctest.Representation{RepType: acctest.Required, Create: `89`},
+	}
+	SelfSubscriptionSubscriptionDetailsPricingPlanDimensionsRepresentation = map[string]interface{}{
+		"dimension_billing_frequency": acctest.Representation{RepType: acctest.Required, Create: `MONTHLY`},
+		"dimension_description":       acctest.Representation{RepType: acctest.Required, Create: `dimensionDescription`},
+		"dimension_key":               acctest.Representation{RepType: acctest.Required, Create: `dimensionKey`},
+		"dimension_name":              acctest.Representation{RepType: acctest.Required, Create: `dimensionName`},
+		"metric_type":                 acctest.Representation{RepType: acctest.Required, Create: `OCPU_HOURS`},
+		"rates":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: SelfSubscriptionSubscriptionDetailsPricingPlanDimensionsRatesRepresentation},
+		"included_quantity":           acctest.Representation{RepType: acctest.Optional, Create: `1.0`},
 	}
 	SelfSubscriptionSubscriptionDetailsBillingDetailsMetersExtendedMetadataRepresentation = map[string]interface{}{
 		"key":   acctest.Representation{RepType: acctest.Required, Create: `key`},
 		"value": acctest.Representation{RepType: acctest.Required, Create: `value`},
+	}
+	SelfSubscriptionSubscriptionDetailsPricingPlanDimensionsRatesRepresentation = map[string]interface{}{
+		"currency": acctest.Representation{RepType: acctest.Required, Create: `currency`},
+		"rate":     acctest.Representation{RepType: acctest.Required, Create: `1.0`},
 	}
 
 	//SelfSubscriptionResourceDependencies = DefinedTagsDependencies +
@@ -127,7 +227,7 @@ func TestSelfSubscriptionResource_basic(t *testing.T) {
 	sellerId := utils.GetEnvSettingWithBlankDefault("seller_id")
 	sellerIdVariableStr := fmt.Sprintf("variable \"seller_id\" { default = \"%s\" }\n", sellerId)
 
-	//var resId, resId2 string
+	var resId string
 	tenantId := utils.GetEnvSettingWithBlankDefault("tenant_id")
 	tenantIdVariableStr := fmt.Sprintf("variable \"tenant_id\" { default = \"%s\" }\n", tenantId)
 
@@ -135,95 +235,38 @@ func TestSelfSubscriptionResource_basic(t *testing.T) {
 	//datasourceName := "data.oci_self_subscriptions.test_subscriptions"
 	//singularDatasourceName := "data.oci_self_subscription.test_subscription"
 
-	//var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+SelfSubscriptionResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_self_subscription", "test_subscription", acctest.Optional, acctest.Create, SelfSubscriptionRepresentation), "self", "subscription", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+productIdVariableStr+sellerIdVariableStr+tenantIdVariableStr+SelfSubscriptionResourceDependencies+
+		selfSubscriptionAcceptanceResource, "self", "subscription", t)
 
 	acctest.ResourceTest(t, testAccCheckSelfSubscriptionDestroy, []resource.TestStep{
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + SelfSubscriptionResourceDependencies + productIdVariableStr + sellerIdVariableStr + tenantIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_self_subscription", "test_subscription", acctest.Required, acctest.Create, SelfSubscriptionRepresentation),
+				selfSubscriptionAcceptanceResource,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "product_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "seller_id"),
 				resource.TestCheckResourceAttr(resourceName, "subscription_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.billing_model", "FLAT_RATE"),
 				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.meters.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.meters.0.name", "MP_BOBO_OX"),
+				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.meters.0.name", "MP_INSP_JX"),
 				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.meters.0.rate_allocation", "1"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.metric_type", "OCPU_HOURS"),
+				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.metric_type", "INSTANCE_HOURS"),
+				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.pricing_plan_key", "16ff7edf-a17f-4f77-88b8-1a09bef6df8f"),
 				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.rate_allocation", "1"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.sku", "MP00385"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.partner_registration_url", "https://oracle.com"),
+				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.sku", "MP10257"),
+				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.partner_registration_url", "https://www.google.com/"),
 				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.billing_frequency", "YEARLY"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.plan_name", "Base"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.plan_type", "FIXED"),
+				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.billing_frequency", "ANNUAL"),
+				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.plan_name", "Pro-Enterprice"),
+				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.plan_type", "HYBRID"),
 				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.rates.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.rates.0.currency", "USD"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.rates.0.rate", "5000"),
+				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.rates.0.rate", "89"),
 				resource.TestCheckResourceAttrSet(resourceName, "tenant_id"),
-
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					return err
-				},
-			),
-			ExpectNonEmptyPlan: true,
-		},
-
-		////delete before next Create
-		//{
-		//	Config: config + compartmentIdVariableStr + SelfSubscriptionResourceDependencies + productIdVariableStr + sellerIdVariableStr + tenantIdVariableStr,
-		//},
-		// verify Create with optionals
-		{
-			Config: config + compartmentIdVariableStr + SelfSubscriptionResourceDependencies + productIdVariableStr + sellerIdVariableStr + tenantIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_self_subscription", "test_subscription", acctest.Optional, acctest.Create, SelfSubscriptionRepresentation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				//resource.TestCheckResourceAttr(resourceName, "additional_details.#", "1"),
-				//resource.TestCheckResourceAttr(resourceName, "additional_details.0.key", "key"),
-				//resource.TestCheckResourceAttr(resourceName, "additional_details.0.value", "value"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", dispName),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttrSet(resourceName, "product_id"),
-				//resource.TestCheckResourceAttr(resourceName, "realm", "realm"),
-				//resource.TestCheckResourceAttr(resourceName, "region", "region"),
-				resource.TestCheckResourceAttrSet(resourceName, "seller_id"),
-				//resource.TestCheckResourceAttr(resourceName, "source_type", "OCI_NATIVE"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.amount", "5000"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.has_gov_sku", "false"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.meters.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.meters.0.extended_metadata.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.meters.0.extended_metadata.0.key", "key"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.meters.0.extended_metadata.0.value", "value"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.meters.0.name", "MP_BOBO_OX"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.meters.0.rate_allocation", "1"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.metric_type", "OCPU_HOURS"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.rate_allocation", "1"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.sku", "MP00385"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.currency", "USD"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.is_auto_renew", "false"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.partner_registration_url", "https://oracle.com"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.billing_frequency", "YEARLY"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.plan_description", "planDescription"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.plan_duration", "ANNUAL"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.plan_name", "Base"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.plan_type", "FIXED"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.rates.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.rates.0.currency", "USD"),
-				resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.rates.0.rate", "5000"),
-				resource.TestCheckResourceAttrSet(resourceName, "tenant_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -237,6 +280,237 @@ func TestSelfSubscriptionResource_basic(t *testing.T) {
 			),
 			ExpectNonEmptyPlan: true,
 		},
+
+		////delete before next Create
+		//{
+		//	Config: config + compartmentIdVariableStr + SelfSubscriptionResourceDependencies + productIdVariableStr + sellerIdVariableStr + tenantIdVariableStr,
+		//},
+		/*
+			},
+
+			// verify Update to the compartment (the compartment will be switched back in the next step)
+			{
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SelfSubscriptionResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_self_subscription", "test_subscription", acctest.Optional, acctest.Create,
+						acctest.RepresentationCopyWithNewProperties(SelfSubscriptionRepresentation, map[string]interface{}{
+							"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+						})),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(resourceName, "additional_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "additional_details.0.key", "key"),
+					resource.TestCheckResourceAttr(resourceName, "additional_details.0.value", "value"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "product_id"),
+					resource.TestCheckResourceAttr(resourceName, "realm", "realm"),
+					resource.TestCheckResourceAttr(resourceName, "region", "region"),
+					resource.TestCheckResourceAttrSet(resourceName, "seller_id"),
+					resource.TestCheckResourceAttr(resourceName, "source_type", "OCI_NATIVE"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.amount", "1.0"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.billing_model", "FLAT_RATE"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.has_gov_sku", "false"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.meters.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.meters.0.extended_metadata.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.meters.0.extended_metadata.0.key", "key"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.meters.0.extended_metadata.0.value", "value"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.meters.0.name", "name"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.meters.0.rate_allocation", "1.0"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.metric_type", "OCPU_HOURS"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.pricing_plan_key", "pricingPlanKey"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.rate_allocation", "1.0"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.sku", "sku"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.currency", "currency"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.is_auto_renew", "false"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.partner_registration_url", "partnerRegistrationUrl"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.billing_frequency", "MONTHLY"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.dimensions.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.dimensions.0.dimension_billing_frequency", "MONTHLY"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.dimensions.0.dimension_description", "dimensionDescription"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.dimensions.0.dimension_key", "dimensionKey"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.dimensions.0.dimension_name", "dimensionName"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.dimensions.0.included_quantity", "1.0"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.dimensions.0.metric_type", "OCPU_HOURS"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.dimensions.0.rates.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.dimensions.0.rates.0.currency", "currency"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.dimensions.0.rates.0.rate", "1.0"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.plan_description", "planDescription"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.plan_duration", "MONTHLY"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.plan_name", "planName"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.plan_type", "FIXED"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.rates.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.rates.0.currency", "currency"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.rates.0.rate", "1.0"),
+					resource.TestCheckResourceAttrSet(resourceName, "tenant_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("resource recreated when it was supposed to be updated")
+						}
+						return err
+					},
+				),
+			},
+
+			// verify updates to updatable parameters
+			{
+				Config: config + compartmentIdVariableStr + SelfSubscriptionResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_self_subscription", "test_subscription", acctest.Optional, acctest.Update, SelfSubscriptionRepresentation),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(resourceName, "additional_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "additional_details.0.key", "key"),
+					resource.TestCheckResourceAttr(resourceName, "additional_details.0.value", "value"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "product_id"),
+					resource.TestCheckResourceAttr(resourceName, "realm", "realm"),
+					resource.TestCheckResourceAttr(resourceName, "region", "region"),
+					resource.TestCheckResourceAttrSet(resourceName, "seller_id"),
+					resource.TestCheckResourceAttr(resourceName, "source_type", "OCI_NATIVE"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.amount", "1.0"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.billing_model", "FLAT_RATE"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.has_gov_sku", "false"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.meters.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.meters.0.extended_metadata.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.meters.0.extended_metadata.0.key", "key"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.meters.0.extended_metadata.0.value", "value"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.meters.0.name", "name"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.meters.0.rate_allocation", "1.0"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.metric_type", "OCPU_HOURS"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.pricing_plan_key", "pricingPlanKey"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.rate_allocation", "1.0"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.billing_details.0.sku", "sku"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.currency", "currency"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.is_auto_renew", "false"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.partner_registration_url", "partnerRegistrationUrl"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.billing_frequency", "MONTHLY"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.dimensions.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.dimensions.0.dimension_billing_frequency", "MONTHLY"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.dimensions.0.dimension_description", "dimensionDescription"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.dimensions.0.dimension_key", "dimensionKey"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.dimensions.0.dimension_name", "dimensionName"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.dimensions.0.included_quantity", "1.0"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.dimensions.0.metric_type", "OCPU_HOURS"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.dimensions.0.rates.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.dimensions.0.rates.0.currency", "currency"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.dimensions.0.rates.0.rate", "1.0"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.plan_description", "planDescription"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.plan_duration", "MONTHLY"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.plan_name", "planName"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.plan_type", "FIXED"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.rates.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.rates.0.currency", "currency"),
+					resource.TestCheckResourceAttr(resourceName, "subscription_details.0.pricing_plan.0.rates.0.rate", "1.0"),
+					resource.TestCheckResourceAttrSet(resourceName, "tenant_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+			// verify datasource
+			{
+				Config: config +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_self_subscriptions", "test_subscriptions", acctest.Optional, acctest.Update, SelfSubscriptionDataSourceRepresentation) +
+					compartmentIdVariableStr + SelfSubscriptionResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_self_subscription", "test_subscription", acctest.Optional, acctest.Update, SelfSubscriptionRepresentation),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "id", "id"),
+
+					resource.TestCheckResourceAttr(datasourceName, "subscription_collection.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "subscription_collection.0.items.#", "1"),
+				),
+			},
+			// verify singular datasource
+			{
+				Config: config +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_self_subscription", "test_subscription", acctest.Required, acctest.Create, SelfSubscriptionSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + SelfSubscriptionResourceConfig,
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "subscription_id"),
+
+					resource.TestCheckResourceAttr(singularDatasourceName, "additional_details.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "additional_details.0.key", "key"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "additional_details.0.value", "value"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "realm", "realm"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "region", "region"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "source_type", "OCI_NATIVE"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.amount", "1.0"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.billing_details.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.billing_details.0.billing_model", "FLAT_RATE"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.billing_details.0.has_gov_sku", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.billing_details.0.meters.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.billing_details.0.meters.0.extended_metadata.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.billing_details.0.meters.0.extended_metadata.0.key", "key"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.billing_details.0.meters.0.extended_metadata.0.value", "value"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.billing_details.0.meters.0.name", "name"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.billing_details.0.meters.0.rate_allocation", "1.0"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.billing_details.0.metric_type", "OCPU_HOURS"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.billing_details.0.pricing_plan_key", "pricingPlanKey"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.billing_details.0.rate_allocation", "1.0"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.billing_details.0.sku", "sku"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.currency", "currency"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.is_auto_renew", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.partner_registration_url", "partnerRegistrationUrl"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.pricing_plan.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.pricing_plan.0.billing_frequency", "MONTHLY"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.pricing_plan.0.dimensions.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.pricing_plan.0.dimensions.0.dimension_billing_frequency", "MONTHLY"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.pricing_plan.0.dimensions.0.dimension_description", "dimensionDescription"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.pricing_plan.0.dimensions.0.dimension_key", "dimensionKey"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.pricing_plan.0.dimensions.0.dimension_name", "dimensionName"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.pricing_plan.0.dimensions.0.included_quantity", "1.0"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.pricing_plan.0.dimensions.0.metric_type", "OCPU_HOURS"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.pricing_plan.0.dimensions.0.rates.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.pricing_plan.0.dimensions.0.rates.0.currency", "currency"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.pricing_plan.0.dimensions.0.rates.0.rate", "1.0"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.pricing_plan.0.plan_description", "planDescription"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.pricing_plan.0.plan_duration", "MONTHLY"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.pricing_plan.0.plan_name", "planName"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.pricing_plan.0.plan_type", "FIXED"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.pricing_plan.0.rates.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.pricing_plan.0.rates.0.currency", "currency"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "subscription_details.0.pricing_plan.0.rates.0.rate", "1.0"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_ended"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_started"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				),
+			},
+			// verify resource import
+			{
+				Config:                  config + SelfSubscriptionRequiredOnlyResource,
+				ImportState:             true,
+				ImportStateVerify:       true,
+				ImportStateVerifyIgnore: []string{},
+				ResourceName:            resourceName,
+		*/
 	})
 }
 

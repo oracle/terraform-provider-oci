@@ -653,6 +653,12 @@ func OcvpSddcResource() *schema.Resource {
 										Computed: true,
 										ForceNew: true,
 									},
+									"initial_fault_domain_host_distribution": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"initial_host_ocpu_count": {
 										Type:     schema.TypeFloat,
 										Optional: true,
@@ -1051,6 +1057,10 @@ func (s *OcvpSddcResourceCrud) Create() error {
 		}
 	}
 
+	if initialFaultDomainHostDistribution, ok := s.getOkExistsClusterConfigurationProperty("initial_fault_domain_host_distribution"); ok {
+		initialClusterConfiguration.InitialFaultDomainHostDistribution = oci_ocvp.FaultDomainHostDistributionModesEnum(initialFaultDomainHostDistribution.(string))
+	}
+
 	instanceDisplayNamePrefixDeprecated, okDeprecated := s.D.GetOkExists("instance_display_name_prefix")
 	instanceDisplayNamePrefix, ok := s.getOkExistsClusterConfigurationProperty("instance_display_name_prefix")
 
@@ -1360,13 +1370,13 @@ func sddcWaitForWorkRequest(wId *string, entityType string, action oci_ocvp.Acti
 	response := oci_ocvp.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
-			string(oci_ocvp.OperationStatusInProgress),
 			string(oci_ocvp.OperationStatusAccepted),
+			string(oci_ocvp.OperationStatusInProgress),
 			string(oci_ocvp.OperationStatusCanceling),
 		},
 		Target: []string{
-			string(oci_ocvp.OperationStatusSucceeded),
 			string(oci_ocvp.OperationStatusFailed),
+			string(oci_ocvp.OperationStatusSucceeded),
 			string(oci_ocvp.OperationStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {
@@ -2184,6 +2194,8 @@ func InitialClusterConfigurationToMap(obj oci_ocvp.InitialClusterConfiguration,
 	}
 
 	result["initial_commitment"] = string(obj.InitialCommitment)
+
+	result["initial_fault_domain_host_distribution"] = string(obj.InitialFaultDomainHostDistribution)
 
 	if obj.InitialHostOcpuCount != nil {
 		result["initial_host_ocpu_count"] = float32(*obj.InitialHostOcpuCount)

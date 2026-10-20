@@ -60,9 +60,96 @@ var (
 		"is_force_delete_after_grace_duration": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
+	nodePoolCyclingEmptyRepresentation = map[string]interface{}{
+		"cluster_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_cluster.test_cluster.id}`},
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"kubernetes_version":  acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_cluster.test_cluster.kubernetes_version}`},
+		"name":                acctest.Representation{RepType: acctest.Required, Create: `pool1`, Update: `pool2`},
+		"node_source_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: nodeSourceDetailsRepresentation},
+		"node_shape":          acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.A1.Flex`},
+		"node_shape_config":   acctest.RepresentationGroup{RepType: acctest.Required, Group: nodeShapeConfigRepresentation},
+		"node_metadata":       acctest.Representation{RepType: acctest.Required, Create: map[string]string{"areLegacyImdsEndpointsDisabled": "true"}, Update: map[string]string{"areLegacyImdsEndpointsDisabled": "true"}},
+		"node_pool_cycling_details": acctest.RepresentationGroup{
+			RepType: acctest.Optional,
+			Group:   nodePoolCyclingEmptyDetailsRepresentation,
+		},
+		"node_config_details": acctest.RepresentationGroup{
+			RepType: acctest.Required,
+			Group:   nodeConfigDetailsCyclingEmptyDetailsRepresentation,
+		},
+	}
+
+	nodePoolCyclingEmptyDetailsRepresentation = map[string]interface{}{
+		"cycle_modes":             acctest.Representation{RepType: acctest.Optional, Create: []string{"INSTANCE_REPLACE"}},
+		"is_node_cycling_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+	}
+
+	nodeConfigDetailsCyclingEmptyDetailsRepresentation = map[string]interface{}{
+		"placement_configs":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: placementConfigsCyclingRepresentation},
+		"size":                                 acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"node_pool_pod_network_option_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: nodePoolPodNetworkOptionsComputeClusterHostGroupRepresentation},
+	}
+
 	nodePoolResourceCyclingConfig = ContainerengineNodePoolResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", acctest.Optional, acctest.Update, nodePoolCyclingRepresentation)
 )
+
+func TestContainerengineNodePoolCycling_emptyStringUpdate(t *testing.T) {
+	httpreplay.SetScenario("TestContainerengineNodePoolCycling_emptyStringUpdate")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	resourceName := "oci_containerengine_node_pool.test_node_pool"
+
+	createConfig := config + compartmentIdVariableStr + ContainerengineNodePoolSecondaryVnicsResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", acctest.Optional, acctest.Create, nodePoolCyclingEmptyRepresentation)
+	updateConfig := config + compartmentIdVariableStr + ContainerengineNodePoolSecondaryVnicsResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_containerengine_node_pool", "test_node_pool", acctest.Optional, acctest.Update, nodePoolCyclingEmptyRepresentation)
+
+	var nodePoolId string
+	acctest.ResourceTest(t, testAccCheckContainerengineNodePoolDestroy, []resource.TestStep{
+		{
+			Config: createConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "name", "pool1"),
+				resource.TestCheckResourceAttr(resourceName, "node_pool_cycling_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_pool_cycling_details.0.cycle_modes.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_pool_cycling_details.0.cycle_modes.0", "INSTANCE_REPLACE"),
+				resource.TestCheckResourceAttr(resourceName, "node_pool_cycling_details.0.is_node_cycling_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "node_pool_cycling_details.0.maximum_surge", ""),
+				resource.TestCheckResourceAttr(resourceName, "node_pool_cycling_details.0.maximum_unavailable", ""),
+				func(s *terraform.State) (err error) {
+					nodePoolId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		{
+			Config: updateConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "name", "pool2"),
+				resource.TestCheckResourceAttr(resourceName, "node_pool_cycling_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_pool_cycling_details.0.cycle_modes.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "node_pool_cycling_details.0.cycle_modes.0", "INSTANCE_REPLACE"),
+				resource.TestCheckResourceAttr(resourceName, "node_pool_cycling_details.0.is_node_cycling_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "node_pool_cycling_details.0.maximum_surge", ""),
+				resource.TestCheckResourceAttr(resourceName, "node_pool_cycling_details.0.maximum_unavailable", ""),
+				func(s *terraform.State) error {
+					updatedNodePoolId, err := acctest.FromInstanceState(s, resourceName, "id")
+					if err != nil {
+						return err
+					}
+					if nodePoolId != updatedNodePoolId {
+						return fmt.Errorf("resource recreated during display-name-only update")
+					}
+					return nil
+				},
+			),
+		},
+	})
+}
 
 // issue-routing-tag: containerengine/default
 func TestContainerengineNodePoolCycling_basic(t *testing.T) {

@@ -22,21 +22,27 @@ type BackupDestinationDetailsSummary struct {
 	Type BackupDestinationDetailsSummaryTypeEnum `mandatory:"true" json:"type"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
+	// Not applicable for Autonomous Container Databases on Cloud Autonomous VM Cluster.
 	Id *string `mandatory:"false" json:"id"`
 
 	// For a RECOVERY_APPLIANCE backup destination, the Virtual Private Catalog (VPC) user that is used to access the Recovery Appliance.
+	// Not applicable for Autonomous Container Databases on Cloud Autonomous VM Cluster.
 	VpcUser *string `mandatory:"false" json:"vpcUser"`
 
 	// For a RECOVERY_APPLIANCE backup destination, the password for the VPC user that is used to access the Recovery Appliance.
+	// Not applicable for Autonomous Container Databases on Cloud Autonomous VM Cluster.
 	VpcPassword *string `mandatory:"false" json:"vpcPassword"`
 
 	// Indicates whether Zero Data Loss functionality is enabled for a Recovery Appliance backup destination in an Autonomous Container Database. When enabled, the database automatically ships all redo logs in real-time to the Recovery Appliance for a Zero Data Loss recovery setup (sub-second RPO). Defaults to `TRUE` if no value is given.
+	// Not applicable for Autonomous Container Databases on Cloud Autonomous VM Cluster.
 	IsZeroDataLossEnabled *bool `mandatory:"false" json:"isZeroDataLossEnabled"`
 
 	// Proxy URL to connect to object store.
+	// Not applicable for Autonomous Container Databases on Cloud Autonomous VM Cluster.
 	InternetProxy *string `mandatory:"false" json:"internetProxy"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DBRS policy used for backup.
+	// Not applicable for Autonomous Container Databases on Cloud Autonomous VM Cluster and Autonomous VM Cluster.
 	DbrsPolicyId *string `mandatory:"false" json:"dbrsPolicyId"`
 
 	// Indicates if backup retention is locked for all the database backups in the Autonomous Container Database (ACD). The retention window cannot be decreased if the backup retention lock is enabled.

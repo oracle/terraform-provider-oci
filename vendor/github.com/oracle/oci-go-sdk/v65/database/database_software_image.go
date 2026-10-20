@@ -75,6 +75,9 @@ type DatabaseSoftwareImage struct {
 
 	// True if this Database software image is supported for Upgrade.
 	IsUpgradeSupported *bool `mandatory:"false" json:"isUpgradeSupported"`
+
+	// True when selecting or applying this DB, Grid Infrastructure, or operating system software version requires older-version acknowledgment.
+	IsOlderVersionAcknowledgmentRequired *bool `mandatory:"false" json:"isOlderVersionAcknowledgmentRequired"`
 }
 
 func (m DatabaseSoftwareImage) String() string {

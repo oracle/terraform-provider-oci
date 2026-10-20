@@ -54,11 +54,6 @@ func ArtifactsContainerImageDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"digest": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -120,11 +115,6 @@ func ArtifactsContainerImageDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"created_by": {
 							Type:     schema.TypeString,
 							Computed: true,

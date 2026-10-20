@@ -39,7 +39,6 @@ func CoreBootVolumeAttachmentsDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"boot_volume_id": {
 							Type:     schema.TypeString,
 							Required: true,
@@ -48,8 +47,6 @@ func CoreBootVolumeAttachmentsDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Required: true,
 						},
-
-						// Optional
 						"display_name": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -60,8 +57,6 @@ func CoreBootVolumeAttachmentsDataSource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
-
-						// Computed
 						"availability_domain": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -72,6 +67,10 @@ func CoreBootVolumeAttachmentsDataSource() *schema.Resource {
 						},
 						"id": {
 							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"is_encryption_in_transit_enabled": {
+							Type:     schema.TypeBool,
 							Computed: true,
 						},
 						"is_pv_encryption_in_transit_enabled": {
@@ -191,6 +190,10 @@ func (s *CoreBootVolumeAttachmentsDataSourceCrud) SetData() error {
 
 		if r.InstanceId != nil {
 			bootVolumeAttachment["instance_id"] = *r.InstanceId
+		}
+
+		if r.IsEncryptionInTransitEnabled != nil {
+			bootVolumeAttachment["is_encryption_in_transit_enabled"] = *r.IsEncryptionInTransitEnabled
 		}
 
 		if r.IsPvEncryptionInTransitEnabled != nil {

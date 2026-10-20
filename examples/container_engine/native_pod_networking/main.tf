@@ -224,7 +224,7 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
         max_pods_per_node = var.node_pool_node_config_details_node_pool_pod_network_option_details_max_pods_per_node
         pod_nsg_ids       = var.node_pool_node_config_details_node_pool_pod_network_option_details_pod_nsg_ids
         pod_subnet_ids    = [oci_core_subnet.nodePool_Subnet_1.id]
-      }
+    }
   }
 
   node_metadata = {
@@ -232,6 +232,11 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
   }
 
   ssh_public_key      = var.node_pool_ssh_public_key
+
+  node_pool_cycling_details {
+    is_node_cycling_enabled = "true"
+    cycle_modes = ["INSTANCE_REPLACE"]
+  }
 }
 
 resource "oci_containerengine_node_pool" "test_node_pool_secondary_vnics" {

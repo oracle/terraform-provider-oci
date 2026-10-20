@@ -50,7 +50,6 @@ func KmsEkmsPrivateEndpointResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -71,7 +70,6 @@ func KmsEkmsPrivateEndpointResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
-
 			// Computed
 			"lifecycle_details": {
 				Type:     schema.TypeString,

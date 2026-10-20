@@ -110,6 +110,17 @@ resource "oci_opensearch_opensearch_cluster" "test_opensearch_cluster" {
 			ping_schedule = var.opensearch_cluster_outbound_cluster_config_outbound_clusters_ping_schedule
 		}
 	}
+	remote_reindex_trust_config {
+		#Required
+		remote_sources {
+			#Required
+			certificate_id = oci_apigateway_certificate.test_certificate.id
+			endpoint = var.opensearch_cluster_remote_reindex_trust_config_remote_sources_endpoint
+
+			#Optional
+			endpoint_resolution_ip = var.opensearch_cluster_remote_reindex_trust_config_remote_sources_endpoint_resolution_ip
+		}
+	}
 	reverse_connection_endpoint_customer_ips = var.opensearch_cluster_reverse_connection_endpoint_customer_ips
 	search_node_count = var.opensearch_cluster_search_node_count
 	search_node_host_memory_gb = var.opensearch_cluster_search_node_host_memory_gb
@@ -118,6 +129,21 @@ resource "oci_opensearch_opensearch_cluster" "test_opensearch_cluster" {
 	search_node_host_type = var.opensearch_cluster_search_node_host_type
 	search_node_storage_gb = var.opensearch_cluster_search_node_storage_gb
 	security_attributes = var.opensearch_cluster_security_attributes
+	security_master_user_auth_details {
+		#Required
+		user_details {
+			#Required
+			password_details {
+				#Required
+				source_type = var.opensearch_cluster_security_master_user_auth_details_user_details_password_details_source_type
+
+				#Optional
+				plain_password = var.opensearch_cluster_security_master_user_auth_details_user_details_password_details_plain_password
+				vault_secret_id = oci_vault_secret.test_secret.id
+			}
+			username = var.opensearch_cluster_security_master_user_auth_details_user_details_username
+		}
+	}
 	security_master_user_name = oci_identity_user.test_user.name
 	security_master_user_password_hash = var.opensearch_cluster_security_master_user_password_hash
 	security_mode = var.opensearch_cluster_security_mode
@@ -182,6 +208,11 @@ The following arguments are supported:
 		* `mode` - (Optional) (Updatable) Mode for the cross cluster connection
 		* `ping_schedule` - (Optional) (Updatable) Sets the time interval between regular application-level ping messages that are sent to try and keep outbound cluster connections alive. If set to -1, application-level ping messages to this outbound cluster are not sent. If unset, application-level ping messages are sent according to the global transport.ping_schedule setting, which defaults to -1 meaning that pings are not sent.
 		* `seed_cluster_id` - (Required) (Updatable) OCID of the Outbound cluster
+* `remote_reindex_trust_config` - (Optional) (Updatable) Configuration that allows this OpenSearch cluster to trust a remote cluster for reindexing.
+	* `remote_sources` - (Required) (Updatable) Remote cluster sources to trust for reindexing.
+		* `certificate_id` - (Required) (Updatable) OCID of the certificate or CA chain used to verify the remote cluster's HTTPS certificate.
+		* `endpoint` - (Required) (Updatable) HTTPS endpoint of the remote Elasticsearch or OpenSearch cluster. The hostname and port are used to allow remote reindexing. Use a DNS hostname, rather than an IP address, when endpointResolutionIp is specified.
+		* `endpoint_resolution_ip` - (Optional) (Updatable) Optional IP address to which the endpoint hostname is resolved from within the OpenSearch cluster. The original hostname remains in the connection URL and is used for TLS verification.
 * `reverse_connection_endpoint_customer_ips` - (Optional) (Updatable) The customer IP addresses of the endpoint in customer VCN
 * `search_node_count` - (Optional) (Updatable) The number of search nodes configured for the cluster.
 * `search_node_host_memory_gb` - (Optional) (Updatable) The amount of memory in GB, for the cluster's search nodes.
@@ -190,6 +221,13 @@ The following arguments are supported:
 * `search_node_host_type` - (Optional) The instance type for the cluster's search nodes.
 * `search_node_storage_gb` - (Optional) (Updatable) The amount of storage in GB, to configure per node for the cluster's search nodes.
 * `security_attributes` - (Optional) (Updatable) Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}` 
+* `security_master_user_auth_details` - (Optional) (Updatable) Details for authenticating the OpenSearch security master user. This object cannot be used with securityMasterUserName or securityMasterUserPasswordHash.
+	* `user_details` - (Required) (Updatable) The username and password source details for the security master user.
+		* `password_details` - (Required) (Updatable) Base password-source details for the OpenSearch security master user.
+			* `plain_password` - (Required when source_type=PLAIN_PASSWORD) (Updatable) The plaintext password for the master user.
+			* `source_type` - (Required) (Updatable) The source of the master-user plaintext password.
+			* `vault_secret_id` - (Required when source_type=OCI_VAULT_SECRET) (Updatable) The OCID of a Vault secret containing the plaintext master-user password.
+		* `username` - (Required) (Updatable) The name of the master user that is used to manage security config.
 * `security_master_user_name` - (Optional) (Updatable) The name of the master user that are used to manage security config
 * `security_master_user_password_hash` - (Optional) (Updatable) The password hash of the master user that are used to manage security config
 * `security_mode` - (Optional) (Updatable) The security mode of the cluster.
@@ -274,6 +312,11 @@ The following attributes are exported:
         * `mode` - Mode for the cross cluster connection
         * `ping_schedule` - Sets the time interval between regular application-level ping messages that are sent to try and keep outbound cluster connections alive. If set to -1, application-level ping messages to this outbound cluster are not sent. If unset, application-level ping messages are sent according to the global transport.ping_schedule setting, which defaults to -1 meaning that pings are not sent.
         * `seed_cluster_id` - OCID of the Outbound cluster
+* `remote_reindex_trust_config` - Configuration that allows this OpenSearch cluster to trust a remote cluster for reindexing.
+    * `remote_sources` - Remote cluster sources to trust for reindexing.
+        * `certificate_id` - OCID of the certificate or CA chain used to verify the remote cluster's HTTPS certificate.
+        * `endpoint` - HTTPS endpoint of the remote Elasticsearch or OpenSearch cluster. The hostname and port are used to allow remote reindexing. Use a DNS hostname, rather than an IP address, when endpointResolutionIp is specified.
+        * `endpoint_resolution_ip` - Optional IP address to which the endpoint hostname is resolved from within the OpenSearch cluster. The original hostname remains in the connection URL and is used for TLS verification.
 * `reverse_connection_endpoint_customer_ips` - The customer IP addresses of the endpoint in customer VCN
 * `reverse_connection_endpoints` - The list of reverse connection endpoints.
     * `customer_ip` - The IP addresses of the endpoint in customer VCN

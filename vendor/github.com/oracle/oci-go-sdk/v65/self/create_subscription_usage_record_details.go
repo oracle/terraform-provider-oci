@@ -69,9 +69,6 @@ type CreateSubscriptionUsageRecordDetails struct {
 
 	// Additional key/value metadata associated with this usage record for extensibility.
 	AdditionalMetadata []ExtendedMetadata `mandatory:"false" json:"additionalMetadata"`
-
-	// Partner-provided usage record identifier for traceability.
-	UsageRecordId *string `mandatory:"false" json:"usageRecordId"`
 }
 
 func (m CreateSubscriptionUsageRecordDetails) String() string {

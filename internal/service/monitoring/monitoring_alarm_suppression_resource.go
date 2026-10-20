@@ -39,7 +39,6 @@ func MonitoringAlarmSuppressionResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"target_type": {
 							Type:             schema.TypeString,
 							Required:         true,
@@ -50,8 +49,6 @@ func MonitoringAlarmSuppressionResource() *schema.Resource {
 								"COMPARTMENT",
 							}, true),
 						},
-
-						// Optional
 						"alarm_id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -70,8 +67,6 @@ func MonitoringAlarmSuppressionResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
-
-						// Computed
 					},
 				},
 			},
@@ -92,7 +87,6 @@ func MonitoringAlarmSuppressionResource() *schema.Resource {
 				ForceNew:         true,
 				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 			},
-
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -135,7 +129,6 @@ func MonitoringAlarmSuppressionResource() *schema.Resource {
 				ForceNew: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
 						"condition_type": {
 							Type:             schema.TypeString,
 							Required:         true,
@@ -155,14 +148,9 @@ func MonitoringAlarmSuppressionResource() *schema.Resource {
 							Required: true,
 							ForceNew: true,
 						},
-
-						// Optional
-
-						// Computed
 					},
 				},
 			},
-
 			// Computed
 			"compartment_id": {
 				Type:     schema.TypeString,

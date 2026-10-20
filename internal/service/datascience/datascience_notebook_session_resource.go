@@ -81,6 +81,12 @@ func DatascienceNotebookSessionResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"capacity_reservation_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"notebook_session_shape_config_details": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -154,6 +160,11 @@ func DatascienceNotebookSessionResource() *schema.Resource {
 						// Optional
 						"block_storage_size_in_gbs": {
 							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"capacity_reservation_id": {
+							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
@@ -736,6 +747,11 @@ func (s *DatascienceNotebookSessionResourceCrud) mapToNotebookSessionConfigDetai
 		result.BlockStorageSizeInGBs = &tmp
 	}
 
+	if capacityReservationId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "capacity_reservation_id")); ok {
+		tmp := capacityReservationId.(string)
+		result.CapacityReservationId = &tmp
+	}
+
 	if notebookSessionShapeConfigDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "notebook_session_shape_config_details")); ok {
 		if tmpList := notebookSessionShapeConfigDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "notebook_session_shape_config_details"), 0)
@@ -772,6 +788,10 @@ func NotebookSessionConfigDetailsToMap(obj *oci_datascience.NotebookSessionConfi
 		result["block_storage_size_in_gbs"] = int(*obj.BlockStorageSizeInGBs)
 	}
 
+	if obj.CapacityReservationId != nil {
+		result["capacity_reservation_id"] = string(*obj.CapacityReservationId)
+	}
+
 	if obj.NotebookSessionShapeConfigDetails != nil {
 		result["notebook_session_shape_config_details"] = []interface{}{NotebookSessionShapeConfigDetailsToMap(obj.NotebookSessionShapeConfigDetails)}
 	}
@@ -797,6 +817,11 @@ func (s *DatascienceNotebookSessionResourceCrud) mapToNotebookSessionConfigurati
 	if blockStorageSizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "block_storage_size_in_gbs")); ok {
 		tmp := blockStorageSizeInGBs.(int)
 		result.BlockStorageSizeInGBs = &tmp
+	}
+
+	if capacityReservationId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "capacity_reservation_id")); ok {
+		tmp := capacityReservationId.(string)
+		result.CapacityReservationId = &tmp
 	}
 
 	if notebookSessionShapeConfigDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "notebook_session_shape_config_details")); ok {
@@ -833,6 +858,10 @@ func NotebookSessionConfigurationDetailsToMap(obj *oci_datascience.NotebookSessi
 
 	if obj.BlockStorageSizeInGBs != nil {
 		result["block_storage_size_in_gbs"] = int(*obj.BlockStorageSizeInGBs)
+	}
+
+	if obj.CapacityReservationId != nil {
+		result["capacity_reservation_id"] = string(*obj.CapacityReservationId)
 	}
 
 	if obj.NotebookSessionShapeConfigDetails != nil {

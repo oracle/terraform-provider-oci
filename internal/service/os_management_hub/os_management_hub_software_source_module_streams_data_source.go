@@ -48,11 +48,6 @@ func OsManagementHubSoftwareSourceModuleStreamsDataSource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
 									"arch_type": {
 										Type:     schema.TypeString,
 										Computed: true,

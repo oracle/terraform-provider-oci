@@ -27,11 +27,6 @@ func DatabaseAutonomousDatabaseDataguardAssociationsDataSource() *schema.Resourc
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"apply_lag": {
 							Type:     schema.TypeString,
 							Computed: true,
