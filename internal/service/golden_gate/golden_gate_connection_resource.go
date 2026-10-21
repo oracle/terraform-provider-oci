@@ -46,12 +46,14 @@ func GoldenGateConnectionResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
 					"AI_MODEL",
+					"AI_PROVIDER",
 					"AMAZON_KINESIS",
 					"AMAZON_REDSHIFT",
 					"AMAZON_S3",
 					"AZURE_DATA_LAKE_STORAGE",
 					"AZURE_SYNAPSE_ANALYTICS",
 					"DATABRICKS",
+					"DATABRICKS_ENGINE",
 					"DB2",
 					"ELASTICSEARCH",
 					"GENERIC",
@@ -71,10 +73,12 @@ func GoldenGateConnectionResource() *schema.Resource {
 					"OCI_OBJECT_STORAGE",
 					"ORACLE",
 					"ORACLE_AI_DATA_PLATFORM",
+					"ORACLE_AI_DATA_PLATFORM_ENGINE",
 					"ORACLE_NOSQL",
 					"POSTGRESQL",
 					"REDIS",
 					"SNOWFLAKE",
+					"SPARK",
 				}, true),
 			},
 			"display_name": {
@@ -124,6 +128,180 @@ func GoldenGateConnectionResource() *schema.Resource {
 							Computed: true,
 						},
 						"value": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"artifact_location": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"configuration": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"authentication_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"CUSTOMER_SECRET_KEY",
+											"PRE_AUTHENTICATED_REQUEST",
+											"RESOURCE_PRINCIPAL",
+											"USER_PRINCIPAL",
+										}, true),
+									},
+
+									// Optional
+									"access_key_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"bucket": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"namespace": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"par_url": {
+										Type:       schema.TypeString,
+										Optional:   true,
+										Sensitive:  true,
+										Deprecated: tfresource.FieldDeprecatedForAnother("par_url", "par_url_secret_id"),
+									},
+									"par_url_secret_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"path": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"private_key_file": {
+										Type:       schema.TypeString,
+										Optional:   true,
+										Sensitive:  true,
+										Deprecated: tfresource.FieldDeprecatedForAnother("private_key_file", "private_key_file_secret_id"),
+									},
+									"private_key_file_secret_id": {
+										Type:      schema.TypeString,
+										Optional:  true,
+										Computed:  true,
+										Sensitive: true,
+									},
+									"private_key_passphrase": {
+										Type:       schema.TypeString,
+										Optional:   true,
+										Sensitive:  true,
+										Deprecated: tfresource.FieldDeprecatedForAnother("private_key_passphrase", "private_key_passphrase_secret_id"),
+									},
+									"private_key_passphrase_secret_id": {
+										Type:      schema.TypeString,
+										Optional:  true,
+										Computed:  true,
+										Sensitive: true,
+									},
+									"public_key_fingerprint": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"region": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"secret_access_key": {
+										Type:       schema.TypeString,
+										Optional:   true,
+										Sensitive:  true,
+										Deprecated: tfresource.FieldDeprecatedForAnother("secret_access_key", "secret_access_key_secret_id"),
+									},
+									"secret_access_key_secret_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"tenancy_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"user_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"location_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"AZURE_DATE_LAKE_STORAGE",
+								"OCI_OBJECT_STORAGE",
+								"UC_VOLUME",
+							}, true),
+						},
+
+						// Optional
+						"account_key": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"account_key_secret_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"endpoint_suffix": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"filesystem": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"path": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"should_overwrite_existing": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"storage_account": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -192,6 +370,28 @@ func GoldenGateConnectionResource() *schema.Resource {
 						// Computed
 					},
 				},
+			},
+			"auth_secret": {
+				Type:       schema.TypeString,
+				Optional:   true,
+				Sensitive:  true,
+				Deprecated: tfresource.FieldDeprecatedForAnother("auth_secret", "auth_secret_secret_id"),
+			},
+			"auth_secret_secret_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"auth_token": {
+				Type:       schema.TypeString,
+				Optional:   true,
+				Sensitive:  true,
+				Deprecated: tfresource.FieldDeprecatedForAnother("auth_token", "auth_token_secret_id"),
+			},
+			"auth_token_secret_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 			"authentication_mode": {
 				Type:     schema.TypeString,
@@ -335,6 +535,11 @@ func GoldenGateConnectionResource() *schema.Resource {
 			"client_secret_secret_id": {
 				Type:     schema.TypeString,
 				Optional: true,
+			},
+			"cluster_endpoint": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 			"cluster_id": {
 				Type:     schema.TypeString,
@@ -485,6 +690,11 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"key_store_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"locks": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -583,6 +793,12 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"provider_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"provider_type": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -604,7 +820,28 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"rest_auth_secret_key": {
+				Type:       schema.TypeString,
+				Optional:   true,
+				Sensitive:  true,
+				Deprecated: tfresource.FieldDeprecatedForAnother("rest_auth_secret_key", "rest_auth_secret_key_secret_id"),
+			},
+			"rest_auth_secret_key_secret_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"rest_endpoint": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"routing_method": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"rpc_cipher": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -851,6 +1088,11 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"submit_mode": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"subnet_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -901,6 +1143,11 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"tls_protocol": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"trust_store": {
 				Type:       schema.TypeString,
 				Optional:   true,
@@ -920,6 +1167,11 @@ func GoldenGateConnectionResource() *schema.Resource {
 			"trust_store_secret_id": {
 				Type:     schema.TypeString,
 				Optional: true,
+			},
+			"trust_store_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 			"url": {
 				Type:     schema.TypeString,
@@ -950,6 +1202,11 @@ func GoldenGateConnectionResource() *schema.Resource {
 			"wallet_secret_id": {
 				Type:     schema.TypeString,
 				Optional: true,
+			},
+			"workspace_url": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 
 			// Computed
@@ -1359,6 +1616,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("model_key", *v.ModelKey)
 		}
 
+		if v.ProviderId != nil {
+			s.D.Set("provider_id", *v.ProviderId)
+		}
+
 		s.D.Set("provider_type", v.ProviderType)
 
 		s.D.Set("technology_type", v.TechnologyType)
@@ -1423,6 +1684,111 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SecurityAttributes != nil {
 			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.VaultId != nil {
+			s.D.Set("vault_id", *v.VaultId)
+		}
+	case oci_golden_gate.AiProviderConnection:
+		s.D.Set("connection_type", "AI_PROVIDER")
+
+		if v.AuthDetails != nil {
+			authDetailsArray := []interface{}{}
+			if authDetailsMap := AiModelAuthDetailsToMap(&v.AuthDetails); authDetailsMap != nil {
+				authDetailsMap = preserveAiModelAuthDetailsWriteOnlyFields(s.D, authDetailsMap)
+				authDetailsArray = append(authDetailsArray, authDetailsMap)
+			}
+			s.D.Set("auth_details", authDetailsArray)
+		} else {
+			s.D.Set("auth_details", nil)
+		}
+
+		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.Id != nil {
+			s.D.SetId(*v.Id)
+		}
+
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
+		if v.KeyId != nil {
+			s.D.Set("key_id", *v.KeyId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
+
+		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		} else {
+			s.D.Set("security_attributes", map[string]interface{}{})
 		}
 
 		s.D.Set("state", v.LifecycleState)
@@ -2087,6 +2453,129 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 
 		if v.SecurityAttributes != nil {
 			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.VaultId != nil {
+			s.D.Set("vault_id", *v.VaultId)
+		}
+	case oci_golden_gate.DatabricksEngineConnection:
+		s.D.Set("connection_type", "DATABRICKS_ENGINE")
+
+		if v.ArtifactLocation != nil {
+			artifactLocationArray := []interface{}{}
+			if artifactLocationMap := DatabricksEngineArtifactLocationToMap(&v.ArtifactLocation); artifactLocationMap != nil {
+				artifactLocationMap = preserveArtifactLocationWriteOnlyFields(s.D, artifactLocationMap)
+				artifactLocationArray = append(artifactLocationArray, artifactLocationMap)
+			}
+			s.D.Set("artifact_location", artifactLocationArray)
+		} else {
+			s.D.Set("artifact_location", nil)
+		}
+
+		if v.AuthTokenSecretId != nil {
+			s.D.Set("auth_token_secret_id", *v.AuthTokenSecretId)
+		}
+
+		s.D.Set("authentication_type", v.AuthenticationType)
+
+		if v.ClientId != nil {
+			s.D.Set("client_id", *v.ClientId)
+		}
+
+		if v.ClientSecretSecretId != nil {
+			s.D.Set("client_secret_secret_id", *v.ClientSecretSecretId)
+		}
+
+		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.WorkspaceUrl != nil {
+			s.D.Set("workspace_url", *v.WorkspaceUrl)
+		}
+
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.Id != nil {
+			s.D.SetId(*v.Id)
+		}
+
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
+		if v.KeyId != nil {
+			s.D.Set("key_id", *v.KeyId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
+
+		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		} else {
+			s.D.Set("security_attributes", map[string]interface{}{})
 		}
 
 		s.D.Set("state", v.LifecycleState)
@@ -4386,6 +4875,104 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		if v.VaultId != nil {
 			s.D.Set("vault_id", *v.VaultId)
 		}
+	case oci_golden_gate.OracleAiDataPlatformEngineConnection:
+		s.D.Set("connection_type", "ORACLE_AI_DATA_PLATFORM_ENGINE")
+
+		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.WorkspaceUrl != nil {
+			s.D.Set("workspace_url", *v.WorkspaceUrl)
+		}
+
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.Id != nil {
+			s.D.SetId(*v.Id)
+		}
+
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
+		if v.KeyId != nil {
+			s.D.Set("key_id", *v.KeyId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
+
+		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		} else {
+			s.D.Set("security_attributes", map[string]interface{}{})
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.VaultId != nil {
+			s.D.Set("vault_id", *v.VaultId)
+		}
 	case oci_golden_gate.OracleNosqlConnection:
 		s.D.Set("connection_type", "ORACLE_NOSQL")
 
@@ -4508,6 +5095,7 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		}
 	case oci_golden_gate.PostgresqlConnection:
 		s.D.Set("connection_type", "POSTGRESQL")
+		s.D.Set("technology_type", v.TechnologyType)
 
 		additionalAttributes := []interface{}{}
 		for _, item := range v.AdditionalAttributes {
@@ -4639,8 +5227,6 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
 		}
 
-		s.D.Set("technology_type", v.TechnologyType)
-
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
 		}
@@ -4654,6 +5240,7 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		}
 	case oci_golden_gate.RedisConnection:
 		s.D.Set("connection_type", "REDIS")
+		s.D.Set("technology_type", v.TechnologyType)
 
 		s.D.Set("authentication_type", v.AuthenticationType)
 
@@ -4766,8 +5353,6 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		if v.SystemTags != nil {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
 		}
-
-		s.D.Set("technology_type", v.TechnologyType)
 
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
@@ -4894,6 +5479,161 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		if v.VaultId != nil {
 			s.D.Set("vault_id", *v.VaultId)
 		}
+	case oci_golden_gate.SparkConnection:
+		s.D.Set("connection_type", "SPARK")
+
+		if v.ArtifactLocation != nil {
+			artifactLocationArray := []interface{}{}
+			if artifactLocationMap := SparkArtifactLocationToMap(&v.ArtifactLocation); artifactLocationMap != nil {
+				artifactLocationMap = preserveArtifactLocationWriteOnlyFields(s.D, artifactLocationMap)
+				artifactLocationArray = append(artifactLocationArray, artifactLocationMap)
+			}
+			s.D.Set("artifact_location", artifactLocationArray)
+		} else {
+			s.D.Set("artifact_location", nil)
+		}
+
+		if v.AuthSecretSecretId != nil {
+			s.D.Set("auth_secret_secret_id", *v.AuthSecretSecretId)
+		}
+
+		s.D.Set("authentication_type", v.AuthenticationType)
+
+		if v.ClusterEndpoint != nil {
+			s.D.Set("cluster_endpoint", *v.ClusterEndpoint)
+		}
+
+		if v.KeyStorePasswordSecretId != nil {
+			s.D.Set("key_store_password_secret_id", *v.KeyStorePasswordSecretId)
+		}
+
+		if v.KeyStoreSecretId != nil {
+			s.D.Set("key_store_secret_id", *v.KeyStoreSecretId)
+		}
+
+		s.D.Set("key_store_type", v.KeyStoreType)
+
+		if v.RestAuthSecretKeySecretId != nil {
+			s.D.Set("rest_auth_secret_key_secret_id", *v.RestAuthSecretKeySecretId)
+		}
+
+		if v.RestEndpoint != nil {
+			s.D.Set("rest_endpoint", *v.RestEndpoint)
+		}
+
+		s.D.Set("rpc_cipher", v.RpcCipher)
+
+		s.D.Set("security_protocol", v.SecurityProtocol)
+
+		if v.SslKeyPasswordSecretId != nil {
+			s.D.Set("ssl_key_password_secret_id", *v.SslKeyPasswordSecretId)
+		}
+
+		s.D.Set("submit_mode", v.SubmitMode)
+
+		s.D.Set("technology_type", v.TechnologyType)
+
+		s.D.Set("tls_protocol", v.TlsProtocol)
+
+		if v.TrustStorePasswordSecretId != nil {
+			s.D.Set("trust_store_password_secret_id", *v.TrustStorePasswordSecretId)
+		}
+
+		if v.TrustStoreSecretId != nil {
+			s.D.Set("trust_store_secret_id", *v.TrustStoreSecretId)
+		}
+
+		s.D.Set("trust_store_type", v.TrustStoreType)
+
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.Id != nil {
+			s.D.SetId(*v.Id)
+		}
+
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
+		if v.KeyId != nil {
+			s.D.Set("key_id", *v.KeyId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
+
+		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		} else {
+			s.D.Set("security_attributes", map[string]interface{}{})
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.VaultId != nil {
+			s.D.Set("vault_id", *v.VaultId)
+		}
 	default:
 		log.Printf("[WARN] Received 'connection_type' of unknown type %v", *s.Res)
 		return nil
@@ -4983,6 +5723,58 @@ func preserveIcebergStorageWriteOnlyFields(d *schema.ResourceData, storageMap ma
 	}
 
 	return storageMap
+}
+
+func preserveArtifactLocationWriteOnlyFields(d *schema.ResourceData, artifactLocationMap map[string]interface{}) map[string]interface{} {
+	existingArtifactLocation, ok := d.GetOkExists("artifact_location")
+	if !ok {
+		return artifactLocationMap
+	}
+
+	existingList, ok := existingArtifactLocation.([]interface{})
+	if !ok || len(existingList) == 0 || existingList[0] == nil {
+		return artifactLocationMap
+	}
+
+	existingMap, ok := existingList[0].(map[string]interface{})
+	if !ok || existingMap["location_type"] != artifactLocationMap["location_type"] {
+		return artifactLocationMap
+	}
+
+	preserveNonEmptyMapValues(artifactLocationMap, existingMap, "account_key")
+
+	configuration, ok := firstNestedMap(artifactLocationMap, "configuration")
+	if !ok {
+		return artifactLocationMap
+	}
+	existingConfiguration, ok := firstNestedMap(existingMap, "configuration")
+	if !ok || existingConfiguration["authentication_type"] != configuration["authentication_type"] {
+		return artifactLocationMap
+	}
+
+	preserveNonEmptyMapValues(configuration, existingConfiguration,
+		"par_url", "private_key_file", "private_key_passphrase", "secret_access_key")
+	return artifactLocationMap
+}
+
+func firstNestedMap(parent map[string]interface{}, key string) (map[string]interface{}, bool) {
+	nested, ok := parent[key].([]interface{})
+	if !ok || len(nested) == 0 || nested[0] == nil {
+		return nil, false
+	}
+	value, ok := nested[0].(map[string]interface{})
+	return value, ok
+}
+
+func preserveNonEmptyMapValues(target, source map[string]interface{}, keys ...string) {
+	for _, key := range keys {
+		if _, exists := target[key]; exists {
+			continue
+		}
+		if value, ok := source[key]; ok && value != nil && value != "" {
+			target[key] = value
+		}
+	}
 }
 
 func (s *GoldenGateConnectionResourceCrud) mapToAddResourceLockDetails(fieldKeyFormat string) (oci_golden_gate.AddResourceLockDetails, error) {
@@ -5292,7 +6084,23 @@ func ConnectionSummaryToMap(obj oci_golden_gate.ConnectionSummary, datasource bo
 			result["model_key"] = string(*v.ModelKey)
 		}
 
+		if v.ProviderId != nil {
+			result["provider_id"] = string(*v.ProviderId)
+		}
+
 		result["provider_type"] = string(v.ProviderType)
+
+		result["technology_type"] = string(v.TechnologyType)
+	case oci_golden_gate.AiProviderConnectionSummary:
+		result["connection_type"] = "AI_PROVIDER"
+
+		if v.AuthDetails != nil {
+			authDetailsArray := []interface{}{}
+			if authDetailsMap := AiModelAuthDetailsSummaryToMap(&v.AuthDetails); authDetailsMap != nil {
+				authDetailsArray = append(authDetailsArray, authDetailsMap)
+			}
+			result["auth_details"] = authDetailsArray
+		}
 
 		result["technology_type"] = string(v.TechnologyType)
 	case oci_golden_gate.AmazonKinesisConnectionSummary:
@@ -5431,6 +6239,36 @@ func ConnectionSummaryToMap(obj oci_golden_gate.ConnectionSummary, datasource bo
 		}
 
 		result["technology_type"] = string(v.TechnologyType)
+	case oci_golden_gate.DatabricksEngineConnectionSummary:
+		result["connection_type"] = "DATABRICKS_ENGINE"
+
+		if v.ArtifactLocation != nil {
+			artifactLocationArray := []interface{}{}
+			if artifactLocationMap := DatabricksEngineArtifactLocationSummaryToMap(&v.ArtifactLocation); artifactLocationMap != nil {
+				artifactLocationArray = append(artifactLocationArray, artifactLocationMap)
+			}
+			result["artifact_location"] = artifactLocationArray
+		}
+
+		if v.AuthTokenSecretId != nil {
+			result["auth_token_secret_id"] = string(*v.AuthTokenSecretId)
+		}
+
+		result["authentication_type"] = string(v.AuthenticationType)
+
+		if v.ClientId != nil {
+			result["client_id"] = string(*v.ClientId)
+		}
+
+		if v.ClientSecretSecretId != nil {
+			result["client_secret_secret_id"] = string(*v.ClientSecretSecretId)
+		}
+
+		result["technology_type"] = string(v.TechnologyType)
+
+		if v.WorkspaceUrl != nil {
+			result["workspace_url"] = string(*v.WorkspaceUrl)
+		}
 	case oci_golden_gate.Db2ConnectionSummary:
 		result["connection_type"] = "DB2"
 
@@ -5989,6 +6827,14 @@ func ConnectionSummaryToMap(obj oci_golden_gate.ConnectionSummary, datasource bo
 		if v.UserId != nil {
 			result["user_id"] = string(*v.UserId)
 		}
+	case oci_golden_gate.OracleAiDataPlatformEngineConnectionSummary:
+		result["connection_type"] = "ORACLE_AI_DATA_PLATFORM_ENGINE"
+
+		result["technology_type"] = string(v.TechnologyType)
+
+		if v.WorkspaceUrl != nil {
+			result["workspace_url"] = string(*v.WorkspaceUrl)
+		}
 	case oci_golden_gate.OracleNosqlConnectionSummary:
 		result["connection_type"] = "ORACLE_NOSQL"
 
@@ -6107,6 +6953,68 @@ func ConnectionSummaryToMap(obj oci_golden_gate.ConnectionSummary, datasource bo
 		if v.Username != nil {
 			result["username"] = string(*v.Username)
 		}
+	case oci_golden_gate.SparkConnectionSummary:
+		result["connection_type"] = "SPARK"
+
+		if v.ArtifactLocation != nil {
+			artifactLocationArray := []interface{}{}
+			if artifactLocationMap := SparkArtifactLocationSummaryToMap(&v.ArtifactLocation); artifactLocationMap != nil {
+				artifactLocationArray = append(artifactLocationArray, artifactLocationMap)
+			}
+			result["artifact_location"] = artifactLocationArray
+		}
+
+		if v.AuthSecretSecretId != nil {
+			result["auth_secret_secret_id"] = string(*v.AuthSecretSecretId)
+		}
+
+		result["authentication_type"] = string(v.AuthenticationType)
+
+		if v.ClusterEndpoint != nil {
+			result["cluster_endpoint"] = string(*v.ClusterEndpoint)
+		}
+
+		if v.KeyStorePasswordSecretId != nil {
+			result["key_store_password_secret_id"] = string(*v.KeyStorePasswordSecretId)
+		}
+
+		if v.KeyStoreSecretId != nil {
+			result["key_store_secret_id"] = string(*v.KeyStoreSecretId)
+		}
+
+		result["key_store_type"] = string(v.KeyStoreType)
+
+		if v.RestAuthSecretKeySecretId != nil {
+			result["rest_auth_secret_key_secret_id"] = string(*v.RestAuthSecretKeySecretId)
+		}
+
+		if v.RestEndpoint != nil {
+			result["rest_endpoint"] = string(*v.RestEndpoint)
+		}
+
+		result["rpc_cipher"] = string(v.RpcCipher)
+
+		result["security_protocol"] = string(v.SecurityProtocol)
+
+		if v.SslKeyPasswordSecretId != nil {
+			result["ssl_key_password_secret_id"] = string(*v.SslKeyPasswordSecretId)
+		}
+
+		result["submit_mode"] = string(v.SubmitMode)
+
+		result["technology_type"] = string(v.TechnologyType)
+
+		result["tls_protocol"] = string(v.TlsProtocol)
+
+		if v.TrustStorePasswordSecretId != nil {
+			result["trust_store_password_secret_id"] = string(*v.TrustStorePasswordSecretId)
+		}
+
+		if v.TrustStoreSecretId != nil {
+			result["trust_store_secret_id"] = string(*v.TrustStoreSecretId)
+		}
+
+		result["trust_store_type"] = string(v.TrustStoreType)
 	case oci_golden_gate.SnowflakeConnectionSummary:
 		result["connection_type"] = "SNOWFLAKE"
 
@@ -7957,6 +8865,2214 @@ func UpdateIcebergStorageDetailsToMap(obj *oci_golden_gate.UpdateIcebergStorageD
 	return result
 }
 
+func (s *GoldenGateConnectionResourceCrud) mapToCreateDatabricksEngineArtifactLocationDetails(fieldKeyFormat string) (oci_golden_gate.CreateDatabricksEngineArtifactLocationDetails, error) {
+	var baseObject oci_golden_gate.CreateDatabricksEngineArtifactLocationDetails
+	useSecretIds := false
+	if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+		useSecretIds = doesUseSecretIds.(bool)
+	}
+	//discriminator
+	locationTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "location_type"))
+	var locationType string
+	if ok {
+		locationType = locationTypeRaw.(string)
+	} else {
+		locationType = "" // default value
+	}
+	switch strings.ToLower(locationType) {
+	case strings.ToLower("AZURE_DATE_LAKE_STORAGE"):
+		details := oci_golden_gate.CreateAzureDataLakeStorageDatabricksEngineArtifactLocationDetails{}
+		if !useSecretIds {
+			if accountKey, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "account_key")); ok {
+				tmp := accountKey.(string)
+				details.AccountKey = &tmp
+			}
+		}
+		if useSecretIds {
+			if accountKeySecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "account_key_secret_id")); ok {
+				tmp := accountKeySecretId.(string)
+				details.AccountKeySecretId = &tmp
+			}
+		}
+		if endpointSuffix, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "endpoint_suffix")); ok {
+			tmp := endpointSuffix.(string)
+			details.EndpointSuffix = &tmp
+		}
+		if filesystem, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "filesystem")); ok {
+			tmp := filesystem.(string)
+			details.Filesystem = &tmp
+		}
+		if path, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		if storageAccount, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "storage_account")); ok {
+			tmp := storageAccount.(string)
+			details.StorageAccount = &tmp
+		}
+		if shouldOverwriteExisting, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "should_overwrite_existing")); ok {
+			tmp := shouldOverwriteExisting.(bool)
+			details.ShouldOverwriteExisting = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("OCI_OBJECT_STORAGE"):
+		details := oci_golden_gate.CreateOciObjectStorageDatabricksEngineArtifactLocationDetails{}
+		if configuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "configuration")); ok {
+			if tmpList := configuration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "configuration"), 0)
+				tmp, err := s.mapToCreateDatabricksEngineOciObjectStorageConfigDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert configuration, encountered error: %v", err)
+				}
+				details.Configuration = tmp
+			}
+		}
+		if shouldOverwriteExisting, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "should_overwrite_existing")); ok {
+			tmp := shouldOverwriteExisting.(bool)
+			details.ShouldOverwriteExisting = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("UC_VOLUME"):
+		details := oci_golden_gate.CreateUcVolumeDatabricksEngineArtifactLocationDetails{}
+		if path, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		if shouldOverwriteExisting, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "should_overwrite_existing")); ok {
+			tmp := shouldOverwriteExisting.(bool)
+			details.ShouldOverwriteExisting = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown location_type '%v' was specified", locationType)
+	}
+	return baseObject, nil
+}
+
+func CreateDatabricksEngineArtifactLocationDetailsToMap(obj *oci_golden_gate.CreateDatabricksEngineArtifactLocationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_golden_gate.CreateAzureDataLakeStorageDatabricksEngineArtifactLocationDetails:
+		result["location_type"] = "AZURE_DATE_LAKE_STORAGE"
+
+		if v.AccountKey != nil {
+			result["account_key"] = string(*v.AccountKey)
+		}
+
+		if v.AccountKeySecretId != nil {
+			result["account_key_secret_id"] = string(*v.AccountKeySecretId)
+		}
+
+		if v.EndpointSuffix != nil {
+			result["endpoint_suffix"] = string(*v.EndpointSuffix)
+		}
+
+		if v.Filesystem != nil {
+			result["filesystem"] = string(*v.Filesystem)
+		}
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+
+		if v.StorageAccount != nil {
+			result["storage_account"] = string(*v.StorageAccount)
+		}
+	case oci_golden_gate.CreateOciObjectStorageDatabricksEngineArtifactLocationDetails:
+		result["location_type"] = "OCI_OBJECT_STORAGE"
+
+		if v.Configuration != nil {
+			configurationArray := []interface{}{}
+			if configurationMap := CreateDatabricksEngineOciObjectStorageConfigDetailsToMap(&v.Configuration); configurationMap != nil {
+				configurationArray = append(configurationArray, configurationMap)
+			}
+			result["configuration"] = configurationArray
+		}
+	case oci_golden_gate.CreateUcVolumeDatabricksEngineArtifactLocationDetails:
+		result["location_type"] = "UC_VOLUME"
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+	default:
+		log.Printf("[WARN] Received 'location_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *GoldenGateConnectionResourceCrud) mapToCreateDatabricksEngineOciObjectStorageConfigDetails(fieldKeyFormat string) (oci_golden_gate.CreateDatabricksEngineOciObjectStorageConfigDetails, error) {
+	var baseObject oci_golden_gate.CreateDatabricksEngineOciObjectStorageConfigDetails
+	useSecretIds := false
+	if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+		useSecretIds = doesUseSecretIds.(bool)
+	}
+	//discriminator
+	authenticationTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "authentication_type"))
+	var authenticationType string
+	if ok {
+		authenticationType = authenticationTypeRaw.(string)
+	} else {
+		authenticationType = "" // default value
+	}
+	switch strings.ToLower(authenticationType) {
+	case strings.ToLower("CUSTOMER_SECRET_KEY"):
+		details := oci_golden_gate.CreateDatabricksEngineSecretKeyOciObjectStorageConfigDetails{}
+		if accessKeyId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+			tmp := accessKeyId.(string)
+			details.AccessKeyId = &tmp
+		}
+		if bucket, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.Bucket = &tmp
+		}
+		if namespace, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		if path, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		if region, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		if !useSecretIds {
+			if secretAccessKey, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key")); ok {
+				tmp := secretAccessKey.(string)
+				details.SecretAccessKey = &tmp
+			}
+		}
+		if useSecretIds {
+			if secretAccessKeySecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+				tmp := secretAccessKeySecretId.(string)
+				details.SecretAccessKeySecretId = &tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("PRE_AUTHENTICATED_REQUEST"):
+		details := oci_golden_gate.CreateDatabricksEngineParOciObjectStorageConfigDetails{}
+		if !useSecretIds {
+			if parUrl, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "par_url")); ok {
+				tmp := parUrl.(string)
+				details.ParUrl = &tmp
+			}
+		}
+		if useSecretIds {
+			if parUrlSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "par_url_secret_id")); ok {
+				tmp := parUrlSecretId.(string)
+				details.ParUrlSecretId = &tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("RESOURCE_PRINCIPAL"):
+		details := oci_golden_gate.CreateDatabricksEngineResourcePrincipalOciObjectStorageConfigDetails{}
+		if bucket, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.Bucket = &tmp
+		}
+		if namespace, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		if path, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		if region, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("USER_PRINCIPAL"):
+		details := oci_golden_gate.CreateDatabricksEngineUserPrincipalOciObjectStorageConfigDetails{}
+		if bucket, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.Bucket = &tmp
+		}
+		if namespace, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		if path, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		if !useSecretIds {
+			if privateKeyFile, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "private_key_file")); ok {
+				tmp := privateKeyFile.(string)
+				details.PrivateKeyFile = &tmp
+			}
+		}
+		if useSecretIds {
+			if privateKeyFileSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "private_key_file_secret_id")); ok {
+				tmp := privateKeyFileSecretId.(string)
+				details.PrivateKeyFileSecretId = &tmp
+			}
+		}
+		if !useSecretIds {
+			if privateKeyPassphrase, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "private_key_passphrase")); ok {
+				tmp := privateKeyPassphrase.(string)
+				details.PrivateKeyPassphrase = &tmp
+			}
+		}
+		if useSecretIds {
+			if privateKeyPassphraseSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "private_key_passphrase_secret_id")); ok {
+				tmp := privateKeyPassphraseSecretId.(string)
+				details.PrivateKeyPassphraseSecretId = &tmp
+			}
+		}
+		if publicKeyFingerprint, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "public_key_fingerprint")); ok {
+			tmp := publicKeyFingerprint.(string)
+			details.PublicKeyFingerprint = &tmp
+		}
+		if region, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		if tenancyId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "tenancy_id")); ok {
+			tmp := tenancyId.(string)
+			details.TenancyId = &tmp
+		}
+		if userId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "user_id")); ok {
+			tmp := userId.(string)
+			details.UserId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown authentication_type '%v' was specified", authenticationType)
+	}
+	return baseObject, nil
+}
+
+func CreateDatabricksEngineOciObjectStorageConfigDetailsToMap(obj *oci_golden_gate.CreateDatabricksEngineOciObjectStorageConfigDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_golden_gate.CreateDatabricksEngineSecretKeyOciObjectStorageConfigDetails:
+		result["authentication_type"] = "CUSTOMER_SECRET_KEY"
+
+		if v.AccessKeyId != nil {
+			result["access_key_id"] = string(*v.AccessKeyId)
+		}
+
+		if v.Bucket != nil {
+			result["bucket"] = string(*v.Bucket)
+		}
+
+		if v.Namespace != nil {
+			result["namespace"] = string(*v.Namespace)
+		}
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+
+		if v.SecretAccessKey != nil {
+			result["secret_access_key"] = string(*v.SecretAccessKey)
+		}
+
+		if v.SecretAccessKeySecretId != nil {
+			result["secret_access_key_secret_id"] = string(*v.SecretAccessKeySecretId)
+		}
+	case oci_golden_gate.CreateDatabricksEngineParOciObjectStorageConfigDetails:
+		result["authentication_type"] = "PRE_AUTHENTICATED_REQUEST"
+
+		if v.ParUrl != nil {
+			result["par_url"] = string(*v.ParUrl)
+		}
+
+		if v.ParUrlSecretId != nil {
+			result["par_url_secret_id"] = string(*v.ParUrlSecretId)
+		}
+	case oci_golden_gate.CreateDatabricksEngineResourcePrincipalOciObjectStorageConfigDetails:
+		result["authentication_type"] = "RESOURCE_PRINCIPAL"
+
+		if v.Bucket != nil {
+			result["bucket"] = string(*v.Bucket)
+		}
+
+		if v.Namespace != nil {
+			result["namespace"] = string(*v.Namespace)
+		}
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+	case oci_golden_gate.CreateDatabricksEngineUserPrincipalOciObjectStorageConfigDetails:
+		result["authentication_type"] = "USER_PRINCIPAL"
+
+		if v.Bucket != nil {
+			result["bucket"] = string(*v.Bucket)
+		}
+
+		if v.Namespace != nil {
+			result["namespace"] = string(*v.Namespace)
+		}
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+
+		if v.PrivateKeyFile != nil {
+			result["private_key_file"] = string(*v.PrivateKeyFile)
+		}
+
+		if v.PrivateKeyFileSecretId != nil {
+			result["private_key_file_secret_id"] = string(*v.PrivateKeyFileSecretId)
+		}
+
+		if v.PrivateKeyPassphrase != nil {
+			result["private_key_passphrase"] = string(*v.PrivateKeyPassphrase)
+		}
+
+		if v.PrivateKeyPassphraseSecretId != nil {
+			result["private_key_passphrase_secret_id"] = string(*v.PrivateKeyPassphraseSecretId)
+		}
+
+		if v.PublicKeyFingerprint != nil {
+			result["public_key_fingerprint"] = string(*v.PublicKeyFingerprint)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+
+		if v.TenancyId != nil {
+			result["tenancy_id"] = string(*v.TenancyId)
+		}
+
+		if v.UserId != nil {
+			result["user_id"] = string(*v.UserId)
+		}
+	default:
+		log.Printf("[WARN] Received 'authentication_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *GoldenGateConnectionResourceCrud) mapToCreateSparkArtifactLocationDetails(fieldKeyFormat string) (oci_golden_gate.CreateSparkArtifactLocationDetails, error) {
+	var baseObject oci_golden_gate.CreateSparkArtifactLocationDetails
+	//discriminator
+	locationTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "location_type"))
+	var locationType string
+	if ok {
+		locationType = locationTypeRaw.(string)
+	} else {
+		locationType = "" // default value
+	}
+	switch strings.ToLower(locationType) {
+	case strings.ToLower("OCI_OBJECT_STORAGE"):
+		details := oci_golden_gate.CreateOciObjectStorageSparkArtifactLocationDetails{}
+		if configuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "configuration")); ok {
+			if tmpList := configuration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "configuration"), 0)
+				tmp, err := s.mapToCreateSparkOciObjectStorageConfigDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert configuration, encountered error: %v", err)
+				}
+				details.Configuration = tmp
+			}
+		}
+		if shouldOverwriteExisting, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "should_overwrite_existing")); ok {
+			tmp := shouldOverwriteExisting.(bool)
+			details.ShouldOverwriteExisting = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown location_type '%v' was specified", locationType)
+	}
+	return baseObject, nil
+}
+
+func CreateSparkArtifactLocationDetailsToMap(obj *oci_golden_gate.CreateSparkArtifactLocationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_golden_gate.CreateOciObjectStorageSparkArtifactLocationDetails:
+		result["location_type"] = "OCI_OBJECT_STORAGE"
+
+		if v.Configuration != nil {
+			configurationArray := []interface{}{}
+			if configurationMap := CreateSparkOciObjectStorageConfigDetailsToMap(&v.Configuration); configurationMap != nil {
+				configurationArray = append(configurationArray, configurationMap)
+			}
+			result["configuration"] = configurationArray
+		}
+	default:
+		log.Printf("[WARN] Received 'location_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *GoldenGateConnectionResourceCrud) mapToCreateSparkOciObjectStorageConfigDetails(fieldKeyFormat string) (oci_golden_gate.CreateSparkOciObjectStorageConfigDetails, error) {
+	var baseObject oci_golden_gate.CreateSparkOciObjectStorageConfigDetails
+	useSecretIds := false
+	if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+		useSecretIds = doesUseSecretIds.(bool)
+	}
+	//discriminator
+	authenticationTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "authentication_type"))
+	var authenticationType string
+	if ok {
+		authenticationType = authenticationTypeRaw.(string)
+	} else {
+		authenticationType = "" // default value
+	}
+	switch strings.ToLower(authenticationType) {
+	case strings.ToLower("CUSTOMER_SECRET_KEY"):
+		details := oci_golden_gate.CreateSparkSecretKeyOciObjectStorageConfigDetails{}
+		if accessKeyId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+			tmp := accessKeyId.(string)
+			details.AccessKeyId = &tmp
+		}
+		if bucket, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.Bucket = &tmp
+		}
+		if namespace, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		if path, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		if region, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		if !useSecretIds {
+			if secretAccessKey, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key")); ok {
+				tmp := secretAccessKey.(string)
+				details.SecretAccessKey = &tmp
+			}
+		}
+		if useSecretIds {
+			if secretAccessKeySecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+				tmp := secretAccessKeySecretId.(string)
+				details.SecretAccessKeySecretId = &tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("PRE_AUTHENTICATED_REQUEST"):
+		details := oci_golden_gate.CreateSparkParOciObjectStorageConfigDetails{}
+		if !useSecretIds {
+			if parUrl, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "par_url")); ok {
+				tmp := parUrl.(string)
+				details.ParUrl = &tmp
+			}
+		}
+		if useSecretIds {
+			if parUrlSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "par_url_secret_id")); ok {
+				tmp := parUrlSecretId.(string)
+				details.ParUrlSecretId = &tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("RESOURCE_PRINCIPAL"):
+		details := oci_golden_gate.CreateSparkResourcePrincipalOciObjectStorageConfigDetails{}
+		if bucket, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.Bucket = &tmp
+		}
+		if namespace, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		if path, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		if region, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("USER_PRINCIPAL"):
+		details := oci_golden_gate.CreateSparkUserPrincipalOciObjectStorageConfigDetails{}
+		if bucket, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.Bucket = &tmp
+		}
+		if namespace, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		if path, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		if !useSecretIds {
+			if privateKeyFile, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "private_key_file")); ok {
+				tmp := privateKeyFile.(string)
+				details.PrivateKeyFile = &tmp
+			}
+		}
+		if useSecretIds {
+			if privateKeyFileSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "private_key_file_secret_id")); ok {
+				tmp := privateKeyFileSecretId.(string)
+				details.PrivateKeyFileSecretId = &tmp
+			}
+		}
+		if !useSecretIds {
+			if privateKeyPassphrase, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "private_key_passphrase")); ok {
+				tmp := privateKeyPassphrase.(string)
+				details.PrivateKeyPassphrase = &tmp
+			}
+		}
+		if useSecretIds {
+			if privateKeyPassphraseSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "private_key_passphrase_secret_id")); ok {
+				tmp := privateKeyPassphraseSecretId.(string)
+				details.PrivateKeyPassphraseSecretId = &tmp
+			}
+		}
+		if publicKeyFingerprint, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "public_key_fingerprint")); ok {
+			tmp := publicKeyFingerprint.(string)
+			details.PublicKeyFingerprint = &tmp
+		}
+		if region, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		if tenancyId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "tenancy_id")); ok {
+			tmp := tenancyId.(string)
+			details.TenancyId = &tmp
+		}
+		if userId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "user_id")); ok {
+			tmp := userId.(string)
+			details.UserId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown authentication_type '%v' was specified", authenticationType)
+	}
+	return baseObject, nil
+}
+
+func CreateSparkOciObjectStorageConfigDetailsToMap(obj *oci_golden_gate.CreateSparkOciObjectStorageConfigDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_golden_gate.CreateSparkSecretKeyOciObjectStorageConfigDetails:
+		result["authentication_type"] = "CUSTOMER_SECRET_KEY"
+
+		if v.AccessKeyId != nil {
+			result["access_key_id"] = string(*v.AccessKeyId)
+		}
+
+		if v.Bucket != nil {
+			result["bucket"] = string(*v.Bucket)
+		}
+
+		if v.Namespace != nil {
+			result["namespace"] = string(*v.Namespace)
+		}
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+
+		if v.SecretAccessKey != nil {
+			result["secret_access_key"] = string(*v.SecretAccessKey)
+		}
+
+		if v.SecretAccessKeySecretId != nil {
+			result["secret_access_key_secret_id"] = string(*v.SecretAccessKeySecretId)
+		}
+	case oci_golden_gate.CreateSparkParOciObjectStorageConfigDetails:
+		result["authentication_type"] = "PRE_AUTHENTICATED_REQUEST"
+
+		if v.ParUrl != nil {
+			result["par_url"] = string(*v.ParUrl)
+		}
+
+		if v.ParUrlSecretId != nil {
+			result["par_url_secret_id"] = string(*v.ParUrlSecretId)
+		}
+	case oci_golden_gate.CreateSparkResourcePrincipalOciObjectStorageConfigDetails:
+		result["authentication_type"] = "RESOURCE_PRINCIPAL"
+
+		if v.Bucket != nil {
+			result["bucket"] = string(*v.Bucket)
+		}
+
+		if v.Namespace != nil {
+			result["namespace"] = string(*v.Namespace)
+		}
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+	case oci_golden_gate.CreateSparkUserPrincipalOciObjectStorageConfigDetails:
+		result["authentication_type"] = "USER_PRINCIPAL"
+
+		if v.Bucket != nil {
+			result["bucket"] = string(*v.Bucket)
+		}
+
+		if v.Namespace != nil {
+			result["namespace"] = string(*v.Namespace)
+		}
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+
+		if v.PrivateKeyFile != nil {
+			result["private_key_file"] = string(*v.PrivateKeyFile)
+		}
+
+		if v.PrivateKeyFileSecretId != nil {
+			result["private_key_file_secret_id"] = string(*v.PrivateKeyFileSecretId)
+		}
+
+		if v.PrivateKeyPassphrase != nil {
+			result["private_key_passphrase"] = string(*v.PrivateKeyPassphrase)
+		}
+
+		if v.PrivateKeyPassphraseSecretId != nil {
+			result["private_key_passphrase_secret_id"] = string(*v.PrivateKeyPassphraseSecretId)
+		}
+
+		if v.PublicKeyFingerprint != nil {
+			result["public_key_fingerprint"] = string(*v.PublicKeyFingerprint)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+
+		if v.TenancyId != nil {
+			result["tenancy_id"] = string(*v.TenancyId)
+		}
+
+		if v.UserId != nil {
+			result["user_id"] = string(*v.UserId)
+		}
+	default:
+		log.Printf("[WARN] Received 'authentication_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *GoldenGateConnectionResourceCrud) mapToDatabricksEngineArtifactLocation(fieldKeyFormat string) (oci_golden_gate.DatabricksEngineArtifactLocation, error) {
+	var baseObject oci_golden_gate.DatabricksEngineArtifactLocation
+	//discriminator
+	locationTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "location_type"))
+	var locationType string
+	if ok {
+		locationType = locationTypeRaw.(string)
+	} else {
+		locationType = "" // default value
+	}
+	switch strings.ToLower(locationType) {
+	case strings.ToLower("AZURE_DATE_LAKE_STORAGE"):
+		details := oci_golden_gate.AzureDataLakeStorageDatabricksEngineArtifactLocation{}
+		if accountKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "account_key_secret_id")); ok {
+			tmp := accountKeySecretId.(string)
+			details.AccountKeySecretId = &tmp
+		}
+		if endpointSuffix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint_suffix")); ok {
+			tmp := endpointSuffix.(string)
+			details.EndpointSuffix = &tmp
+		}
+		if filesystem, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "filesystem")); ok {
+			tmp := filesystem.(string)
+			details.Filesystem = &tmp
+		}
+		if path, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		if storageAccount, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "storage_account")); ok {
+			tmp := storageAccount.(string)
+			details.StorageAccount = &tmp
+		}
+		if shouldOverwriteExisting, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "should_overwrite_existing")); ok {
+			tmp := shouldOverwriteExisting.(bool)
+			details.ShouldOverwriteExisting = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("OCI_OBJECT_STORAGE"):
+		details := oci_golden_gate.OciObjectStorageDatabricksEngineArtifactLocation{}
+		if configuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "configuration")); ok {
+			if tmpList := configuration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "configuration"), 0)
+				tmp, err := s.mapToDatabricksEngineOciObjectStorageConfig(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert configuration, encountered error: %v", err)
+				}
+				details.Configuration = tmp
+			}
+		}
+		if shouldOverwriteExisting, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "should_overwrite_existing")); ok {
+			tmp := shouldOverwriteExisting.(bool)
+			details.ShouldOverwriteExisting = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("UC_VOLUME"):
+		details := oci_golden_gate.UcVolumeDatabricksEngineArtifactLocation{}
+		if path, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		if shouldOverwriteExisting, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "should_overwrite_existing")); ok {
+			tmp := shouldOverwriteExisting.(bool)
+			details.ShouldOverwriteExisting = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown location_type '%v' was specified", locationType)
+	}
+	return baseObject, nil
+}
+
+func DatabricksEngineArtifactLocationToMap(obj *oci_golden_gate.DatabricksEngineArtifactLocation) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_golden_gate.AzureDataLakeStorageDatabricksEngineArtifactLocation:
+		result["location_type"] = "AZURE_DATE_LAKE_STORAGE"
+
+		if v.ShouldOverwriteExisting != nil {
+			result["should_overwrite_existing"] = bool(*v.ShouldOverwriteExisting)
+		}
+
+		if v.AccountKeySecretId != nil {
+			result["account_key_secret_id"] = string(*v.AccountKeySecretId)
+		}
+
+		if v.EndpointSuffix != nil {
+			result["endpoint_suffix"] = string(*v.EndpointSuffix)
+		}
+
+		if v.Filesystem != nil {
+			result["filesystem"] = string(*v.Filesystem)
+		}
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+
+		if v.StorageAccount != nil {
+			result["storage_account"] = string(*v.StorageAccount)
+		}
+	case oci_golden_gate.OciObjectStorageDatabricksEngineArtifactLocation:
+		result["location_type"] = "OCI_OBJECT_STORAGE"
+
+		if v.ShouldOverwriteExisting != nil {
+			result["should_overwrite_existing"] = bool(*v.ShouldOverwriteExisting)
+		}
+
+		if v.Configuration != nil {
+			configurationArray := []interface{}{}
+			if configurationMap := DatabricksEngineOciObjectStorageConfigToMap(&v.Configuration); configurationMap != nil {
+				configurationArray = append(configurationArray, configurationMap)
+			}
+			result["configuration"] = configurationArray
+		}
+	case oci_golden_gate.UcVolumeDatabricksEngineArtifactLocation:
+		result["location_type"] = "UC_VOLUME"
+
+		if v.ShouldOverwriteExisting != nil {
+			result["should_overwrite_existing"] = bool(*v.ShouldOverwriteExisting)
+		}
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+	default:
+		log.Printf("[WARN] Received 'location_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *GoldenGateConnectionResourceCrud) mapToDatabricksEngineArtifactLocationSummary(fieldKeyFormat string) (oci_golden_gate.DatabricksEngineArtifactLocationSummary, error) {
+	var baseObject oci_golden_gate.DatabricksEngineArtifactLocationSummary
+	//discriminator
+	locationTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "location_type"))
+	var locationType string
+	if ok {
+		locationType = locationTypeRaw.(string)
+	} else {
+		locationType = "" // default value
+	}
+	switch strings.ToLower(locationType) {
+	case strings.ToLower("AZURE_DATE_LAKE_STORAGE"):
+		details := oci_golden_gate.AzureDataLakeStorageDatabricksEngineArtifactLocationSummary{}
+		if accountKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "account_key_secret_id")); ok {
+			tmp := accountKeySecretId.(string)
+			details.AccountKeySecretId = &tmp
+		}
+		if endpointSuffix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint_suffix")); ok {
+			tmp := endpointSuffix.(string)
+			details.EndpointSuffix = &tmp
+		}
+		if filesystem, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "filesystem")); ok {
+			tmp := filesystem.(string)
+			details.Filesystem = &tmp
+		}
+		if path, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		if storageAccount, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "storage_account")); ok {
+			tmp := storageAccount.(string)
+			details.StorageAccount = &tmp
+		}
+		if shouldOverwriteExisting, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "should_overwrite_existing")); ok {
+			tmp := shouldOverwriteExisting.(bool)
+			details.ShouldOverwriteExisting = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("OCI_OBJECT_STORAGE"):
+		details := oci_golden_gate.OciObjectStorageDatabricksEngineArtifactLocationSummary{}
+		if configuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "configuration")); ok {
+			if tmpList := configuration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "configuration"), 0)
+				tmp, err := s.mapToDatabricksEngineOciObjectStorageConfig(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert configuration, encountered error: %v", err)
+				}
+				details.Configuration = tmp
+			}
+		}
+		if shouldOverwriteExisting, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "should_overwrite_existing")); ok {
+			tmp := shouldOverwriteExisting.(bool)
+			details.ShouldOverwriteExisting = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("UC_VOLUME"):
+		details := oci_golden_gate.UcVolumeDatabricksEngineArtifactLocationSummary{}
+		if path, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		if shouldOverwriteExisting, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "should_overwrite_existing")); ok {
+			tmp := shouldOverwriteExisting.(bool)
+			details.ShouldOverwriteExisting = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown location_type '%v' was specified", locationType)
+	}
+	return baseObject, nil
+}
+
+func DatabricksEngineArtifactLocationSummaryToMap(obj *oci_golden_gate.DatabricksEngineArtifactLocationSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_golden_gate.AzureDataLakeStorageDatabricksEngineArtifactLocationSummary:
+		result["location_type"] = "AZURE_DATE_LAKE_STORAGE"
+
+		if v.AccountKeySecretId != nil {
+			result["account_key_secret_id"] = string(*v.AccountKeySecretId)
+		}
+
+		if v.EndpointSuffix != nil {
+			result["endpoint_suffix"] = string(*v.EndpointSuffix)
+		}
+
+		if v.Filesystem != nil {
+			result["filesystem"] = string(*v.Filesystem)
+		}
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+
+		if v.StorageAccount != nil {
+			result["storage_account"] = string(*v.StorageAccount)
+		}
+	case oci_golden_gate.OciObjectStorageDatabricksEngineArtifactLocationSummary:
+		result["location_type"] = "OCI_OBJECT_STORAGE"
+
+		if v.Configuration != nil {
+			configurationArray := []interface{}{}
+			if configurationMap := DatabricksEngineOciObjectStorageConfigToMap(&v.Configuration); configurationMap != nil {
+				configurationArray = append(configurationArray, configurationMap)
+			}
+			result["configuration"] = configurationArray
+		}
+	case oci_golden_gate.UcVolumeDatabricksEngineArtifactLocationSummary:
+		result["location_type"] = "UC_VOLUME"
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+	default:
+		log.Printf("[WARN] Received 'location_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *GoldenGateConnectionResourceCrud) mapToDatabricksEngineOciObjectStorageConfig(fieldKeyFormat string) (oci_golden_gate.DatabricksEngineOciObjectStorageConfig, error) {
+	var baseObject oci_golden_gate.DatabricksEngineOciObjectStorageConfig
+	//discriminator
+	authenticationTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "authentication_type"))
+	var authenticationType string
+	if ok {
+		authenticationType = authenticationTypeRaw.(string)
+	} else {
+		authenticationType = "" // default value
+	}
+	switch strings.ToLower(authenticationType) {
+	case strings.ToLower("CUSTOMER_SECRET_KEY"):
+		details := oci_golden_gate.DatabricksEngineSecretKeyOciObjectStorageConfig{}
+		if accessKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+			tmp := accessKeyId.(string)
+			details.AccessKeyId = &tmp
+		}
+		if bucket, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.Bucket = &tmp
+		}
+		if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		if path, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		if region, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		if secretAccessKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+			tmp := secretAccessKeySecretId.(string)
+			details.SecretAccessKeySecretId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("PRE_AUTHENTICATED_REQUEST"):
+		details := oci_golden_gate.DatabricksEngineParOciObjectStorageConfig{}
+		if parUrlSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "par_url_secret_id")); ok {
+			tmp := parUrlSecretId.(string)
+			details.ParUrlSecretId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("RESOURCE_PRINCIPAL"):
+		details := oci_golden_gate.DatabricksEngineResourcePrincipalOciObjectStorageConfig{}
+		if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.Bucket = &tmp
+		}
+		if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		if path, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		if region, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("USER_PRINCIPAL"):
+		details := oci_golden_gate.DatabricksEngineUserPrincipalOciObjectStorageConfig{}
+		if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.Bucket = &tmp
+		}
+		if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		if path, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		if privateKeyFileSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_key_file_secret_id")); ok {
+			tmp := privateKeyFileSecretId.(string)
+			details.PrivateKeyFileSecretId = &tmp
+		}
+		if privateKeyPassphraseSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_key_passphrase_secret_id")); ok {
+			tmp := privateKeyPassphraseSecretId.(string)
+			details.PrivateKeyPassphraseSecretId = &tmp
+		}
+		if publicKeyFingerprint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "public_key_fingerprint")); ok {
+			tmp := publicKeyFingerprint.(string)
+			details.PublicKeyFingerprint = &tmp
+		}
+		if region, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		if tenancyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tenancy_id")); ok {
+			tmp := tenancyId.(string)
+			details.TenancyId = &tmp
+		}
+		if userId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "user_id")); ok {
+			tmp := userId.(string)
+			details.UserId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown authentication_type '%v' was specified", authenticationType)
+	}
+	return baseObject, nil
+}
+
+func DatabricksEngineOciObjectStorageConfigToMap(obj *oci_golden_gate.DatabricksEngineOciObjectStorageConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_golden_gate.DatabricksEngineSecretKeyOciObjectStorageConfig:
+		result["authentication_type"] = "CUSTOMER_SECRET_KEY"
+
+		if v.AccessKeyId != nil {
+			result["access_key_id"] = string(*v.AccessKeyId)
+		}
+
+		if v.Bucket != nil {
+			result["bucket"] = string(*v.Bucket)
+		}
+
+		if v.Namespace != nil {
+			result["namespace"] = string(*v.Namespace)
+		}
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+
+		if v.SecretAccessKeySecretId != nil {
+			result["secret_access_key_secret_id"] = string(*v.SecretAccessKeySecretId)
+		}
+	case oci_golden_gate.DatabricksEngineParOciObjectStorageConfig:
+		result["authentication_type"] = "PRE_AUTHENTICATED_REQUEST"
+
+		if v.ParUrlSecretId != nil {
+			result["par_url_secret_id"] = string(*v.ParUrlSecretId)
+		}
+	case oci_golden_gate.DatabricksEngineResourcePrincipalOciObjectStorageConfig:
+		result["authentication_type"] = "RESOURCE_PRINCIPAL"
+
+		if v.Bucket != nil {
+			result["bucket"] = string(*v.Bucket)
+		}
+
+		if v.Namespace != nil {
+			result["namespace"] = string(*v.Namespace)
+		}
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+	case oci_golden_gate.DatabricksEngineUserPrincipalOciObjectStorageConfig:
+		result["authentication_type"] = "USER_PRINCIPAL"
+
+		if v.Bucket != nil {
+			result["bucket"] = string(*v.Bucket)
+		}
+
+		if v.Namespace != nil {
+			result["namespace"] = string(*v.Namespace)
+		}
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+
+		if v.PrivateKeyFileSecretId != nil {
+			result["private_key_file_secret_id"] = string(*v.PrivateKeyFileSecretId)
+		}
+
+		if v.PrivateKeyPassphraseSecretId != nil {
+			result["private_key_passphrase_secret_id"] = string(*v.PrivateKeyPassphraseSecretId)
+		}
+
+		if v.PublicKeyFingerprint != nil {
+			result["public_key_fingerprint"] = string(*v.PublicKeyFingerprint)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+
+		if v.TenancyId != nil {
+			result["tenancy_id"] = string(*v.TenancyId)
+		}
+
+		if v.UserId != nil {
+			result["user_id"] = string(*v.UserId)
+		}
+	default:
+		log.Printf("[WARN] Received 'authentication_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *GoldenGateConnectionResourceCrud) mapToSparkArtifactLocation(fieldKeyFormat string) (oci_golden_gate.SparkArtifactLocation, error) {
+	var baseObject oci_golden_gate.SparkArtifactLocation
+	//discriminator
+	locationTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "location_type"))
+	var locationType string
+	if ok {
+		locationType = locationTypeRaw.(string)
+	} else {
+		locationType = "" // default value
+	}
+	switch strings.ToLower(locationType) {
+	case strings.ToLower("OCI_OBJECT_STORAGE"):
+		details := oci_golden_gate.OciObjectStorageSparkArtifactLocation{}
+		if configuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "configuration")); ok {
+			if tmpList := configuration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "configuration"), 0)
+				tmp, err := s.mapToSparkOciObjectStorageConfig(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert configuration, encountered error: %v", err)
+				}
+				details.Configuration = tmp
+			}
+		}
+		if shouldOverwriteExisting, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "should_overwrite_existing")); ok {
+			tmp := shouldOverwriteExisting.(bool)
+			details.ShouldOverwriteExisting = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown location_type '%v' was specified", locationType)
+	}
+	return baseObject, nil
+}
+
+func SparkArtifactLocationToMap(obj *oci_golden_gate.SparkArtifactLocation) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_golden_gate.OciObjectStorageSparkArtifactLocation:
+		result["location_type"] = "OCI_OBJECT_STORAGE"
+
+		if v.ShouldOverwriteExisting != nil {
+			result["should_overwrite_existing"] = bool(*v.ShouldOverwriteExisting)
+		}
+
+		if v.Configuration != nil {
+			configurationArray := []interface{}{}
+			if configurationMap := SparkOciObjectStorageConfigToMap(&v.Configuration); configurationMap != nil {
+				configurationArray = append(configurationArray, configurationMap)
+			}
+			result["configuration"] = configurationArray
+		}
+	default:
+		log.Printf("[WARN] Received 'location_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *GoldenGateConnectionResourceCrud) mapToSparkArtifactLocationSummary(fieldKeyFormat string) (oci_golden_gate.SparkArtifactLocationSummary, error) {
+	var baseObject oci_golden_gate.SparkArtifactLocationSummary
+	//discriminator
+	locationTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "location_type"))
+	var locationType string
+	if ok {
+		locationType = locationTypeRaw.(string)
+	} else {
+		locationType = "" // default value
+	}
+	switch strings.ToLower(locationType) {
+	case strings.ToLower("OCI_OBJECT_STORAGE"):
+		details := oci_golden_gate.OciObjectStorageSparkArtifactLocationSummary{}
+		if configuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "configuration")); ok {
+			if tmpList := configuration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "configuration"), 0)
+				tmp, err := s.mapToSparkOciObjectStorageConfig(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert configuration, encountered error: %v", err)
+				}
+				details.Configuration = tmp
+			}
+		}
+		if shouldOverwriteExisting, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "should_overwrite_existing")); ok {
+			tmp := shouldOverwriteExisting.(bool)
+			details.ShouldOverwriteExisting = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown location_type '%v' was specified", locationType)
+	}
+	return baseObject, nil
+}
+
+func SparkArtifactLocationSummaryToMap(obj *oci_golden_gate.SparkArtifactLocationSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_golden_gate.OciObjectStorageSparkArtifactLocationSummary:
+		result["location_type"] = "OCI_OBJECT_STORAGE"
+
+		if v.Configuration != nil {
+			configurationArray := []interface{}{}
+			if configurationMap := SparkOciObjectStorageConfigToMap(&v.Configuration); configurationMap != nil {
+				configurationArray = append(configurationArray, configurationMap)
+			}
+			result["configuration"] = configurationArray
+		}
+	default:
+		log.Printf("[WARN] Received 'location_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *GoldenGateConnectionResourceCrud) mapToSparkOciObjectStorageConfig(fieldKeyFormat string) (oci_golden_gate.SparkOciObjectStorageConfig, error) {
+	var baseObject oci_golden_gate.SparkOciObjectStorageConfig
+	//discriminator
+	authenticationTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "authentication_type"))
+	var authenticationType string
+	if ok {
+		authenticationType = authenticationTypeRaw.(string)
+	} else {
+		authenticationType = "" // default value
+	}
+	switch strings.ToLower(authenticationType) {
+	case strings.ToLower("CUSTOMER_SECRET_KEY"):
+		details := oci_golden_gate.SparkSecretKeyOciObjectStorageConfig{}
+		if accessKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+			tmp := accessKeyId.(string)
+			details.AccessKeyId = &tmp
+		}
+		if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.Bucket = &tmp
+		}
+		if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		if path, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		if region, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		if secretAccessKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+			tmp := secretAccessKeySecretId.(string)
+			details.SecretAccessKeySecretId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("PRE_AUTHENTICATED_REQUEST"):
+		details := oci_golden_gate.SparkParOciObjectStorageConfig{}
+		if parUrlSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "par_url_secret_id")); ok {
+			tmp := parUrlSecretId.(string)
+			details.ParUrlSecretId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("RESOURCE_PRINCIPAL"):
+		details := oci_golden_gate.SparkResourcePrincipalOciObjectStorageConfig{}
+		if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.Bucket = &tmp
+		}
+		if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		if path, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		if region, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("USER_PRINCIPAL"):
+		details := oci_golden_gate.SparkUserPrincipalOciObjectStorageConfig{}
+		if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.Bucket = &tmp
+		}
+		if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		if path, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		if privateKeyFileSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_key_file_secret_id")); ok {
+			tmp := privateKeyFileSecretId.(string)
+			details.PrivateKeyFileSecretId = &tmp
+		}
+		if privateKeyPassphraseSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_key_passphrase_secret_id")); ok {
+			tmp := privateKeyPassphraseSecretId.(string)
+			details.PrivateKeyPassphraseSecretId = &tmp
+		}
+		if publicKeyFingerprint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "public_key_fingerprint")); ok {
+			tmp := publicKeyFingerprint.(string)
+			details.PublicKeyFingerprint = &tmp
+		}
+		if region, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		if tenancyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tenancy_id")); ok {
+			tmp := tenancyId.(string)
+			details.TenancyId = &tmp
+		}
+		if userId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "user_id")); ok {
+			tmp := userId.(string)
+			details.UserId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown authentication_type '%v' was specified", authenticationType)
+	}
+	return baseObject, nil
+}
+
+func SparkOciObjectStorageConfigToMap(obj *oci_golden_gate.SparkOciObjectStorageConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_golden_gate.SparkSecretKeyOciObjectStorageConfig:
+		result["authentication_type"] = "CUSTOMER_SECRET_KEY"
+
+		if v.AccessKeyId != nil {
+			result["access_key_id"] = string(*v.AccessKeyId)
+		}
+
+		if v.Bucket != nil {
+			result["bucket"] = string(*v.Bucket)
+		}
+
+		if v.Namespace != nil {
+			result["namespace"] = string(*v.Namespace)
+		}
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+
+		if v.SecretAccessKeySecretId != nil {
+			result["secret_access_key_secret_id"] = string(*v.SecretAccessKeySecretId)
+		}
+	case oci_golden_gate.SparkParOciObjectStorageConfig:
+		result["authentication_type"] = "PRE_AUTHENTICATED_REQUEST"
+
+		if v.ParUrlSecretId != nil {
+			result["par_url_secret_id"] = string(*v.ParUrlSecretId)
+		}
+	case oci_golden_gate.SparkResourcePrincipalOciObjectStorageConfig:
+		result["authentication_type"] = "RESOURCE_PRINCIPAL"
+
+		if v.Bucket != nil {
+			result["bucket"] = string(*v.Bucket)
+		}
+
+		if v.Namespace != nil {
+			result["namespace"] = string(*v.Namespace)
+		}
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+	case oci_golden_gate.SparkUserPrincipalOciObjectStorageConfig:
+		result["authentication_type"] = "USER_PRINCIPAL"
+
+		if v.Bucket != nil {
+			result["bucket"] = string(*v.Bucket)
+		}
+
+		if v.Namespace != nil {
+			result["namespace"] = string(*v.Namespace)
+		}
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+
+		if v.PrivateKeyFileSecretId != nil {
+			result["private_key_file_secret_id"] = string(*v.PrivateKeyFileSecretId)
+		}
+
+		if v.PrivateKeyPassphraseSecretId != nil {
+			result["private_key_passphrase_secret_id"] = string(*v.PrivateKeyPassphraseSecretId)
+		}
+
+		if v.PublicKeyFingerprint != nil {
+			result["public_key_fingerprint"] = string(*v.PublicKeyFingerprint)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+
+		if v.TenancyId != nil {
+			result["tenancy_id"] = string(*v.TenancyId)
+		}
+
+		if v.UserId != nil {
+			result["user_id"] = string(*v.UserId)
+		}
+	default:
+		log.Printf("[WARN] Received 'authentication_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *GoldenGateConnectionResourceCrud) mapToUpdateDatabricksEngineArtifactLocationDetails(fieldKeyFormat string) (oci_golden_gate.UpdateDatabricksEngineArtifactLocationDetails, error) {
+	var baseObject oci_golden_gate.UpdateDatabricksEngineArtifactLocationDetails
+	useSecretIds := false
+	if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+		useSecretIds = doesUseSecretIds.(bool)
+	}
+	//discriminator
+	locationTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "location_type"))
+	var locationType string
+	if ok {
+		locationType = locationTypeRaw.(string)
+	} else {
+		locationType = "" // default value
+	}
+	switch strings.ToLower(locationType) {
+	case strings.ToLower("AZURE_DATE_LAKE_STORAGE"):
+		details := oci_golden_gate.UpdateAzureDataLakeStorageDatabricksEngineArtifactLocationDetails{}
+		if !useSecretIds {
+			if accountKey, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "account_key")); ok {
+				tmp := accountKey.(string)
+				details.AccountKey = &tmp
+			}
+		}
+		if useSecretIds {
+			if accountKeySecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "account_key_secret_id")); ok {
+				tmp := accountKeySecretId.(string)
+				details.AccountKeySecretId = &tmp
+			}
+		}
+		if endpointSuffix, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "endpoint_suffix")); ok {
+			tmp := endpointSuffix.(string)
+			details.EndpointSuffix = &tmp
+		}
+		if filesystem, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "filesystem")); ok {
+			tmp := filesystem.(string)
+			details.Filesystem = &tmp
+		}
+		if path, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		if storageAccount, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "storage_account")); ok {
+			tmp := storageAccount.(string)
+			details.StorageAccount = &tmp
+		}
+		if shouldOverwriteExisting, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "should_overwrite_existing")); ok {
+			tmp := shouldOverwriteExisting.(bool)
+			details.ShouldOverwriteExisting = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("OCI_OBJECT_STORAGE"):
+		details := oci_golden_gate.UpdateOciObjectStorageDatabricksEngineArtifactLocationDetails{}
+		if configuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "configuration")); ok {
+			if tmpList := configuration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "configuration"), 0)
+				tmp, err := s.mapToUpdateDatabricksEngineOciObjectStorageConfigDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert configuration, encountered error: %v", err)
+				}
+				details.Configuration = tmp
+			}
+		}
+		if shouldOverwriteExisting, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "should_overwrite_existing")); ok {
+			tmp := shouldOverwriteExisting.(bool)
+			details.ShouldOverwriteExisting = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("UC_VOLUME"):
+		details := oci_golden_gate.UpdateUcVolumeDatabricksEngineArtifactLocationDetails{}
+		if path, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		if shouldOverwriteExisting, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "should_overwrite_existing")); ok {
+			tmp := shouldOverwriteExisting.(bool)
+			details.ShouldOverwriteExisting = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown location_type '%v' was specified", locationType)
+	}
+	return baseObject, nil
+}
+
+func UpdateDatabricksEngineArtifactLocationDetailsToMap(obj *oci_golden_gate.UpdateDatabricksEngineArtifactLocationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_golden_gate.UpdateAzureDataLakeStorageDatabricksEngineArtifactLocationDetails:
+		result["location_type"] = "AZURE_DATE_LAKE_STORAGE"
+
+		if v.AccountKey != nil {
+			result["account_key"] = string(*v.AccountKey)
+		}
+
+		if v.AccountKeySecretId != nil {
+			result["account_key_secret_id"] = string(*v.AccountKeySecretId)
+		}
+
+		if v.EndpointSuffix != nil {
+			result["endpoint_suffix"] = string(*v.EndpointSuffix)
+		}
+
+		if v.Filesystem != nil {
+			result["filesystem"] = string(*v.Filesystem)
+		}
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+
+		if v.StorageAccount != nil {
+			result["storage_account"] = string(*v.StorageAccount)
+		}
+	case oci_golden_gate.UpdateOciObjectStorageDatabricksEngineArtifactLocationDetails:
+		result["location_type"] = "OCI_OBJECT_STORAGE"
+
+		if v.Configuration != nil {
+			configurationArray := []interface{}{}
+			if configurationMap := UpdateDatabricksEngineOciObjectStorageConfigDetailsToMap(&v.Configuration); configurationMap != nil {
+				configurationArray = append(configurationArray, configurationMap)
+			}
+			result["configuration"] = configurationArray
+		}
+	case oci_golden_gate.UpdateUcVolumeDatabricksEngineArtifactLocationDetails:
+		result["location_type"] = "UC_VOLUME"
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+	default:
+		log.Printf("[WARN] Received 'location_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *GoldenGateConnectionResourceCrud) mapToUpdateDatabricksEngineOciObjectStorageConfigDetails(fieldKeyFormat string) (oci_golden_gate.UpdateDatabricksEngineOciObjectStorageConfigDetails, error) {
+	var baseObject oci_golden_gate.UpdateDatabricksEngineOciObjectStorageConfigDetails
+	useSecretIds := false
+	if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+		useSecretIds = doesUseSecretIds.(bool)
+	}
+	//discriminator
+	authenticationTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "authentication_type"))
+	var authenticationType string
+	if ok {
+		authenticationType = authenticationTypeRaw.(string)
+	} else {
+		authenticationType = "" // default value
+	}
+	switch strings.ToLower(authenticationType) {
+	case strings.ToLower("CUSTOMER_SECRET_KEY"):
+		details := oci_golden_gate.UpdateDatabricksEngineSecretKeyOciObjectStorageConfigDetails{}
+		if accessKeyId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+			tmp := accessKeyId.(string)
+			details.AccessKeyId = &tmp
+		}
+		if bucket, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.Bucket = &tmp
+		}
+		if namespace, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		if path, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		if region, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		if !useSecretIds {
+			if secretAccessKey, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key")); ok {
+				tmp := secretAccessKey.(string)
+				details.SecretAccessKey = &tmp
+			}
+		}
+		if useSecretIds {
+			if secretAccessKeySecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+				tmp := secretAccessKeySecretId.(string)
+				details.SecretAccessKeySecretId = &tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("PRE_AUTHENTICATED_REQUEST"):
+		details := oci_golden_gate.UpdateDatabricksEngineParOciObjectStorageConfigDetails{}
+		if !useSecretIds {
+			if parUrl, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "par_url")); ok {
+				tmp := parUrl.(string)
+				details.ParUrl = &tmp
+			}
+		}
+		if useSecretIds {
+			if parUrlSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "par_url_secret_id")); ok {
+				tmp := parUrlSecretId.(string)
+				details.ParUrlSecretId = &tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("RESOURCE_PRINCIPAL"):
+		details := oci_golden_gate.UpdateDatabricksEngineResourcePrincipalOciObjectStorageConfigDetails{}
+		if bucket, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.Bucket = &tmp
+		}
+		if namespace, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		if path, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		if region, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("USER_PRINCIPAL"):
+		details := oci_golden_gate.UpdateDatabricksEngineUserPrincipalOciObjectStorageConfigDetails{}
+		if bucket, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.Bucket = &tmp
+		}
+		if namespace, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		if path, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		if !useSecretIds {
+			if privateKeyFile, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "private_key_file")); ok {
+				tmp := privateKeyFile.(string)
+				details.PrivateKeyFile = &tmp
+			}
+		}
+		if useSecretIds {
+			if privateKeyFileSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "private_key_file_secret_id")); ok {
+				tmp := privateKeyFileSecretId.(string)
+				details.PrivateKeyFileSecretId = &tmp
+			}
+		}
+		if !useSecretIds {
+			if privateKeyPassphrase, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "private_key_passphrase")); ok {
+				tmp := privateKeyPassphrase.(string)
+				details.PrivateKeyPassphrase = &tmp
+			}
+		}
+		if useSecretIds {
+			if privateKeyPassphraseSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "private_key_passphrase_secret_id")); ok {
+				tmp := privateKeyPassphraseSecretId.(string)
+				details.PrivateKeyPassphraseSecretId = &tmp
+			}
+		}
+		if publicKeyFingerprint, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "public_key_fingerprint")); ok {
+			tmp := publicKeyFingerprint.(string)
+			details.PublicKeyFingerprint = &tmp
+		}
+		if region, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		if tenancyId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "tenancy_id")); ok {
+			tmp := tenancyId.(string)
+			details.TenancyId = &tmp
+		}
+		if userId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "user_id")); ok {
+			tmp := userId.(string)
+			details.UserId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown authentication_type '%v' was specified", authenticationType)
+	}
+	return baseObject, nil
+}
+
+func UpdateDatabricksEngineOciObjectStorageConfigDetailsToMap(obj *oci_golden_gate.UpdateDatabricksEngineOciObjectStorageConfigDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_golden_gate.UpdateDatabricksEngineSecretKeyOciObjectStorageConfigDetails:
+		result["authentication_type"] = "CUSTOMER_SECRET_KEY"
+
+		if v.AccessKeyId != nil {
+			result["access_key_id"] = string(*v.AccessKeyId)
+		}
+
+		if v.Bucket != nil {
+			result["bucket"] = string(*v.Bucket)
+		}
+
+		if v.Namespace != nil {
+			result["namespace"] = string(*v.Namespace)
+		}
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+
+		if v.SecretAccessKey != nil {
+			result["secret_access_key"] = string(*v.SecretAccessKey)
+		}
+
+		if v.SecretAccessKeySecretId != nil {
+			result["secret_access_key_secret_id"] = string(*v.SecretAccessKeySecretId)
+		}
+	case oci_golden_gate.UpdateDatabricksEngineParOciObjectStorageConfigDetails:
+		result["authentication_type"] = "PRE_AUTHENTICATED_REQUEST"
+
+		if v.ParUrl != nil {
+			result["par_url"] = string(*v.ParUrl)
+		}
+
+		if v.ParUrlSecretId != nil {
+			result["par_url_secret_id"] = string(*v.ParUrlSecretId)
+		}
+	case oci_golden_gate.UpdateDatabricksEngineResourcePrincipalOciObjectStorageConfigDetails:
+		result["authentication_type"] = "RESOURCE_PRINCIPAL"
+
+		if v.Bucket != nil {
+			result["bucket"] = string(*v.Bucket)
+		}
+
+		if v.Namespace != nil {
+			result["namespace"] = string(*v.Namespace)
+		}
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+	case oci_golden_gate.UpdateDatabricksEngineUserPrincipalOciObjectStorageConfigDetails:
+		result["authentication_type"] = "USER_PRINCIPAL"
+
+		if v.Bucket != nil {
+			result["bucket"] = string(*v.Bucket)
+		}
+
+		if v.Namespace != nil {
+			result["namespace"] = string(*v.Namespace)
+		}
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+
+		if v.PrivateKeyFile != nil {
+			result["private_key_file"] = string(*v.PrivateKeyFile)
+		}
+
+		if v.PrivateKeyFileSecretId != nil {
+			result["private_key_file_secret_id"] = string(*v.PrivateKeyFileSecretId)
+		}
+
+		if v.PrivateKeyPassphrase != nil {
+			result["private_key_passphrase"] = string(*v.PrivateKeyPassphrase)
+		}
+
+		if v.PrivateKeyPassphraseSecretId != nil {
+			result["private_key_passphrase_secret_id"] = string(*v.PrivateKeyPassphraseSecretId)
+		}
+
+		if v.PublicKeyFingerprint != nil {
+			result["public_key_fingerprint"] = string(*v.PublicKeyFingerprint)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+
+		if v.TenancyId != nil {
+			result["tenancy_id"] = string(*v.TenancyId)
+		}
+
+		if v.UserId != nil {
+			result["user_id"] = string(*v.UserId)
+		}
+	default:
+		log.Printf("[WARN] Received 'authentication_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *GoldenGateConnectionResourceCrud) mapToUpdateSparkArtifactLocationDetails(fieldKeyFormat string) (oci_golden_gate.UpdateSparkArtifactLocationDetails, error) {
+	var baseObject oci_golden_gate.UpdateSparkArtifactLocationDetails
+	//discriminator
+	locationTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "location_type"))
+	var locationType string
+	if ok {
+		locationType = locationTypeRaw.(string)
+	} else {
+		locationType = "" // default value
+	}
+	switch strings.ToLower(locationType) {
+	case strings.ToLower("OCI_OBJECT_STORAGE"):
+		details := oci_golden_gate.UpdateOciObjectStorageSparkArtifactLocationDetails{}
+		if configuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "configuration")); ok {
+			if tmpList := configuration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "configuration"), 0)
+				tmp, err := s.mapToUpdateSparkOciObjectStorageConfigDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert configuration, encountered error: %v", err)
+				}
+				details.Configuration = tmp
+			}
+		}
+		if shouldOverwriteExisting, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "should_overwrite_existing")); ok {
+			tmp := shouldOverwriteExisting.(bool)
+			details.ShouldOverwriteExisting = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown location_type '%v' was specified", locationType)
+	}
+	return baseObject, nil
+}
+
+func UpdateSparkArtifactLocationDetailsToMap(obj *oci_golden_gate.UpdateSparkArtifactLocationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_golden_gate.UpdateOciObjectStorageSparkArtifactLocationDetails:
+		result["location_type"] = "OCI_OBJECT_STORAGE"
+
+		if v.Configuration != nil {
+			configurationArray := []interface{}{}
+			if configurationMap := UpdateSparkOciObjectStorageConfigDetailsToMap(&v.Configuration); configurationMap != nil {
+				configurationArray = append(configurationArray, configurationMap)
+			}
+			result["configuration"] = configurationArray
+		}
+	default:
+		log.Printf("[WARN] Received 'location_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *GoldenGateConnectionResourceCrud) mapToUpdateSparkOciObjectStorageConfigDetails(fieldKeyFormat string) (oci_golden_gate.UpdateSparkOciObjectStorageConfigDetails, error) {
+	var baseObject oci_golden_gate.UpdateSparkOciObjectStorageConfigDetails
+	useSecretIds := false
+	if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+		useSecretIds = doesUseSecretIds.(bool)
+	}
+	//discriminator
+	authenticationTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "authentication_type"))
+	var authenticationType string
+	if ok {
+		authenticationType = authenticationTypeRaw.(string)
+	} else {
+		authenticationType = "" // default value
+	}
+	switch strings.ToLower(authenticationType) {
+	case strings.ToLower("CUSTOMER_SECRET_KEY"):
+		details := oci_golden_gate.UpdateSparkSecretKeyOciObjectStorageConfigDetails{}
+		if accessKeyId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+			tmp := accessKeyId.(string)
+			details.AccessKeyId = &tmp
+		}
+		if bucket, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.Bucket = &tmp
+		}
+		if namespace, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		if path, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		if region, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		if !useSecretIds {
+			if secretAccessKey, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key")); ok {
+				tmp := secretAccessKey.(string)
+				details.SecretAccessKey = &tmp
+			}
+		}
+		if useSecretIds {
+			if secretAccessKeySecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+				tmp := secretAccessKeySecretId.(string)
+				details.SecretAccessKeySecretId = &tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("PRE_AUTHENTICATED_REQUEST"):
+		details := oci_golden_gate.UpdateSparkParOciObjectStorageConfigDetails{}
+		if !useSecretIds {
+			if parUrl, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "par_url")); ok {
+				tmp := parUrl.(string)
+				details.ParUrl = &tmp
+			}
+		}
+		if useSecretIds {
+			if parUrlSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "par_url_secret_id")); ok {
+				tmp := parUrlSecretId.(string)
+				details.ParUrlSecretId = &tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("RESOURCE_PRINCIPAL"):
+		details := oci_golden_gate.UpdateSparkResourcePrincipalOciObjectStorageConfigDetails{}
+		if bucket, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.Bucket = &tmp
+		}
+		if namespace, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		if path, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		if region, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("USER_PRINCIPAL"):
+		details := oci_golden_gate.UpdateSparkUserPrincipalOciObjectStorageConfigDetails{}
+		if bucket, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.Bucket = &tmp
+		}
+		if namespace, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		if path, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+			tmp := path.(string)
+			details.Path = &tmp
+		}
+		if !useSecretIds {
+			if privateKeyFile, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "private_key_file")); ok {
+				tmp := privateKeyFile.(string)
+				details.PrivateKeyFile = &tmp
+			}
+		}
+		if useSecretIds {
+			if privateKeyFileSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "private_key_file_secret_id")); ok {
+				tmp := privateKeyFileSecretId.(string)
+				details.PrivateKeyFileSecretId = &tmp
+			}
+		}
+		if !useSecretIds {
+			if privateKeyPassphrase, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "private_key_passphrase")); ok {
+				tmp := privateKeyPassphrase.(string)
+				details.PrivateKeyPassphrase = &tmp
+			}
+		}
+		if useSecretIds {
+			if privateKeyPassphraseSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "private_key_passphrase_secret_id")); ok {
+				tmp := privateKeyPassphraseSecretId.(string)
+				details.PrivateKeyPassphraseSecretId = &tmp
+			}
+		}
+		if publicKeyFingerprint, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "public_key_fingerprint")); ok {
+			tmp := publicKeyFingerprint.(string)
+			details.PublicKeyFingerprint = &tmp
+		}
+		if region, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		if tenancyId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "tenancy_id")); ok {
+			tmp := tenancyId.(string)
+			details.TenancyId = &tmp
+		}
+		if userId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "user_id")); ok {
+			tmp := userId.(string)
+			details.UserId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown authentication_type '%v' was specified", authenticationType)
+	}
+	return baseObject, nil
+}
+
+func UpdateSparkOciObjectStorageConfigDetailsToMap(obj *oci_golden_gate.UpdateSparkOciObjectStorageConfigDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_golden_gate.UpdateSparkSecretKeyOciObjectStorageConfigDetails:
+		result["authentication_type"] = "CUSTOMER_SECRET_KEY"
+
+		if v.AccessKeyId != nil {
+			result["access_key_id"] = string(*v.AccessKeyId)
+		}
+
+		if v.Bucket != nil {
+			result["bucket"] = string(*v.Bucket)
+		}
+
+		if v.Namespace != nil {
+			result["namespace"] = string(*v.Namespace)
+		}
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+
+		if v.SecretAccessKey != nil {
+			result["secret_access_key"] = string(*v.SecretAccessKey)
+		}
+
+		if v.SecretAccessKeySecretId != nil {
+			result["secret_access_key_secret_id"] = string(*v.SecretAccessKeySecretId)
+		}
+	case oci_golden_gate.UpdateSparkParOciObjectStorageConfigDetails:
+		result["authentication_type"] = "PRE_AUTHENTICATED_REQUEST"
+
+		if v.ParUrl != nil {
+			result["par_url"] = string(*v.ParUrl)
+		}
+
+		if v.ParUrlSecretId != nil {
+			result["par_url_secret_id"] = string(*v.ParUrlSecretId)
+		}
+	case oci_golden_gate.UpdateSparkResourcePrincipalOciObjectStorageConfigDetails:
+		result["authentication_type"] = "RESOURCE_PRINCIPAL"
+
+		if v.Bucket != nil {
+			result["bucket"] = string(*v.Bucket)
+		}
+
+		if v.Namespace != nil {
+			result["namespace"] = string(*v.Namespace)
+		}
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+	case oci_golden_gate.UpdateSparkUserPrincipalOciObjectStorageConfigDetails:
+		result["authentication_type"] = "USER_PRINCIPAL"
+
+		if v.Bucket != nil {
+			result["bucket"] = string(*v.Bucket)
+		}
+
+		if v.Namespace != nil {
+			result["namespace"] = string(*v.Namespace)
+		}
+
+		if v.Path != nil {
+			result["path"] = string(*v.Path)
+		}
+
+		if v.PrivateKeyFile != nil {
+			result["private_key_file"] = string(*v.PrivateKeyFile)
+		}
+
+		if v.PrivateKeyFileSecretId != nil {
+			result["private_key_file_secret_id"] = string(*v.PrivateKeyFileSecretId)
+		}
+
+		if v.PrivateKeyPassphrase != nil {
+			result["private_key_passphrase"] = string(*v.PrivateKeyPassphrase)
+		}
+
+		if v.PrivateKeyPassphraseSecretId != nil {
+			result["private_key_passphrase_secret_id"] = string(*v.PrivateKeyPassphraseSecretId)
+		}
+
+		if v.PublicKeyFingerprint != nil {
+			result["public_key_fingerprint"] = string(*v.PublicKeyFingerprint)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+
+		if v.TenancyId != nil {
+			result["tenancy_id"] = string(*v.TenancyId)
+		}
+
+		if v.UserId != nil {
+			result["user_id"] = string(*v.UserId)
+		}
+	default:
+		log.Printf("[WARN] Received 'authentication_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
 func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConnectionRequest(request *oci_golden_gate.CreateConnectionRequest) error {
 	//discriminator
 	connectionTypeRaw, ok := s.D.GetOkExists("connection_type")
@@ -7986,6 +11102,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if modelKey, ok := s.D.GetOkExists("model_key"); ok {
 			tmp := modelKey.(string)
 			details.ModelKey = &tmp
+		}
+		if providerId, ok := s.D.GetOk("provider_id"); ok {
+			tmp := providerId.(string)
+			details.ProviderId = &tmp
 		}
 		if providerType, ok := s.D.GetOkExists("provider_type"); ok {
 			details.ProviderType = oci_golden_gate.CreateAiModelConnectionDetailsProviderTypeEnum(providerType.(string))
@@ -8070,8 +11190,102 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := subscriptionId.(string)
 			details.SubscriptionId = &tmp
 		}
+		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
+		}
+		request.CreateConnectionDetails = details
+	case strings.ToLower("AI_PROVIDER"):
+		details := oci_golden_gate.CreateAiProviderConnectionDetails{}
+		if authDetails, ok := s.D.GetOkExists("auth_details"); ok {
+			if tmpList := authDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "auth_details", 0)
+				tmp, err := s.mapToCreateAiModelAuthDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.AuthDetails = tmp
+			}
+		}
 		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
-			details.TechnologyType = oci_golden_gate.AiModelConnectionTechnologyTypeEnum(technologyType.(string))
+			details.TechnologyType = oci_golden_gate.AiProviderConnectionTechnologyTypeEnum(technologyType.(string))
+		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+			tmp := doesUseSecretIds.(bool)
+			details.DoesUseSecretIds = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if keyId, ok := s.D.GetOkExists("key_id"); ok {
+			tmp := keyId.(string)
+			details.KeyId = &tmp
+		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
+		}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -8667,6 +11881,142 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		}
 		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
 			details.TechnologyType = oci_golden_gate.DatabricksConnectionTechnologyTypeEnum(technologyType.(string))
+		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+			tmp := doesUseSecretIds.(bool)
+			details.DoesUseSecretIds = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if keyId, ok := s.D.GetOkExists("key_id"); ok {
+			tmp := keyId.(string)
+			details.KeyId = &tmp
+		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
+		}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
+		}
+		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
+		}
+		request.CreateConnectionDetails = details
+	case strings.ToLower("DATABRICKS_ENGINE"):
+		details := oci_golden_gate.CreateDatabricksEngineConnectionDetails{}
+		useSecretIds := false
+		if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+			useSecretIds = doesUseSecretIds.(bool)
+		}
+		if artifactLocation, ok := s.D.GetOkExists("artifact_location"); ok {
+			if tmpList := artifactLocation.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "artifact_location", 0)
+				tmp, err := s.mapToCreateDatabricksEngineArtifactLocationDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ArtifactLocation = tmp
+			}
+		}
+		if !useSecretIds {
+			if authToken, ok := s.D.GetOk("auth_token"); ok {
+				tmp := authToken.(string)
+				details.AuthToken = &tmp
+			}
+		}
+		if useSecretIds {
+			if authTokenSecretId, ok := s.D.GetOk("auth_token_secret_id"); ok {
+				tmp := authTokenSecretId.(string)
+				details.AuthTokenSecretId = &tmp
+			}
+		}
+		if authenticationType, ok := s.D.GetOkExists("authentication_type"); ok {
+			details.AuthenticationType = oci_golden_gate.DatabricksEngineConnectionAuthenticationTypeEnum(authenticationType.(string))
+		}
+		if clientId, ok := s.D.GetOkExists("client_id"); ok {
+			tmp := clientId.(string)
+			details.ClientId = &tmp
+		}
+		if !useSecretIds {
+			if clientSecret, ok := s.D.GetOk("client_secret"); ok {
+				tmp := clientSecret.(string)
+				details.ClientSecret = &tmp
+			}
+		}
+		if useSecretIds {
+			if clientSecretSecretId, ok := s.D.GetOk("client_secret_secret_id"); ok {
+				tmp := clientSecretSecretId.(string)
+				details.ClientSecretSecretId = &tmp
+			}
+		}
+		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
+			details.TechnologyType = oci_golden_gate.DatabricksEngineConnectionTechnologyTypeEnum(technologyType.(string))
+		}
+		if workspaceUrl, ok := s.D.GetOkExists("workspace_url"); ok {
+			tmp := workspaceUrl.(string)
+			details.WorkspaceUrl = &tmp
 		}
 		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
 			tmp := clusterPlacementGroupId.(string)
@@ -11104,8 +14454,96 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := subscriptionId.(string)
 			details.SubscriptionId = &tmp
 		}
+		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
+		}
+		request.CreateConnectionDetails = details
+	case strings.ToLower("ORACLE_AI_DATA_PLATFORM_ENGINE"):
+		details := oci_golden_gate.CreateOracleAiDataPlatformEngineConnectionDetails{}
 		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
-			details.TechnologyType = oci_golden_gate.OracleAiDataPlatformConnectionTechnologyTypeEnum(technologyType.(string))
+			details.TechnologyType = oci_golden_gate.OracleAiDataPlatformEngineConnectionTechnologyTypeEnum(technologyType.(string))
+		}
+		if workspaceUrl, ok := s.D.GetOkExists("workspace_url"); ok {
+			tmp := workspaceUrl.(string)
+			details.WorkspaceUrl = &tmp
+		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+			tmp := doesUseSecretIds.(bool)
+			details.DoesUseSecretIds = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if keyId, ok := s.D.GetOkExists("key_id"); ok {
+			tmp := keyId.(string)
+			details.KeyId = &tmp
+		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
+		}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -11660,6 +15098,212 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			details.VaultId = &tmp
 		}
 		request.CreateConnectionDetails = details
+	case strings.ToLower("SPARK"):
+		details := oci_golden_gate.CreateSparkConnectionDetails{}
+		useSecretIds := false
+		if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+			useSecretIds = doesUseSecretIds.(bool)
+		}
+		if artifactLocation, ok := s.D.GetOkExists("artifact_location"); ok {
+			if tmpList := artifactLocation.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "artifact_location", 0)
+				tmp, err := s.mapToCreateSparkArtifactLocationDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ArtifactLocation = tmp
+			}
+		}
+		if !useSecretIds {
+			if authSecret, ok := s.D.GetOk("auth_secret"); ok {
+				tmp := authSecret.(string)
+				details.AuthSecret = &tmp
+			}
+		}
+		if useSecretIds {
+			if authSecretSecretId, ok := s.D.GetOk("auth_secret_secret_id"); ok {
+				tmp := authSecretSecretId.(string)
+				details.AuthSecretSecretId = &tmp
+			}
+		}
+		if authenticationType, ok := s.D.GetOkExists("authentication_type"); ok {
+			details.AuthenticationType = oci_golden_gate.SparkConnectionAuthenticationTypeEnum(authenticationType.(string))
+		}
+		if clusterEndpoint, ok := s.D.GetOkExists("cluster_endpoint"); ok {
+			tmp := clusterEndpoint.(string)
+			details.ClusterEndpoint = &tmp
+		}
+		if !useSecretIds {
+			if keyStore, ok := s.D.GetOk("key_store"); ok {
+				tmp := keyStore.(string)
+				details.KeyStore = &tmp
+			}
+			if keyStorePassword, ok := s.D.GetOk("key_store_password"); ok {
+				tmp := keyStorePassword.(string)
+				details.KeyStorePassword = &tmp
+			}
+		}
+		if useSecretIds {
+			if keyStorePasswordSecretId, ok := s.D.GetOk("key_store_password_secret_id"); ok {
+				tmp := keyStorePasswordSecretId.(string)
+				details.KeyStorePasswordSecretId = &tmp
+			}
+			if keyStoreSecretId, ok := s.D.GetOk("key_store_secret_id"); ok {
+				tmp := keyStoreSecretId.(string)
+				details.KeyStoreSecretId = &tmp
+			}
+		}
+		if keyStoreType, ok := s.D.GetOkExists("key_store_type"); ok {
+			details.KeyStoreType = oci_golden_gate.SparkConnectionKeyStoreTypeEnum(keyStoreType.(string))
+		}
+		if !useSecretIds {
+			if restAuthSecretKey, ok := s.D.GetOk("rest_auth_secret_key"); ok {
+				tmp := restAuthSecretKey.(string)
+				details.RestAuthSecretKey = &tmp
+			}
+		}
+		if useSecretIds {
+			if restAuthSecretKeySecretId, ok := s.D.GetOk("rest_auth_secret_key_secret_id"); ok {
+				tmp := restAuthSecretKeySecretId.(string)
+				details.RestAuthSecretKeySecretId = &tmp
+			}
+		}
+		if restEndpoint, ok := s.D.GetOkExists("rest_endpoint"); ok {
+			tmp := restEndpoint.(string)
+			details.RestEndpoint = &tmp
+		}
+		if rpcCipher, ok := s.D.GetOkExists("rpc_cipher"); ok {
+			details.RpcCipher = oci_golden_gate.SparkConnectionRpcCipherEnum(rpcCipher.(string))
+		}
+		if securityProtocol, ok := s.D.GetOkExists("security_protocol"); ok {
+			details.SecurityProtocol = oci_golden_gate.SparkConnectionSecurityProtocolEnum(securityProtocol.(string))
+		}
+		if !useSecretIds {
+			if sslKeyPassword, ok := s.D.GetOk("ssl_key_password"); ok {
+				tmp := sslKeyPassword.(string)
+				details.SslKeyPassword = &tmp
+			}
+		}
+		if useSecretIds {
+			if sslKeyPasswordSecretId, ok := s.D.GetOk("ssl_key_password_secret_id"); ok {
+				tmp := sslKeyPasswordSecretId.(string)
+				details.SslKeyPasswordSecretId = &tmp
+			}
+		}
+		if submitMode, ok := s.D.GetOkExists("submit_mode"); ok {
+			details.SubmitMode = oci_golden_gate.SparkConnectionSubmitModeEnum(submitMode.(string))
+		}
+		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
+			details.TechnologyType = oci_golden_gate.SparkConnectionTechnologyTypeEnum(technologyType.(string))
+		}
+		if tlsProtocol, ok := s.D.GetOkExists("tls_protocol"); ok {
+			details.TlsProtocol = oci_golden_gate.SparkConnectionTlsProtocolEnum(tlsProtocol.(string))
+		}
+		if !useSecretIds {
+			if trustStore, ok := s.D.GetOk("trust_store"); ok {
+				tmp := trustStore.(string)
+				details.TrustStore = &tmp
+			}
+			if trustStorePassword, ok := s.D.GetOk("trust_store_password"); ok {
+				tmp := trustStorePassword.(string)
+				details.TrustStorePassword = &tmp
+			}
+		}
+		if useSecretIds {
+			if trustStorePasswordSecretId, ok := s.D.GetOk("trust_store_password_secret_id"); ok {
+				tmp := trustStorePasswordSecretId.(string)
+				details.TrustStorePasswordSecretId = &tmp
+			}
+			if trustStoreSecretId, ok := s.D.GetOk("trust_store_secret_id"); ok {
+				tmp := trustStoreSecretId.(string)
+				details.TrustStoreSecretId = &tmp
+			}
+		}
+		if trustStoreType, ok := s.D.GetOkExists("trust_store_type"); ok {
+			details.TrustStoreType = oci_golden_gate.SparkConnectionTrustStoreTypeEnum(trustStoreType.(string))
+		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+			tmp := doesUseSecretIds.(bool)
+			details.DoesUseSecretIds = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if keyId, ok := s.D.GetOkExists("key_id"); ok {
+			tmp := keyId.(string)
+			details.KeyId = &tmp
+		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
+		}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
+		}
+		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
+		}
+		request.CreateConnectionDetails = details
 	default:
 		return fmt.Errorf("unknown connection_type '%v' was specified", connectionType)
 	}
@@ -11695,6 +15339,78 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if modelKey, ok := s.D.GetOkExists("model_key"); ok {
 			tmp := modelKey.(string)
 			details.ModelKey = &tmp
+		}
+		tmp := s.D.Id()
+		request.ConnectionId = &tmp
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+			tmp := doesUseSecretIds.(bool)
+			details.DoesUseSecretIds = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
+		}
+		if keyId, ok := s.D.GetOkExists("key_id"); ok {
+			tmp := keyId.(string)
+			details.KeyId = &tmp
+		}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
+		}
+		request.UpdateConnectionDetails = details
+	case strings.ToLower("AI_PROVIDER"):
+		details := oci_golden_gate.UpdateAiProviderConnectionDetails{}
+		if authDetails, ok := s.D.GetOkExists("auth_details"); ok {
+			if tmpList := authDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "auth_details", 0)
+				tmp, err := s.mapToUpdateAiModelAuthDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.AuthDetails = tmp
+			}
 		}
 		tmp := s.D.Id()
 		request.ConnectionId = &tmp
@@ -12217,6 +15933,117 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if storageCredentialName, ok := s.D.GetOkExists("storage_credential_name"); ok {
 			tmp := storageCredentialName.(string)
 			details.StorageCredentialName = &tmp
+		}
+		tmp := s.D.Id()
+		request.ConnectionId = &tmp
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+			tmp := doesUseSecretIds.(bool)
+			details.DoesUseSecretIds = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
+		}
+		if keyId, ok := s.D.GetOkExists("key_id"); ok {
+			tmp := keyId.(string)
+			details.KeyId = &tmp
+		}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
+		}
+		request.UpdateConnectionDetails = details
+	case strings.ToLower("DATABRICKS_ENGINE"):
+		details := oci_golden_gate.UpdateDatabricksEngineConnectionDetails{}
+		useSecretIds := false
+		if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+			useSecretIds = doesUseSecretIds.(bool)
+		}
+		if artifactLocation, ok := s.D.GetOkExists("artifact_location"); ok {
+			if tmpList := artifactLocation.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "artifact_location", 0)
+				tmp, err := s.mapToUpdateDatabricksEngineArtifactLocationDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ArtifactLocation = tmp
+			}
+		}
+		if !useSecretIds {
+			if authToken, ok := s.D.GetOk("auth_token"); ok {
+				tmp := authToken.(string)
+				details.AuthToken = &tmp
+			}
+		}
+		if useSecretIds {
+			if authTokenSecretId, ok := s.D.GetOk("auth_token_secret_id"); ok {
+				tmp := authTokenSecretId.(string)
+				details.AuthTokenSecretId = &tmp
+			}
+		}
+		if authenticationType, ok := s.D.GetOkExists("authentication_type"); ok {
+			details.AuthenticationType = oci_golden_gate.DatabricksEngineConnectionAuthenticationTypeEnum(authenticationType.(string))
+		}
+		if clientId, ok := s.D.GetOkExists("client_id"); ok {
+			tmp := clientId.(string)
+			details.ClientId = &tmp
+		}
+		if !useSecretIds {
+			if clientSecret, ok := s.D.GetOk("client_secret"); ok {
+				tmp := clientSecret.(string)
+				details.ClientSecret = &tmp
+			}
+		}
+		if useSecretIds {
+			if clientSecretSecretId, ok := s.D.GetOk("client_secret_secret_id"); ok {
+				tmp := clientSecretSecretId.(string)
+				details.ClientSecretSecretId = &tmp
+			}
+		}
+		if workspaceUrl, ok := s.D.GetOkExists("workspace_url"); ok {
+			tmp := workspaceUrl.(string)
+			details.WorkspaceUrl = &tmp
 		}
 		tmp := s.D.Id()
 		request.ConnectionId = &tmp
@@ -14160,6 +17987,72 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			details.VaultId = &tmp
 		}
 		request.UpdateConnectionDetails = details
+	case strings.ToLower("ORACLE_AI_DATA_PLATFORM_ENGINE"):
+		details := oci_golden_gate.UpdateOracleAiDataPlatformEngineConnectionDetails{}
+		if workspaceUrl, ok := s.D.GetOkExists("workspace_url"); ok {
+			tmp := workspaceUrl.(string)
+			details.WorkspaceUrl = &tmp
+		}
+		tmp := s.D.Id()
+		request.ConnectionId = &tmp
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+			tmp := doesUseSecretIds.(bool)
+			details.DoesUseSecretIds = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
+		}
+		if keyId, ok := s.D.GetOkExists("key_id"); ok {
+			tmp := keyId.(string)
+			details.KeyId = &tmp
+		}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
+		}
+		request.UpdateConnectionDetails = details
 	case strings.ToLower("ORACLE_NOSQL"):
 		details := oci_golden_gate.UpdateOracleNosqlConnectionDetails{}
 		if privateKeyFile, ok := s.D.GetOkExists("private_key_file"); ok {
@@ -14546,6 +18439,187 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if username, ok := s.D.GetOkExists("username"); ok {
 			tmp := username.(string)
 			details.Username = &tmp
+		}
+		tmp := s.D.Id()
+		request.ConnectionId = &tmp
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+			tmp := doesUseSecretIds.(bool)
+			details.DoesUseSecretIds = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
+		}
+		if keyId, ok := s.D.GetOkExists("key_id"); ok {
+			tmp := keyId.(string)
+			details.KeyId = &tmp
+		}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
+		}
+		request.UpdateConnectionDetails = details
+	case strings.ToLower("SPARK"):
+		details := oci_golden_gate.UpdateSparkConnectionDetails{}
+		useSecretIds := false
+		if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+			useSecretIds = doesUseSecretIds.(bool)
+		}
+		if artifactLocation, ok := s.D.GetOkExists("artifact_location"); ok {
+			if tmpList := artifactLocation.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "artifact_location", 0)
+				tmp, err := s.mapToUpdateSparkArtifactLocationDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.ArtifactLocation = tmp
+			}
+		}
+		if !useSecretIds {
+			if authSecret, ok := s.D.GetOk("auth_secret"); ok {
+				tmp := authSecret.(string)
+				details.AuthSecret = &tmp
+			}
+		}
+		if useSecretIds {
+			if authSecretSecretId, ok := s.D.GetOk("auth_secret_secret_id"); ok {
+				tmp := authSecretSecretId.(string)
+				details.AuthSecretSecretId = &tmp
+			}
+		}
+		if authenticationType, ok := s.D.GetOkExists("authentication_type"); ok {
+			details.AuthenticationType = oci_golden_gate.SparkConnectionAuthenticationTypeEnum(authenticationType.(string))
+		}
+		if clusterEndpoint, ok := s.D.GetOkExists("cluster_endpoint"); ok {
+			tmp := clusterEndpoint.(string)
+			details.ClusterEndpoint = &tmp
+		}
+		if !useSecretIds {
+			if keyStore, ok := s.D.GetOk("key_store"); ok {
+				tmp := keyStore.(string)
+				details.KeyStore = &tmp
+			}
+			if keyStorePassword, ok := s.D.GetOk("key_store_password"); ok {
+				tmp := keyStorePassword.(string)
+				details.KeyStorePassword = &tmp
+			}
+		}
+		if useSecretIds {
+			if keyStorePasswordSecretId, ok := s.D.GetOk("key_store_password_secret_id"); ok {
+				tmp := keyStorePasswordSecretId.(string)
+				details.KeyStorePasswordSecretId = &tmp
+			}
+			if keyStoreSecretId, ok := s.D.GetOk("key_store_secret_id"); ok {
+				tmp := keyStoreSecretId.(string)
+				details.KeyStoreSecretId = &tmp
+			}
+		}
+		if keyStoreType, ok := s.D.GetOkExists("key_store_type"); ok {
+			details.KeyStoreType = oci_golden_gate.SparkConnectionKeyStoreTypeEnum(keyStoreType.(string))
+		}
+		if !useSecretIds {
+			if restAuthSecretKey, ok := s.D.GetOk("rest_auth_secret_key"); ok {
+				tmp := restAuthSecretKey.(string)
+				details.RestAuthSecretKey = &tmp
+			}
+		}
+		if useSecretIds {
+			if restAuthSecretKeySecretId, ok := s.D.GetOk("rest_auth_secret_key_secret_id"); ok {
+				tmp := restAuthSecretKeySecretId.(string)
+				details.RestAuthSecretKeySecretId = &tmp
+			}
+		}
+		if restEndpoint, ok := s.D.GetOkExists("rest_endpoint"); ok {
+			tmp := restEndpoint.(string)
+			details.RestEndpoint = &tmp
+		}
+		if rpcCipher, ok := s.D.GetOkExists("rpc_cipher"); ok {
+			details.RpcCipher = oci_golden_gate.SparkConnectionRpcCipherEnum(rpcCipher.(string))
+		}
+		if securityProtocol, ok := s.D.GetOkExists("security_protocol"); ok {
+			details.SecurityProtocol = oci_golden_gate.SparkConnectionSecurityProtocolEnum(securityProtocol.(string))
+		}
+		if !useSecretIds {
+			if sslKeyPassword, ok := s.D.GetOk("ssl_key_password"); ok {
+				tmp := sslKeyPassword.(string)
+				details.SslKeyPassword = &tmp
+			}
+		}
+		if useSecretIds {
+			if sslKeyPasswordSecretId, ok := s.D.GetOk("ssl_key_password_secret_id"); ok {
+				tmp := sslKeyPasswordSecretId.(string)
+				details.SslKeyPasswordSecretId = &tmp
+			}
+		}
+		if submitMode, ok := s.D.GetOkExists("submit_mode"); ok {
+			details.SubmitMode = oci_golden_gate.SparkConnectionSubmitModeEnum(submitMode.(string))
+		}
+		if tlsProtocol, ok := s.D.GetOkExists("tls_protocol"); ok {
+			details.TlsProtocol = oci_golden_gate.SparkConnectionTlsProtocolEnum(tlsProtocol.(string))
+		}
+		if !useSecretIds {
+			if trustStore, ok := s.D.GetOk("trust_store"); ok {
+				tmp := trustStore.(string)
+				details.TrustStore = &tmp
+			}
+			if trustStorePassword, ok := s.D.GetOk("trust_store_password"); ok {
+				tmp := trustStorePassword.(string)
+				details.TrustStorePassword = &tmp
+			}
+		}
+		if useSecretIds {
+			if trustStorePasswordSecretId, ok := s.D.GetOk("trust_store_password_secret_id"); ok {
+				tmp := trustStorePasswordSecretId.(string)
+				details.TrustStorePasswordSecretId = &tmp
+			}
+			if trustStoreSecretId, ok := s.D.GetOk("trust_store_secret_id"); ok {
+				tmp := trustStoreSecretId.(string)
+				details.TrustStoreSecretId = &tmp
+			}
+		}
+		if trustStoreType, ok := s.D.GetOkExists("trust_store_type"); ok {
+			details.TrustStoreType = oci_golden_gate.SparkConnectionTrustStoreTypeEnum(trustStoreType.(string))
 		}
 		tmp := s.D.Id()
 		request.ConnectionId = &tmp

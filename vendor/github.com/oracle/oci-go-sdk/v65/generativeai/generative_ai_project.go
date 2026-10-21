@@ -63,6 +63,8 @@ type GenerativeAiProject struct {
 
 	ShortTermMemoryOptimizationConfig *ShortTermMemoryOptimizationConfig `mandatory:"false" json:"shortTermMemoryOptimizationConfig"`
 
+	SandboxConfig *SandboxConfig `mandatory:"false" json:"sandboxConfig"`
+
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`

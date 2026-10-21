@@ -89,7 +89,109 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("model_key", *v.ModelKey)
 		}
 
+		if v.ProviderId != nil {
+			s.D.Set("provider_id", *v.ProviderId)
+		}
+
 		s.D.Set("provider_type", v.ProviderType)
+
+		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
+		if v.KeyId != nil {
+			s.D.Set("key_id", *v.KeyId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.VaultId != nil {
+			s.D.Set("vault_id", *v.VaultId)
+		}
+	case oci_golden_gate.AiProviderConnection:
+		s.D.Set("connection_type", "AI_PROVIDER")
+
+		if v.AuthDetails != nil {
+			authDetailsArray := []interface{}{}
+			if authDetailsMap := AiModelAuthDetailsToMap(&v.AuthDetails); authDetailsMap != nil {
+				authDetailsArray = append(authDetailsArray, authDetailsMap)
+			}
+			s.D.Set("auth_details", authDetailsArray)
+		} else {
+			s.D.Set("auth_details", nil)
+		}
 
 		s.D.Set("technology_type", v.TechnologyType)
 
@@ -732,6 +834,122 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 
 		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
+		if v.KeyId != nil {
+			s.D.Set("key_id", *v.KeyId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.VaultId != nil {
+			s.D.Set("vault_id", *v.VaultId)
+		}
+	case oci_golden_gate.DatabricksEngineConnection:
+		s.D.Set("connection_type", "DATABRICKS_ENGINE")
+
+		if v.ArtifactLocation != nil {
+			artifactLocationArray := []interface{}{}
+			if artifactLocationMap := DatabricksEngineArtifactLocationToMap(&v.ArtifactLocation); artifactLocationMap != nil {
+				artifactLocationArray = append(artifactLocationArray, artifactLocationMap)
+			}
+			s.D.Set("artifact_location", artifactLocationArray)
+		} else {
+			s.D.Set("artifact_location", nil)
+		}
+
+		if v.AuthTokenSecretId != nil {
+			s.D.Set("auth_token_secret_id", *v.AuthTokenSecretId)
+		}
+
+		s.D.Set("authentication_type", v.AuthenticationType)
+
+		if v.ClientId != nil {
+			s.D.Set("client_id", *v.ClientId)
+		}
+
+		if v.ClientSecretSecretId != nil {
+			s.D.Set("client_secret_secret_id", *v.ClientSecretSecretId)
+		}
+
+		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.WorkspaceUrl != nil {
+			s.D.Set("workspace_url", *v.WorkspaceUrl)
+		}
 
 		if v.ClusterPlacementGroupId != nil {
 			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
@@ -1713,6 +1931,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SecurityAttributes != nil {
 			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		} else {
+			s.D.Set("security_attributes", map[string]interface{}{})
 		}
 
 		s.D.Set("state", v.LifecycleState)
@@ -3010,6 +3230,98 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.VaultId != nil {
 			s.D.Set("vault_id", *v.VaultId)
 		}
+	case oci_golden_gate.OracleAiDataPlatformEngineConnection:
+		s.D.Set("connection_type", "ORACLE_AI_DATA_PLATFORM_ENGINE")
+
+		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.WorkspaceUrl != nil {
+			s.D.Set("workspace_url", *v.WorkspaceUrl)
+		}
+
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
+		if v.KeyId != nil {
+			s.D.Set("key_id", *v.KeyId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.VaultId != nil {
+			s.D.Set("vault_id", *v.VaultId)
+		}
 	case oci_golden_gate.OracleNosqlConnection:
 		s.D.Set("connection_type", "ORACLE_NOSQL")
 
@@ -3363,6 +3675,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SecurityAttributes != nil {
 			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		} else {
+			s.D.Set("security_attributes", map[string]interface{}{})
 		}
 
 		s.D.Set("state", v.LifecycleState)
@@ -3467,12 +3781,164 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
 		}
-		s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
+		s.D.Set("nsg_ids", nsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
 		if v.SecurityAttributes != nil {
 			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		} else {
+			s.D.Set("security_attributes", map[string]interface{}{})
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.VaultId != nil {
+			s.D.Set("vault_id", *v.VaultId)
+		}
+	case oci_golden_gate.SparkConnection:
+		s.D.Set("connection_type", "SPARK")
+
+		if v.ArtifactLocation != nil {
+			artifactLocationArray := []interface{}{}
+			if artifactLocationMap := SparkArtifactLocationToMap(&v.ArtifactLocation); artifactLocationMap != nil {
+				artifactLocationArray = append(artifactLocationArray, artifactLocationMap)
+			}
+			s.D.Set("artifact_location", artifactLocationArray)
+		} else {
+			s.D.Set("artifact_location", nil)
+		}
+
+		if v.AuthSecretSecretId != nil {
+			s.D.Set("auth_secret_secret_id", *v.AuthSecretSecretId)
+		}
+
+		s.D.Set("authentication_type", v.AuthenticationType)
+
+		if v.ClusterEndpoint != nil {
+			s.D.Set("cluster_endpoint", *v.ClusterEndpoint)
+		}
+
+		if v.KeyStorePasswordSecretId != nil {
+			s.D.Set("key_store_password_secret_id", *v.KeyStorePasswordSecretId)
+		}
+
+		if v.KeyStoreSecretId != nil {
+			s.D.Set("key_store_secret_id", *v.KeyStoreSecretId)
+		}
+
+		s.D.Set("key_store_type", v.KeyStoreType)
+
+		if v.RestAuthSecretKeySecretId != nil {
+			s.D.Set("rest_auth_secret_key_secret_id", *v.RestAuthSecretKeySecretId)
+		}
+
+		if v.RestEndpoint != nil {
+			s.D.Set("rest_endpoint", *v.RestEndpoint)
+		}
+
+		s.D.Set("rpc_cipher", v.RpcCipher)
+
+		s.D.Set("security_protocol", v.SecurityProtocol)
+
+		if v.SslKeyPasswordSecretId != nil {
+			s.D.Set("ssl_key_password_secret_id", *v.SslKeyPasswordSecretId)
+		}
+
+		s.D.Set("submit_mode", v.SubmitMode)
+
+		s.D.Set("technology_type", v.TechnologyType)
+
+		s.D.Set("tls_protocol", v.TlsProtocol)
+
+		if v.TrustStorePasswordSecretId != nil {
+			s.D.Set("trust_store_password_secret_id", *v.TrustStorePasswordSecretId)
+		}
+
+		if v.TrustStoreSecretId != nil {
+			s.D.Set("trust_store_secret_id", *v.TrustStoreSecretId)
+		}
+
+		s.D.Set("trust_store_type", v.TrustStoreType)
+
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
+		if v.KeyId != nil {
+			s.D.Set("key_id", *v.KeyId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		} else {
+			s.D.Set("security_attributes", map[string]interface{}{})
 		}
 
 		s.D.Set("state", v.LifecycleState)

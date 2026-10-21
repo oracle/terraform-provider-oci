@@ -91,7 +91,7 @@ func (client *SubscribedServiceClient) ConfigurationProvider() *common.Configura
 	return client.config
 }
 
-// GetSubscribedService This API returns the subscribed service details corresponding to the id provided
+// GetSubscribedService Returns the subscribed service details corresponding to the provided ID.
 //
 // # See also
 //
@@ -148,7 +148,7 @@ func (client SubscribedServiceClient) getSubscribedService(ctx context.Context, 
 	return response, err
 }
 
-// ListSubscribedServices This list API returns all subscribed services for given Subscription ID
+// ListSubscribedServices Returns all subscribed services for a given Subscription ID.
 //
 // # See also
 //

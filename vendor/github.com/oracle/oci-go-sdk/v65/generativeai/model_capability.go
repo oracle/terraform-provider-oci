@@ -37,6 +37,9 @@ const (
 	ModelCapabilityAudioToText       ModelCapabilityEnum = "AUDIO_TO_TEXT"
 	ModelCapabilityTextToAudio       ModelCapabilityEnum = "TEXT_TO_AUDIO"
 	ModelCapabilityTextToVideo       ModelCapabilityEnum = "TEXT_TO_VIDEO"
+	ModelCapabilityAudioTextToText   ModelCapabilityEnum = "AUDIO_TEXT_TO_TEXT"
+	ModelCapabilityAudioTranslation  ModelCapabilityEnum = "AUDIO_TRANSLATION"
+	ModelCapabilityVideoTextToText   ModelCapabilityEnum = "VIDEO_TEXT_TO_TEXT"
 )
 
 var mappingModelCapabilityEnum = map[string]ModelCapabilityEnum{
@@ -56,6 +59,9 @@ var mappingModelCapabilityEnum = map[string]ModelCapabilityEnum{
 	"AUDIO_TO_TEXT":       ModelCapabilityAudioToText,
 	"TEXT_TO_AUDIO":       ModelCapabilityTextToAudio,
 	"TEXT_TO_VIDEO":       ModelCapabilityTextToVideo,
+	"AUDIO_TEXT_TO_TEXT":  ModelCapabilityAudioTextToText,
+	"AUDIO_TRANSLATION":   ModelCapabilityAudioTranslation,
+	"VIDEO_TEXT_TO_TEXT":  ModelCapabilityVideoTextToText,
 }
 
 var mappingModelCapabilityEnumLowerCase = map[string]ModelCapabilityEnum{
@@ -75,6 +81,9 @@ var mappingModelCapabilityEnumLowerCase = map[string]ModelCapabilityEnum{
 	"audio_to_text":       ModelCapabilityAudioToText,
 	"text_to_audio":       ModelCapabilityTextToAudio,
 	"text_to_video":       ModelCapabilityTextToVideo,
+	"audio_text_to_text":  ModelCapabilityAudioTextToText,
+	"audio_translation":   ModelCapabilityAudioTranslation,
+	"video_text_to_text":  ModelCapabilityVideoTextToText,
 }
 
 // GetModelCapabilityEnumValues Enumerates the set of values for ModelCapabilityEnum
@@ -105,6 +114,9 @@ func GetModelCapabilityEnumStringValues() []string {
 		"AUDIO_TO_TEXT",
 		"TEXT_TO_AUDIO",
 		"TEXT_TO_VIDEO",
+		"AUDIO_TEXT_TO_TEXT",
+		"AUDIO_TRANSLATION",
+		"VIDEO_TEXT_TO_TEXT",
 	}
 }
 

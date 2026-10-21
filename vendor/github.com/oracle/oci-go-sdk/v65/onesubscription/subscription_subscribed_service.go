@@ -15,83 +15,86 @@ import (
 	"strings"
 )
 
-// SubscriptionSubscribedService Subscribed Service summary
+// SubscriptionSubscribedService Subscribed service summary.
 type SubscriptionSubscribedService struct {
 
-	// SPM internal Subscribed Service ID
+	// SPM (Subscription Plan Management) internal subscribed service ID.
 	Id *string `mandatory:"true" json:"id"`
 
 	Product *SubscriptionProduct `mandatory:"false" json:"product"`
 
-	// Subscribed service quantity
+	// Subscribed service quantity.
 	Quantity *string `mandatory:"false" json:"quantity"`
 
-	// Subscribed service status
+	// Subscribed service status.
 	Status *string `mandatory:"false" json:"status"`
 
-	// Subscribed service operation type
+	// Subscribed service operation type.
 	OperationType *string `mandatory:"false" json:"operationType"`
 
-	// Subscribed service net unit price
+	// Subscribed service net unit price.
 	NetUnitPrice *string `mandatory:"false" json:"netUnitPrice"`
 
-	// Subscribed service used amount
+	// Subscribed service used amount.
 	UsedAmount *string `mandatory:"false" json:"usedAmount"`
 
-	// Subscribed sercice available or remaining amount
+	// Subscribed sercice available or remaining amount.
 	AvailableAmount *string `mandatory:"false" json:"availableAmount"`
 
-	// Funded Allocation line value
-	// example: 12000.00
+	// Funded allocation line value.
+	// Example: 12000.00
 	FundedAllocationValue *string `mandatory:"false" json:"fundedAllocationValue"`
 
-	// This field contains the name of the partner to which the subscription belongs - depending on which the invoicing may differ
+	// The name of the partner to which the subscription belongs, however depending on which subscription, the invoicing can differ.
 	PartnerTransactionType *string `mandatory:"false" json:"partnerTransactionType"`
 
-	// Term value in Months
+	// Term value in months.
 	TermValue *int64 `mandatory:"false" json:"termValue"`
 
-	// Term value UOM
+	// Term value UOM (Unit of Measure).
 	TermValueUom *string `mandatory:"false" json:"termValueUom"`
 
-	// Booking Opportunity Number of Subscribed Service
+	// Booking opportunity number of subscribed service.
 	BookingOptyNumber *string `mandatory:"false" json:"bookingOptyNumber"`
 
-	// Subscribed service total value
+	// Subscribed service total value.
 	TotalValue *string `mandatory:"false" json:"totalValue"`
 
-	// Subscribed service Promotion Amount
+	// Subscribed service promotion amount.
 	OriginalPromoAmount *string `mandatory:"false" json:"originalPromoAmount"`
 
-	// Sales Order Number associated to the subscribed service
+	// Sales order number associated with the subscribed service.
 	OrderNumber *int64 `mandatory:"false" json:"orderNumber"`
 
-	// Subscribed service data center region
+	// Subscribed service data center region.
 	DataCenterRegion *string `mandatory:"false" json:"dataCenterRegion"`
 
-	// Subscribed service pricing model
+	// Subscribed service pricing model.
 	PricingModel *string `mandatory:"false" json:"pricingModel"`
 
-	// Subscribed service program type
+	// Subscribed service program type.
 	ProgramType *string `mandatory:"false" json:"programType"`
 
-	// Subscribed service promotion type
+	// Subscribed service promotion type.
 	PromoType *string `mandatory:"false" json:"promoType"`
 
-	// Subscribed service CSI number
+	// Subscribed service CSI (Customer Service Identifier) number.
 	Csi *int64 `mandatory:"false" json:"csi"`
 
-	// Subscribed service intent to pay flag
+	// Subscribed service intent to pay parameter.
 	IsIntentToPay *bool `mandatory:"false" json:"isIntentToPay"`
 
-	// Subscribed service start date
+	// Subscribed service start date.
 	TimeStart *common.SDKTime `mandatory:"false" json:"timeStart"`
 
-	// Subscribed service end date
+	// Subscribed service end date.
 	TimeEnd *common.SDKTime `mandatory:"false" json:"timeEnd"`
 
-	// List of Commitment services of a line
+	// List of commitment services of a line.
 	CommitmentServices []CommitmentService `mandatory:"false" json:"commitmentServices"`
+
+	// List of Associated Subscriptions
+	AssociatedSubscriptions []AssociatedSubscriptions `mandatory:"false" json:"associatedSubscriptions"`
 }
 
 func (m SubscriptionSubscribedService) String() string {

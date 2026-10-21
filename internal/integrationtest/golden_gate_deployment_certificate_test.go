@@ -6,6 +6,7 @@ package integrationtest
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -16,6 +17,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
@@ -86,43 +88,77 @@ func TestGoldenGateDeploymentCertificateResource_basic(t *testing.T) {
 		makeVariableStr(PASSWORD, t) +
 		makeVariableStr(TRUSTED_CERTIFICATE_CONTENT, t) +
 		acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "test_deployment", acctest.Required, acctest.Create, DeploymentRepresentation)
+	siblingCertificateConfig := `
+resource "oci_golden_gate_deployment_certificate" "test_deployment_certificate_sibling_1" {
+	certificate_content = var.certificate_content
+	deployment_id       = oci_golden_gate_deployment.test_deployment.id
+	key                 = "MyCertificateSibling1"
+}
+
+resource "oci_golden_gate_deployment_certificate" "test_deployment_certificate_sibling_2" {
+	certificate_content = var.certificate_content
+	deployment_id       = oci_golden_gate_deployment.test_deployment.id
+	key                 = "MyCertificateSibling2"
+}
+`
+	configWithSiblingCertificates := config + siblingCertificateConfig
 
 	var (
+		compartmentId      = utils.GetEnvSettingWithBlankDefault(COMPARTMENT_ID)
 		certificateContent = utils.GetEnvSettingWithBlankDefault(TRUSTED_CERTIFICATE_CONTENT)
 		resId              string
 		resId2             string
 	)
 
 	resourceName := "oci_golden_gate_deployment_certificate.test_deployment_certificate"
+	firstSiblingResourceName := "oci_golden_gate_deployment_certificate.test_deployment_certificate_sibling_1"
+	secondSiblingResourceName := "oci_golden_gate_deployment_certificate.test_deployment_certificate_sibling_2"
 	datasourceName := "data.oci_golden_gate_deployment_certificates.test_deployment_certificates"
 	singularDatasourceName := "data.oci_golden_gate_deployment_certificate.test_deployment_certificate_singular"
 
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
-	acctest.SaveConfigContent(config+
-		acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "test_deployment", acctest.Required, acctest.Create, DeploymentRepresentation)+
+	acctest.SaveConfigContent(configWithSiblingCertificates+
 		acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_certificate", "test_deployment_certificate", acctest.Required, acctest.Create, CertificateRepresentation), "goldengate", "deploymentCertificate", t)
 
 	acctest.ResourceTest(t, testAccCheckGoldenGateDeploymentCertificateDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config +
+			Config: configWithSiblingCertificates +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_certificate", "test_deployment_certificate", acctest.Required, acctest.Create, CertificateRepresentation),
 
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "certificate_content", certificateContent),
 				resource.TestCheckResourceAttrSet(resourceName, "deployment_id"),
 				resource.TestCheckResourceAttr(resourceName, "key", "MyCertificate"),
+				resource.TestCheckResourceAttrSet(firstSiblingResourceName, "deployment_id"),
+				resource.TestCheckResourceAttr(firstSiblingResourceName, "key", "MyCertificateSibling1"),
+				resource.TestCheckResourceAttrSet(secondSiblingResourceName, "deployment_id"),
+				resource.TestCheckResourceAttr(secondSiblingResourceName, "key", "MyCertificateSibling2"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if err != nil {
+						return err
+					}
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
 					return err
 				},
 			),
 		},
+		// Reapply the same resources to ensure refresh is clean and no create is planned.
+		{
+			Config: configWithSiblingCertificates +
+				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_certificate", "test_deployment_certificate", acctest.Required, acctest.Create, CertificateRepresentation),
+			PlanOnly: true,
+		},
 
 		// verify recreate (previously created has been deleted and a new one has been created)
 		{
-			Config: config +
+			Config: configWithSiblingCertificates +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_certificate", "test_deployment_certificate", acctest.Required, acctest.Update, CertificateRepresentation),
 
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -143,21 +179,20 @@ func TestGoldenGateDeploymentCertificateResource_basic(t *testing.T) {
 
 		// verify datasource
 		{
-			Config: config +
+			Config: configWithSiblingCertificates +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_certificate", "test_deployment_certificate", acctest.Required, acctest.Update, CertificateRepresentation) +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_golden_gate_deployment_certificates", "test_deployment_certificates", acctest.Optional, acctest.Update, CertificateDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "deployment_id"),
 				resource.TestCheckResourceAttr(datasourceName, "state", string(oci_golden_gate.CertificateLifecycleStateActive)),
 				resource.TestCheckResourceAttr(datasourceName, "certificate_collection.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "certificate_collection.0.items.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "certificate_collection.0.items.0.key", "MyNewCertificate"),
+				resource.TestCheckResourceAttr(datasourceName, "certificate_collection.0.items.#", "3"),
 			),
 		},
 
 		// verify singular datasource
 		{
-			Config: config +
+			Config: configWithSiblingCertificates +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_certificate", "test_deployment_certificate", acctest.Required, acctest.Update, CertificateRepresentation) +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_golden_gate_deployment_certificate", "test_deployment_certificate_singular", acctest.Required, acctest.Create, CertificateSingularDataSourceRepresentation),
 
@@ -188,7 +223,7 @@ func TestGoldenGateDeploymentCertificateResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config: config +
+			Config: configWithSiblingCertificates +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_certificate", "test_deployment_certificate", acctest.Required, acctest.Update, CertificateRepresentation),
 			ImportState:             true,
 			ImportStateVerify:       true,

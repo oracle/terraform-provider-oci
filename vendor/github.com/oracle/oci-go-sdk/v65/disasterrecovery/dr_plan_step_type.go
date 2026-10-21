@@ -143,6 +143,10 @@ const (
 	DrPlanStepTypeMysqlDbSystemStartDrill                                               DrPlanStepTypeEnum = "MYSQL_DB_SYSTEM_START_DRILL"
 	DrPlanStepTypeMysqlDbSystemStopDrillPrecheck                                        DrPlanStepTypeEnum = "MYSQL_DB_SYSTEM_STOP_DRILL_PRECHECK"
 	DrPlanStepTypeMysqlDbSystemStopDrill                                                DrPlanStepTypeEnum = "MYSQL_DB_SYSTEM_STOP_DRILL"
+	DrPlanStepTypePostgresqlDbSystemSwitchoverPrecheck                                  DrPlanStepTypeEnum = "POSTGRESQL_DB_SYSTEM_SWITCHOVER_PRECHECK"
+	DrPlanStepTypePostgresqlDbSystemSwitchover                                          DrPlanStepTypeEnum = "POSTGRESQL_DB_SYSTEM_SWITCHOVER"
+	DrPlanStepTypePostgresqlDbSystemFailoverPrecheck                                    DrPlanStepTypeEnum = "POSTGRESQL_DB_SYSTEM_FAILOVER_PRECHECK"
+	DrPlanStepTypePostgresqlDbSystemFailover                                            DrPlanStepTypeEnum = "POSTGRESQL_DB_SYSTEM_FAILOVER"
 	DrPlanStepTypeIntegrationInstanceSwitchoverPrecheck                                 DrPlanStepTypeEnum = "INTEGRATION_INSTANCE_SWITCHOVER_PRECHECK"
 	DrPlanStepTypeIntegrationInstanceSwitchover                                         DrPlanStepTypeEnum = "INTEGRATION_INSTANCE_SWITCHOVER"
 	DrPlanStepTypeIntegrationInstanceFailoverPrecheck                                   DrPlanStepTypeEnum = "INTEGRATION_INSTANCE_FAILOVER_PRECHECK"
@@ -272,6 +276,10 @@ var mappingDrPlanStepTypeEnum = map[string]DrPlanStepTypeEnum{
 	"MYSQL_DB_SYSTEM_START_DRILL":                                                    DrPlanStepTypeMysqlDbSystemStartDrill,
 	"MYSQL_DB_SYSTEM_STOP_DRILL_PRECHECK":                                            DrPlanStepTypeMysqlDbSystemStopDrillPrecheck,
 	"MYSQL_DB_SYSTEM_STOP_DRILL":                                                     DrPlanStepTypeMysqlDbSystemStopDrill,
+	"POSTGRESQL_DB_SYSTEM_SWITCHOVER_PRECHECK":                                       DrPlanStepTypePostgresqlDbSystemSwitchoverPrecheck,
+	"POSTGRESQL_DB_SYSTEM_SWITCHOVER":                                                DrPlanStepTypePostgresqlDbSystemSwitchover,
+	"POSTGRESQL_DB_SYSTEM_FAILOVER_PRECHECK":                                         DrPlanStepTypePostgresqlDbSystemFailoverPrecheck,
+	"POSTGRESQL_DB_SYSTEM_FAILOVER":                                                  DrPlanStepTypePostgresqlDbSystemFailover,
 	"INTEGRATION_INSTANCE_SWITCHOVER_PRECHECK":                                       DrPlanStepTypeIntegrationInstanceSwitchoverPrecheck,
 	"INTEGRATION_INSTANCE_SWITCHOVER":                                                DrPlanStepTypeIntegrationInstanceSwitchover,
 	"INTEGRATION_INSTANCE_FAILOVER_PRECHECK":                                         DrPlanStepTypeIntegrationInstanceFailoverPrecheck,
@@ -401,6 +409,10 @@ var mappingDrPlanStepTypeEnumLowerCase = map[string]DrPlanStepTypeEnum{
 	"mysql_db_system_start_drill":                                                    DrPlanStepTypeMysqlDbSystemStartDrill,
 	"mysql_db_system_stop_drill_precheck":                                            DrPlanStepTypeMysqlDbSystemStopDrillPrecheck,
 	"mysql_db_system_stop_drill":                                                     DrPlanStepTypeMysqlDbSystemStopDrill,
+	"postgresql_db_system_switchover_precheck":                                       DrPlanStepTypePostgresqlDbSystemSwitchoverPrecheck,
+	"postgresql_db_system_switchover":                                                DrPlanStepTypePostgresqlDbSystemSwitchover,
+	"postgresql_db_system_failover_precheck":                                         DrPlanStepTypePostgresqlDbSystemFailoverPrecheck,
+	"postgresql_db_system_failover":                                                  DrPlanStepTypePostgresqlDbSystemFailover,
 	"integration_instance_switchover_precheck":                                       DrPlanStepTypeIntegrationInstanceSwitchoverPrecheck,
 	"integration_instance_switchover":                                                DrPlanStepTypeIntegrationInstanceSwitchover,
 	"integration_instance_failover_precheck":                                         DrPlanStepTypeIntegrationInstanceFailoverPrecheck,
@@ -541,6 +553,10 @@ func GetDrPlanStepTypeEnumStringValues() []string {
 		"MYSQL_DB_SYSTEM_START_DRILL",
 		"MYSQL_DB_SYSTEM_STOP_DRILL_PRECHECK",
 		"MYSQL_DB_SYSTEM_STOP_DRILL",
+		"POSTGRESQL_DB_SYSTEM_SWITCHOVER_PRECHECK",
+		"POSTGRESQL_DB_SYSTEM_SWITCHOVER",
+		"POSTGRESQL_DB_SYSTEM_FAILOVER_PRECHECK",
+		"POSTGRESQL_DB_SYSTEM_FAILOVER",
 		"INTEGRATION_INSTANCE_SWITCHOVER_PRECHECK",
 		"INTEGRATION_INSTANCE_SWITCHOVER",
 		"INTEGRATION_INSTANCE_FAILOVER_PRECHECK",

@@ -145,6 +145,7 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 								"NETWORK_LOAD_BALANCER",
 								"OBJECT_STORAGE_BUCKET",
 								"OKE_CLUSTER",
+								"POSTGRESQL_DB_SYSTEM",
 								"VOLUME_GROUP",
 							}, true),
 						},
@@ -386,7 +387,7 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 								},
 							},
 						},
-						"connection_string_type": {
+						"bucket": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -417,7 +418,7 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 								},
 							},
 						},
-						"bucket": {
+						"connection_string_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -541,6 +542,74 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
+						},
+						"dr_drill_properties": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"vnic_mappings": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"destination_nsg_id_list": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+												"destination_primary_private_ip_address": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"destination_primary_private_ip_hostname_label": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"destination_reserved_primary_private_ip_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"destination_reserved_public_ip_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"destination_subnet_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"source_vnic_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+
+									// Computed
+								},
+							},
 						},
 						"export_mappings": {
 							Type:     schema.TypeList,
@@ -942,6 +1011,11 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 										Computed: true,
 									},
 									"destination_primary_private_ip_hostname_label": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"destination_reserved_primary_private_ip_id": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -1556,6 +1630,99 @@ func AssociateDrProtectionGroupDetailsToMap(obj *oci_disaster_recovery.Associate
 	return result
 }
 
+func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToComputeInstanceMovableVnicMapping(fieldKeyFormat string) (oci_disaster_recovery.ComputeInstanceMovableVnicMapping, error) {
+	result := oci_disaster_recovery.ComputeInstanceMovableVnicMapping{}
+
+	if destinationNsgIdList, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_nsg_id_list")); ok {
+		interfaces := destinationNsgIdList.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "destination_nsg_id_list")) {
+			result.DestinationNsgIdList = tmp
+		}
+	}
+
+	if destinationPrimaryPrivateIpAddress, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_primary_private_ip_address")); ok {
+		tmp := destinationPrimaryPrivateIpAddress.(string)
+		if tmp != "" {
+			result.DestinationPrimaryPrivateIpAddress = &tmp
+		}
+	}
+
+	if destinationPrimaryPrivateIpHostnameLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_primary_private_ip_hostname_label")); ok {
+		tmp := destinationPrimaryPrivateIpHostnameLabel.(string)
+		if tmp != "" {
+			result.DestinationPrimaryPrivateIpHostnameLabel = &tmp
+		}
+	}
+
+	if destinationReservedPrimaryPrivateIpId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_reserved_primary_private_ip_id")); ok {
+		tmp := destinationReservedPrimaryPrivateIpId.(string)
+		if tmp != "" {
+			result.DestinationReservedPrimaryPrivateIpId = &tmp
+		}
+	}
+
+	if destinationReservedPublicIpId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_reserved_public_ip_id")); ok {
+		tmp := destinationReservedPublicIpId.(string)
+		if tmp != "" {
+			result.DestinationReservedPublicIpId = &tmp
+		}
+	}
+
+	if destinationSubnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_subnet_id")); ok {
+		tmp := destinationSubnetId.(string)
+		if tmp != "" {
+			result.DestinationSubnetId = &tmp
+		}
+	}
+
+	if sourceVnicId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_vnic_id")); ok {
+		tmp := sourceVnicId.(string)
+		if tmp != "" {
+			result.SourceVnicId = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+func ComputeInstanceMovableVnicMappingToMap(obj oci_disaster_recovery.ComputeInstanceMovableVnicMapping) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["destination_nsg_id_list"] = obj.DestinationNsgIdList
+
+	if obj.DestinationPrimaryPrivateIpAddress != nil {
+		result["destination_primary_private_ip_address"] = string(*obj.DestinationPrimaryPrivateIpAddress)
+	}
+
+	if obj.DestinationPrimaryPrivateIpHostnameLabel != nil {
+		result["destination_primary_private_ip_hostname_label"] = string(*obj.DestinationPrimaryPrivateIpHostnameLabel)
+	}
+
+	if obj.DestinationReservedPrimaryPrivateIpId != nil {
+		result["destination_reserved_primary_private_ip_id"] = string(*obj.DestinationReservedPrimaryPrivateIpId)
+	}
+
+	if obj.DestinationReservedPublicIpId != nil {
+		result["destination_reserved_public_ip_id"] = string(*obj.DestinationReservedPublicIpId)
+	}
+
+	if obj.DestinationSubnetId != nil {
+		result["destination_subnet_id"] = string(*obj.DestinationSubnetId)
+	}
+
+	if obj.SourceVnicId != nil {
+		result["source_vnic_id"] = string(*obj.SourceVnicId)
+	}
+
+	return result
+}
+
 func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToComputeInstanceMovableVnicMappingDetails(fieldKeyFormat string) (oci_disaster_recovery.ComputeInstanceMovableVnicMappingDetails, error) {
 	result := oci_disaster_recovery.ComputeInstanceMovableVnicMappingDetails{}
 
@@ -1583,6 +1750,13 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToComputeInstanceMova
 		tmp := destinationPrimaryPrivateIpHostnameLabel.(string)
 		if tmp != "" {
 			result.DestinationPrimaryPrivateIpHostnameLabel = &tmp
+		}
+	}
+
+	if destinationReservedPrimaryPrivateIpId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_reserved_primary_private_ip_id")); ok {
+		tmp := destinationReservedPrimaryPrivateIpId.(string)
+		if tmp != "" {
+			result.DestinationReservedPrimaryPrivateIpId = &tmp
 		}
 	}
 
@@ -1621,6 +1795,10 @@ func ComputeInstanceMovableVnicMappingDetailsToMap(obj oci_disaster_recovery.Com
 
 	if obj.DestinationPrimaryPrivateIpHostnameLabel != nil {
 		result["destination_primary_private_ip_hostname_label"] = string(*obj.DestinationPrimaryPrivateIpHostnameLabel)
+	}
+
+	if obj.DestinationReservedPrimaryPrivateIpId != nil {
+		result["destination_reserved_primary_private_ip_id"] = string(*obj.DestinationReservedPrimaryPrivateIpId)
 	}
 
 	if obj.DestinationReservedPublicIpId != nil {
@@ -2119,6 +2297,64 @@ func ComputeInstanceNonMovableBlockVolumeOperationToMap(obj oci_disaster_recover
 	return result
 }
 
+func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToCreateDrProtectionGroupMemberComputeInstanceDrillPropertiesDetails(fieldKeyFormat string) (oci_disaster_recovery.CreateDrProtectionGroupMemberComputeInstanceDrillPropertiesDetails, error) {
+	result := oci_disaster_recovery.CreateDrProtectionGroupMemberComputeInstanceDrillPropertiesDetails{}
+
+	if vnicMappings, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vnic_mappings")); ok {
+		interfaces := vnicMappings.([]interface{})
+		tmp := make([]oci_disaster_recovery.ComputeInstanceMovableVnicMapping, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "vnic_mappings"), stateDataIndex)
+			converted, err := s.mapToComputeInstanceMovableVnicMapping(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "vnic_mappings")) {
+			result.VnicMappings = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToUpdateDrProtectionGroupMemberComputeInstanceDrillPropertiesDetails(fieldKeyFormat string) (oci_disaster_recovery.UpdateDrProtectionGroupMemberComputeInstanceDrillPropertiesDetails, error) {
+	result := oci_disaster_recovery.UpdateDrProtectionGroupMemberComputeInstanceDrillPropertiesDetails{}
+
+	if vnicMappings, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vnic_mappings")); ok {
+		interfaces := vnicMappings.([]interface{})
+		tmp := make([]oci_disaster_recovery.ComputeInstanceMovableVnicMapping, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "vnic_mappings"), stateDataIndex)
+			converted, err := s.mapToComputeInstanceMovableVnicMapping(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "vnic_mappings")) {
+			result.VnicMappings = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func DrProtectionGroupMemberComputeInstanceDrillPropertiesToMap(obj *oci_disaster_recovery.DrProtectionGroupMemberComputeInstanceDrillProperties) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	vnicMappings := []interface{}{}
+	for _, item := range obj.VnicMappings {
+		vnicMappings = append(vnicMappings, ComputeInstanceMovableVnicMappingToMap(item))
+	}
+	result["vnic_mappings"] = vnicMappings
+
+	return result
+}
+
 func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToCreateDrProtectionGroupMemberDetails(fieldKeyFormat string) (oci_disaster_recovery.CreateDrProtectionGroupMemberDetails, error) {
 	var baseObject oci_disaster_recovery.CreateDrProtectionGroupMemberDetails
 	//discriminator
@@ -2212,6 +2448,16 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToCreateDrProtectionG
 		if destinationDedicatedVmHostId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_dedicated_vm_host_id")); ok {
 			tmp := destinationDedicatedVmHostId.(string)
 			details.DestinationDedicatedVmHostId = &tmp
+		}
+		if drDrillProperties, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dr_drill_properties")); ok {
+			if tmpList := drDrillProperties.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "dr_drill_properties"), 0)
+				tmp, err := s.mapToCreateDrProtectionGroupMemberComputeInstanceDrillPropertiesDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert dr_drill_properties, encountered error: %v", err)
+				}
+				details.DrDrillProperties = &tmp
+			}
 		}
 		if fileSystemOperations, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "file_system_operations")); ok {
 			interfaces := fileSystemOperations.([]interface{})
@@ -2601,6 +2847,17 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToCreateDrProtectionG
 			details.MemberId = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("POSTGRESQL_DB_SYSTEM"):
+		details := oci_disaster_recovery.UpdateDrProtectionGroupMemberPostgresqlDbSystemDetails{}
+		if peerDbSystemId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "peer_db_system_id")); ok {
+			tmp := peerDbSystemId.(string)
+			details.PeerDbSystemId = &tmp
+		}
+		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
+			tmp := memberId.(string)
+			details.MemberId = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("VOLUME_GROUP"):
 		details := oci_disaster_recovery.UpdateDrProtectionGroupMemberVolumeGroupDetails{}
 		if commonDestinationKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "common_destination_key")); ok {
@@ -2764,6 +3021,16 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToUpdateDrProtectionG
 			tmp := destinationDedicatedVmHostId.(string)
 			if tmp != "" {
 				details.DestinationDedicatedVmHostId = &tmp
+			}
+		}
+		if drDrillProperties, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dr_drill_properties")); ok {
+			if tmpList := drDrillProperties.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "dr_drill_properties"), 0)
+				tmp, err := s.mapToUpdateDrProtectionGroupMemberComputeInstanceDrillPropertiesDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert dr_drill_properties, encountered error: %v", err)
+				}
+				details.DrDrillProperties = &tmp
 			}
 		}
 		if fileSystemOperations, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "file_system_operations")); ok {
@@ -3198,6 +3465,21 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToUpdateDrProtectionG
 			}
 		}
 		baseObject = details
+	case strings.ToLower("POSTGRESQL_DB_SYSTEM"):
+		details := oci_disaster_recovery.UpdateDrProtectionGroupMemberPostgresqlDbSystemDetails{}
+		if peerDbSystemId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "peer_db_system_id")); ok {
+			tmp := peerDbSystemId.(string)
+			if tmp != "" {
+				details.PeerDbSystemId = &tmp
+			}
+		}
+		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
+			tmp := memberId.(string)
+			if tmp != "" {
+				details.MemberId = &tmp
+			}
+		}
+		baseObject = details
 	case strings.ToLower("VOLUME_GROUP"):
 		details := oci_disaster_recovery.UpdateDrProtectionGroupMemberVolumeGroupDetails{}
 		if commonDestinationKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "common_destination_key")); ok {
@@ -3310,6 +3592,10 @@ func DrProtectionGroupMemberToMap(obj oci_disaster_recovery.DrProtectionGroupMem
 
 		if v.DestinationDedicatedVmHostId != nil {
 			result["destination_dedicated_vm_host_id"] = string(*v.DestinationDedicatedVmHostId)
+		}
+
+		if v.DrDrillProperties != nil {
+			result["dr_drill_properties"] = []interface{}{DrProtectionGroupMemberComputeInstanceDrillPropertiesToMap(v.DrDrillProperties)}
 		}
 
 		fileSystemOperations := []interface{}{}
@@ -3560,7 +3846,26 @@ func DrProtectionGroupMemberToMap(obj oci_disaster_recovery.DrProtectionGroupMem
 		if v.MemberId != nil {
 			result["member_id"] = string(*v.MemberId)
 		}
+	case oci_disaster_recovery.UpdateDrProtectionGroupMemberPostgresqlDbSystemDetails:
+		result["member_type"] = "POSTGRESQL_DB_SYSTEM"
 
+		if v.PeerDbSystemId != nil {
+			result["peer_db_system_id"] = string(*v.PeerDbSystemId)
+		}
+
+		if v.MemberId != nil {
+			result["member_id"] = string(*v.MemberId)
+		}
+	case oci_disaster_recovery.DrProtectionGroupMemberPostgresqlDbSystem:
+		result["member_type"] = "POSTGRESQL_DB_SYSTEM"
+
+		if v.PeerDbSystemId != nil {
+			result["peer_db_system_id"] = string(*v.PeerDbSystemId)
+		}
+
+		if v.MemberId != nil {
+			result["member_id"] = string(*v.MemberId)
+		}
 	case oci_disaster_recovery.DrProtectionGroupMemberVolumeGroup:
 		result["member_type"] = "VOLUME_GROUP"
 
@@ -4728,6 +5033,18 @@ func ComputeInstanceNonMovableFileSystemOperationToMap(obj oci_disaster_recovery
 	if obj.MountTargetId != nil {
 		result["mount_target_id"] = string(*obj.MountTargetId)
 	}
+
+	return result
+}
+
+func UpdateDrProtectionGroupMemberComputeInstanceDrillPropertiesDetailsToMap(obj *oci_disaster_recovery.UpdateDrProtectionGroupMemberComputeInstanceDrillPropertiesDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	vnicMappings := []interface{}{}
+	for _, item := range obj.VnicMappings {
+		vnicMappings = append(vnicMappings, ComputeInstanceMovableVnicMappingToMap(item))
+	}
+	result["vnic_mappings"] = vnicMappings
 
 	return result
 }

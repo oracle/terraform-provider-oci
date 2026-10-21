@@ -196,6 +196,14 @@ variable "opensearch_cluster_outbound_cluster_config_outbound_clusters_ping_sche
   default = "pingSchedule"
 }
 
+variable "opensearch_cluster_remote_reindex_trust_config_remote_sources_endpoint" {
+  default = "endpoint"
+}
+
+variable "opensearch_cluster_remote_reindex_trust_config_remote_sources_endpoint_resolution_ip" {
+  default = "endpointResolutionIp"
+}
+
 variable "opensearch_cluster_reverse_connection_endpoint_customer_ips" {
   default = []
 }
@@ -365,6 +373,17 @@ resource "oci_opensearch_opensearch_cluster" "test_opensearch_cluster" {
       is_skip_unavailable = var.opensearch_cluster_outbound_cluster_config_outbound_clusters_is_skip_unavailable
       mode                = var.opensearch_cluster_outbound_cluster_config_outbound_clusters_mode
       ping_schedule       = var.opensearch_cluster_outbound_cluster_config_outbound_clusters_ping_schedule
+    }
+  }
+  remote_reindex_trust_config {
+    #Required
+    remote_sources {
+      #Required
+      ca_bundle_id = oci_certificates_management_ca_bundle.test_ca_bundle.id
+      endpoint     = var.opensearch_cluster_remote_reindex_trust_config_remote_sources_endpoint
+
+      #Optional
+      endpoint_resolution_ip = var.opensearch_cluster_remote_reindex_trust_config_remote_sources_endpoint_resolution_ip
     }
   }
   reverse_connection_endpoint_customer_ips = var.opensearch_cluster_reverse_connection_endpoint_customer_ips

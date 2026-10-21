@@ -18,18 +18,18 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/GetSubscribedService.go.html to see an example of how to use GetSubscribedServiceRequest.
 type GetSubscribedServiceRequest struct {
 
-	// The Subscribed Service Id
+	// The subscribed service ID.
 	SubscribedServiceId *string `mandatory:"true" contributesTo:"path" name:"subscribedServiceId"`
 
 	// Partial response refers to an optimization technique offered
-	// by the RESTful web APIs to return only the information
+	// by the RESTful web APIs, to return only the information
 	// (fields) required by the client. In this mechanism, the client
 	// sends the required field names as the query parameters for
 	// an API to the server, and the server trims down the default
 	// response content by removing the fields that are not required
-	// by the client. The parameter used to control what fields to
-	// return should be a query string parameter called "fields" of
-	// type array, and usecollectionFormat
+	// by the client. The parameter used to control which fields to
+	// return should be a query string parameter called "fields", of
+	// an array type, and use collectionFormat.
 	Fields []string `contributesTo:"query" name:"fields" collectionFormat:"multi"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

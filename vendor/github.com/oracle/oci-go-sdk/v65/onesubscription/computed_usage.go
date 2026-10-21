@@ -15,80 +15,80 @@ import (
 	"strings"
 )
 
-// ComputedUsage Computed Usage Summary object
+// ComputedUsage Computed usage summary object.
 type ComputedUsage struct {
 
-	// SPM Internal computed usage Id , 32 character string
+	// SPM internal computed usage ID, which is a 32-character string.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Computed Usage created time, expressed in RFC 3339 timestamp format.
+	// Computed usage created time, expressed in RFC 3339 timestamp format.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// Computed Usage updated time, expressed in RFC 3339 timestamp format.
+	// Computed usage updated time, expressed in RFC 3339 timestamp format.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// Subscribed service line parent id
+	// Subscribed service line parent ID.
 	ParentSubscribedServiceId *string `mandatory:"false" json:"parentSubscribedServiceId"`
 
 	ParentProduct *ComputedUsageProduct `mandatory:"false" json:"parentProduct"`
 
-	// Subscription plan number
+	// Subscription plan number.
 	PlanNumber *string `mandatory:"false" json:"planNumber"`
 
-	// Currency code
+	// Currency code.
 	CurrencyCode *string `mandatory:"false" json:"currencyCode"`
 
-	// References the tier in the ratecard for that usage (OCI will be using the same reference to cross-reference for correctness on the usage csv report), comes from Entity OBSCNTR_IPT_PRODUCTTIER.
+	// References the tier in the rate card for the associated usage (OCI uses the same reference to cross-reference for correctness in CSV Usage Reports), obtained from the OBSCNTR_IPT_PRODUCTTIER entity.
 	RateCardTierdId *string `mandatory:"false" json:"rateCardTierdId"`
 
-	// Ratecard Id at subscribed service level
+	// Ratecard ID at subscribed service level.
 	RateCardId *string `mandatory:"false" json:"rateCardId"`
 
-	// SPM Internal compute records source .
+	// SPM (Subscription Plan Management) internal compute records source.
 	ComputeSource *string `mandatory:"false" json:"computeSource"`
 
-	// Data Center Attribute as sent by MQS to SPM.
+	// Data center attribute as sent by the meterering system to SPM.
 	DataCenter *string `mandatory:"false" json:"dataCenter"`
 
-	// MQS Identfier send to SPM , SPM does not transform this attribute and is received as is.
+	// The meterering system identfier sent to SPM. SPM does not transform this attribute and is received as-is.
 	MqsMessageId *string `mandatory:"false" json:"mqsMessageId"`
 
-	// Total Quantity that was used for computation
+	// Total quantity that was used for computation.
 	Quantity *string `mandatory:"false" json:"quantity"`
 
-	// SPM Internal usage Line number identifier in SPM coming from Metered Services entity.
+	// SPM internal usage line number identifier in SPM, originating from the metered services entity.
 	UsageNumber *string `mandatory:"false" json:"usageNumber"`
 
-	// SPM Internal Original usage Line number identifier in SPM coming from Metered Services entity.
+	// SPM internal original usage line number identifier in SPM, originating from the metered services entity.
 	OriginalUsageNumber *string `mandatory:"false" json:"originalUsageNumber"`
 
-	// Subscribed service commitmentId.
+	// Subscribed service commitment ID.
 	CommitmentServiceId *string `mandatory:"false" json:"commitmentServiceId"`
 
-	// Invoicing status for the aggregated compute usage
+	// Invoicing status for the aggregated compute usage.
 	IsInvoiced *bool `mandatory:"false" json:"isInvoiced"`
 
 	// Usage compute type in SPM.
 	Type ComputedUsageTypeEnum `mandatory:"false" json:"type,omitempty"`
 
-	// Usae computation date, expressed in RFC 3339 timestamp format.
+	// Usage computation date, expressed in RFC 3339 timestamp format.
 	TimeOfArrival *common.SDKTime `mandatory:"false" json:"timeOfArrival"`
 
-	// Metered Service date, expressed in RFC 3339 timestamp format.
+	// Metered service date, expressed in RFC 3339 timestamp format.
 	TimeMeteredOn *common.SDKTime `mandatory:"false" json:"timeMeteredOn"`
 
-	// Net Unit Price for the product in consideration, price actual.
+	// Net unit price for the product in consideration, price actual.
 	NetUnitPrice *string `mandatory:"false" json:"netUnitPrice"`
 
-	// Computed Line Amount rounded.
+	// Computed rounded line amount.
 	CostRounded *string `mandatory:"false" json:"costRounded"`
 
-	// Computed Line Amount not rounded
+	// Computed unrounded line Amount.
 	Cost *string `mandatory:"false" json:"cost"`
 
 	Product *ComputedUsageProduct `mandatory:"false" json:"product"`
 
-	// Unit of Messure
+	// Unit of measure.
 	UnitOfMeasure *string `mandatory:"false" json:"unitOfMeasure"`
 }
 

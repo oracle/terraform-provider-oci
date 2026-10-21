@@ -15,98 +15,98 @@ import (
 	"strings"
 )
 
-// SubscribedServiceSummary Subscribed service contract details
+// SubscribedServiceSummary Subscribed service contract details.
 type SubscribedServiceSummary struct {
 
-	// SPM internal Subscribed Service ID
+	// SPM (Subscription Plan Management) internal subscribed service ID.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Subscribed Service line type
+	// Subscribed service line type.
 	Type *string `mandatory:"false" json:"type"`
 
-	// Subscribed service line number
+	// Subscribed service line number.
 	SerialNumber *string `mandatory:"false" json:"serialNumber"`
 
-	// Subscription ID associated to the subscribed service
+	// Subscription ID associated with the subscribed service.
 	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
 
 	Product *RateCardProduct `mandatory:"false" json:"product"`
 
-	// Subscribed service start date
+	// Subscribed service start date.
 	TimeStart *common.SDKTime `mandatory:"false" json:"timeStart"`
 
-	// Subscribed service end date
+	// Subscribed service end date.
 	TimeEnd *common.SDKTime `mandatory:"false" json:"timeEnd"`
 
-	// Subscribed service quantity
+	// Subscribed service quantity.
 	Quantity *string `mandatory:"false" json:"quantity"`
 
-	// Subscribed service status
+	// Subscribed service status.
 	Status *string `mandatory:"false" json:"status"`
 
-	// Subscribed service operation type
+	// Subscribed service operation type.
 	OperationType *string `mandatory:"false" json:"operationType"`
 
-	// Subscribed service net unit price
+	// Subscribed service net unit price.
 	NetUnitPrice *string `mandatory:"false" json:"netUnitPrice"`
 
-	// Indicates the period for which the commitment amount can be utilised exceeding which the amount lapses. Also used in calculation of total contract line value
+	// Indicates the period for which the commitment amount can be utilized, exceeding which, the amount lapses. Also used in calculation of total contract line value.
 	PricePeriod *string `mandatory:"false" json:"pricePeriod"`
 
-	// Subscribed service line net amount
+	// Subscribed service line net amount.
 	LineNetAmount *string `mandatory:"false" json:"lineNetAmount"`
 
-	// Indicates if the commitment lines can have different quantities
+	// Indicates if the commitment lines can have different quantities.
 	IsVariableCommitment *bool `mandatory:"false" json:"isVariableCommitment"`
 
-	// Indicates if a service can recieve usages and consequently have available amounts computed
+	// Indicates if a service can recieve usages and consequently have available amounts computed.
 	IsAllowance *bool `mandatory:"false" json:"isAllowance"`
 
-	// Subscribed service used amount
+	// Subscribed service used amount.
 	UsedAmount *string `mandatory:"false" json:"usedAmount"`
 
-	// Subscribed sercice available or remaining amount
+	// Subscribed sercice available or remaining amount.
 	AvailableAmount *string `mandatory:"false" json:"availableAmount"`
 
-	// Funded Allocation line value
-	// example: 12000.00
+	// Funded allocation line value.
+	// Example: 12000.00
 	FundedAllocationValue *string `mandatory:"false" json:"fundedAllocationValue"`
 
-	// Indicator on whether or not there has been usage for the subscribed service
+	// Indicates whether or not there has been usage for the subscribed service.
 	IsHavingUsage *bool `mandatory:"false" json:"isHavingUsage"`
 
-	// If true compares rate between ratecard and the active pricelist and minimum rate would be fetched
+	// If true compares the rate between the rate card and the active price list, and the minimum rate would be fetched.
 	IsCapToPriceList *bool `mandatory:"false" json:"isCapToPriceList"`
 
-	// Subscribed service credit percentage
+	// Subscribed service credit percentage.
 	CreditPercentage *string `mandatory:"false" json:"creditPercentage"`
 
-	// This field contains the name of the partner to which the subscription belongs - depending on which the invoicing may differ
+	// Contains the name of the partner to which the subscription belongs, however depending on which subscription, the invoicing can differ.
 	PartnerTransactionType *string `mandatory:"false" json:"partnerTransactionType"`
 
-	// Used in context of service credit lines
+	// Used in context of service credit lines.
 	IsCreditEnabled *bool `mandatory:"false" json:"isCreditEnabled"`
 
-	// Overage Policy of Subscribed Service
+	// Overage policy of subscribed service.
 	OveragePolicy *string `mandatory:"false" json:"overagePolicy"`
 
-	// Overage Bill To of Subscribed Service
+	// Overage bill to of subscribed service.
 	OverageBillTo *string `mandatory:"false" json:"overageBillTo"`
 
-	// Pay As You Go policy of Subscribed Service (Can be null - indicating no payg policy)
+	// Pay As You Go policy of subscribed service. Can be null, indicating no PAYG policy.
 	PaygPolicy *string `mandatory:"false" json:"paygPolicy"`
 
-	// Not null if this service has an associated promotion line in SPM. Contains the line identifier from Order Management of
+	// Not null if this service has an associated promotion line in SPM (Subscription Plan Management). Contains the line identifier from order management of
 	// the associated promo line.
 	PromoOrderLineId *int64 `mandatory:"false" json:"promoOrderLineId"`
 
-	// Promotion Pricing Type of Subscribed Service (Can be null - indicating no promotion pricing)
+	// Promotion pricing type of subscribed service. Can be null, indicating no promotional pricing.
 	PromotionPricingType *string `mandatory:"false" json:"promotionPricingType"`
 
-	// Subscribed service Rate Card Discount Percentage
+	// Subscribed service rate card ciscount percentage.
 	RateCardDiscountPercentage *string `mandatory:"false" json:"rateCardDiscountPercentage"`
 
-	// Subscribed service Overage Discount Percentage
+	// Subscribed service overage discount percentage.
 	OverageDiscountPercentage *string `mandatory:"false" json:"overageDiscountPercentage"`
 
 	BillToCustomer *SubscribedServiceBusinessPartner `mandatory:"false" json:"billToCustomer"`
@@ -115,147 +115,147 @@ type SubscribedServiceSummary struct {
 
 	BillToAddress *SubscribedServiceAddress `mandatory:"false" json:"billToAddress"`
 
-	// Payment Number of Subscribed Service
+	// Payment number of subscribed service.
 	PaymentNumber *string `mandatory:"false" json:"paymentNumber"`
 
-	// Subscribed service payment expiry date
+	// Subscribed service payment expiration date.
 	TimePaymentExpiry *common.SDKTime `mandatory:"false" json:"timePaymentExpiry"`
 
 	PaymentTerm *SubscribedServicePaymentTerm `mandatory:"false" json:"paymentTerm"`
 
-	// Payment Method of Subscribed Service
+	// Payment method of subscribed service.
 	PaymentMethod *string `mandatory:"false" json:"paymentMethod"`
 
-	// Subscribed service Transaction Extension Id
+	// Subscribed service transaction extension ID.
 	TransactionExtensionId *int64 `mandatory:"false" json:"transactionExtensionId"`
 
-	// Sales Channel of Subscribed Service
+	// Sales channel of subscribed service.
 	SalesChannel *string `mandatory:"false" json:"salesChannel"`
 
-	// Subscribed service eligible to renew field
+	// Subscribed service eligible to renew field.
 	EligibleToRenew *string `mandatory:"false" json:"eligibleToRenew"`
 
-	// SPM renewed Subscription ID
+	// SPM (Subscription Plan Management) renewed subscription ID.
 	RenewedSubscribedServiceId *string `mandatory:"false" json:"renewedSubscribedServiceId"`
 
-	// Term value in Months
+	// Term value in months.
 	TermValue *int64 `mandatory:"false" json:"termValue"`
 
-	// Term value UOM
+	// Term value UOM (Unit of Measure).
 	TermValueUom *string `mandatory:"false" json:"termValueUom"`
 
-	// Subscribed service Opportunity Id
+	// Subscribed service opportunity ID.
 	RenewalOptyId *int64 `mandatory:"false" json:"renewalOptyId"`
 
-	// Renewal Opportunity Number of Subscribed Service
+	// Renewal opportunity number of subscribed service.
 	RenewalOptyNumber *string `mandatory:"false" json:"renewalOptyNumber"`
 
-	// Renewal Opportunity Type of Subscribed Service
+	// Renewal opportunity type of subscribed service.
 	RenewalOptyType *string `mandatory:"false" json:"renewalOptyType"`
 
-	// Booking Opportunity Number of Subscribed Service
+	// Booking opportunity number of subscribed service.
 	BookingOptyNumber *string `mandatory:"false" json:"bookingOptyNumber"`
 
-	// Subscribed service Revenue Line Id
+	// Subscribed service revenue line ID.
 	RevenueLineId *int64 `mandatory:"false" json:"revenueLineId"`
 
-	// Revenue Line NUmber of Subscribed Service
+	// Revenue line number of subscribed service.
 	RevenueLineNumber *string `mandatory:"false" json:"revenueLineNumber"`
 
-	// Subscribed service Major Set
+	// Subscribed service major set.
 	MajorSet *int64 `mandatory:"false" json:"majorSet"`
 
-	// Subscribed service Major Set Start date
+	// Subscribed service major set start date.
 	TimeMajorsetStart *common.SDKTime `mandatory:"false" json:"timeMajorsetStart"`
 
-	// Subscribed service Major Set End date
+	// Subscribed service major set end date.
 	TimeMajorsetEnd *common.SDKTime `mandatory:"false" json:"timeMajorsetEnd"`
 
-	// Subscribed service System ARR
+	// Subscribed service system ARR (Annualized Recurring Revenue).
 	SystemArrInLc *string `mandatory:"false" json:"systemArrInLc"`
 
-	// Subscribed service System ARR in Standard Currency
+	// Subscribed service system ARR in standard currency.
 	SystemArrInSc *string `mandatory:"false" json:"systemArrInSc"`
 
-	// Subscribed service System ATR-ARR
+	// Subscribed service system ATR-ARR (Annualized Recurring Revenue - Available to Renew).
 	SystemAtrArrInLc *string `mandatory:"false" json:"systemAtrArrInLc"`
 
-	// Subscribed service System ATR-ARR in Standard Currency
+	// Subscribed service system ATR-ARR in standard currency.
 	SystemAtrArrInSc *string `mandatory:"false" json:"systemAtrArrInSc"`
 
-	// Subscribed service Revised ARR
+	// Subscribed service revised ARR.
 	RevisedArrInLc *string `mandatory:"false" json:"revisedArrInLc"`
 
-	// Subscribed service Revised ARR in Standard Currency
+	// Subscribed service revised ARR in standard currency.
 	RevisedArrInSc *string `mandatory:"false" json:"revisedArrInSc"`
 
-	// Subscribed service total value
+	// Subscribed service total value.
 	TotalValue *string `mandatory:"false" json:"totalValue"`
 
-	// Subscribed service Promotion Amount
+	// Subscribed service promotion amount.
 	OriginalPromoAmount *string `mandatory:"false" json:"originalPromoAmount"`
 
-	// Sales Order Header associated to the subscribed service
+	// Sales order header associated with the subscribed service.
 	OrderHeaderId *int64 `mandatory:"false" json:"orderHeaderId"`
 
-	// Sales Order Number associated to the subscribed service
+	// Sales order number associated with the subscribed service.
 	OrderNumber *int64 `mandatory:"false" json:"orderNumber"`
 
-	// Order Type of Subscribed Service
+	// Order type of subscribed service.
 	OrderType *string `mandatory:"false" json:"orderType"`
 
-	// Sales Order Line Id associated to the subscribed service
+	// Sales order line ID associated with the subscribed service.
 	OrderLineId *int64 `mandatory:"false" json:"orderLineId"`
 
-	// Sales Order Line Number associated to the subscribed service
+	// Sales order line number associated with the subscribed service.
 	OrderLineNumber *int `mandatory:"false" json:"orderLineNumber"`
 
-	// Subscribed service commitment schedule Id
+	// Subscribed service commitment schedule ID.
 	CommitmentScheduleId *string `mandatory:"false" json:"commitmentScheduleId"`
 
-	// Subscribed service sales account party id
+	// Subscribed service sales account party ID.
 	SalesAccountPartyId *int64 `mandatory:"false" json:"salesAccountPartyId"`
 
-	// Subscribed service data center
+	// Subscribed service data center.
 	DataCenter *string `mandatory:"false" json:"dataCenter"`
 
-	// Subscribed service data center region
+	// Subscribed service data center region.
 	DataCenterRegion *string `mandatory:"false" json:"dataCenterRegion"`
 
-	// Subscribed service admin email id
+	// Subscribed service admin email ID.
 	AdminEmail *string `mandatory:"false" json:"adminEmail"`
 
-	// Subscribed service buyer email id
+	// Subscribed service buyer email ID.
 	BuyerEmail *string `mandatory:"false" json:"buyerEmail"`
 
-	// Subscribed service source
+	// Subscribed service source.
 	SubscriptionSource *string `mandatory:"false" json:"subscriptionSource"`
 
-	// Subscribed service provisioning source
+	// Subscribed service provisioning source.
 	ProvisioningSource *string `mandatory:"false" json:"provisioningSource"`
 
-	// Subscribed service fulfillment set
+	// Subscribed service fulfillment set.
 	FulfillmentSet *string `mandatory:"false" json:"fulfillmentSet"`
 
-	// Subscribed service intent to pay flag
+	// Subscribed service intent to pay parameter.
 	IsIntentToPay *bool `mandatory:"false" json:"isIntentToPay"`
 
-	// Subscribed service payg flag
+	// Subscribed service PAYG parameter.
 	IsPayg *bool `mandatory:"false" json:"isPayg"`
 
-	// Subscribed service pricing model
+	// Subscribed service pricing model.
 	PricingModel *string `mandatory:"false" json:"pricingModel"`
 
-	// Subscribed service program type
+	// Subscribed service program type.
 	ProgramType *string `mandatory:"false" json:"programType"`
 
-	// Subscribed service start date type
+	// Subscribed service start date type.
 	StartDateType *string `mandatory:"false" json:"startDateType"`
 
-	// Subscribed service provisioning date
+	// Subscribed service provisioning date.
 	TimeProvisioned *common.SDKTime `mandatory:"false" json:"timeProvisioned"`
 
-	// Subscribed service promotion type
+	// Subscribed service promotion type.
 	PromoType *string `mandatory:"false" json:"promoType"`
 
 	ServiceToCustomer *SubscribedServiceBusinessPartner `mandatory:"false" json:"serviceToCustomer"`
@@ -280,55 +280,55 @@ type SubscribedServiceSummary struct {
 
 	ResellerAddress *SubscribedServiceAddress `mandatory:"false" json:"resellerAddress"`
 
-	// Subscribed service CSI number
+	// Subscribed service CSI number.
 	Csi *int64 `mandatory:"false" json:"csi"`
 
-	// Identifier for a customer's transactions for purchase of ay oracle services
+	// Identifier for a customer's transactions for purchase of any Oracle services.
 	CustomerTransactionReference *string `mandatory:"false" json:"customerTransactionReference"`
 
-	// Subscribed service partner credit amount
+	// Subscribed service partner credit amount.
 	PartnerCreditAmount *string `mandatory:"false" json:"partnerCreditAmount"`
 
-	// Indicates if the Subscribed service has a single ratecard
+	// Indicates if the subscribed service has a single rate card.
 	IsSingleRateCard *bool `mandatory:"false" json:"isSingleRateCard"`
 
-	// Subscribed service agreement ID
+	// Subscribed service agreement ID.
 	AgreementId *int64 `mandatory:"false" json:"agreementId"`
 
-	// Subscribed service agrrement name
+	// Subscribed service agreement name.
 	AgreementName *string `mandatory:"false" json:"agreementName"`
 
-	// Subscribed service agrrement type
+	// Subscribed service agreement type.
 	AgreementType *string `mandatory:"false" json:"agreementType"`
 
-	// Subscribed service invoice frequency
+	// Subscribed service invoice frequency.
 	BillingFrequency *string `mandatory:"false" json:"billingFrequency"`
 
-	// Subscribed service welcome email sent date
+	// Subscribed service welcome email sent date.
 	TimeWelcomeEmailSent *common.SDKTime `mandatory:"false" json:"timeWelcomeEmailSent"`
 
-	// Subscribed service service configuration email sent date
+	// Subscribed service configuration email sent date.
 	TimeServiceConfigurationEmailSent *common.SDKTime `mandatory:"false" json:"timeServiceConfigurationEmailSent"`
 
-	// Subscribed service customer config date
+	// Subscribed service customer configuration date.
 	TimeCustomerConfig *common.SDKTime `mandatory:"false" json:"timeCustomerConfig"`
 
-	// Subscribed service agrrement end date
+	// Subscribed service agreement end date.
 	TimeAgreementEnd *common.SDKTime `mandatory:"false" json:"timeAgreementEnd"`
 
-	// Subscribed service creation date
+	// Subscribed service creation date.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// User that created the subscribed service
+	// User that created the subscribed service.
 	CreatedBy *string `mandatory:"false" json:"createdBy"`
 
-	// Subscribed service last update date
+	// Subscribed service last update date.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// User that updated the subscribed service
+	// User that updated the subscribed service.
 	UpdatedBy *string `mandatory:"false" json:"updatedBy"`
 
-	// SPM Ratecard Type
+	// SPM (Subscription Plan Management) rate card type.
 	RatecardType *string `mandatory:"false" json:"ratecardType"`
 }
 

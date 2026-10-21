@@ -15,25 +15,25 @@ import (
 	"strings"
 )
 
-// CommitmentService Subscribed service commitment details
+// CommitmentService Subscribed service commitment details.
 type CommitmentService struct {
 
-	// Commitment start date
+	// Commitment start date.
 	TimeStart *common.SDKTime `mandatory:"false" json:"timeStart"`
 
-	// Commitment end date
+	// Commitment end date.
 	TimeEnd *common.SDKTime `mandatory:"false" json:"timeEnd"`
 
-	// Commitment quantity
+	// Commitment quantity.
 	Quantity *string `mandatory:"false" json:"quantity"`
 
-	// Commitment available amount
+	// Commitment available amount.
 	AvailableAmount *string `mandatory:"false" json:"availableAmount"`
 
-	// Commitment line net amount
+	// Commitment line net amount.
 	LineNetAmount *string `mandatory:"false" json:"lineNetAmount"`
 
-	// Funded Allocation line value
+	// Funded allocation line value.
 	FundedAllocationValue *string `mandatory:"false" json:"fundedAllocationValue"`
 }
 

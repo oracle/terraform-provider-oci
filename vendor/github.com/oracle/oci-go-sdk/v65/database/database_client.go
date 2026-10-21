@@ -4771,6 +4771,68 @@ func (client DatabaseClient) createDatabase(ctx context.Context, request common.
 	return response, err
 }
 
+// CreateDatabaseSnapshot Creates a Database Snapshot
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CreateDatabaseSnapshot.go.html to see an example of how to use CreateDatabaseSnapshot API.
+func (client DatabaseClient) CreateDatabaseSnapshot(ctx context.Context, request CreateDatabaseSnapshotRequest) (response CreateDatabaseSnapshotResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createDatabaseSnapshot, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateDatabaseSnapshotResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateDatabaseSnapshotResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateDatabaseSnapshotResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateDatabaseSnapshotResponse")
+	}
+	return
+}
+
+// createDatabaseSnapshot implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) createDatabaseSnapshot(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseSnapshots", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateDatabaseSnapshotResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "CreateDatabaseSnapshot")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Database", "CreateDatabaseSnapshot", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateDatabaseSoftwareImage create database software image in the specified compartment.
 //
 // # See also
@@ -7192,6 +7254,63 @@ func (client DatabaseClient) deleteDatabase(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/DeleteDatabase"
 		err = common.PostProcessServiceError(err, "Database", "DeleteDatabase", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteDatabaseSnapshot Deletes the specified Exadata Database Snapshot.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DeleteDatabaseSnapshot.go.html to see an example of how to use DeleteDatabaseSnapshot API.
+func (client DatabaseClient) DeleteDatabaseSnapshot(ctx context.Context, request DeleteDatabaseSnapshotRequest) (response DeleteDatabaseSnapshotResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteDatabaseSnapshot, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteDatabaseSnapshotResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteDatabaseSnapshotResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteDatabaseSnapshotResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteDatabaseSnapshotResponse")
+	}
+	return
+}
+
+// deleteDatabaseSnapshot implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) deleteDatabaseSnapshot(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/databaseSnapshots/{databaseSnapshotId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteDatabaseSnapshotResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "DeleteDatabaseSnapshot")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DatabaseSnapshot/DeleteDatabaseSnapshot"
+		err = common.PostProcessServiceError(err, "Database", "DeleteDatabaseSnapshot", apiReferenceLink)
 		return response, err
 	}
 
@@ -12911,6 +13030,63 @@ func (client DatabaseClient) getDatabase(ctx context.Context, request common.OCI
 	return response, err
 }
 
+// GetDatabaseSnapshot Gets information about the specified Exadata Database Snapshot.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetDatabaseSnapshot.go.html to see an example of how to use GetDatabaseSnapshot API.
+func (client DatabaseClient) GetDatabaseSnapshot(ctx context.Context, request GetDatabaseSnapshotRequest) (response GetDatabaseSnapshotResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDatabaseSnapshot, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDatabaseSnapshotResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDatabaseSnapshotResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDatabaseSnapshotResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDatabaseSnapshotResponse")
+	}
+	return
+}
+
+// getDatabaseSnapshot implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getDatabaseSnapshot(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseSnapshots/{databaseSnapshotId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDatabaseSnapshotResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "GetDatabaseSnapshot")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DatabaseSnapshot/GetDatabaseSnapshot"
+		err = common.PostProcessServiceError(err, "Database", "GetDatabaseSnapshot", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetDatabaseSoftwareImage Gets information about the specified database software image.
 //
 // # See also
@@ -18012,6 +18188,63 @@ func (client DatabaseClient) listDataGuardAssociations(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DataGuardAssociation/ListDataGuardAssociations"
 		err = common.PostProcessServiceError(err, "Database", "ListDataGuardAssociations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDatabaseSnapshots Gets a list of the Exadata Database Snapshots in the specified compartment.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListDatabaseSnapshots.go.html to see an example of how to use ListDatabaseSnapshots API.
+func (client DatabaseClient) ListDatabaseSnapshots(ctx context.Context, request ListDatabaseSnapshotsRequest) (response ListDatabaseSnapshotsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDatabaseSnapshots, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDatabaseSnapshotsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDatabaseSnapshotsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDatabaseSnapshotsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDatabaseSnapshotsResponse")
+	}
+	return
+}
+
+// listDatabaseSnapshots implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listDatabaseSnapshots(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseSnapshots", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDatabaseSnapshotsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "ListDatabaseSnapshots")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DatabaseSnapshot/ListDatabaseSnapshots"
+		err = common.PostProcessServiceError(err, "Database", "ListDatabaseSnapshots", apiReferenceLink)
 		return response, err
 	}
 
@@ -26745,6 +26978,68 @@ func (client DatabaseClient) updateDatabase(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/UpdateDatabase"
 		err = common.PostProcessServiceError(err, "Database", "UpdateDatabase", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateDatabaseSnapshot Updates a Database Snapshot
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UpdateDatabaseSnapshot.go.html to see an example of how to use UpdateDatabaseSnapshot API.
+func (client DatabaseClient) UpdateDatabaseSnapshot(ctx context.Context, request UpdateDatabaseSnapshotRequest) (response UpdateDatabaseSnapshotResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateDatabaseSnapshot, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateDatabaseSnapshotResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateDatabaseSnapshotResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateDatabaseSnapshotResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateDatabaseSnapshotResponse")
+	}
+	return
+}
+
+// updateDatabaseSnapshot implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) updateDatabaseSnapshot(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/databaseSnapshots/{databaseSnapshotId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateDatabaseSnapshotResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "UpdateDatabaseSnapshot")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DatabaseSnapshot/UpdateDatabaseSnapshot"
+		err = common.PostProcessServiceError(err, "Database", "UpdateDatabaseSnapshot", apiReferenceLink)
 		return response, err
 	}
 

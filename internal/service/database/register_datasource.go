@@ -68,6 +68,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_database_database", DatabaseDatabaseDataSource())
 	tfresource.RegisterDatasource("oci_database_database_pdb_conversion_history_entries", DatabaseDatabasePdbConversionHistoryEntriesDataSource())
 	tfresource.RegisterDatasource("oci_database_database_pdb_conversion_history_entry", DatabaseDatabasePdbConversionHistoryEntryDataSource())
+	tfresource.RegisterDatasource("oci_database_database_snapshot", DatabaseDatabaseSnapshotDataSource())
+	tfresource.RegisterDatasource("oci_database_database_snapshots", DatabaseDatabaseSnapshotsDataSource())
 	tfresource.RegisterDatasource("oci_database_database_software_image", DatabaseDatabaseSoftwareImageDataSource())
 	tfresource.RegisterDatasource("oci_database_database_software_images", DatabaseDatabaseSoftwareImagesDataSource())
 	tfresource.RegisterDatasource("oci_database_database_upgrade_history_entries", DatabaseDatabaseUpgradeHistoryEntriesDataSource())

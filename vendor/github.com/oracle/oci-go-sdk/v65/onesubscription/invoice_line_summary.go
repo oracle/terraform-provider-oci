@@ -15,24 +15,24 @@ import (
 	"strings"
 )
 
-// InvoiceLineSummary Invoice Line
+// InvoiceLineSummary Invoice line.
 type InvoiceLineSummary struct {
 
-	// SPM Invoice Line internal identifier
+	// SPM (Subscription Plan Management) invoice line internal identifier.
 	Id *string `mandatory:"true" json:"id"`
 
 	Product *InvoicingProduct `mandatory:"true" json:"product"`
 
-	// Data Center Attribute.
+	// Data center attribute.
 	DataCenter *string `mandatory:"true" json:"dataCenter"`
 
-	// Usage start time
+	// Usage start time.
 	TimeStart *common.SDKTime `mandatory:"true" json:"timeStart"`
 
-	// Usage end time
+	// Usage end time.
 	TimeEnd *common.SDKTime `mandatory:"true" json:"timeEnd"`
 
-	// AR Invoice Number for Invoice Line
+	// Accounts receivable invoice number for invoice line.
 	ArInvoiceNumber *string `mandatory:"false" json:"arInvoiceNumber"`
 }
 

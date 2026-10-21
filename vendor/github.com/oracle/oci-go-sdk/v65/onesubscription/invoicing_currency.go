@@ -15,16 +15,16 @@ import (
 	"strings"
 )
 
-// InvoicingCurrency Currency details
+// InvoicingCurrency Currency details.
 type InvoicingCurrency struct {
 
-	// Currency Code
+	// Currency code.
 	IsoCode *string `mandatory:"true" json:"isoCode"`
 
-	// Currency name
+	// Currency name.
 	Name *string `mandatory:"false" json:"name"`
 
-	// Standard Precision of the Currency
+	// Standard precision of the currency.
 	StdPrecision *int64 `mandatory:"false" json:"stdPrecision"`
 }
 

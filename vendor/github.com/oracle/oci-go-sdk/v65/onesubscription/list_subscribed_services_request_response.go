@@ -21,13 +21,13 @@ type ListSubscribedServicesRequest struct {
 	// The OCID of the root compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// Line level Subscription Id
+	// Line level subscription ID.
 	SubscriptionId *string `mandatory:"true" contributesTo:"query" name:"subscriptionId"`
 
-	// Order Line identifier at subscribed service level . This identifier is originated in Order Management module. Default is null.
+	// Order line identifier at subscribed service level. This identifier originates from the order management module. Default is null.
 	OrderLineId *int64 `mandatory:"false" contributesTo:"query" name:"orderLineId"`
 
-	// This param is used to filter subscribed services based on its status
+	// This parameter filters subscribed services based on its status.
 	Status *string `mandatory:"false" contributesTo:"query" name:"status"`
 
 	// The maximum number of items to return in a paginated "List" call. Default: (`50`)

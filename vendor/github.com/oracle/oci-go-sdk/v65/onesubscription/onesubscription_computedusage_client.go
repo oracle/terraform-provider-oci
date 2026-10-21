@@ -91,7 +91,7 @@ func (client *ComputedUsageClient) ConfigurationProvider() *common.Configuration
 	return client.config
 }
 
-// GetComputedUsage This is an API which returns Computed Usage corresponding to the id passed
+// GetComputedUsage Returns computed usage corresponding to the passed ID.
 //
 // # See also
 //
@@ -148,7 +148,7 @@ func (client ComputedUsageClient) getComputedUsage(ctx context.Context, request 
 	return response, err
 }
 
-// ListAggregatedComputedUsages This is a collection API which returns a list of aggregated computed usage details (there can be multiple Parent Products under a given SubID each of which is represented under Subscription Service Line # in SPM).
+// ListAggregatedComputedUsages Collection API that returns a list of aggregated computed usage details (there can be multiple parent products under a given SubID, each of which is represented under the subscription service line # in SPM).
 //
 // # See also
 //
@@ -205,7 +205,7 @@ func (client ComputedUsageClient) listAggregatedComputedUsages(ctx context.Conte
 	return response, err
 }
 
-// ListComputedUsages This is a collection API which returns a list of Computed Usages for given filters.
+// ListComputedUsages Collection API that returns a list of computed usages for the given filters.
 //
 // # See also
 //

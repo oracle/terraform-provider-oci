@@ -36,7 +36,7 @@ type InvoicingLocation struct {
 	// Region.
 	Region *string `mandatory:"false" json:"region"`
 
-	// TCA Location identifier.
+	// TCA (Trading Community Architecture) location identifier.
 	TcaLocationId *int64 `mandatory:"false" json:"tcaLocationId"`
 }
 

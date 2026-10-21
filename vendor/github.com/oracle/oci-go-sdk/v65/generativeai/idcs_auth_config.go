@@ -21,6 +21,7 @@ import (
 // IdcsAuthConfig Oracle Identity Cloud Service (IDCS) configuration used
 // when inboundAuthConfigType is set to IDCS_AUTH_CONFIG or IDCS_SESSION_AUTH_CONFIG.
 // This object must be specified when inboundAuthConfigType is IDCS_AUTH_CONFIG or IDCS_SESSION_AUTH_CONFIG.
+// This object must be omitted when inboundAuthConfigType is NO_AUTH_CONFIG.
 // When inboundAuthConfigType is IDCS_SESSION_AUTH_CONFIG, this configuration supports
 // OAuth 2.1 Authorization Code flow with PKCE.
 type IdcsAuthConfig struct {

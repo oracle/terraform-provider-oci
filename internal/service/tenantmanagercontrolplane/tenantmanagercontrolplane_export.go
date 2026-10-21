@@ -25,6 +25,11 @@ var exportTenantmanagercontrolplaneSubscriptionMappingHints = &tf_export.Terrafo
 	},
 }
 
+var exportTenantmanagercontrolplaneChildTenancyHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_tenantmanagercontrolplane_child_tenancy",
+	ResourceAbbreviation: "child_tenancy",
+}
+
 var tenantmanagercontrolplaneResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportTenantmanagercontrolplaneSubscriptionMappingHints},

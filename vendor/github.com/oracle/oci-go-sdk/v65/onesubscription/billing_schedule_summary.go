@@ -15,43 +15,43 @@ import (
 	"strings"
 )
 
-// BillingScheduleSummary Billing schedule details related to Subscription Id
+// BillingScheduleSummary Billing schedule details related to subscription ID.
 type BillingScheduleSummary struct {
 
-	// SPM internal Subscribed Service ID
+	// SPM (Subscription Plan Management) internal subscribed service ID.
 	SubscribedServiceId *string `mandatory:"false" json:"subscribedServiceId"`
 
-	// Billing schedule start date
+	// Billing schedule start date.
 	TimeStart *common.SDKTime `mandatory:"false" json:"timeStart"`
 
-	// Billing schedule end date
+	// Billing schedule end date.
 	TimeEnd *common.SDKTime `mandatory:"false" json:"timeEnd"`
 
-	// Billing schedule invoicing date
+	// Billing schedule invoicing date.
 	TimeInvoicing *common.SDKTime `mandatory:"false" json:"timeInvoicing"`
 
-	// Billing schedule invoice status
+	// Billing schedule invoice status.
 	InvoiceStatus BillingScheduleSummaryInvoiceStatusEnum `mandatory:"false" json:"invoiceStatus,omitempty"`
 
-	// Billing schedule quantity
+	// Billing schedule quantity.
 	Quantity *string `mandatory:"false" json:"quantity"`
 
-	// Billing schedule net unit price
+	// Billing schedule net unit price.
 	NetUnitPrice *string `mandatory:"false" json:"netUnitPrice"`
 
-	// Billing schedule line net amount
+	// Billing schedule line net amount.
 	Amount *string `mandatory:"false" json:"amount"`
 
-	// Billing frequency
+	// Billing frequency.
 	BillingFrequency *string `mandatory:"false" json:"billingFrequency"`
 
-	// Indicates the associated AR Invoice Number
+	// Indicates the associated accounts receivable invoice number.
 	ArInvoiceNumber *string `mandatory:"false" json:"arInvoiceNumber"`
 
-	// Indicates the associated AR Customer transaction id a unique identifier existing on AR.
+	// Indicates the associated accounts receivable customer transaction ID, which is a unique identifier existing on the accounts receivable.
 	ArCustomerTransactionId *string `mandatory:"false" json:"arCustomerTransactionId"`
 
-	// Order number associated with the Subscribed Service
+	// Order number associated with the subscribed service.
 	OrderNumber *string `mandatory:"false" json:"orderNumber"`
 
 	Product *BillingScheduleProduct `mandatory:"false" json:"product"`

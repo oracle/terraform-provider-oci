@@ -105,6 +105,10 @@ type CreateSnowflakeConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "passwordSecretId".
 	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
 	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
+	// Snowflake is phasing out password authentication for legacy service users.
+	// Oracle GoldenGate Snowflake connections will support only key-pair authentication.
+	// See the Snowflake documentation for details:
+	// https://docs.snowflake.com/en/user-guide/security-mfa-rollout
 	Password *string `mandatory:"false" json:"password" sensitive:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored.

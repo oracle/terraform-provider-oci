@@ -76,6 +76,10 @@ func (s *GenerativeAiDedicatedAiClusterDataSourceCrud) SetData() error {
 		s.D.Set("capacity", nil)
 	}
 
+	if s.Res.CapacityReservationId != nil {
+		s.D.Set("capacity_reservation_id", *s.Res.CapacityReservationId)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

@@ -158,102 +158,114 @@ type ListDeploymentsSupportedConnectionTypeEnum string
 
 // Set of constants representing the allowable values for ListDeploymentsSupportedConnectionTypeEnum
 const (
-	ListDeploymentsSupportedConnectionTypeGoldengate            ListDeploymentsSupportedConnectionTypeEnum = "GOLDENGATE"
-	ListDeploymentsSupportedConnectionTypeKafka                 ListDeploymentsSupportedConnectionTypeEnum = "KAFKA"
-	ListDeploymentsSupportedConnectionTypeKafkaSchemaRegistry   ListDeploymentsSupportedConnectionTypeEnum = "KAFKA_SCHEMA_REGISTRY"
-	ListDeploymentsSupportedConnectionTypeMysql                 ListDeploymentsSupportedConnectionTypeEnum = "MYSQL"
-	ListDeploymentsSupportedConnectionTypeJavaMessageService    ListDeploymentsSupportedConnectionTypeEnum = "JAVA_MESSAGE_SERVICE"
-	ListDeploymentsSupportedConnectionTypeMicrosoftSqlserver    ListDeploymentsSupportedConnectionTypeEnum = "MICROSOFT_SQLSERVER"
-	ListDeploymentsSupportedConnectionTypeOciObjectStorage      ListDeploymentsSupportedConnectionTypeEnum = "OCI_OBJECT_STORAGE"
-	ListDeploymentsSupportedConnectionTypeOracle                ListDeploymentsSupportedConnectionTypeEnum = "ORACLE"
-	ListDeploymentsSupportedConnectionTypeAzureDataLakeStorage  ListDeploymentsSupportedConnectionTypeEnum = "AZURE_DATA_LAKE_STORAGE"
-	ListDeploymentsSupportedConnectionTypePostgresql            ListDeploymentsSupportedConnectionTypeEnum = "POSTGRESQL"
-	ListDeploymentsSupportedConnectionTypeAzureSynapseAnalytics ListDeploymentsSupportedConnectionTypeEnum = "AZURE_SYNAPSE_ANALYTICS"
-	ListDeploymentsSupportedConnectionTypeSnowflake             ListDeploymentsSupportedConnectionTypeEnum = "SNOWFLAKE"
-	ListDeploymentsSupportedConnectionTypeAmazonS3              ListDeploymentsSupportedConnectionTypeEnum = "AMAZON_S3"
-	ListDeploymentsSupportedConnectionTypeHdfs                  ListDeploymentsSupportedConnectionTypeEnum = "HDFS"
-	ListDeploymentsSupportedConnectionTypeOracleAiDataPlatform  ListDeploymentsSupportedConnectionTypeEnum = "ORACLE_AI_DATA_PLATFORM"
-	ListDeploymentsSupportedConnectionTypeOracleNosql           ListDeploymentsSupportedConnectionTypeEnum = "ORACLE_NOSQL"
-	ListDeploymentsSupportedConnectionTypeMongodb               ListDeploymentsSupportedConnectionTypeEnum = "MONGODB"
-	ListDeploymentsSupportedConnectionTypeAmazonKinesis         ListDeploymentsSupportedConnectionTypeEnum = "AMAZON_KINESIS"
-	ListDeploymentsSupportedConnectionTypeAmazonRedshift        ListDeploymentsSupportedConnectionTypeEnum = "AMAZON_REDSHIFT"
-	ListDeploymentsSupportedConnectionTypeDb2                   ListDeploymentsSupportedConnectionTypeEnum = "DB2"
-	ListDeploymentsSupportedConnectionTypeRedis                 ListDeploymentsSupportedConnectionTypeEnum = "REDIS"
-	ListDeploymentsSupportedConnectionTypeElasticsearch         ListDeploymentsSupportedConnectionTypeEnum = "ELASTICSEARCH"
-	ListDeploymentsSupportedConnectionTypeGeneric               ListDeploymentsSupportedConnectionTypeEnum = "GENERIC"
-	ListDeploymentsSupportedConnectionTypeGoogleCloudStorage    ListDeploymentsSupportedConnectionTypeEnum = "GOOGLE_CLOUD_STORAGE"
-	ListDeploymentsSupportedConnectionTypeGoogleBigquery        ListDeploymentsSupportedConnectionTypeEnum = "GOOGLE_BIGQUERY"
-	ListDeploymentsSupportedConnectionTypeDatabricks            ListDeploymentsSupportedConnectionTypeEnum = "DATABRICKS"
-	ListDeploymentsSupportedConnectionTypeGooglePubsub          ListDeploymentsSupportedConnectionTypeEnum = "GOOGLE_PUBSUB"
-	ListDeploymentsSupportedConnectionTypeMicrosoftFabric       ListDeploymentsSupportedConnectionTypeEnum = "MICROSOFT_FABRIC"
-	ListDeploymentsSupportedConnectionTypeIceberg               ListDeploymentsSupportedConnectionTypeEnum = "ICEBERG"
-	ListDeploymentsSupportedConnectionTypeAiModel               ListDeploymentsSupportedConnectionTypeEnum = "AI_MODEL"
+	ListDeploymentsSupportedConnectionTypeGoldengate                 ListDeploymentsSupportedConnectionTypeEnum = "GOLDENGATE"
+	ListDeploymentsSupportedConnectionTypeKafka                      ListDeploymentsSupportedConnectionTypeEnum = "KAFKA"
+	ListDeploymentsSupportedConnectionTypeKafkaSchemaRegistry        ListDeploymentsSupportedConnectionTypeEnum = "KAFKA_SCHEMA_REGISTRY"
+	ListDeploymentsSupportedConnectionTypeMysql                      ListDeploymentsSupportedConnectionTypeEnum = "MYSQL"
+	ListDeploymentsSupportedConnectionTypeJavaMessageService         ListDeploymentsSupportedConnectionTypeEnum = "JAVA_MESSAGE_SERVICE"
+	ListDeploymentsSupportedConnectionTypeMicrosoftSqlserver         ListDeploymentsSupportedConnectionTypeEnum = "MICROSOFT_SQLSERVER"
+	ListDeploymentsSupportedConnectionTypeOciObjectStorage           ListDeploymentsSupportedConnectionTypeEnum = "OCI_OBJECT_STORAGE"
+	ListDeploymentsSupportedConnectionTypeOracle                     ListDeploymentsSupportedConnectionTypeEnum = "ORACLE"
+	ListDeploymentsSupportedConnectionTypeAzureDataLakeStorage       ListDeploymentsSupportedConnectionTypeEnum = "AZURE_DATA_LAKE_STORAGE"
+	ListDeploymentsSupportedConnectionTypePostgresql                 ListDeploymentsSupportedConnectionTypeEnum = "POSTGRESQL"
+	ListDeploymentsSupportedConnectionTypeAzureSynapseAnalytics      ListDeploymentsSupportedConnectionTypeEnum = "AZURE_SYNAPSE_ANALYTICS"
+	ListDeploymentsSupportedConnectionTypeSnowflake                  ListDeploymentsSupportedConnectionTypeEnum = "SNOWFLAKE"
+	ListDeploymentsSupportedConnectionTypeAmazonS3                   ListDeploymentsSupportedConnectionTypeEnum = "AMAZON_S3"
+	ListDeploymentsSupportedConnectionTypeHdfs                       ListDeploymentsSupportedConnectionTypeEnum = "HDFS"
+	ListDeploymentsSupportedConnectionTypeOracleAiDataPlatform       ListDeploymentsSupportedConnectionTypeEnum = "ORACLE_AI_DATA_PLATFORM"
+	ListDeploymentsSupportedConnectionTypeOracleAiDataPlatformEngine ListDeploymentsSupportedConnectionTypeEnum = "ORACLE_AI_DATA_PLATFORM_ENGINE"
+	ListDeploymentsSupportedConnectionTypeOracleNosql                ListDeploymentsSupportedConnectionTypeEnum = "ORACLE_NOSQL"
+	ListDeploymentsSupportedConnectionTypeMongodb                    ListDeploymentsSupportedConnectionTypeEnum = "MONGODB"
+	ListDeploymentsSupportedConnectionTypeAmazonKinesis              ListDeploymentsSupportedConnectionTypeEnum = "AMAZON_KINESIS"
+	ListDeploymentsSupportedConnectionTypeAmazonRedshift             ListDeploymentsSupportedConnectionTypeEnum = "AMAZON_REDSHIFT"
+	ListDeploymentsSupportedConnectionTypeDb2                        ListDeploymentsSupportedConnectionTypeEnum = "DB2"
+	ListDeploymentsSupportedConnectionTypeRedis                      ListDeploymentsSupportedConnectionTypeEnum = "REDIS"
+	ListDeploymentsSupportedConnectionTypeElasticsearch              ListDeploymentsSupportedConnectionTypeEnum = "ELASTICSEARCH"
+	ListDeploymentsSupportedConnectionTypeGeneric                    ListDeploymentsSupportedConnectionTypeEnum = "GENERIC"
+	ListDeploymentsSupportedConnectionTypeGoogleCloudStorage         ListDeploymentsSupportedConnectionTypeEnum = "GOOGLE_CLOUD_STORAGE"
+	ListDeploymentsSupportedConnectionTypeGoogleBigquery             ListDeploymentsSupportedConnectionTypeEnum = "GOOGLE_BIGQUERY"
+	ListDeploymentsSupportedConnectionTypeDatabricks                 ListDeploymentsSupportedConnectionTypeEnum = "DATABRICKS"
+	ListDeploymentsSupportedConnectionTypeDatabricksEngine           ListDeploymentsSupportedConnectionTypeEnum = "DATABRICKS_ENGINE"
+	ListDeploymentsSupportedConnectionTypeGooglePubsub               ListDeploymentsSupportedConnectionTypeEnum = "GOOGLE_PUBSUB"
+	ListDeploymentsSupportedConnectionTypeMicrosoftFabric            ListDeploymentsSupportedConnectionTypeEnum = "MICROSOFT_FABRIC"
+	ListDeploymentsSupportedConnectionTypeSpark                      ListDeploymentsSupportedConnectionTypeEnum = "SPARK"
+	ListDeploymentsSupportedConnectionTypeIceberg                    ListDeploymentsSupportedConnectionTypeEnum = "ICEBERG"
+	ListDeploymentsSupportedConnectionTypeAiProvider                 ListDeploymentsSupportedConnectionTypeEnum = "AI_PROVIDER"
+	ListDeploymentsSupportedConnectionTypeAiModel                    ListDeploymentsSupportedConnectionTypeEnum = "AI_MODEL"
 )
 
 var mappingListDeploymentsSupportedConnectionTypeEnum = map[string]ListDeploymentsSupportedConnectionTypeEnum{
-	"GOLDENGATE":              ListDeploymentsSupportedConnectionTypeGoldengate,
-	"KAFKA":                   ListDeploymentsSupportedConnectionTypeKafka,
-	"KAFKA_SCHEMA_REGISTRY":   ListDeploymentsSupportedConnectionTypeKafkaSchemaRegistry,
-	"MYSQL":                   ListDeploymentsSupportedConnectionTypeMysql,
-	"JAVA_MESSAGE_SERVICE":    ListDeploymentsSupportedConnectionTypeJavaMessageService,
-	"MICROSOFT_SQLSERVER":     ListDeploymentsSupportedConnectionTypeMicrosoftSqlserver,
-	"OCI_OBJECT_STORAGE":      ListDeploymentsSupportedConnectionTypeOciObjectStorage,
-	"ORACLE":                  ListDeploymentsSupportedConnectionTypeOracle,
-	"AZURE_DATA_LAKE_STORAGE": ListDeploymentsSupportedConnectionTypeAzureDataLakeStorage,
-	"POSTGRESQL":              ListDeploymentsSupportedConnectionTypePostgresql,
-	"AZURE_SYNAPSE_ANALYTICS": ListDeploymentsSupportedConnectionTypeAzureSynapseAnalytics,
-	"SNOWFLAKE":               ListDeploymentsSupportedConnectionTypeSnowflake,
-	"AMAZON_S3":               ListDeploymentsSupportedConnectionTypeAmazonS3,
-	"HDFS":                    ListDeploymentsSupportedConnectionTypeHdfs,
-	"ORACLE_AI_DATA_PLATFORM": ListDeploymentsSupportedConnectionTypeOracleAiDataPlatform,
-	"ORACLE_NOSQL":            ListDeploymentsSupportedConnectionTypeOracleNosql,
-	"MONGODB":                 ListDeploymentsSupportedConnectionTypeMongodb,
-	"AMAZON_KINESIS":          ListDeploymentsSupportedConnectionTypeAmazonKinesis,
-	"AMAZON_REDSHIFT":         ListDeploymentsSupportedConnectionTypeAmazonRedshift,
-	"DB2":                     ListDeploymentsSupportedConnectionTypeDb2,
-	"REDIS":                   ListDeploymentsSupportedConnectionTypeRedis,
-	"ELASTICSEARCH":           ListDeploymentsSupportedConnectionTypeElasticsearch,
-	"GENERIC":                 ListDeploymentsSupportedConnectionTypeGeneric,
-	"GOOGLE_CLOUD_STORAGE":    ListDeploymentsSupportedConnectionTypeGoogleCloudStorage,
-	"GOOGLE_BIGQUERY":         ListDeploymentsSupportedConnectionTypeGoogleBigquery,
-	"DATABRICKS":              ListDeploymentsSupportedConnectionTypeDatabricks,
-	"GOOGLE_PUBSUB":           ListDeploymentsSupportedConnectionTypeGooglePubsub,
-	"MICROSOFT_FABRIC":        ListDeploymentsSupportedConnectionTypeMicrosoftFabric,
-	"ICEBERG":                 ListDeploymentsSupportedConnectionTypeIceberg,
-	"AI_MODEL":                ListDeploymentsSupportedConnectionTypeAiModel,
+	"GOLDENGATE":                     ListDeploymentsSupportedConnectionTypeGoldengate,
+	"KAFKA":                          ListDeploymentsSupportedConnectionTypeKafka,
+	"KAFKA_SCHEMA_REGISTRY":          ListDeploymentsSupportedConnectionTypeKafkaSchemaRegistry,
+	"MYSQL":                          ListDeploymentsSupportedConnectionTypeMysql,
+	"JAVA_MESSAGE_SERVICE":           ListDeploymentsSupportedConnectionTypeJavaMessageService,
+	"MICROSOFT_SQLSERVER":            ListDeploymentsSupportedConnectionTypeMicrosoftSqlserver,
+	"OCI_OBJECT_STORAGE":             ListDeploymentsSupportedConnectionTypeOciObjectStorage,
+	"ORACLE":                         ListDeploymentsSupportedConnectionTypeOracle,
+	"AZURE_DATA_LAKE_STORAGE":        ListDeploymentsSupportedConnectionTypeAzureDataLakeStorage,
+	"POSTGRESQL":                     ListDeploymentsSupportedConnectionTypePostgresql,
+	"AZURE_SYNAPSE_ANALYTICS":        ListDeploymentsSupportedConnectionTypeAzureSynapseAnalytics,
+	"SNOWFLAKE":                      ListDeploymentsSupportedConnectionTypeSnowflake,
+	"AMAZON_S3":                      ListDeploymentsSupportedConnectionTypeAmazonS3,
+	"HDFS":                           ListDeploymentsSupportedConnectionTypeHdfs,
+	"ORACLE_AI_DATA_PLATFORM":        ListDeploymentsSupportedConnectionTypeOracleAiDataPlatform,
+	"ORACLE_AI_DATA_PLATFORM_ENGINE": ListDeploymentsSupportedConnectionTypeOracleAiDataPlatformEngine,
+	"ORACLE_NOSQL":                   ListDeploymentsSupportedConnectionTypeOracleNosql,
+	"MONGODB":                        ListDeploymentsSupportedConnectionTypeMongodb,
+	"AMAZON_KINESIS":                 ListDeploymentsSupportedConnectionTypeAmazonKinesis,
+	"AMAZON_REDSHIFT":                ListDeploymentsSupportedConnectionTypeAmazonRedshift,
+	"DB2":                            ListDeploymentsSupportedConnectionTypeDb2,
+	"REDIS":                          ListDeploymentsSupportedConnectionTypeRedis,
+	"ELASTICSEARCH":                  ListDeploymentsSupportedConnectionTypeElasticsearch,
+	"GENERIC":                        ListDeploymentsSupportedConnectionTypeGeneric,
+	"GOOGLE_CLOUD_STORAGE":           ListDeploymentsSupportedConnectionTypeGoogleCloudStorage,
+	"GOOGLE_BIGQUERY":                ListDeploymentsSupportedConnectionTypeGoogleBigquery,
+	"DATABRICKS":                     ListDeploymentsSupportedConnectionTypeDatabricks,
+	"DATABRICKS_ENGINE":              ListDeploymentsSupportedConnectionTypeDatabricksEngine,
+	"GOOGLE_PUBSUB":                  ListDeploymentsSupportedConnectionTypeGooglePubsub,
+	"MICROSOFT_FABRIC":               ListDeploymentsSupportedConnectionTypeMicrosoftFabric,
+	"SPARK":                          ListDeploymentsSupportedConnectionTypeSpark,
+	"ICEBERG":                        ListDeploymentsSupportedConnectionTypeIceberg,
+	"AI_PROVIDER":                    ListDeploymentsSupportedConnectionTypeAiProvider,
+	"AI_MODEL":                       ListDeploymentsSupportedConnectionTypeAiModel,
 }
 
 var mappingListDeploymentsSupportedConnectionTypeEnumLowerCase = map[string]ListDeploymentsSupportedConnectionTypeEnum{
-	"goldengate":              ListDeploymentsSupportedConnectionTypeGoldengate,
-	"kafka":                   ListDeploymentsSupportedConnectionTypeKafka,
-	"kafka_schema_registry":   ListDeploymentsSupportedConnectionTypeKafkaSchemaRegistry,
-	"mysql":                   ListDeploymentsSupportedConnectionTypeMysql,
-	"java_message_service":    ListDeploymentsSupportedConnectionTypeJavaMessageService,
-	"microsoft_sqlserver":     ListDeploymentsSupportedConnectionTypeMicrosoftSqlserver,
-	"oci_object_storage":      ListDeploymentsSupportedConnectionTypeOciObjectStorage,
-	"oracle":                  ListDeploymentsSupportedConnectionTypeOracle,
-	"azure_data_lake_storage": ListDeploymentsSupportedConnectionTypeAzureDataLakeStorage,
-	"postgresql":              ListDeploymentsSupportedConnectionTypePostgresql,
-	"azure_synapse_analytics": ListDeploymentsSupportedConnectionTypeAzureSynapseAnalytics,
-	"snowflake":               ListDeploymentsSupportedConnectionTypeSnowflake,
-	"amazon_s3":               ListDeploymentsSupportedConnectionTypeAmazonS3,
-	"hdfs":                    ListDeploymentsSupportedConnectionTypeHdfs,
-	"oracle_ai_data_platform": ListDeploymentsSupportedConnectionTypeOracleAiDataPlatform,
-	"oracle_nosql":            ListDeploymentsSupportedConnectionTypeOracleNosql,
-	"mongodb":                 ListDeploymentsSupportedConnectionTypeMongodb,
-	"amazon_kinesis":          ListDeploymentsSupportedConnectionTypeAmazonKinesis,
-	"amazon_redshift":         ListDeploymentsSupportedConnectionTypeAmazonRedshift,
-	"db2":                     ListDeploymentsSupportedConnectionTypeDb2,
-	"redis":                   ListDeploymentsSupportedConnectionTypeRedis,
-	"elasticsearch":           ListDeploymentsSupportedConnectionTypeElasticsearch,
-	"generic":                 ListDeploymentsSupportedConnectionTypeGeneric,
-	"google_cloud_storage":    ListDeploymentsSupportedConnectionTypeGoogleCloudStorage,
-	"google_bigquery":         ListDeploymentsSupportedConnectionTypeGoogleBigquery,
-	"databricks":              ListDeploymentsSupportedConnectionTypeDatabricks,
-	"google_pubsub":           ListDeploymentsSupportedConnectionTypeGooglePubsub,
-	"microsoft_fabric":        ListDeploymentsSupportedConnectionTypeMicrosoftFabric,
-	"iceberg":                 ListDeploymentsSupportedConnectionTypeIceberg,
-	"ai_model":                ListDeploymentsSupportedConnectionTypeAiModel,
+	"goldengate":                     ListDeploymentsSupportedConnectionTypeGoldengate,
+	"kafka":                          ListDeploymentsSupportedConnectionTypeKafka,
+	"kafka_schema_registry":          ListDeploymentsSupportedConnectionTypeKafkaSchemaRegistry,
+	"mysql":                          ListDeploymentsSupportedConnectionTypeMysql,
+	"java_message_service":           ListDeploymentsSupportedConnectionTypeJavaMessageService,
+	"microsoft_sqlserver":            ListDeploymentsSupportedConnectionTypeMicrosoftSqlserver,
+	"oci_object_storage":             ListDeploymentsSupportedConnectionTypeOciObjectStorage,
+	"oracle":                         ListDeploymentsSupportedConnectionTypeOracle,
+	"azure_data_lake_storage":        ListDeploymentsSupportedConnectionTypeAzureDataLakeStorage,
+	"postgresql":                     ListDeploymentsSupportedConnectionTypePostgresql,
+	"azure_synapse_analytics":        ListDeploymentsSupportedConnectionTypeAzureSynapseAnalytics,
+	"snowflake":                      ListDeploymentsSupportedConnectionTypeSnowflake,
+	"amazon_s3":                      ListDeploymentsSupportedConnectionTypeAmazonS3,
+	"hdfs":                           ListDeploymentsSupportedConnectionTypeHdfs,
+	"oracle_ai_data_platform":        ListDeploymentsSupportedConnectionTypeOracleAiDataPlatform,
+	"oracle_ai_data_platform_engine": ListDeploymentsSupportedConnectionTypeOracleAiDataPlatformEngine,
+	"oracle_nosql":                   ListDeploymentsSupportedConnectionTypeOracleNosql,
+	"mongodb":                        ListDeploymentsSupportedConnectionTypeMongodb,
+	"amazon_kinesis":                 ListDeploymentsSupportedConnectionTypeAmazonKinesis,
+	"amazon_redshift":                ListDeploymentsSupportedConnectionTypeAmazonRedshift,
+	"db2":                            ListDeploymentsSupportedConnectionTypeDb2,
+	"redis":                          ListDeploymentsSupportedConnectionTypeRedis,
+	"elasticsearch":                  ListDeploymentsSupportedConnectionTypeElasticsearch,
+	"generic":                        ListDeploymentsSupportedConnectionTypeGeneric,
+	"google_cloud_storage":           ListDeploymentsSupportedConnectionTypeGoogleCloudStorage,
+	"google_bigquery":                ListDeploymentsSupportedConnectionTypeGoogleBigquery,
+	"databricks":                     ListDeploymentsSupportedConnectionTypeDatabricks,
+	"databricks_engine":              ListDeploymentsSupportedConnectionTypeDatabricksEngine,
+	"google_pubsub":                  ListDeploymentsSupportedConnectionTypeGooglePubsub,
+	"microsoft_fabric":               ListDeploymentsSupportedConnectionTypeMicrosoftFabric,
+	"spark":                          ListDeploymentsSupportedConnectionTypeSpark,
+	"iceberg":                        ListDeploymentsSupportedConnectionTypeIceberg,
+	"ai_provider":                    ListDeploymentsSupportedConnectionTypeAiProvider,
+	"ai_model":                       ListDeploymentsSupportedConnectionTypeAiModel,
 }
 
 // GetListDeploymentsSupportedConnectionTypeEnumValues Enumerates the set of values for ListDeploymentsSupportedConnectionTypeEnum
@@ -283,6 +295,7 @@ func GetListDeploymentsSupportedConnectionTypeEnumStringValues() []string {
 		"AMAZON_S3",
 		"HDFS",
 		"ORACLE_AI_DATA_PLATFORM",
+		"ORACLE_AI_DATA_PLATFORM_ENGINE",
 		"ORACLE_NOSQL",
 		"MONGODB",
 		"AMAZON_KINESIS",
@@ -294,9 +307,12 @@ func GetListDeploymentsSupportedConnectionTypeEnumStringValues() []string {
 		"GOOGLE_CLOUD_STORAGE",
 		"GOOGLE_BIGQUERY",
 		"DATABRICKS",
+		"DATABRICKS_ENGINE",
 		"GOOGLE_PUBSUB",
 		"MICROSOFT_FABRIC",
+		"SPARK",
 		"ICEBERG",
+		"AI_PROVIDER",
 		"AI_MODEL",
 	}
 }

@@ -31,13 +31,13 @@ type InvoicingAddress struct {
 	// Identify as the customer's shipping address.
 	IsShipTo *bool `mandatory:"false" json:"isShipTo"`
 
-	// Bill to site use Id.
+	// Bill to site use ID.
 	BillSiteUseId *int64 `mandatory:"false" json:"billSiteUseId"`
 
-	// Service to site use Id.
+	// Service to site use ID.
 	Service2SiteUseId *int64 `mandatory:"false" json:"service2SiteUseId"`
 
-	// TCA customer account site Id.
+	// TCA (Trading Community Architecture) customer account site ID.
 	TcaCustAcctSiteId *int64 `mandatory:"false" json:"tcaCustAcctSiteId"`
 
 	// Party site number.

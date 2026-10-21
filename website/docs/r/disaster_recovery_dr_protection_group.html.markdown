@@ -137,6 +137,21 @@ resource "oci_disaster_recovery_dr_protection_group" "test_dr_protection_group" 
 		destination_load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
 		destination_network_load_balancer_id = oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id
 		destination_snapshot_policy_id = oci_identity_policy.test_policy.id
+		dr_drill_properties {
+
+			#Optional
+			vnic_mappings {
+
+				#Optional
+				destination_nsg_id_list = var.dr_protection_group_members_dr_drill_properties_vnic_mappings_destination_nsg_id_list
+				destination_primary_private_ip_address = var.dr_protection_group_members_dr_drill_properties_vnic_mappings_destination_primary_private_ip_address
+				destination_primary_private_ip_hostname_label = var.dr_protection_group_members_dr_drill_properties_vnic_mappings_destination_primary_private_ip_hostname_label
+				destination_reserved_primary_private_ip_id = oci_core_private_ip.test_private_ip.id
+				destination_reserved_public_ip_id = oci_core_public_ip.test_public_ip.id
+				destination_subnet_id = oci_core_subnet.test_subnet.id
+				source_vnic_id = oci_core_vnic.test_vnic.id
+			}
+		}
 		export_mappings {
 
 			#Optional
@@ -234,6 +249,7 @@ resource "oci_disaster_recovery_dr_protection_group" "test_dr_protection_group" 
 			destination_nsg_id_list = var.dr_protection_group_members_vnic_mappings_destination_nsg_id_list
 			destination_primary_private_ip_address = var.dr_protection_group_members_vnic_mappings_destination_primary_private_ip_address
 			destination_primary_private_ip_hostname_label = var.dr_protection_group_members_vnic_mappings_destination_primary_private_ip_hostname_label
+			destination_reserved_primary_private_ip_id = oci_core_private_ip.test_private_ip.id
 			destination_reserved_public_ip_id = oci_core_public_ip.test_public_ip.id
 			destination_subnet_id = oci_core_subnet.test_subnet.id
 			source_vnic_id = oci_core_vnic.test_vnic.id
@@ -283,7 +299,7 @@ The following arguments are supported:
 		* `image_replication_vault_secret_id` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The OCID of the vault secret that stores the image credential. This property applies to the OKE cluster member in both the primary and standby region. 
 		* `max_number_of_backups_retained` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The maximum number of backups that should be retained. This property applies to the OKE cluster member in primary region. 
 		* `namespaces` - (Applicable when member_type=OKE_CLUSTER) (Updatable) A list of namespaces to be included in the backup.  The default value is null. If a list of namespaces to include is not provided, all namespaces will be backed up. Specify either the `namespaces` or the `excludeNamespaces` parameter, but not both. This property applies to the OKE cluster member in primary region.  Example: ["default", "pv-nginx"] 
-		* `replicate_images` - (Applicable when member_type=OKE_CLUSTER) (Updatable) Controls the behaviour of image replication across regions. Image replication is enabled by default for DR Protection Groups with a primary role. This property applies to the OKE cluster member in primary region. 
+		* `replicate_images` - (Applicable when member_type=OKE_CLUSTER) (Updatable) Controls the behavior of image replication across regions.  Image replication is enabled by default for DR Protection Groups.  This setting applies to the OKE cluster member in the primary region, and to the standby region  only if the image replication secret is stored in a vault instead of using the default secret. 
 	* `backup_location` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The details for creating the backup location of an OKE Cluster.
 		* `bucket` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The bucket name inside the object storage namespace.  Example: `operation_logs` 
 		* `namespace` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The namespace in the object storage bucket location (Note - this is usually the tenancy name).  Example: `myocitenancy` 
@@ -321,6 +337,19 @@ The following arguments are supported:
 	* `destination_load_balancer_id` - (Applicable when member_type=LOAD_BALANCER) (Updatable) The OCID of the destination load balancer.  Example: `ocid1.loadbalancer.oc1..uniqueID` 
 	* `destination_network_load_balancer_id` - (Applicable when member_type=NETWORK_LOAD_BALANCER) (Updatable) The OCID of the destination network load balancer.  Example: `ocid1.networkloadbalancer.oc1..uniqueID` 
 	* `destination_snapshot_policy_id` - (Applicable when member_type=FILE_SYSTEM) (Updatable) The OCID of the snapshot policy to use in the destination region. This policy will be attached to the file system after it moves to the destination region.  Example: `ocid1.filesystemsnapshotpolicy.oc1..uniqueID` 
+	* `dr_drill_properties` - (Applicable when member_type=COMPUTE_INSTANCE_MOVABLE) (Updatable) Create properties for DR drill-specific settings. Use these when the properties for DR drills differ from the properties used for DR operations such as switchover and failover. 
+		* `vnic_mappings` - (Required when member_type=COMPUTE_INSTANCE_MOVABLE) (Updatable) A list of compute instance VNIC mappings to use for DR drills. 
+			* `destination_nsg_id_list` - (Applicable when member_type=COMPUTE_INSTANCE_MOVABLE) (Updatable) A list of OCIDs of network security groups (NSG) in the destination region which should be assigned to the source VNIC.  Example: `[ ocid1.networksecuritygroup.oc1..uniqueID, ocid1.networksecuritygroup.oc1..uniqueID ]` 
+			* `destination_primary_private_ip_address` - (Applicable when member_type=COMPUTE_INSTANCE_MOVABLE) (Updatable) Deprecated. Use the 'destinationReservedPrimaryPrivateIpId' attribute instead of this. The private IP address to be assigned as the VNIC's primary IP address in the destination subnet. This must be a valid IP address in the destination subnet and the IP address must be available.  Example: `10.0.3.3` 
+			* `destination_primary_private_ip_hostname_label` - (Applicable when member_type=COMPUTE_INSTANCE_MOVABLE) (Updatable) Deprecated. Use the 'destinationReservedPrimaryPrivateIpId' attribute instead of this. The hostname label to be assigned in the destination subnet for the primary private IP of the source VNIC. This label is the hostname portion of the private IP's fully qualified domain name (FQDN)  (for example, 'myhost1' in the FQDN 'myhost1.subnet123.vcn1.oraclevcn.com').  Example: `myhost1` 
+			* `destination_reserved_primary_private_ip_id` - (Applicable when member_type=COMPUTE_INSTANCE_MOVABLE) (Updatable) The OCID of the reserved private IP (IPv4) to be assigned to the compute instance in the destination region. Do not specify this attribute together with `destinationPrimaryPrivateIpAddress`, `destinationPrimaryPrivateIpHostnameLabel`, or the `FsdrDestinationReservedPrimaryPrivateIpId` freeform tag on the source VNIC.
+
+				For legacy compatibility, omit this attribute and use either the legacy explicit private-IP fields or the freeform tag, but not both configuration mechanisms for the same source VNIC.
+
+				Example: `ocid1.privateip.oc1..uniqueID` 
+			* `destination_reserved_public_ip_id` - (Applicable when member_type=COMPUTE_INSTANCE_MOVABLE) (Updatable) The OCID of the reserved public IP address to be assigned to the compute instance in the destination region.  Example: `ocid1.publicip.oc1..uniqueID` 
+			* `destination_subnet_id` - (Required when member_type=COMPUTE_INSTANCE_MOVABLE) (Updatable) The OCID of the destination subnet to which the source VNIC should connect.  Example: `ocid1.subnet.oc1..uniqueID` 
+			* `source_vnic_id` - (Required when member_type=COMPUTE_INSTANCE_MOVABLE) (Updatable) The OCID of the source VNIC.  Example: `ocid1.vnic.oc1..uniqueID` 
 	* `export_mappings` - (Applicable when member_type=FILE_SYSTEM) (Updatable) A list of mappings between file system exports in the primary region and mount targets in the standby region. 
 		* `destination_mount_target_id` - (Required when member_type=FILE_SYSTEM) (Updatable) The OCID of the destination mount target in the destination region which is used to export the file system.  Example: `ocid1.mounttarget.oc1..uniqueID` 
 		* `export_id` - (Required when member_type=FILE_SYSTEM) (Updatable) The OCID of the export path in the primary region used to mount or unmount the file system.  Example: `ocid1.export.oc1..uniqueID` 
@@ -353,10 +382,10 @@ The following arguments are supported:
 		* `source_network_load_balancer_id` - (Required when member_type=OKE_CLUSTER) (Updatable) The OCID of the source Network Load Balancer.  Example: `ocid1.networkloadbalancer.oc1..uniqueID` 
 	* `password_vault_secret_id` - (Applicable when member_type=AUTONOMOUS_DATABASE | DATABASE) (Updatable) The OCID of the vault secret where the database SYSDBA password is stored. This password is required and used for performing database DR Drill operations when using full clone.  Example: `ocid1.vaultsecret.oc1..uniqueID` 
 	* `peer_cluster_id` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The OCID of the peer OKE cluster. This property applies to the OKE cluster member in both the primary and standby region.   Example: `ocid1.cluster.oc1..uniqueID` 
-	* `peer_db_system_id` - (Applicable when member_type=MYSQL_DB_SYSTEM) (Updatable) The OCID of the peer HeatWave MySQL DB System from the peer region.  Example: `ocid1.mysqldbsystem.oc1..uniqueID` 
+	* `peer_db_system_id` - (Applicable when member_type=MYSQL_DB_SYSTEM | POSTGRESQL_DB_SYSTEM) (Updatable) The OCID of the peer HeatWave MySQL DB System or Oracle Cloud Infrastructure Database with PostgreSQL from the peer region.  Example: `ocid1.mysqldbsystem.oc1..uniqueID` or `ocid1.postgresqldbsystem.oc1..uniqueID` 
 	* `resource_modifier_mappings` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The list of config maps along with their corresponding namespaces. This property applies to the OKE cluster member in primary region. 
-		* `config_map` - (Required when member_type=OKE_CLUSTER) (Updatable) The name of the config map containing resource modification details. Example: `resource-modifier` 
-		* `namespace` - (Required when member_type=OKE_CLUSTER) (Updatable) The OKE namespace where the config map resides. Example: `namespace_string_5` 
+		* `config_map` - (Required when member_type=OKE_CLUSTER) (Updatable) The name of the config map containing resource modification details.  Example: `resource-modifier` 
+		* `namespace` - (Required when member_type=OKE_CLUSTER) (Updatable) The OKE namespace where the config map resides.  Example: `namespace_string_5` 
 	* `source_volume_to_destination_encryption_key_mappings` - (Applicable when member_type=VOLUME_GROUP) (Updatable) A list of mappings between source volume IDs in the volume group and customer-managed encryption keys in the  destination region which will be used to encrypt the volume after it moves to the destination region.
 
 		If you add the entry for source volumes and its corresponding vault and encryption keys here, you can not use  'commonDestinationKey' for encrypting all volumes with common encryption key. Similarly, if you specify common vault and encryption key using 'commonDestinationKey', you cannot specify vaults and encryption keys individually  for each volume using 'sourceVolumeToDestinationEncryptionKeyMappings'.
@@ -381,8 +410,13 @@ The following arguments are supported:
 		* `source_vnic_id` - (Required when member_type=COMPUTE_INSTANCE) (Updatable) The OCID of the VNIC.  Example: `ocid1.vnic.oc1..uniqueID` 
 	* `vnic_mappings` - (Applicable when member_type=COMPUTE_INSTANCE_MOVABLE) (Updatable) A list of compute instance VNIC mappings. 
 		* `destination_nsg_id_list` - (Applicable when member_type=COMPUTE_INSTANCE_MOVABLE) (Updatable) A list of OCIDs of network security groups (NSG) in the destination region which should be assigned to the source VNIC.  Example: `[ ocid1.networksecuritygroup.oc1..uniqueID, ocid1.networksecuritygroup.oc1..uniqueID ]` 
-		* `destination_primary_private_ip_address` - (Applicable when member_type=COMPUTE_INSTANCE_MOVABLE) (Updatable) The primary private IP address to be assigned to the source VNIC in the destination subnet.  This IP address must belong to the destination subnet.  Example: `10.0.3.3` 
-		* `destination_primary_private_ip_hostname_label` - (Applicable when member_type=COMPUTE_INSTANCE_MOVABLE) (Updatable) The hostname label to be assigned in the destination subnet for the primary private IP of the source VNIC. This label is the hostname portion of the private IP's fully qualified domain name (FQDN)  (for example, 'myhost1' in the FQDN 'myhost1.subnet123.vcn1.oraclevcn.com').  Example: `myhost1` 
+		* `destination_primary_private_ip_address` - (Applicable when member_type=COMPUTE_INSTANCE_MOVABLE) (Updatable) Deprecated. Use the 'destinationReservedPrimaryPrivateIpId' attribute instead of this. The primary private IP address to be assigned to the source VNIC in the destination subnet.  This IP address must belong to the destination subnet.  Example: `10.0.3.3` 
+		* `destination_primary_private_ip_hostname_label` - (Applicable when member_type=COMPUTE_INSTANCE_MOVABLE) (Updatable) Deprecated. Use the 'destinationReservedPrimaryPrivateIpId' attribute instead of this. The hostname label to be assigned in the destination subnet for the primary private IP of the source VNIC. This label is the hostname portion of the private IP's fully qualified domain name (FQDN)  (for example, 'myhost1' in the FQDN 'myhost1.subnet123.vcn1.oraclevcn.com').  Example: `myhost1` 
+		* `destination_reserved_primary_private_ip_id` - (Applicable when member_type=COMPUTE_INSTANCE_MOVABLE) (Updatable) The OCID of the reserved private IP (IPv4) to be assigned to the compute instance in the destination region. Do not specify this attribute together with `destinationPrimaryPrivateIpAddress`, `destinationPrimaryPrivateIpHostnameLabel`, or the `FsdrDestinationReservedPrimaryPrivateIpId` freeform tag on the source VNIC.
+
+			For legacy compatibility, omit this attribute and use either the legacy explicit private-IP fields or the freeform tag, but not both configuration mechanisms for the same source VNIC.
+
+			Example: `ocid1.privateip.oc1..uniqueID` 
 		* `destination_reserved_public_ip_id` - (Applicable when member_type=COMPUTE_INSTANCE_MOVABLE) (Updatable) The OCID of the reserved public IP address to be assigned to the compute instance in the destination region.  Example: `ocid1.publicip.oc1..uniqueID` 
 		* `destination_subnet_id` - (Required when member_type=COMPUTE_INSTANCE_MOVABLE) (Updatable) The OCID of the destination subnet to which the source VNIC should connect.          Example: `ocid1.subnet.oc1..uniqueID` 
 		* `source_vnic_id` - (Required when member_type=COMPUTE_INSTANCE_MOVABLE) (Updatable) The OCID of the source VNIC.  Example: `ocid1.vnic.oc1..uniqueID` 
@@ -466,6 +500,19 @@ The following attributes are exported:
 	* `destination_load_balancer_id` - The OCID of the destination load balancer. The backend sets in this destination load balancer are updated during DR.  Example: `ocid1.loadbalancer.oc1..uniqueID` 
 	* `destination_network_load_balancer_id` - The OCID of the destination network load balancer. The backend sets in this destination network load balancer are updated during DR.                Example: `ocid1.networkloadbalancer.oc1..uniqueID` 
 	* `destination_snapshot_policy_id` - The OCID of the snapshot policy to use in the destination region. This policy will be attached to the file system after it moves to the destination region.  Example: `ocid1.filesystemsnapshotpolicy.oc1..uniqueID` 
+	* `dr_drill_properties` - DR drill-specific properties for a movable compute instance member.
+		* `vnic_mappings` - A list of compute instance VNIC mappings used for DR drills.
+			* `destination_nsg_id_list` - A list of OCIDs of network security groups (NSG) in the destination region which should be assigned to the source VNIC.  Example: `[ ocid1.networksecuritygroup.oc1..uniqueID, ocid1.networksecuritygroup.oc1..uniqueID ]` 
+			* `destination_primary_private_ip_address` - Deprecated. Use the 'destinationReservedPrimaryPrivateIpId' attribute instead of this. The private IP address to be assigned as the VNIC's primary IP address in the destination subnet. This must be a valid IP address in the destination subnet and the IP address must be available.  Example: `10.0.3.3` 
+			* `destination_primary_private_ip_hostname_label` - Deprecated. Use the 'destinationReservedPrimaryPrivateIpId' attribute instead of this. The hostname label to be assigned in the destination subnet for the primary private IP of the source VNIC. This label is the hostname portion of the private IP's fully qualified domain name (FQDN)  (for example, 'myhost1' in the FQDN 'myhost1.subnet123.vcn1.oraclevcn.com').  Example: `myhost1` 
+			* `destination_reserved_primary_private_ip_id` - The OCID of the reserved private IP (IPv4) to be assigned to the compute instance in the destination region. Do not specify this attribute together with `destinationPrimaryPrivateIpAddress`, `destinationPrimaryPrivateIpHostnameLabel`, or the `FsdrDestinationReservedPrimaryPrivateIpId` freeform tag on the source VNIC.
+
+				For legacy compatibility, omit this attribute and use either the legacy explicit private-IP fields or the freeform tag, but not both configuration mechanisms for the same source VNIC.
+
+				Example: `ocid1.privateip.oc1..uniqueID` 
+			* `destination_reserved_public_ip_id` - The OCID of the reserved public IP address to be assigned to the compute instance in the destination region.  Example: `ocid1.publicip.oc1..uniqueID` 
+			* `destination_subnet_id` - The OCID of the destination subnet to which the source VNIC should connect.  Example: `ocid1.subnet.oc1..uniqueID` 
+			* `source_vnic_id` - The OCID of the source VNIC.  Example: `ocid1.vnic.oc1..uniqueID` 
 	* `export_mappings` - A list of mappings between the primary region file system export and destination region mount target. 
 		* `destination_mount_target_id` - The OCID of the destination mount target on which this file system export should be created.  Example: `ocid1.mounttarget.oc1..uniqueID` 
 		* `export_id` - The OCID of the export path.  Example: `ocid1.export.oc1..uniqueID` 
@@ -498,10 +545,10 @@ The following attributes are exported:
 		* `source_network_load_balancer_id` - The OCID of the source Network Load Balancer.  Example: `ocid1.networkloadbalancer.oc1..uniqueID` 
 	* `password_vault_secret_id` - The OCID of the vault secret where the database SYSDBA password is stored. This password is required and used for performing database DR Drill operations when using full clone.  Example: `ocid1.vaultsecret.oc1..uniqueID` 
 	* `peer_cluster_id` - The OCID of the peer OKE cluster. This property applies to the OKE cluster member in both the primary and standby region.  Example: `ocid1.cluster.oc1.uniqueID` 
-	* `peer_db_system_id` - The OCID of the peer HeatWave MySQL DB System from the peer region.  Example: `ocid1.mysqldbsystem.oc1..uniqueID` 
+	* `peer_db_system_id` - The OCID of the peer HeatWave MySQL DB System or Oracle Cloud Infrastructure Database with PostgreSQL from the peer region.  Example: `ocid1.mysqldbsystem.oc1..uniqueID` or `ocid1.postgresqldbsystem.oc1..uniqueID` 
 	* `resource_modifier_mappings` - The list of config maps along with their corresponding namespaces. This property applies to the OKE cluster member in primary region. 
-		* `config_map` - The name of the config map containing resource modification details. Example: `resource-modifier` 
-		* `namespace` - The OKE namespace where the config map resides. Example: `namespace_string_5` 
+		* `config_map` - The name of the config map containing resource modification details.  Example: `resource-modifier` 
+		* `namespace` - The OKE namespace where the config map resides.  Example: `namespace_string_5` 
 	* `source_volume_to_destination_encryption_key_mappings` - A list of mappings between source volume IDs in the volume group and customer-managed encryption keys in the  destination region which will be used to encrypt the volume after it moves to the destination region.
 
 		If you add the entry for source volumes and its corresponding vault and encryption keys here, you can not use  'commonDestinationKey' for encrypting all volumes with common encryption key. Similarly, if you specify common vault and encryption key using 'commonDestinationKey', you cannot specify vaults and encryption keys individually  for each volume using 'sourceVolumeToDestinationEncryptionKeyMappings'.
@@ -528,8 +575,13 @@ The following attributes are exported:
 		* `source_vnic_id` - The OCID of the VNIC.  Example: `ocid1.vnic.oc1..uniqueID` 
 	* `vnic_mappings` - A list of compute instance VNIC mappings. 
 		* `destination_nsg_id_list` - A list of OCIDs of network security groups (NSG) in the destination region which should be assigned to the source VNIC.  Example: `[ ocid1.networksecuritygroup.oc1..uniqueID, ocid1.networksecuritygroup.oc1..uniqueID ]` 
-		* `destination_primary_private_ip_address` - The private IP address to be assigned as the VNIC's primary IP address in the destination subnet. This must be a valid IP address in the destination subnet and the IP address must be available.  Example: `10.0.3.3` 
-		* `destination_primary_private_ip_hostname_label` - The hostname label to be assigned in the destination subnet for the primary private IP of the source VNIC. This label is the hostname portion of the private IP's fully qualified domain name (FQDN)  (for example, 'myhost1' in the FQDN 'myhost1.subnet123.vcn1.oraclevcn.com').  Example: `myhost1` 
+		* `destination_primary_private_ip_address` - Deprecated. Use the 'destinationReservedPrimaryPrivateIpId' attribute instead of this. The private IP address to be assigned as the VNIC's primary IP address in the destination subnet. This must be a valid IP address in the destination subnet and the IP address must be available.  Example: `10.0.3.3` 
+		* `destination_primary_private_ip_hostname_label` - Deprecated. Use the 'destinationReservedPrimaryPrivateIpId' attribute instead of this. The hostname label to be assigned in the destination subnet for the primary private IP of the source VNIC. This label is the hostname portion of the private IP's fully qualified domain name (FQDN)  (for example, 'myhost1' in the FQDN 'myhost1.subnet123.vcn1.oraclevcn.com').  Example: `myhost1` 
+		* `destination_reserved_primary_private_ip_id` - The OCID of the reserved private IP (IPv4) to be assigned to the compute instance in the destination region. Do not specify this attribute together with `destinationPrimaryPrivateIpAddress`, `destinationPrimaryPrivateIpHostnameLabel`, or the `FsdrDestinationReservedPrimaryPrivateIpId` freeform tag on the source VNIC.
+
+			For legacy compatibility, omit this attribute and use either the legacy explicit private-IP fields or the freeform tag, but not both configuration mechanisms for the same source VNIC.
+
+			Example: `ocid1.privateip.oc1..uniqueID` 
 		* `destination_reserved_public_ip_id` - The OCID of the reserved public IP address to be assigned to the compute instance in the destination region.  Example: `ocid1.publicip.oc1..uniqueID` 
 		* `destination_subnet_id` - The OCID of the destination subnet to which the source VNIC should connect.  Example: `ocid1.subnet.oc1..uniqueID` 
 		* `source_vnic_id` - The OCID of the source VNIC.  Example: `ocid1.vnic.oc1..uniqueID` 

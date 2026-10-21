@@ -21,7 +21,7 @@ import (
 type PlainTextPasswordDetails struct {
 
 	// The database system password.
-	Password *string `mandatory:"true" json:"password"`
+	Password *string `mandatory:"true" json:"password" sensitive:"true"`
 }
 
 func (m PlainTextPasswordDetails) String() string {

@@ -18,19 +18,19 @@ import (
 // SubscribedServiceBusinessPartner Business partner.
 type SubscribedServiceBusinessPartner struct {
 
-	// Commercial name also called customer name.
+	// Commercial name, also referred to as customer name.
 	Name *string `mandatory:"false" json:"name"`
 
 	// Phonetic name.
 	NamePhonetic *string `mandatory:"false" json:"namePhonetic"`
 
-	// TCA customer account number.
+	// TCA (Trading Community Architecture) customer account number.
 	TcaCustAccountNumber *string `mandatory:"false" json:"tcaCustAccountNumber"`
 
-	// The business partner is part of the public sector or not.
+	// Specifies whether or not the business partner is part of the public sector.
 	IsPublicSector *bool `mandatory:"false" json:"isPublicSector"`
 
-	// The business partner is chain customer or not.
+	// Specifies whether or not the business partner is a chain customer.
 	IsChainCustomer *bool `mandatory:"false" json:"isChainCustomer"`
 
 	// Customer chain type.

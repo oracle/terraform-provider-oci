@@ -36,9 +36,6 @@ type Backup struct {
 	// The current state of the backup.
 	LifecycleState BackupLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The size of the backup, in gigabytes.
-	BackupSize *int `mandatory:"true" json:"backupSize"`
-
 	DbSystemDetails *DbSystemDetails `mandatory:"true" json:"dbSystemDetails"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
@@ -71,6 +68,9 @@ type Backup struct {
 
 	// Backup retention period in days.
 	RetentionPeriod *int `mandatory:"false" json:"retentionPeriod"`
+
+	// The size of the backup, in gigabytes.
+	BackupSize *int `mandatory:"false" json:"backupSize"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup's source database system.
 	DbSystemId *string `mandatory:"false" json:"dbSystemId"`

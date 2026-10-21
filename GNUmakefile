@@ -105,7 +105,7 @@ test-docscheck:
 	@sh -c "'$(CURDIR)/scripts/docscheck.sh'"
 
 ## Additional OCI stuff that will need to be moved eventually
-get: ;go get golang.org/x/tools/cmd/goimports; go get github.com/mitchellh/gox
+get: ;go get golang.org/x/tools/cmd/goimports@v0.48.0; go get github.com/mitchellh/gox@v1.0.1
 
 ### `make update-version version=2.0.1`
 update-version:

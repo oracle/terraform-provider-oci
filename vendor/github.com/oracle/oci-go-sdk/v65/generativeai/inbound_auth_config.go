@@ -19,7 +19,13 @@ import (
 )
 
 // InboundAuthConfig The inbound authentication configuration for the Hosted Application.
-// When unspecified, the service applies the default inbound authentication configuration type.
+// Specify the authentication type when creating an application. Omitting this object
+// from an update leaves the current authentication configuration unchanged.
+// Set inboundAuthConfigType to NO_AUTH_CONFIG to explicitly disable platform-managed
+// caller authentication for this application. This mode requires no separate tenancy enrollment.
+// The application is responsible for authenticating and authorizing its callers.
+// TLS, the configured public or private endpoint, service limits, and IAM authorization
+// for management operations still apply. Omit idcsConfig when selecting NO_AUTH_CONFIG.
 type InboundAuthConfig struct {
 
 	// The inbound authentication configuration type for the Hosted Application.
@@ -52,18 +58,21 @@ type InboundAuthConfigInboundAuthConfigTypeEnum string
 
 // Set of constants representing the allowable values for InboundAuthConfigInboundAuthConfigTypeEnum
 const (
-	InboundAuthConfigInboundAuthConfigTypeAuthConfig        InboundAuthConfigInboundAuthConfigTypeEnum = "IDCS_AUTH_CONFIG"
-	InboundAuthConfigInboundAuthConfigTypeSessionAuthConfig InboundAuthConfigInboundAuthConfigTypeEnum = "IDCS_SESSION_AUTH_CONFIG"
+	InboundAuthConfigInboundAuthConfigTypeIdcsAuthConfig        InboundAuthConfigInboundAuthConfigTypeEnum = "IDCS_AUTH_CONFIG"
+	InboundAuthConfigInboundAuthConfigTypeIdcsSessionAuthConfig InboundAuthConfigInboundAuthConfigTypeEnum = "IDCS_SESSION_AUTH_CONFIG"
+	InboundAuthConfigInboundAuthConfigTypeNoAuthConfig          InboundAuthConfigInboundAuthConfigTypeEnum = "NO_AUTH_CONFIG"
 )
 
 var mappingInboundAuthConfigInboundAuthConfigTypeEnum = map[string]InboundAuthConfigInboundAuthConfigTypeEnum{
-	"IDCS_AUTH_CONFIG":         InboundAuthConfigInboundAuthConfigTypeAuthConfig,
-	"IDCS_SESSION_AUTH_CONFIG": InboundAuthConfigInboundAuthConfigTypeSessionAuthConfig,
+	"IDCS_AUTH_CONFIG":         InboundAuthConfigInboundAuthConfigTypeIdcsAuthConfig,
+	"IDCS_SESSION_AUTH_CONFIG": InboundAuthConfigInboundAuthConfigTypeIdcsSessionAuthConfig,
+	"NO_AUTH_CONFIG":           InboundAuthConfigInboundAuthConfigTypeNoAuthConfig,
 }
 
 var mappingInboundAuthConfigInboundAuthConfigTypeEnumLowerCase = map[string]InboundAuthConfigInboundAuthConfigTypeEnum{
-	"idcs_auth_config":         InboundAuthConfigInboundAuthConfigTypeAuthConfig,
-	"idcs_session_auth_config": InboundAuthConfigInboundAuthConfigTypeSessionAuthConfig,
+	"idcs_auth_config":         InboundAuthConfigInboundAuthConfigTypeIdcsAuthConfig,
+	"idcs_session_auth_config": InboundAuthConfigInboundAuthConfigTypeIdcsSessionAuthConfig,
+	"no_auth_config":           InboundAuthConfigInboundAuthConfigTypeNoAuthConfig,
 }
 
 // GetInboundAuthConfigInboundAuthConfigTypeEnumValues Enumerates the set of values for InboundAuthConfigInboundAuthConfigTypeEnum
@@ -80,6 +89,7 @@ func GetInboundAuthConfigInboundAuthConfigTypeEnumStringValues() []string {
 	return []string{
 		"IDCS_AUTH_CONFIG",
 		"IDCS_SESSION_AUTH_CONFIG",
+		"NO_AUTH_CONFIG",
 	}
 }
 

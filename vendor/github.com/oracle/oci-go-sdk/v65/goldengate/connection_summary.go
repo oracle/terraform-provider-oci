@@ -258,6 +258,10 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := GooglePubSubConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ORACLE_AI_DATA_PLATFORM_ENGINE":
+		mm := OracleAiDataPlatformEngineConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GOOGLE_CLOUD_STORAGE":
 		mm := GoogleCloudStorageConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
@@ -282,8 +286,16 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := RedisConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "SPARK":
+		mm := SparkConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AZURE_DATA_LAKE_STORAGE":
 		mm := AzureDataLakeStorageConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AI_PROVIDER":
+		mm := AiProviderConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "GOOGLE_BIGQUERY":
@@ -324,6 +336,10 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		return mm, err
 	case "HDFS":
 		mm := HdfsConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "DATABRICKS_ENGINE":
+		mm := DatabricksEngineConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

@@ -95,6 +95,10 @@ func (m *updatedrprotectiongroupmemberdetails) UnmarshalPolymorphicJSON(data []b
 		mm := UpdateDrProtectionGroupMemberDatabaseDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "POSTGRESQL_DB_SYSTEM":
+		mm := UpdateDrProtectionGroupMemberPostgresqlDbSystemDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "OKE_CLUSTER":
 		mm := UpdateDrProtectionGroupMemberOkeClusterDetails{}
 		err = json.Unmarshal(data, &mm)

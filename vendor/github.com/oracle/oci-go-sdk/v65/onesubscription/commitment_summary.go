@@ -15,32 +15,32 @@ import (
 	"strings"
 )
 
-// CommitmentSummary Subscribed Service commitment summary
+// CommitmentSummary Subscribed service commitment summary.
 type CommitmentSummary struct {
 
-	// SPM internal Commitment ID
+	// SPM (Subscription Plan Management) internal commitment ID.
 	Id *string `mandatory:"true" json:"id"`
 
-	// SPM internal Subscribed Service ID
+	// SPM internal subscribed service ID.
 	SubscribedServiceId *string `mandatory:"false" json:"subscribedServiceId"`
 
-	// Commitment start date
+	// Commitment start date.
 	TimeStart *common.SDKTime `mandatory:"false" json:"timeStart"`
 
-	// Commitment end date
+	// Commitment end date.
 	TimeEnd *common.SDKTime `mandatory:"false" json:"timeEnd"`
 
-	// Commitment quantity
+	// Commitment quantity.
 	Quantity *string `mandatory:"false" json:"quantity"`
 
-	// Commitment used amount
+	// Commitment used amount.
 	UsedAmount *string `mandatory:"false" json:"usedAmount"`
 
-	// Commitment available amount
+	// Commitment available amount.
 	AvailableAmount *string `mandatory:"false" json:"availableAmount"`
 
-	// Funded Allocation line value
-	// example: 12000.00
+	// Funded allocation line value.
+	// Example: 12000.00
 	FundedAllocationValue *string `mandatory:"false" json:"fundedAllocationValue"`
 }
 

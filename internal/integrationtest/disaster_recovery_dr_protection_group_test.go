@@ -123,6 +123,36 @@ var (
 		"password_vault_secret_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_vault_secrets.test_mysql_secret.secrets[0].id}`},
 	}
 
+	DisasterRecoveryPeerDrProtectionGroupWithStandbyPostgreSQLRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `peerDisplayName`},
+		"log_location":   acctest.RepresentationGroup{RepType: acctest.Required, Group: DisasterRecoveryDrProtectionGroupLogLocationRepresentation},
+		"members":        acctest.RepresentationGroup{RepType: acctest.Required, Group: DisasterRecoveryDrProtectionGroupStandbyPostgreSQLMembersRepresentation},
+	}
+
+	DisasterRecoveryDrProtectionGroupStandbyPostgreSQLMembersRepresentation = map[string]interface{}{
+		"member_id":         acctest.Representation{RepType: acctest.Required, Create: `${data.oci_psql_db_systems.test_psql_db_systems_standby.db_system_collection[0].items[0].id}`},
+		"member_type":       acctest.Representation{RepType: acctest.Required, Create: `POSTGRESQL_DB_SYSTEM`},
+		"peer_db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_psql_db_systems.test_psql_db_systems_primary.db_system_collection[0].items[0].id}`},
+	}
+
+	DisasterRecoveryDrProtectionGroupWithPrimaryPostgreSQLRepresentation = map[string]interface{}{
+		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":         acctest.Representation{RepType: acctest.Required, Create: `My DR Protection Group`, Update: `displayName2`},
+		"log_location":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DisasterRecoveryDrProtectionGroupLogLocationRepresentation},
+		"association":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: DisasterRecoveryDrProtectionGroupAssociationRepresentation},
+		"members":              acctest.RepresentationGroup{RepType: acctest.Required, Group: DisasterRecoveryDrProtectionGroupPrimaryPostgreSQLMembersRepresentation},
+		"freeform_tags":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: DefinedTagsIgnoreRepresentation},
+		"disassociate_trigger": acctest.Representation{RepType: acctest.Optional, Create: `0`},
+	}
+
+	DisasterRecoveryDrProtectionGroupPrimaryPostgreSQLMembersRepresentation = map[string]interface{}{
+		"member_id":         acctest.Representation{RepType: acctest.Required, Create: `${data.oci_psql_db_systems.test_psql_db_systems_primary.db_system_collection[0].items[0].id}`},
+		"member_type":       acctest.Representation{RepType: acctest.Required, Create: `POSTGRESQL_DB_SYSTEM`},
+		"peer_db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_psql_db_systems.test_psql_db_systems_standby.db_system_collection[0].items[0].id}`},
+	}
+
 	DefinedTagsIgnoreRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
@@ -246,6 +276,26 @@ var (
 	}
 	`
 
+	PostgreSQLDatabaseDependencyConfig = `
+	data "oci_psql_db_systems" "test_psql_db_systems_primary" {
+		#Required
+		compartment_id = var.compartment_id
+
+		#Optional
+		display_name = "example-postgresqldb-primary"
+		state        = "ACTIVE"
+	}
+
+	data "oci_psql_db_systems" "test_psql_db_systems_standby" {
+		#Required
+		compartment_id = var.compartment_id
+
+		#Optional
+		display_name = "example-postgresqldb-standby"
+		state        = "ACTIVE"
+	}
+	`
+
 	DisasterRecoveryDrProtectionGroupWithVolumeGroupMemberConfig = `
 	resource "oci_disaster_recovery_dr_protection_group" "test_dr_protection_group" {
 		#Required
@@ -301,59 +351,15 @@ var (
 	}
 	`
 
-	DisasterRecoveryDrProtectionGroupWithPrimaryMySQLMemberConfig = `
-	# Update the existing test_dr_protection_group to have Primary MySQL member
-	resource "oci_disaster_recovery_dr_protection_group" "test_dr_protection_group" {
-		#Required
-		compartment_id = var.compartment_id
-		display_name   = "My DR Protection Group"
-		log_location {
-			#Required
-			bucket    = data.oci_objectstorage_bucket.test_bucket.name
-			namespace = data.oci_objectstorage_namespace.test_namespace.namespace
-		}
-		members {
-			member_id   = data.oci_mysql_mysql_db_systems.test_mysql_db_systems_primary.db_systems[0].id
-			member_type = "MYSQL_DB_SYSTEM"
+	DisasterRecoveryDrProtectionGroupWithStandbyPostgreSQLMemberConfig = DisasterRecoveryDrProtectionGroupResourceDependenciesWithStandbyPostgreSQL +
+		acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_dr_protection_group", acctest.Optional, acctest.Create, DisasterRecoveryDrProtectionGroupWithPrimaryPostgreSQLRepresentation)
 
-			# Peer database system (standby)
-			peer_db_system_id = data.oci_mysql_mysql_db_systems.test_mysql_db_systems_standby.db_systems[0].id
-
-			# Admin user credentials
-			db_system_admin_user_details {
-				username                  = "example-mysqldb-primary"
-				password_vault_secret_id  = data.oci_vault_secrets.test_mysql_secret.secrets[0].id
-			}
-
-			# Replication user credentials
-			db_system_replication_user_details {
-				username                  = "example-mysqldb-primary"
-				password_vault_secret_id  = data.oci_vault_secrets.test_mysql_secret.secrets[0].id
-			}
-
-			# GTID reconciliation settings
-			gtid_reconciliation_timeout                   = 600
-			is_continue_on_gtid_reconciliation_timeout    = false
-		}
-
-		# Keep the same association with test_peer
-		association {
-    		role        = "PRIMARY"
-    		peer_id     = oci_disaster_recovery_dr_protection_group.test_peer.id
-    		peer_region = var.region
-  		}
-	}
-	`
-
-	DisasterRecoveryDrProtectionGroupWithStandbyMySQLMemberConfig = DisasterRecoveryDrProtectionGroupResourceDependenciesWithStandbyMySQL +
-		acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_dr_protection_group", acctest.Optional, acctest.Create, DisasterRecoveryDrProtectionGroupWithPrimaryMySQLRepresentation)
-
-	DisasterRecoveryDrProtectionGroupResourceDependenciesWithStandbyMySQL = acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_peer", acctest.Required, acctest.Create, DisasterRecoveryPeerDrProtectionGroupWithStandbyMySQLRepresentation) +
+	DisasterRecoveryDrProtectionGroupResourceDependenciesWithStandbyPostgreSQL = acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_peer", acctest.Required, acctest.Create, DisasterRecoveryPeerDrProtectionGroupWithStandbyPostgreSQLRepresentation) +
 		ObjectStorageBucketDependencyConfig +
 		VolumeGroupDependencyConfig +
 		ComputeInstanceDependencyConfig +
 		FileSystemDependencyConfig +
-		MySQLDatabaseDependencyConfig +
+		PostgreSQLDatabaseDependencyConfig +
 		AvailabilityDomainConfig
 
 	DisasterRecoveryDrProtectionGroupResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_peer", acctest.Required, acctest.Create, DisasterRecoveryPeerDrProtectionGroupRepresentation) +
@@ -361,7 +367,7 @@ var (
 		VolumeGroupDependencyConfig +
 		ComputeInstanceDependencyConfig +
 		FileSystemDependencyConfig +
-		MySQLDatabaseDependencyConfig +
+		PostgreSQLDatabaseDependencyConfig +
 		AvailabilityDomainConfig
 	//DefinedTagsDependencies
 )
@@ -375,9 +381,6 @@ func TestDisasterRecoveryDrProtectionGroupResource_basic(t *testing.T) {
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-
-	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
-	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	var region = utils.GetEnvSettingWithBlankDefault("region")
 
@@ -497,122 +500,16 @@ func TestDisasterRecoveryDrProtectionGroupResource_basic(t *testing.T) {
 			),
 		},
 
-		// Verify create with optionals, add Primary MySQL DB System as a member
+		// Verify create with optionals, add Primary PostgreSQL DB System as a member
 		{
 			Config: config + compartmentIdVariableStr + DisasterRecoveryDrProtectionGroupResourceDependencies +
-				DisasterRecoveryDrProtectionGroupWithPrimaryMySQLMemberConfig,
+				acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_dr_protection_group", acctest.Optional, acctest.Create, DisasterRecoveryDrProtectionGroupWithPrimaryPostgreSQLRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "association.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "association.0.peer_id"),
 				resource.TestCheckResourceAttr(resourceName, "association.0.peer_region", region),
 				resource.TestCheckResourceAttr(resourceName, "association.0.role", "PRIMARY"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "My DR Protection Group"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "log_location.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "log_location.0.bucket", "testBucketName"),
-				resource.TestCheckResourceAttrSet(resourceName, "log_location.0.namespace"),
-				resource.TestCheckResourceAttr(resourceName, "members.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "members.0.member_id"),
-				resource.TestCheckResourceAttr(resourceName, "members.0.member_type", "MYSQL_DB_SYSTEM"),
-				resource.TestCheckResourceAttrSet(resourceName, "members.0.peer_db_system_id"),
-				resource.TestCheckResourceAttr(resourceName, "members.0.db_system_admin_user_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "members.0.db_system_admin_user_details.0.username", "example-mysqldb-primary"),
-				resource.TestCheckResourceAttrSet(resourceName, "members.0.db_system_admin_user_details.0.password_vault_secret_id"),
-				resource.TestCheckResourceAttr(resourceName, "members.0.db_system_replication_user_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "members.0.db_system_replication_user_details.0.username", "example-mysqldb-primary"),
-				resource.TestCheckResourceAttrSet(resourceName, "members.0.db_system_replication_user_details.0.password_vault_secret_id"),
-				resource.TestCheckResourceAttr(resourceName, "members.0.gtid_reconciliation_timeout", "600"),
-				resource.TestCheckResourceAttr(resourceName, "members.0.is_continue_on_gtid_reconciliation_timeout", "false"),
-				resource.TestCheckResourceAttrSet(resourceName, "role"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-							return errExport
-						}
-					}
-					return err
-				},
-			),
-		},
-
-		// Verify create with optionals, add Standby MySQL DB System to peer
-		{
-			Config: config + compartmentIdVariableStr + DisasterRecoveryDrProtectionGroupWithStandbyMySQLMemberConfig,
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				// Check primary DR protection group (test_dr_protection_group) - should have Primary MySQL member
-				resource.TestCheckResourceAttr(resourceName, "association.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "association.0.peer_id"),
-				resource.TestCheckResourceAttr(resourceName, "association.0.peer_region", region),
-				resource.TestCheckResourceAttr(resourceName, "association.0.role", "PRIMARY"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "My DR Protection Group"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "log_location.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "log_location.0.bucket", "testBucketName"),
-				resource.TestCheckResourceAttrSet(resourceName, "log_location.0.namespace"),
-				resource.TestCheckResourceAttr(resourceName, "members.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "members.0.member_id"),
-				resource.TestCheckResourceAttr(resourceName, "members.0.member_type", "MYSQL_DB_SYSTEM"),
-				resource.TestCheckResourceAttrSet(resourceName, "members.0.peer_db_system_id"),
-				resource.TestCheckResourceAttr(resourceName, "members.0.db_system_admin_user_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "members.0.db_system_admin_user_details.0.username", "example-mysqldb-primary"),
-				resource.TestCheckResourceAttrSet(resourceName, "members.0.db_system_admin_user_details.0.password_vault_secret_id"),
-				resource.TestCheckResourceAttr(resourceName, "members.0.db_system_replication_user_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "members.0.db_system_replication_user_details.0.username", "example-mysqldb-primary"),
-				resource.TestCheckResourceAttrSet(resourceName, "members.0.db_system_replication_user_details.0.password_vault_secret_id"),
-				resource.TestCheckResourceAttr(resourceName, "members.0.gtid_reconciliation_timeout", "600"),
-				resource.TestCheckResourceAttr(resourceName, "members.0.is_continue_on_gtid_reconciliation_timeout", "false"),
-				resource.TestCheckResourceAttrSet(resourceName, "role"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-
-				// Check peer DR protection group (test_peer) - should now have Standby MySQL member
-				resource.TestCheckResourceAttr("oci_disaster_recovery_dr_protection_group.test_peer", "display_name", "peerDisplayName"),
-				resource.TestCheckResourceAttr("oci_disaster_recovery_dr_protection_group.test_peer", "members.#", "1"),
-				resource.TestCheckResourceAttr("oci_disaster_recovery_dr_protection_group.test_peer", "members.0.member_type", "MYSQL_DB_SYSTEM"),
-				resource.TestCheckResourceAttrSet("oci_disaster_recovery_dr_protection_group.test_peer", "members.0.member_id"),
-				resource.TestCheckResourceAttrSet("oci_disaster_recovery_dr_protection_group.test_peer", "members.0.peer_db_system_id"),
-				resource.TestCheckResourceAttr("oci_disaster_recovery_dr_protection_group.test_peer", "members.0.db_system_admin_user_details.#", "1"),
-				resource.TestCheckResourceAttr("oci_disaster_recovery_dr_protection_group.test_peer", "members.0.db_system_admin_user_details.0.username", "example-mysqldb-standby"),
-				resource.TestCheckResourceAttrSet("oci_disaster_recovery_dr_protection_group.test_peer", "members.0.db_system_admin_user_details.0.password_vault_secret_id"),
-				resource.TestCheckResourceAttr("oci_disaster_recovery_dr_protection_group.test_peer", "members.0.db_system_replication_user_details.#", "1"),
-				resource.TestCheckResourceAttr("oci_disaster_recovery_dr_protection_group.test_peer", "members.0.db_system_replication_user_details.0.username", "example-mysqldb-standby"),
-				resource.TestCheckResourceAttrSet("oci_disaster_recovery_dr_protection_group.test_peer", "members.0.db_system_replication_user_details.0.password_vault_secret_id"),
-				resource.TestCheckResourceAttr("oci_disaster_recovery_dr_protection_group.test_peer", "members.0.gtid_reconciliation_timeout", "600"),
-				resource.TestCheckResourceAttr("oci_disaster_recovery_dr_protection_group.test_peer", "members.0.is_continue_on_gtid_reconciliation_timeout", "false"),
-
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-							return errExport
-						}
-					}
-					return err
-				},
-			),
-		},
-
-		// verify Update to the compartment (the compartment will be switched back in the next step)
-		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DisasterRecoveryDrProtectionGroupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_dr_protection_group", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(DisasterRecoveryDrProtectionGroupRepresentation, map[string]interface{}{
-						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
-					})),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "association.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "association.0.peer_id"),
-				resource.TestCheckResourceAttr(resourceName, "association.0.peer_region", region),
-				resource.TestCheckResourceAttr(resourceName, "association.0.role", "PRIMARY"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "My DR Protection Group"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -621,16 +518,67 @@ func TestDisasterRecoveryDrProtectionGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "log_location.0.namespace"),
 				resource.TestCheckResourceAttr(resourceName, "members.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "members.0.member_id"),
-				resource.TestCheckResourceAttr(resourceName, "members.0.member_type", "OBJECT_STORAGE_BUCKET"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.member_type", "POSTGRESQL_DB_SYSTEM"),
+				resource.TestCheckResourceAttrSet(resourceName, "members.0.peer_db_system_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "role"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId != resId2 {
-						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// Verify create with optionals, add Standby PostgreSQL DB System to peer
+		{
+			Config: config + compartmentIdVariableStr + DisasterRecoveryDrProtectionGroupWithStandbyPostgreSQLMemberConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				// Check primary DR protection group (test_dr_protection_group) - should have Primary PostgreSQL member
+				resource.TestCheckResourceAttr(resourceName, "association.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "association.0.peer_id"),
+				resource.TestCheckResourceAttr(resourceName, "association.0.peer_region", region),
+				resource.TestCheckResourceAttr(resourceName, "association.0.role", "PRIMARY"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "My DR Protection Group"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "log_location.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "log_location.0.bucket", "testBucketName"),
+				resource.TestCheckResourceAttrSet(resourceName, "log_location.0.namespace"),
+				resource.TestCheckResourceAttr(resourceName, "members.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "members.0.member_id"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.member_type", "POSTGRESQL_DB_SYSTEM"),
+				resource.TestCheckResourceAttrSet(resourceName, "members.0.peer_db_system_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "role"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+				// Check peer DR protection group (test_peer) - should now have Standby PostgreSQL member
+				resource.TestCheckResourceAttr("oci_disaster_recovery_dr_protection_group.test_peer", "display_name", "peerDisplayName"),
+				resource.TestCheckResourceAttr("oci_disaster_recovery_dr_protection_group.test_peer", "members.#", "1"),
+				resource.TestCheckResourceAttr("oci_disaster_recovery_dr_protection_group.test_peer", "members.0.member_type", "POSTGRESQL_DB_SYSTEM"),
+				resource.TestCheckResourceAttrSet("oci_disaster_recovery_dr_protection_group.test_peer", "members.0.member_id"),
+				resource.TestCheckResourceAttrSet("oci_disaster_recovery_dr_protection_group.test_peer", "members.0.peer_db_system_id"),
+
+				// Each DR protection group's member must be the other's peer DB system
+				resource.TestCheckResourceAttrPair(resourceName, "members.0.peer_db_system_id", "oci_disaster_recovery_dr_protection_group.test_peer", "members.0.member_id"),
+				resource.TestCheckResourceAttrPair("oci_disaster_recovery_dr_protection_group.test_peer", "members.0.peer_db_system_id", resourceName, "members.0.member_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
 					}
 					return err
 				},
@@ -714,7 +662,7 @@ func TestDisasterRecoveryDrProtectionGroupResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + DisasterRecoveryDrProtectionGroupRequiredOnlyResource,
+			Config:            config + compartmentIdVariableStr + DisasterRecoveryDrProtectionGroupRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

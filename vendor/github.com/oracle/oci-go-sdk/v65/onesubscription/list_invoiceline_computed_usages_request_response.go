@@ -21,13 +21,13 @@ type ListInvoicelineComputedUsagesRequest struct {
 	// The OCID of the root compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// Invoice Line Identifier - Primary Key SPM
+	// Invoice line identifier - Primary Key SPM (Subscription Plan Management).
 	InvoiceLineId *string `mandatory:"true" contributesTo:"query" name:"invoiceLineId"`
 
 	// The sort order to use, either ascending ('ASC') or descending ('DESC').
 	SortOrder ListInvoicelineComputedUsagesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field to sort by Invoiced Computed Usages. You can provide one sort order (`sortOrder`).
+	// The field to sort by invoiced computed usages. You can provide one sort order (`sortOrder`).
 	SortBy ListInvoicelineComputedUsagesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The maximum number of items to return in a paginated "List" call. Default: (`50`)
@@ -38,8 +38,8 @@ type ListInvoicelineComputedUsagesRequest struct {
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// Partial response refers to an optimization technique offered
-	// by the RESTful web APIs to return only the information
-	// (fields) required by the client. This parameter is used to control what fields to
+	// by the RESTful web APIs, to return only the information
+	// (fields) required by the client. This parameter controls which fields to
 	// return.
 	Fields []string `contributesTo:"query" name:"fields" collectionFormat:"multi"`
 
