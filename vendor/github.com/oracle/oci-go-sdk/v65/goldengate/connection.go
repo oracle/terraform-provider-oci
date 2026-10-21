@@ -250,6 +250,10 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := MicrosoftSqlserverConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AI_PROVIDER":
+		mm := AiProviderConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ICEBERG":
 		mm := IcebergConnection{}
 		err = json.Unmarshal(data, &mm)
@@ -274,8 +278,16 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := JavaMessageServiceConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "SPARK":
+		mm := SparkConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "SNOWFLAKE":
 		mm := SnowflakeConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "DATABRICKS_ENGINE":
+		mm := DatabricksEngineConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "GOLDENGATE":
@@ -300,6 +312,10 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		return mm, err
 	case "GOOGLE_CLOUD_STORAGE":
 		mm := GoogleCloudStorageConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ORACLE_AI_DATA_PLATFORM_ENGINE":
+		mm := OracleAiDataPlatformEngineConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE_AI_DATA_PLATFORM":

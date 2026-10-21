@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// InvoiceSummary Invoice details
+// InvoiceSummary Invoice details.
 type InvoiceSummary struct {
 
-	// SPM Document Number is an functional identifier for invoice in SPM
+	// SPM (Subscription Plan Management) document number is a functional identifier for invoicing in SPM.
 	SpmInvoiceNumber *string `mandatory:"true" json:"spmInvoiceNumber"`
 
 	BillToCustomer *InvoicingBusinessPartner `mandatory:"true" json:"billToCustomer"`
@@ -27,7 +27,7 @@ type InvoiceSummary struct {
 
 	BillToAddress *InvoicingAddress `mandatory:"true" json:"billToAddress"`
 
-	// Payment Method
+	// Payment method.
 	PaymentMethod *string `mandatory:"true" json:"paymentMethod"`
 
 	PaymentTerm *InvoicingPaymentTerm `mandatory:"true" json:"paymentTerm"`
@@ -36,37 +36,37 @@ type InvoiceSummary struct {
 
 	Organization *InvoicingOrganization `mandatory:"true" json:"organization"`
 
-	// Document Type in SPM like SPM Invoice,SPM Credit Memo etc.,
+	// Document type in SPM, such as SPM Invoice, SPM Credit Memo, and so on.
 	Type *string `mandatory:"true" json:"type"`
 
-	// Document Status in SPM which depicts current state of invoice
+	// Document status in SPM, which depicts the current invoice state.
 	Status *string `mandatory:"true" json:"status"`
 
 	// Invoice associated subscription plan number.
 	SubscriptionNumber *string `mandatory:"true" json:"subscriptionNumber"`
 
-	// Invoice Date
+	// Invoice date.
 	TimeInvoiceDate *common.SDKTime `mandatory:"true" json:"timeInvoiceDate"`
 
-	// AR Invoice Numbers comma separated under one invoice
+	// Accounts receivable invoice numbers, comma-separated under one invoice.
 	ArInvoices *string `mandatory:"false" json:"arInvoices"`
 
-	// Receipt Method of Payment Mode
+	// Receipt method of payment mode.
 	ReceiptMethod *string `mandatory:"false" json:"receiptMethod"`
 
-	// SPM Invocie creation date
+	// SPM invocie creation date.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// User that executed SPM Invoice process
+	// User that executed the SPM invoice process.
 	CreatedBy *string `mandatory:"false" json:"createdBy"`
 
-	// SPM Invoice updated date
+	// SPM invoice updated date.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// User that updated SPM Invoice
+	// User that updated the SPM invoice.
 	UpdatedBy *string `mandatory:"false" json:"updatedBy"`
 
-	// Invoice Lines under particular invoice.
+	// Invoice lines under a particular invoice.
 	InvoiceLines []InvoiceLineSummary `mandatory:"false" json:"invoiceLines"`
 }
 

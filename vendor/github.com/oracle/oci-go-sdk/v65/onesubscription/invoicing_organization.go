@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// InvoicingOrganization Organization details
+// InvoicingOrganization Organization details.
 type InvoicingOrganization struct {
 
-	// Organization name
+	// Organization name.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Organization ID
+	// Organization ID.
 	Number *float64 `mandatory:"true" json:"number"`
 }
 

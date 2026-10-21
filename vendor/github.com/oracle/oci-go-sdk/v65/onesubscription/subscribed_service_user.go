@@ -21,7 +21,7 @@ type SubscribedServiceUser struct {
 	// Name.
 	Name *string `mandatory:"false" json:"name"`
 
-	// Username.
+	// User name.
 	Username *string `mandatory:"false" json:"username"`
 
 	// First name.
@@ -33,7 +33,7 @@ type SubscribedServiceUser struct {
 	// Email.
 	Email *string `mandatory:"false" json:"email"`
 
-	// TCA contact ID.
+	// TCA (Trading Community Architecture) contact ID.
 	TcaContactId *int64 `mandatory:"false" json:"tcaContactId"`
 
 	// TCA customer account site ID.

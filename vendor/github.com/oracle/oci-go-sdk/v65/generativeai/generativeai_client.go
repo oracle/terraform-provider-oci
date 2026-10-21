@@ -1919,6 +1919,76 @@ func (client GenerativeAiClient) createRoutingProfile(ctx context.Context, reque
 	return response, err
 }
 
+// CreateSandboxWarmPool Creates a named MANAGED or CUSTOM pool. MANAGED uses the service-provided python-3.11 runtime and requires containerImage to be omitted. CUSTOM requires a digest-pinned containerImage. Project-wide shape capacity limits include named pools of both types and reserved default pools. Type, image, shape and name are immutable. The CP atomically persists CREATING and a Work Request, then its workflow prepares an immutable pool-owned template and applies the pool configuration. Each MANAGED pool has a distinct template based on the service runtime configuration, isolated from other pools of the same shape. ACTIVE means configuration was applied and verified; it does not require ready members, a successful image boot or available cluster capacity. Zero capacity pauses idle prewarming. An ACTIVE named pool can still create Sandboxes through cold fallback when its applied template is available. Retry identity and configuration are persisted atomically. Within the 24-hour retry-token validity period, the same token and input identify the original pool id, including after name reuse. A retry never creates or selects a replacement pool. A retry after the original pool is deleted returns 409; changed input with the same token conflicts. Reserved default names cannot be reused for either type.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/CreateSandboxWarmPool.go.html to see an example of how to use CreateSandboxWarmPool API.
+// A default retry strategy applies to this operation CreateSandboxWarmPool()
+func (client GenerativeAiClient) CreateSandboxWarmPool(ctx context.Context, request CreateSandboxWarmPoolRequest) (response CreateSandboxWarmPoolResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createSandboxWarmPool, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateSandboxWarmPoolResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateSandboxWarmPoolResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateSandboxWarmPoolResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateSandboxWarmPoolResponse")
+	}
+	return
+}
+
+// createSandboxWarmPool implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) createSandboxWarmPool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/generativeAiProjects/{projectId}/sandboxWarmPools", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response CreateSandboxWarmPoolResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "CreateSandboxWarmPool")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/SandboxWarmPool/CreateSandboxWarmPool"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "CreateSandboxWarmPool", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateSemanticStore Creates a SemanticStore.
 //
 // # See also
@@ -2981,6 +3051,71 @@ func (client GenerativeAiClient) deleteRoutingProfile(ctx context.Context, reque
 	return response, err
 }
 
+// DeleteSandboxWarmPool Deletes a named MANAGED or CUSTOM pool through a CP Work Request. Reserved MANAGED default entries cannot be deleted and return 409. CP persists DELETING and closes admission as the new configuration propagates, drains idle members and deletes the pool resource. The management response does not promise immediate global admission closure or completed cleanup. Already-adopted customer Sandboxes survive and retain required template dependencies. Get and List continue to show DELETING until pool cleanup completes. The CP then records DELETED and releases the name. Name reuse always allocates a new id and materialized names. Retained templates may outlive the pool while customer Sandboxes still depend on them. A repeated delete during DELETING returns the existing Work Request. A missing name returns 404. After name reuse, the path identifies the new pool; use the original if-match ETag to prevent deleting it. Conflicting operations return 409 and stale if-match returns 412.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/DeleteSandboxWarmPool.go.html to see an example of how to use DeleteSandboxWarmPool API.
+// A default retry strategy applies to this operation DeleteSandboxWarmPool()
+func (client GenerativeAiClient) DeleteSandboxWarmPool(ctx context.Context, request DeleteSandboxWarmPoolRequest) (response DeleteSandboxWarmPoolResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteSandboxWarmPool, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteSandboxWarmPoolResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteSandboxWarmPoolResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteSandboxWarmPoolResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteSandboxWarmPoolResponse")
+	}
+	return
+}
+
+// deleteSandboxWarmPool implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) deleteSandboxWarmPool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/generativeAiProjects/{projectId}/sandboxWarmPools/{name}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response DeleteSandboxWarmPoolResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "DeleteSandboxWarmPool")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/SandboxWarmPool/DeleteSandboxWarmPool"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "DeleteSandboxWarmPool", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteSemanticStore Deletes a semanticStore.
 //
 // # See also
@@ -3891,6 +4026,71 @@ func (client GenerativeAiClient) getRoutingProfile(ctx context.Context, request 
 	return response, err
 }
 
+// GetSandboxWarmPool Gets authoritative CP configuration and management lifecycle for the current pool incarnation, including DELETING until pool cleanup completes. Returns 404 after deletion completes unless the name has been reused for a new id. A best-effort runtime observation may report ready idle capacity. A runtime read failure returns UNAVAILABLE without failing the configuration read. ACTIVE does not imply runtime capacity is ready. The configuration ETag excludes runtime changes; it must not be used to suppress runtime observations with a conditional not-modified response.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/GetSandboxWarmPool.go.html to see an example of how to use GetSandboxWarmPool API.
+// A default retry strategy applies to this operation GetSandboxWarmPool()
+func (client GenerativeAiClient) GetSandboxWarmPool(ctx context.Context, request GetSandboxWarmPoolRequest) (response GetSandboxWarmPoolResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSandboxWarmPool, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSandboxWarmPoolResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSandboxWarmPoolResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSandboxWarmPoolResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSandboxWarmPoolResponse")
+	}
+	return
+}
+
+// getSandboxWarmPool implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) getSandboxWarmPool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/generativeAiProjects/{projectId}/sandboxWarmPools/{name}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response GetSandboxWarmPoolResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "GetSandboxWarmPool")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/SandboxWarmPool/GetSandboxWarmPool"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "GetSandboxWarmPool", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetSemanticStore Gets information about a semanticStore.
 //
 // # See also
@@ -4339,6 +4539,71 @@ func (client GenerativeAiClient) listDedicatedAiClusters(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/DedicatedAiClusterCollection/ListDedicatedAiClusters"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "ListDedicatedAiClusters", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDedicatedAiClustersAllocatableGpus Lists the allocatable GPUs for launching dedicated AI clusters tied to a specific capacity reservation id.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/ListDedicatedAiClustersAllocatableGpus.go.html to see an example of how to use ListDedicatedAiClustersAllocatableGpus API.
+// A default retry strategy applies to this operation ListDedicatedAiClustersAllocatableGpus()
+func (client GenerativeAiClient) ListDedicatedAiClustersAllocatableGpus(ctx context.Context, request ListDedicatedAiClustersAllocatableGpusRequest) (response ListDedicatedAiClustersAllocatableGpusResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDedicatedAiClustersAllocatableGpus, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDedicatedAiClustersAllocatableGpusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDedicatedAiClustersAllocatableGpusResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDedicatedAiClustersAllocatableGpusResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDedicatedAiClustersAllocatableGpusResponse")
+	}
+	return
+}
+
+// listDedicatedAiClustersAllocatableGpus implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) listDedicatedAiClustersAllocatableGpus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dedicatedAiClusters/allocatableGpus", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ListDedicatedAiClustersAllocatableGpusResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "ListDedicatedAiClustersAllocatableGpus")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/AllocatableGpuCollection/ListDedicatedAiClustersAllocatableGpus"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "ListDedicatedAiClustersAllocatableGpus", apiReferenceLink)
 		return response, err
 	}
 
@@ -5055,6 +5320,71 @@ func (client GenerativeAiClient) listRoutingProfiles(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/RoutingProfileCollection/ListRoutingProfiles"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "ListRoutingProfiles", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSandboxWarmPools Lists named MANAGED and CUSTOM pools for Sandbox-enabled Projects, including zero targets and in-progress management operations. Reserved defaults can be resized but cannot be created or deleted by customers. DELETED resources are excluded. Responses include CP management lifecycle but do not perform runtime reads or return ready capacity.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/ListSandboxWarmPools.go.html to see an example of how to use ListSandboxWarmPools API.
+// A default retry strategy applies to this operation ListSandboxWarmPools()
+func (client GenerativeAiClient) ListSandboxWarmPools(ctx context.Context, request ListSandboxWarmPoolsRequest) (response ListSandboxWarmPoolsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSandboxWarmPools, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSandboxWarmPoolsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSandboxWarmPoolsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSandboxWarmPoolsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSandboxWarmPoolsResponse")
+	}
+	return
+}
+
+// listSandboxWarmPools implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) listSandboxWarmPools(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/generativeAiProjects/{projectId}/sandboxWarmPools", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ListSandboxWarmPoolsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "ListSandboxWarmPools")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/SandboxWarmPoolCollection/ListSandboxWarmPools"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "ListSandboxWarmPools", apiReferenceLink)
 		return response, err
 	}
 
@@ -6435,6 +6765,71 @@ func (client GenerativeAiClient) updateRoutingProfile(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/RoutingProfile/UpdateRoutingProfile"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "UpdateRoutingProfile", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateSandboxWarmPool Only desiredCapacity may change. If desiredCapacity is omitted, the current desired capacity is preserved. An empty update object is allowed; an explicit null value for desiredCapacity is not allowed. Named MANAGED and CUSTOM pools and reserved MANAGED defaults can be resized. Default-pool updates use the existing Project configuration workflow; no separate desired configuration is created for those entries. CP persists UPDATING and a Work Request, applies the desired replica count, then returns the pool to ACTIVE after verifying the configuration. The workflow does not wait for ready members. Zero pauses idle prewarming. Once the pool is ACTIVE, named-pool Sandbox creation can still cold-start from its available applied template when no eligible warm member is available, regardless of the capacity target. Already-admitted Sandboxes continue. Unnamed Sandbox creation retains its existing behavior. Concurrent management operations return 409. If provided, if-match must match the current configuration ETag; otherwise this operation returns 412.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/UpdateSandboxWarmPool.go.html to see an example of how to use UpdateSandboxWarmPool API.
+// A default retry strategy applies to this operation UpdateSandboxWarmPool()
+func (client GenerativeAiClient) UpdateSandboxWarmPool(ctx context.Context, request UpdateSandboxWarmPoolRequest) (response UpdateSandboxWarmPoolResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateSandboxWarmPool, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateSandboxWarmPoolResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateSandboxWarmPoolResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateSandboxWarmPoolResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateSandboxWarmPoolResponse")
+	}
+	return
+}
+
+// updateSandboxWarmPool implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) updateSandboxWarmPool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/generativeAiProjects/{projectId}/sandboxWarmPools/{name}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response UpdateSandboxWarmPoolResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "UpdateSandboxWarmPool")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/SandboxWarmPool/UpdateSandboxWarmPool"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "UpdateSandboxWarmPool", apiReferenceLink)
 		return response, err
 	}
 

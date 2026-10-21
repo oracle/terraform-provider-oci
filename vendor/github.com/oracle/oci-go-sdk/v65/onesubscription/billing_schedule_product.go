@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// BillingScheduleProduct Product description
+// BillingScheduleProduct Product description.
 type BillingScheduleProduct struct {
 
-	// Indicates the associated AR Invoice Number
+	// Indicates the associated accounts receivable invoice number.
 	PartNumber *string `mandatory:"true" json:"partNumber"`
 
-	// Product name
+	// Product name.
 	Name *string `mandatory:"true" json:"name"`
 }
 

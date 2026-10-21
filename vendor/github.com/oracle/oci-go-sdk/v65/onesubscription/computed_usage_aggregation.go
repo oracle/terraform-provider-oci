@@ -15,27 +15,27 @@ import (
 	"strings"
 )
 
-// ComputedUsageAggregation Computed Usage Aggregation object
+// ComputedUsageAggregation Computed usage aggregation object.
 type ComputedUsageAggregation struct {
 
-	// Total Quantity that was used for computation
+	// Total quantity that was used for computation.
 	Quantity *string `mandatory:"false" json:"quantity"`
 
 	Product *ComputedUsageProduct `mandatory:"false" json:"product"`
 
-	// Data Center Attribute as sent by MQS to SPM.
+	// Data center attribute as sent by the meterering system to SPM (Subscription Plan Management).
 	DataCenter *string `mandatory:"false" json:"dataCenter"`
 
-	// Metered Service date , expressed in RFC 3339 timestamp format.
+	// Metered service date, expressed in RFC 3339 timestamp format.
 	TimeMeteredOn *common.SDKTime `mandatory:"false" json:"timeMeteredOn"`
 
-	// Net Unit Price for the product in consideration.
+	// Net unit price for the product in consideration.
 	NetUnitPrice *string `mandatory:"false" json:"netUnitPrice"`
 
-	// Sum of Computed Line Amount unrounded
+	// Sum of unrounded computed line amount.
 	CostUnrounded *string `mandatory:"false" json:"costUnrounded"`
 
-	// Sum of Computed Line Amount rounded
+	// Sum of rounded computed line amount.
 	Cost *string `mandatory:"false" json:"cost"`
 
 	// Usage compute type in SPM.

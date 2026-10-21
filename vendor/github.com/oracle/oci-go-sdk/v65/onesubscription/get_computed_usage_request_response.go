@@ -18,15 +18,15 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/GetComputedUsage.go.html to see an example of how to use GetComputedUsageRequest.
 type GetComputedUsageRequest struct {
 
-	// The Computed Usage Id
+	// The computed usage ID.
 	ComputedUsageId *string `mandatory:"true" contributesTo:"path" name:"computedUsageId"`
 
 	// The OCID of the root compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// Partial response refers to an optimization technique offered
-	// by the RESTful web APIs to return only the information
-	// (fields) required by the client. This parameter is used to control what fields to
+	// by the RESTful web APIs, to return only the information
+	// (fields) required by the client. This parameter controls which fields to
 	// return.
 	Fields []string `contributesTo:"query" name:"fields" collectionFormat:"multi"`
 

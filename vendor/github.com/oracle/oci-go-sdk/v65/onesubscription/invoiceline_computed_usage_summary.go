@@ -15,28 +15,28 @@ import (
 	"strings"
 )
 
-// InvoicelineComputedUsageSummary Computed Usage Summary object
+// InvoicelineComputedUsageSummary Computed usage summary object.
 type InvoicelineComputedUsageSummary struct {
 	ParentProduct *InvoicingProduct `mandatory:"true" json:"parentProduct"`
 
-	// Total Quantity that was used for computation
+	// Total quantity that was used for computation.
 	Quantity *float64 `mandatory:"true" json:"quantity"`
 
-	// Net Unit Price for the product in consideration, price actual.
+	// Net unit price for the product in consideration, price actual.
 	NetUnitPrice *float64 `mandatory:"true" json:"netUnitPrice"`
 
-	// Metered Service date.
+	// Metered service date.
 	TimeMeteredOn *common.SDKTime `mandatory:"true" json:"timeMeteredOn"`
 
-	// Usage compute type in SPM.
+	// Usage compute type in SPM (Subscription Plan Management).
 	Type InvoicelineComputedUsageSummaryTypeEnum `mandatory:"true" json:"type"`
 
-	// Computed Line Amount rounded.
+	// Computed rounded line amount.
 	CostRounded *float64 `mandatory:"true" json:"costRounded"`
 
 	Product *InvoicingProduct `mandatory:"false" json:"product"`
 
-	// Sum of Usage/Service Billing Line net Amount
+	// Sum of usage/service billing line net amount.
 	Cost *float64 `mandatory:"false" json:"cost"`
 }
 

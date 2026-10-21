@@ -39,6 +39,9 @@ const (
 	OperationTypeDeletePrivateEndpoint       OperationTypeEnum = "DELETE_PRIVATE_ENDPOINT"
 	OperationTypeUpdatePrivateEndpoint       OperationTypeEnum = "UPDATE_PRIVATE_ENDPOINT"
 	OperationTypeMovePrivateEndpoint         OperationTypeEnum = "MOVE_PRIVATE_ENDPOINT"
+	OperationTypeCreateSandboxWarmPool       OperationTypeEnum = "CREATE_SANDBOX_WARM_POOL"
+	OperationTypeUpdateSandboxWarmPool       OperationTypeEnum = "UPDATE_SANDBOX_WARM_POOL"
+	OperationTypeDeleteSandboxWarmPool       OperationTypeEnum = "DELETE_SANDBOX_WARM_POOL"
 	OperationTypeCreateVectorStoreConnector  OperationTypeEnum = "CREATE_VECTOR_STORE_CONNECTOR"
 	OperationTypeUpdateVectorStoreConnector  OperationTypeEnum = "UPDATE_VECTOR_STORE_CONNECTOR"
 	OperationTypeDeleteVectorStoreConnector  OperationTypeEnum = "DELETE_VECTOR_STORE_CONNECTOR"
@@ -82,6 +85,9 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"DELETE_PRIVATE_ENDPOINT":       OperationTypeDeletePrivateEndpoint,
 	"UPDATE_PRIVATE_ENDPOINT":       OperationTypeUpdatePrivateEndpoint,
 	"MOVE_PRIVATE_ENDPOINT":         OperationTypeMovePrivateEndpoint,
+	"CREATE_SANDBOX_WARM_POOL":      OperationTypeCreateSandboxWarmPool,
+	"UPDATE_SANDBOX_WARM_POOL":      OperationTypeUpdateSandboxWarmPool,
+	"DELETE_SANDBOX_WARM_POOL":      OperationTypeDeleteSandboxWarmPool,
 	"CREATE_VECTOR_STORE_CONNECTOR": OperationTypeCreateVectorStoreConnector,
 	"UPDATE_VECTOR_STORE_CONNECTOR": OperationTypeUpdateVectorStoreConnector,
 	"DELETE_VECTOR_STORE_CONNECTOR": OperationTypeDeleteVectorStoreConnector,
@@ -125,6 +131,9 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"delete_private_endpoint":       OperationTypeDeletePrivateEndpoint,
 	"update_private_endpoint":       OperationTypeUpdatePrivateEndpoint,
 	"move_private_endpoint":         OperationTypeMovePrivateEndpoint,
+	"create_sandbox_warm_pool":      OperationTypeCreateSandboxWarmPool,
+	"update_sandbox_warm_pool":      OperationTypeUpdateSandboxWarmPool,
+	"delete_sandbox_warm_pool":      OperationTypeDeleteSandboxWarmPool,
 	"create_vector_store_connector": OperationTypeCreateVectorStoreConnector,
 	"update_vector_store_connector": OperationTypeUpdateVectorStoreConnector,
 	"delete_vector_store_connector": OperationTypeDeleteVectorStoreConnector,
@@ -179,6 +188,9 @@ func GetOperationTypeEnumStringValues() []string {
 		"DELETE_PRIVATE_ENDPOINT",
 		"UPDATE_PRIVATE_ENDPOINT",
 		"MOVE_PRIVATE_ENDPOINT",
+		"CREATE_SANDBOX_WARM_POOL",
+		"UPDATE_SANDBOX_WARM_POOL",
+		"DELETE_SANDBOX_WARM_POOL",
 		"CREATE_VECTOR_STORE_CONNECTOR",
 		"UPDATE_VECTOR_STORE_CONNECTOR",
 		"DELETE_VECTOR_STORE_CONNECTOR",

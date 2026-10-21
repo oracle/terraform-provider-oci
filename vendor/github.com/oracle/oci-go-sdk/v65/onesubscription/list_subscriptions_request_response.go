@@ -21,16 +21,16 @@ type ListSubscriptionsRequest struct {
 	// The OCID of the root compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// The Plan Number
+	// The plan number.
 	PlanNumber *string `mandatory:"false" contributesTo:"query" name:"planNumber"`
 
-	// Line level Subscription Id
+	// Line level subscription ID.
 	SubscriptionId *string `mandatory:"false" contributesTo:"query" name:"subscriptionId"`
 
-	// Buyer Email Id
+	// Buyer email ID.
 	BuyerEmail *string `mandatory:"false" contributesTo:"query" name:"buyerEmail"`
 
-	// Boolean value to decide whether commitment services will be shown
+	// Boolean value to determine whether commitment services are shown.
 	IsCommitInfoRequired *bool `mandatory:"false" contributesTo:"query" name:"isCommitInfoRequired"`
 
 	// The maximum number of items to return in a paginated "List" call. Default: (`50`)

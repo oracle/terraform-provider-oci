@@ -91,7 +91,7 @@ func (client *OrganizationSubscriptionClient) ConfigurationProvider() *common.Co
 	return client.config
 }
 
-// ListOrganizationSubscriptions API that returns data for the list of subscription ids returned from Organizations API
+// ListOrganizationSubscriptions Returns data for the list of subscription IDs returned from the Organizations API.
 //
 // # See also
 //

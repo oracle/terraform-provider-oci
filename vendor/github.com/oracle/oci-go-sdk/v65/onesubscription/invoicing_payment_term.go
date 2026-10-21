@@ -15,31 +15,31 @@ import (
 	"strings"
 )
 
-// InvoicingPaymentTerm Payment Term details
+// InvoicingPaymentTerm Payment term details.
 type InvoicingPaymentTerm struct {
 
-	// Payment Term name
+	// Payment term name.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Payment Term value
+	// Payment term value.
 	Value *string `mandatory:"false" json:"value"`
 
-	// Payment term Description
+	// Payment term description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Payment term active flag
+	// Payment term active parameter.
 	IsActive *bool `mandatory:"false" json:"isActive"`
 
-	// Payment term last update date
+	// Payment term last update date.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// User that created the Payment term
+	// User that created the payment term.
 	CreatedBy *string `mandatory:"false" json:"createdBy"`
 
-	// Payment term last update date
+	// Payment term last update date.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// User that updated the Payment term
+	// User that updated the payment term.
 	UpdatedBy *string `mandatory:"false" json:"updatedBy"`
 }
 

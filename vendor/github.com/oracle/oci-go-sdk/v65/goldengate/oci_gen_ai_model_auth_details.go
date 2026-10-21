@@ -32,7 +32,7 @@ type OciGenAiModelAuthDetails struct {
 	ApiKeySecretId *string `mandatory:"false" json:"apiKeySecretId"`
 
 	// The name of the region. e.g.: us-ashburn-1
-	// If the region is not provided, backend will default to the default region.
+	// If the region is not provided, backend will default to the current region.
 	Region *string `mandatory:"false" json:"region"`
 
 	// OCI Generative AI tenancy OCID. If this value is not provided, or is updated to an empty

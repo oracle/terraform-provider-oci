@@ -183,6 +183,10 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := CreateAzureDataLakeStorageConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ORACLE_AI_DATA_PLATFORM_ENGINE":
+		mm := CreateOracleAiDataPlatformEngineConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GOOGLE_PUBSUB":
 		mm := CreateGooglePubSubConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -193,6 +197,10 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		return mm, err
 	case "OCI_OBJECT_STORAGE":
 		mm := CreateOciObjectStorageConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AI_PROVIDER":
+		mm := CreateAiProviderConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "REDIS":
@@ -209,6 +217,10 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		return mm, err
 	case "KAFKA":
 		mm := CreateKafkaConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "SPARK":
+		mm := CreateSparkConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE_NOSQL":
@@ -257,6 +269,10 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		return mm, err
 	case "AZURE_SYNAPSE_ANALYTICS":
 		mm := CreateAzureSynapseConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "DATABRICKS_ENGINE":
+		mm := CreateDatabricksEngineConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ICEBERG":

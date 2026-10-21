@@ -67,9 +67,10 @@ type CreateOkeClusterBackupConfigDetails struct {
 	//         FREQ=DAILY;BYHOUR=17;BYMINUTE=10;INTERVAL=1 -> Run a backup daily at 05:10 PM.
 	BackupSchedule *string `mandatory:"false" json:"backupSchedule"`
 
-	// Controls the behaviour of image replication across regions.
-	// Image replication is enabled by default for DR Protection Groups with a primary role.
-	// This property applies to the OKE cluster member in primary region.
+	// Controls the behavior of image replication across regions.
+	// Image replication is enabled by default for DR Protection Groups.
+	// This setting applies to the OKE cluster member in the primary region, and to the standby region
+	// only if the image replication secret is stored in a vault instead of using the default secret.
 	ReplicateImages OkeClusterImageReplicationEnum `mandatory:"false" json:"replicateImages,omitempty"`
 
 	// The maximum number of backups that should be retained.

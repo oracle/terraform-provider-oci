@@ -115,6 +115,9 @@ type Shape struct {
 	// is a shape that lets you customize the number of OCPUs and the amount of memory when launching or resizing your instance.
 	IsFlexible *bool `mandatory:"false" json:"isFlexible"`
 
+	// The resource management modes supported by this shape.
+	SupportedResourceManagement []ShapeSupportedResourceManagementEnum `mandatory:"false" json:"supportedResourceManagement,omitempty"`
+
 	// The list of compatible shapes that this shape can be changed to. For more information,
 	// see Changing the Shape of an Instance (https://docs.oracle.com/iaas/Content/Compute/Tasks/resizinginstances.htm).
 	ResizeCompatibleShapes []string `mandatory:"false" json:"resizeCompatibleShapes"`
@@ -145,6 +148,12 @@ func (m Shape) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingShapeBillingTypeEnum(string(m.BillingType)); !ok && m.BillingType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BillingType: %s. Supported values are: %s.", m.BillingType, strings.Join(GetShapeBillingTypeEnumStringValues(), ",")))
 	}
+	for _, val := range m.SupportedResourceManagement {
+		if _, ok := GetMappingShapeSupportedResourceManagementEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SupportedResourceManagement: %s. Supported values are: %s.", val, strings.Join(GetShapeSupportedResourceManagementEnumStringValues(), ",")))
+		}
+	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -240,5 +249,47 @@ func GetShapeBillingTypeEnumStringValues() []string {
 // GetMappingShapeBillingTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingShapeBillingTypeEnum(val string) (ShapeBillingTypeEnum, bool) {
 	enum, ok := mappingShapeBillingTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ShapeSupportedResourceManagementEnum Enum with underlying type: string
+type ShapeSupportedResourceManagementEnum string
+
+// Set of constants representing the allowable values for ShapeSupportedResourceManagementEnum
+const (
+	ShapeSupportedResourceManagementDynamic ShapeSupportedResourceManagementEnum = "DYNAMIC"
+	ShapeSupportedResourceManagementStatic  ShapeSupportedResourceManagementEnum = "STATIC"
+)
+
+var mappingShapeSupportedResourceManagementEnum = map[string]ShapeSupportedResourceManagementEnum{
+	"DYNAMIC": ShapeSupportedResourceManagementDynamic,
+	"STATIC":  ShapeSupportedResourceManagementStatic,
+}
+
+var mappingShapeSupportedResourceManagementEnumLowerCase = map[string]ShapeSupportedResourceManagementEnum{
+	"dynamic": ShapeSupportedResourceManagementDynamic,
+	"static":  ShapeSupportedResourceManagementStatic,
+}
+
+// GetShapeSupportedResourceManagementEnumValues Enumerates the set of values for ShapeSupportedResourceManagementEnum
+func GetShapeSupportedResourceManagementEnumValues() []ShapeSupportedResourceManagementEnum {
+	values := make([]ShapeSupportedResourceManagementEnum, 0)
+	for _, v := range mappingShapeSupportedResourceManagementEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetShapeSupportedResourceManagementEnumStringValues Enumerates the set of values in String for ShapeSupportedResourceManagementEnum
+func GetShapeSupportedResourceManagementEnumStringValues() []string {
+	return []string{
+		"DYNAMIC",
+		"STATIC",
+	}
+}
+
+// GetMappingShapeSupportedResourceManagementEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingShapeSupportedResourceManagementEnum(val string) (ShapeSupportedResourceManagementEnum, bool) {
+	enum, ok := mappingShapeSupportedResourceManagementEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

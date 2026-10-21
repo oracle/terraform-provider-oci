@@ -115,6 +115,10 @@ func (m *createdrprotectiongroupmemberdetails) UnmarshalPolymorphicJSON(data []b
 		mm := CreateDrProtectionGroupMemberOkeClusterDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "POSTGRESQL_DB_SYSTEM":
+		mm := CreateDrProtectionGroupMemberPostgresqlDbSystemDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for CreateDrProtectionGroupMemberDetails: %s.", m.MemberType)
 		return *m, nil

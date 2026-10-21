@@ -15,16 +15,16 @@ import (
 	"strings"
 )
 
-// RateCardTier Rate Card Tier details
+// RateCardTier Rate card tier details.
 type RateCardTier struct {
 
-	// Rate card tier quantity range
+	// Rate card tier quantity range.
 	UpToQuantity *string `mandatory:"false" json:"upToQuantity"`
 
-	// Rate card tier net unit price
+	// Rate card tier net unit price.
 	NetUnitPrice *string `mandatory:"false" json:"netUnitPrice"`
 
-	// Rate card tier overage price
+	// Rate card tier overage price.
 	OveragePrice *string `mandatory:"false" json:"overagePrice"`
 }
 

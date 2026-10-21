@@ -21,19 +21,19 @@ type ListComputedUsagesRequest struct {
 	// The OCID of the root compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// Subscription Id is an identifier associated to the service used for filter the Computed Usage in SPM.
+	// Subscription ID is an identifier associated with the service, used for filtering the computed usage in SPM.
 	SubscriptionId *string `mandatory:"true" contributesTo:"query" name:"subscriptionId"`
 
-	// Initial date to filter Computed Usage data in SPM. In the case of non aggregated data the time period between of fromDate and toDate , expressed in RFC 3339 timestamp format.
+	// Initial date to filter computed usage data in SPM. For non-aggregated data, the time period between fromDate and toDate, expressed in RFC 3339 timestamp format.
 	TimeFrom *common.SDKTime `mandatory:"true" contributesTo:"query" name:"timeFrom"`
 
-	// Final date to filter Computed Usage data in SPM, expressed in RFC 3339 timestamp format.
+	// Final date to filter computed usage data in SPM, expressed in RFC 3339 timestamp format.
 	TimeTo *common.SDKTime `mandatory:"true" contributesTo:"query" name:"timeTo"`
 
-	// Product part number for subscribed service line, called parent product.
+	// Product part number for the subscribed service line, called the parent product.
 	ParentProduct *string `mandatory:"false" contributesTo:"query" name:"parentProduct"`
 
-	// Product part number for Computed Usage .
+	// Product part number for the computed usage.
 	ComputedProduct *string `mandatory:"false" contributesTo:"query" name:"computedProduct"`
 
 	// The maximum number of items to return in a paginated "List" call. Default: (`50`)

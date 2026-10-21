@@ -18,19 +18,19 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/ListRateCards.go.html to see an example of how to use ListRateCardsRequest.
 type ListRateCardsRequest struct {
 
-	// Line level Subscription Id
+	// Line-level subscription ID.
 	SubscriptionId *string `mandatory:"true" contributesTo:"query" name:"subscriptionId"`
 
 	// The OCID of the root compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// This param is used to get the rate card(s) whose effective start date starts on or after a particular date
+	// Gets the rate cards whose effective start date starts on or after a particular date.
 	TimeFrom *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeFrom"`
 
-	// This param is used to get the rate card(s) whose effective end date ends on or before a particular date
+	// Gets the rate cards whose effective end date ends on or before a particular date.
 	TimeTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeTo"`
 
-	// This param is used to get the rate card(s) filterd by the partNumber
+	// Gets the rate cards filterd by the part number.
 	PartNumber *string `mandatory:"false" contributesTo:"query" name:"partNumber"`
 
 	// The maximum number of items to return in a paginated "List" call. Default: (`50`)

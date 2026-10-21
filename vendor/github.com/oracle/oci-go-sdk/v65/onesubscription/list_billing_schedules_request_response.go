@@ -21,10 +21,10 @@ type ListBillingSchedulesRequest struct {
 	// The OCID of the root compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// This param is used to get only the billing schedules for a particular Subscription Id
+	// This parameter gets the billing schedules for a particular subscription ID.
 	SubscriptionId *string `mandatory:"true" contributesTo:"query" name:"subscriptionId"`
 
-	// This param is used to get only the billing schedules for a particular Subscribed Service
+	// This parameter gets the billing schedules for a particular subscribed service.
 	SubscribedServiceId *string `mandatory:"false" contributesTo:"query" name:"subscribedServiceId"`
 
 	// The maximum number of items to return in a paginated "List" call. Default: (`50`)

@@ -85,6 +85,7 @@ type CreateDedicatedAiClusterDetails struct {
 	// - B300_X1, B300_X2, B300_X4, B300_X8, B300_X16, B300_X32
 	// - L40S_X1, L40S_X2, L40S_X4, L40S_X8, L40S_X16, L40S_X32
 	// - MI300X_X1, MI300X_X2, MI300X_X4, MI300X_X8, MI300X_X16, MI300X_X32
+	// - OAI_H100_X4
 	// - OAI_A10_X2
 	// - OAI_H100_X1
 	// - OAI_H100_X2
@@ -132,6 +133,9 @@ type CreateDedicatedAiClusterDetails struct {
 
 	// An optional description of the dedicated AI cluster.
 	Description *string `mandatory:"false" json:"description"`
+
+	// The OCID of the capacity reservation.
+	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).

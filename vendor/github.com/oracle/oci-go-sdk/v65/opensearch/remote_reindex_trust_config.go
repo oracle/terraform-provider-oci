@@ -18,7 +18,10 @@ import (
 // RemoteReindexTrustConfig Configuration that allows this OpenSearch cluster to trust a remote cluster for reindexing.
 type RemoteReindexTrustConfig struct {
 
-	// Remote cluster sources to trust for reindexing.
+	// Remote sources trusted for reindexing.
+	// When creating a cluster with this configuration, provide at least one source.
+	// When updating a cluster, this list replaces the existing sources.
+	// Specify an empty list to remove all remote-reindex trust configuration.
 	RemoteSources []RemoteReindexSourceDetails `mandatory:"true" json:"remoteSources"`
 }
 

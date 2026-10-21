@@ -91,8 +91,8 @@ func (client *BillingScheduleClient) ConfigurationProvider() *common.Configurati
 	return client.config
 }
 
-// ListBillingSchedules This list API returns all billing schedules for given subscription id and
-// for a particular Subscribed Service if provided
+// ListBillingSchedules This list API returns all billing schedules for a given subscription ID, and
+// for a particular subscribed service if provided.
 //
 // # See also
 //

@@ -15,14 +15,14 @@ import (
 	"strings"
 )
 
-// RemoteReindexSourceDetails Connection and certificate details for a remote cluster.
+// RemoteReindexSourceDetails Connection and CA bundle trust details for a remote cluster.
 type RemoteReindexSourceDetails struct {
 
 	// HTTPS endpoint of the remote Elasticsearch or OpenSearch cluster. The hostname and port are used to allow remote reindexing. Use a DNS hostname, rather than an IP address, when endpointResolutionIp is specified.
 	Endpoint *string `mandatory:"true" json:"endpoint"`
 
-	// OCID of the certificate or CA chain used to verify the remote cluster's HTTPS certificate.
-	CertificateId *string `mandatory:"true" json:"certificateId"`
+	// OCID of the OCI Certificates service CA bundle containing the trusted CA certificates used to verify the remote cluster's HTTPS certificate.
+	CaBundleId *string `mandatory:"true" json:"caBundleId"`
 
 	// Optional IP address to which the endpoint hostname is resolved from within the OpenSearch cluster. The original hostname remains in the connection URL and is used for TLS verification.
 	EndpointResolutionIp *string `mandatory:"false" json:"endpointResolutionIp"`

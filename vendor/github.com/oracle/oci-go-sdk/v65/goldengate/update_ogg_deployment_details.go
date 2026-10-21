@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// UpdateOggDeploymentDetails Deployment Details for updating an OggDeployment
+// UpdateOggDeploymentDetails Deployment Details for updating an OggDeployment.
 type UpdateOggDeploymentDetails struct {
 
 	// The type of credential store for OGG.
