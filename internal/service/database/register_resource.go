@@ -36,6 +36,7 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_database_cloud_vm_cluster_iorm_config", DatabaseCloudVmClusterIormConfigResource())
 	tfresource.RegisterResource("oci_database_data_guard_association", DatabaseDataGuardAssociationResource())
 	tfresource.RegisterResource("oci_database_database", DatabaseDatabaseResource())
+	tfresource.RegisterResource("oci_database_database_snapshot", DatabaseDatabaseSnapshotResource())
 	tfresource.RegisterResource("oci_database_database_snapshot_standby", DatabaseDatabaseSnapshotStandbyResource())
 	tfresource.RegisterResource("oci_database_database_software_image", DatabaseDatabaseSoftwareImageResource())
 	tfresource.RegisterResource("oci_database_database_software_schedule_management", DatabaseDatabaseSoftwareScheduleManagementResource())

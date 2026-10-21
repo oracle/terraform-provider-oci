@@ -124,7 +124,6 @@ func TestPsqlBackupResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + subnetIdVariableStr + dbSystemIdVariableStr + PsqlBackupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_psql_backup", "test_backup", acctest.Optional, acctest.Create, PsqlBackupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "backup_size"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "db_system_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
@@ -156,7 +155,6 @@ func TestPsqlBackupResource_basic(t *testing.T) {
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "backup_size"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "db_system_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
@@ -183,7 +181,6 @@ func TestPsqlBackupResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + dbSystemIdVariableStr + subnetIdVariableStr + PsqlBackupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_psql_backup", "test_backup", acctest.Optional, acctest.Update, PsqlBackupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "backup_size"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "db_system_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),

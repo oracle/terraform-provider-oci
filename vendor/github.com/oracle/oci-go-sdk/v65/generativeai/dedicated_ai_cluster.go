@@ -57,6 +57,9 @@ type DedicatedAiCluster struct {
 	// A message describing the current state with detail that can provide actionable information.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// The OCID of the capacity reservation.
+	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
+
 	Capacity DedicatedAiClusterCapacity `mandatory:"false" json:"capacity"`
 
 	PreviousState *DedicatedAiCluster `mandatory:"false" json:"previousState"`
@@ -104,22 +107,23 @@ func (m DedicatedAiCluster) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *DedicatedAiCluster) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName      *string                              `json:"displayName"`
-		Description      *string                              `json:"description"`
-		TimeUpdated      *common.SDKTime                      `json:"timeUpdated"`
-		LifecycleDetails *string                              `json:"lifecycleDetails"`
-		Capacity         dedicatedaiclustercapacity           `json:"capacity"`
-		PreviousState    *DedicatedAiCluster                  `json:"previousState"`
-		FreeformTags     map[string]string                    `json:"freeformTags"`
-		DefinedTags      map[string]map[string]interface{}    `json:"definedTags"`
-		SystemTags       map[string]map[string]interface{}    `json:"systemTags"`
-		Id               *string                              `json:"id"`
-		Type             DedicatedAiClusterTypeEnum           `json:"type"`
-		CompartmentId    *string                              `json:"compartmentId"`
-		TimeCreated      *common.SDKTime                      `json:"timeCreated"`
-		LifecycleState   DedicatedAiClusterLifecycleStateEnum `json:"lifecycleState"`
-		UnitCount        *int                                 `json:"unitCount"`
-		UnitShape        DedicatedAiClusterUnitShapeEnum      `json:"unitShape"`
+		DisplayName           *string                              `json:"displayName"`
+		Description           *string                              `json:"description"`
+		TimeUpdated           *common.SDKTime                      `json:"timeUpdated"`
+		LifecycleDetails      *string                              `json:"lifecycleDetails"`
+		CapacityReservationId *string                              `json:"capacityReservationId"`
+		Capacity              dedicatedaiclustercapacity           `json:"capacity"`
+		PreviousState         *DedicatedAiCluster                  `json:"previousState"`
+		FreeformTags          map[string]string                    `json:"freeformTags"`
+		DefinedTags           map[string]map[string]interface{}    `json:"definedTags"`
+		SystemTags            map[string]map[string]interface{}    `json:"systemTags"`
+		Id                    *string                              `json:"id"`
+		Type                  DedicatedAiClusterTypeEnum           `json:"type"`
+		CompartmentId         *string                              `json:"compartmentId"`
+		TimeCreated           *common.SDKTime                      `json:"timeCreated"`
+		LifecycleState        DedicatedAiClusterLifecycleStateEnum `json:"lifecycleState"`
+		UnitCount             *int                                 `json:"unitCount"`
+		UnitShape             DedicatedAiClusterUnitShapeEnum      `json:"unitShape"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -134,6 +138,8 @@ func (m *DedicatedAiCluster) UnmarshalJSON(data []byte) (e error) {
 	m.TimeUpdated = model.TimeUpdated
 
 	m.LifecycleDetails = model.LifecycleDetails
+
+	m.CapacityReservationId = model.CapacityReservationId
 
 	nn, e = model.Capacity.UnmarshalPolymorphicJSON(model.Capacity.JsonData)
 	if e != nil {
@@ -365,6 +371,7 @@ const (
 	DedicatedAiClusterUnitShapeH200X2          DedicatedAiClusterUnitShapeEnum = "H200_X2"
 	DedicatedAiClusterUnitShapeH200X4          DedicatedAiClusterUnitShapeEnum = "H200_X4"
 	DedicatedAiClusterUnitShapeH200X8          DedicatedAiClusterUnitShapeEnum = "H200_X8"
+	DedicatedAiClusterUnitShapeOaiH100X4       DedicatedAiClusterUnitShapeEnum = "OAI_H100_X4"
 	DedicatedAiClusterUnitShapeOaiA10X2        DedicatedAiClusterUnitShapeEnum = "OAI_A10_X2"
 	DedicatedAiClusterUnitShapeOaiH100X1       DedicatedAiClusterUnitShapeEnum = "OAI_H100_X1"
 	DedicatedAiClusterUnitShapeOaiH100X2       DedicatedAiClusterUnitShapeEnum = "OAI_H100_X2"
@@ -491,6 +498,7 @@ var mappingDedicatedAiClusterUnitShapeEnum = map[string]DedicatedAiClusterUnitSh
 	"H200_X2":            DedicatedAiClusterUnitShapeH200X2,
 	"H200_X4":            DedicatedAiClusterUnitShapeH200X4,
 	"H200_X8":            DedicatedAiClusterUnitShapeH200X8,
+	"OAI_H100_X4":        DedicatedAiClusterUnitShapeOaiH100X4,
 	"OAI_A10_X2":         DedicatedAiClusterUnitShapeOaiA10X2,
 	"OAI_H100_X1":        DedicatedAiClusterUnitShapeOaiH100X1,
 	"OAI_H100_X2":        DedicatedAiClusterUnitShapeOaiH100X2,
@@ -617,6 +625,7 @@ var mappingDedicatedAiClusterUnitShapeEnumLowerCase = map[string]DedicatedAiClus
 	"h200_x2":            DedicatedAiClusterUnitShapeH200X2,
 	"h200_x4":            DedicatedAiClusterUnitShapeH200X4,
 	"h200_x8":            DedicatedAiClusterUnitShapeH200X8,
+	"oai_h100_x4":        DedicatedAiClusterUnitShapeOaiH100X4,
 	"oai_a10_x2":         DedicatedAiClusterUnitShapeOaiA10X2,
 	"oai_h100_x1":        DedicatedAiClusterUnitShapeOaiH100X1,
 	"oai_h100_x2":        DedicatedAiClusterUnitShapeOaiH100X2,
@@ -754,6 +763,7 @@ func GetDedicatedAiClusterUnitShapeEnumStringValues() []string {
 		"H200_X2",
 		"H200_X4",
 		"H200_X8",
+		"OAI_H100_X4",
 		"OAI_A10_X2",
 		"OAI_H100_X1",
 		"OAI_H100_X2",

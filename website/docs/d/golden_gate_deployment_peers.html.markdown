@@ -54,7 +54,7 @@ The following attributes are exported:
 	* `peer_role` - The type of the deployment role. 
 	* `peer_type` - The type of the deployment peer. 
 	* `precheck_status` - Status of the DR precheck result.
-	* `region` - The name of the region. e.g.: us-ashburn-1 If the region is not provided, backend will default to the default region. 
+	* `region` - The name of the region. e.g.: us-ashburn-1 
 	* `state` - Possible lifecycle states for deployment peer.
 	* `subscription_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 	* `time_created` - The time the resource was created. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 

@@ -101,7 +101,7 @@ type CreateOracleAiDataPlatformConnectionDetails struct {
 	TenancyId *string `mandatory:"false" json:"tenancyId"`
 
 	// The name of the region. e.g.: us-ashburn-1
-	// If the region is not provided, backend will default to the default region.
+	// If the region is not provided, backend will default to the current region.
 	Region *string `mandatory:"false" json:"region"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OCI user who will access the Object Storage.

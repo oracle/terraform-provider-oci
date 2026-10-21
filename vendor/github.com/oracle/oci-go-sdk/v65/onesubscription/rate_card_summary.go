@@ -15,34 +15,34 @@ import (
 	"strings"
 )
 
-// RateCardSummary Rate Card Summary
+// RateCardSummary Rate card summary.
 type RateCardSummary struct {
 	Product *RateCardProduct `mandatory:"true" json:"product"`
 
-	// Rate card net unit price
+	// Rate card net unit price.
 	NetUnitPrice *string `mandatory:"true" json:"netUnitPrice"`
 
-	// Rate card overage price
+	// Rate card overage price.
 	OveragePrice *string `mandatory:"true" json:"overagePrice"`
 
-	// SPM internal Subscribed Service ID
+	// SPM (Subscription Plan Management) internal subscribed service ID.
 	SubscribedServiceId *string `mandatory:"false" json:"subscribedServiceId"`
 
-	// Rate card start date
+	// Rate card start date.
 	TimeStart *common.SDKTime `mandatory:"false" json:"timeStart"`
 
-	// Rate card end date
+	// Rate card end date.
 	TimeEnd *common.SDKTime `mandatory:"false" json:"timeEnd"`
 
-	// Rate card discretionary discount percentage
+	// Rate card discretionary discount percentage.
 	DiscretionaryDiscountPercentage *string `mandatory:"false" json:"discretionaryDiscountPercentage"`
 
-	// Rate card price tier flag
+	// Rate card price tier parameter.
 	IsTier *bool `mandatory:"false" json:"isTier"`
 
 	Currency *SubscriptionCurrency `mandatory:"false" json:"currency"`
 
-	// List of tiered rate card prices
+	// List of tiered rate card prices.
 	RateCardTiers []RateCardTier `mandatory:"false" json:"rateCardTiers"`
 }
 

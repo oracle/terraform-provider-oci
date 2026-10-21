@@ -41,6 +41,7 @@ const (
 	TechnologyTypeOracleExadataDatabaseAtAws              TechnologyTypeEnum = "ORACLE_EXADATA_DATABASE_AT_AWS"
 	TechnologyTypeOracleAutonomousDatabaseAtAws           TechnologyTypeEnum = "ORACLE_AUTONOMOUS_DATABASE_AT_AWS"
 	TechnologyTypeOracleAiDataPlatform                    TechnologyTypeEnum = "ORACLE_AI_DATA_PLATFORM"
+	TechnologyTypeOracleAiDataPlatformEngine              TechnologyTypeEnum = "ORACLE_AI_DATA_PLATFORM_ENGINE"
 	TechnologyTypeOracleNosql                             TechnologyTypeEnum = "ORACLE_NOSQL"
 	TechnologyTypeOracleRestDataServices                  TechnologyTypeEnum = "ORACLE_REST_DATA_SERVICES"
 	TechnologyTypeOracleWeblogicJms                       TechnologyTypeEnum = "ORACLE_WEBLOGIC_JMS"
@@ -69,6 +70,7 @@ const (
 	TechnologyTypeConfluentKafka                          TechnologyTypeEnum = "CONFLUENT_KAFKA"
 	TechnologyTypeConfluentSchemaRegistry                 TechnologyTypeEnum = "CONFLUENT_SCHEMA_REGISTRY"
 	TechnologyTypeDatabricks                              TechnologyTypeEnum = "DATABRICKS"
+	TechnologyTypeDatabricksEngine                        TechnologyTypeEnum = "DATABRICKS_ENGINE"
 	TechnologyTypeDb2I                                    TechnologyTypeEnum = "DB2_I"
 	TechnologyTypeDb2Zos                                  TechnologyTypeEnum = "DB2_ZOS"
 	TechnologyTypeElasticsearch                           TechnologyTypeEnum = "ELASTICSEARCH"
@@ -91,12 +93,17 @@ const (
 	TechnologyTypeMysqlServer                             TechnologyTypeEnum = "MYSQL_SERVER"
 	TechnologyTypeMysqlHeatwaveOnAzure                    TechnologyTypeEnum = "MYSQL_HEATWAVE_ON_AZURE"
 	TechnologyTypeMysqlHeatwaveOnAws                      TechnologyTypeEnum = "MYSQL_HEATWAVE_ON_AWS"
+	TechnologyTypeApacheSpark                             TechnologyTypeEnum = "APACHE_SPARK"
 	TechnologyTypePostgresqlServer                        TechnologyTypeEnum = "POSTGRESQL_SERVER"
 	TechnologyTypeRedis                                   TechnologyTypeEnum = "REDIS"
 	TechnologyTypeSinglestoredb                           TechnologyTypeEnum = "SINGLESTOREDB"
 	TechnologyTypeSinglestoredbCloud                      TechnologyTypeEnum = "SINGLESTOREDB_CLOUD"
 	TechnologyTypeSnowflake                               TechnologyTypeEnum = "SNOWFLAKE"
 	TechnologyTypeYugabyteDb                              TechnologyTypeEnum = "YUGABYTE_DB"
+	TechnologyTypeOciGenerativeAi                         TechnologyTypeEnum = "OCI_GENERATIVE_AI"
+	TechnologyTypeGemini                                  TechnologyTypeEnum = "GEMINI"
+	TechnologyTypeOpenAi                                  TechnologyTypeEnum = "OPEN_AI"
+	TechnologyTypeVoyageAi                                TechnologyTypeEnum = "VOYAGE_AI"
 	TechnologyTypeAiModel                                 TechnologyTypeEnum = "AI_MODEL"
 )
 
@@ -124,6 +131,7 @@ var mappingTechnologyTypeEnum = map[string]TechnologyTypeEnum{
 	"ORACLE_EXADATA_DATABASE_AT_AWS":                TechnologyTypeOracleExadataDatabaseAtAws,
 	"ORACLE_AUTONOMOUS_DATABASE_AT_AWS":             TechnologyTypeOracleAutonomousDatabaseAtAws,
 	"ORACLE_AI_DATA_PLATFORM":                       TechnologyTypeOracleAiDataPlatform,
+	"ORACLE_AI_DATA_PLATFORM_ENGINE":                TechnologyTypeOracleAiDataPlatformEngine,
 	"ORACLE_NOSQL":                                  TechnologyTypeOracleNosql,
 	"ORACLE_REST_DATA_SERVICES":                     TechnologyTypeOracleRestDataServices,
 	"ORACLE_WEBLOGIC_JMS":                           TechnologyTypeOracleWeblogicJms,
@@ -152,6 +160,7 @@ var mappingTechnologyTypeEnum = map[string]TechnologyTypeEnum{
 	"CONFLUENT_KAFKA":                               TechnologyTypeConfluentKafka,
 	"CONFLUENT_SCHEMA_REGISTRY":                     TechnologyTypeConfluentSchemaRegistry,
 	"DATABRICKS":                                    TechnologyTypeDatabricks,
+	"DATABRICKS_ENGINE":                             TechnologyTypeDatabricksEngine,
 	"DB2_I":                                         TechnologyTypeDb2I,
 	"DB2_ZOS":                                       TechnologyTypeDb2Zos,
 	"ELASTICSEARCH":                                 TechnologyTypeElasticsearch,
@@ -174,12 +183,17 @@ var mappingTechnologyTypeEnum = map[string]TechnologyTypeEnum{
 	"MYSQL_SERVER":                                  TechnologyTypeMysqlServer,
 	"MYSQL_HEATWAVE_ON_AZURE":                       TechnologyTypeMysqlHeatwaveOnAzure,
 	"MYSQL_HEATWAVE_ON_AWS":                         TechnologyTypeMysqlHeatwaveOnAws,
+	"APACHE_SPARK":                                  TechnologyTypeApacheSpark,
 	"POSTGRESQL_SERVER":                             TechnologyTypePostgresqlServer,
 	"REDIS":                                         TechnologyTypeRedis,
 	"SINGLESTOREDB":                                 TechnologyTypeSinglestoredb,
 	"SINGLESTOREDB_CLOUD":                           TechnologyTypeSinglestoredbCloud,
 	"SNOWFLAKE":                                     TechnologyTypeSnowflake,
 	"YUGABYTE_DB":                                   TechnologyTypeYugabyteDb,
+	"OCI_GENERATIVE_AI":                             TechnologyTypeOciGenerativeAi,
+	"GEMINI":                                        TechnologyTypeGemini,
+	"OPEN_AI":                                       TechnologyTypeOpenAi,
+	"VOYAGE_AI":                                     TechnologyTypeVoyageAi,
 	"AI_MODEL":                                      TechnologyTypeAiModel,
 }
 
@@ -207,6 +221,7 @@ var mappingTechnologyTypeEnumLowerCase = map[string]TechnologyTypeEnum{
 	"oracle_exadata_database_at_aws":                TechnologyTypeOracleExadataDatabaseAtAws,
 	"oracle_autonomous_database_at_aws":             TechnologyTypeOracleAutonomousDatabaseAtAws,
 	"oracle_ai_data_platform":                       TechnologyTypeOracleAiDataPlatform,
+	"oracle_ai_data_platform_engine":                TechnologyTypeOracleAiDataPlatformEngine,
 	"oracle_nosql":                                  TechnologyTypeOracleNosql,
 	"oracle_rest_data_services":                     TechnologyTypeOracleRestDataServices,
 	"oracle_weblogic_jms":                           TechnologyTypeOracleWeblogicJms,
@@ -235,6 +250,7 @@ var mappingTechnologyTypeEnumLowerCase = map[string]TechnologyTypeEnum{
 	"confluent_kafka":                               TechnologyTypeConfluentKafka,
 	"confluent_schema_registry":                     TechnologyTypeConfluentSchemaRegistry,
 	"databricks":                                    TechnologyTypeDatabricks,
+	"databricks_engine":                             TechnologyTypeDatabricksEngine,
 	"db2_i":                                         TechnologyTypeDb2I,
 	"db2_zos":                                       TechnologyTypeDb2Zos,
 	"elasticsearch":                                 TechnologyTypeElasticsearch,
@@ -257,12 +273,17 @@ var mappingTechnologyTypeEnumLowerCase = map[string]TechnologyTypeEnum{
 	"mysql_server":                                  TechnologyTypeMysqlServer,
 	"mysql_heatwave_on_azure":                       TechnologyTypeMysqlHeatwaveOnAzure,
 	"mysql_heatwave_on_aws":                         TechnologyTypeMysqlHeatwaveOnAws,
+	"apache_spark":                                  TechnologyTypeApacheSpark,
 	"postgresql_server":                             TechnologyTypePostgresqlServer,
 	"redis":                                         TechnologyTypeRedis,
 	"singlestoredb":                                 TechnologyTypeSinglestoredb,
 	"singlestoredb_cloud":                           TechnologyTypeSinglestoredbCloud,
 	"snowflake":                                     TechnologyTypeSnowflake,
 	"yugabyte_db":                                   TechnologyTypeYugabyteDb,
+	"oci_generative_ai":                             TechnologyTypeOciGenerativeAi,
+	"gemini":                                        TechnologyTypeGemini,
+	"open_ai":                                       TechnologyTypeOpenAi,
+	"voyage_ai":                                     TechnologyTypeVoyageAi,
 	"ai_model":                                      TechnologyTypeAiModel,
 }
 
@@ -301,6 +322,7 @@ func GetTechnologyTypeEnumStringValues() []string {
 		"ORACLE_EXADATA_DATABASE_AT_AWS",
 		"ORACLE_AUTONOMOUS_DATABASE_AT_AWS",
 		"ORACLE_AI_DATA_PLATFORM",
+		"ORACLE_AI_DATA_PLATFORM_ENGINE",
 		"ORACLE_NOSQL",
 		"ORACLE_REST_DATA_SERVICES",
 		"ORACLE_WEBLOGIC_JMS",
@@ -329,6 +351,7 @@ func GetTechnologyTypeEnumStringValues() []string {
 		"CONFLUENT_KAFKA",
 		"CONFLUENT_SCHEMA_REGISTRY",
 		"DATABRICKS",
+		"DATABRICKS_ENGINE",
 		"DB2_I",
 		"DB2_ZOS",
 		"ELASTICSEARCH",
@@ -351,12 +374,17 @@ func GetTechnologyTypeEnumStringValues() []string {
 		"MYSQL_SERVER",
 		"MYSQL_HEATWAVE_ON_AZURE",
 		"MYSQL_HEATWAVE_ON_AWS",
+		"APACHE_SPARK",
 		"POSTGRESQL_SERVER",
 		"REDIS",
 		"SINGLESTOREDB",
 		"SINGLESTOREDB_CLOUD",
 		"SNOWFLAKE",
 		"YUGABYTE_DB",
+		"OCI_GENERATIVE_AI",
+		"GEMINI",
+		"OPEN_AI",
+		"VOYAGE_AI",
 		"AI_MODEL",
 	}
 }

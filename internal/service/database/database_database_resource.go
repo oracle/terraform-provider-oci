@@ -377,7 +377,21 @@ func DatabaseDatabaseResource() *schema.Resource {
 						"is_active_data_guard_enabled": {
 							Type:             schema.TypeBool,
 							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
 							DiffSuppressFunc: adgDiffSuppress,
+						},
+						"is_thin_clone": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"key_store_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
 						},
 						"kms_key_id": {
 							Type:     schema.TypeString,
@@ -543,6 +557,13 @@ func DatabaseDatabaseResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"source_admin_password": {
+							Type:      schema.TypeString,
+							Optional:  true,
+							Computed:  true,
+							ForceNew:  true,
+							Sensitive: true,
+						},
 						"source_encryption_key_location_details": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -602,7 +623,22 @@ func DatabaseDatabaseResource() *schema.Resource {
 						"source_database_id": {
 							Type:             schema.TypeString,
 							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
 							DiffSuppressFunc: sourceDbIdDiffSuppress,
+						},
+						"source_snapshot_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"source_tde_password": {
+							Type:      schema.TypeString,
+							Optional:  true,
+							Computed:  true,
+							ForceNew:  true,
+							Sensitive: true,
 						},
 						"source_tde_wallet_password": {
 							Type:             schema.TypeString,
@@ -684,6 +720,8 @@ func DatabaseDatabaseResource() *schema.Resource {
 					"DATABASE",
 					"DATAGUARD",
 					"DB_BACKUP",
+					"DB_CLONE",
+					"DB_SNAPSHOT",
 					"NONE",
 				}, true),
 			},
@@ -1962,6 +2000,128 @@ func BackupDestinationDetailsToMap(obj oci_database.BackupDestinationDetails) ma
 	return result
 }
 
+func (s *DatabaseDatabaseResourceCrud) mapToCloneDatabaseDetails(fieldKeyFormat string) (oci_database.CloneDatabaseDetails, error) {
+	result := oci_database.CloneDatabaseDetails{}
+
+	if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admin_password")); ok {
+		tmp := adminPassword.(string)
+		result.AdminPassword = &tmp
+	}
+
+	if characterSet, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "character_set")); ok {
+		tmp := characterSet.(string)
+		result.CharacterSet = &tmp
+	}
+
+	if dbBackupConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_backup_config")); ok {
+		if tmpList := dbBackupConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "db_backup_config"), 0)
+			tmp, err := s.mapToDbBackupConfig(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert db_backup_config, encountered error: %v", err)
+			}
+			result.DbBackupConfig = &tmp
+		}
+	}
+
+	if dbName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_name")); ok {
+		tmp := dbName.(string)
+		result.DbName = &tmp
+	}
+
+	if dbUniqueName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_unique_name")); ok {
+		tmp := dbUniqueName.(string)
+		result.DbUniqueName = &tmp
+	}
+
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
+		tmp, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
+		}
+		result.DefinedTags = tmp
+	}
+
+	if encryptionKeyLocationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details")); ok {
+		if tmpList := encryptionKeyLocationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details"), 0)
+			tmp, err := s.mapToEncryptionKeyLocationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert encryption_key_location_details, encountered error: %v", err)
+			}
+			result.EncryptionKeyLocationDetails = tmp
+		}
+	}
+
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
+		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if isThinClone, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_thin_clone")); ok {
+		tmp := isThinClone.(bool)
+		result.IsThinClone = &tmp
+	}
+
+	if keyStoreId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_store_id")); ok {
+		tmp := keyStoreId.(string)
+		result.KeyStoreId = &tmp
+	}
+
+	if ncharacterSet, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ncharacter_set")); ok {
+		tmp := ncharacterSet.(string)
+		result.NcharacterSet = &tmp
+	}
+
+	if sidPrefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "sid_prefix")); ok {
+		tmp := sidPrefix.(string)
+		result.SidPrefix = &tmp
+	}
+
+	if sourceAdminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_admin_password")); ok {
+		tmp := sourceAdminPassword.(string)
+		result.SourceAdminPassword = &tmp
+	}
+
+	if sourceDatabaseId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_database_id")); ok {
+		tmp := sourceDatabaseId.(string)
+		result.SourceDatabaseId = &tmp
+	}
+
+	if sourceEncryptionKeyLocationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_encryption_key_location_details")); ok {
+		if tmpList := sourceEncryptionKeyLocationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source_encryption_key_location_details"), 0)
+			tmp, err := s.mapToEncryptionKeyLocationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert source_encryption_key_location_details, encountered error: %v", err)
+			}
+			result.SourceEncryptionKeyLocationDetails = tmp
+		}
+	}
+
+	if sourceTdePassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_tde_password")); ok {
+		tmp := sourceTdePassword.(string)
+		result.SourceTdePassword = &tmp
+	}
+
+	if storageSizeDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "storage_size_details")); ok {
+		if tmpList := storageSizeDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "storage_size_details"), 0)
+			tmp, err := s.mapToDatabaseStorageSizeDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert storage_size_details, encountered error: %v", err)
+			}
+			result.StorageSizeDetails = &tmp
+		}
+	}
+
+	if tdeWalletPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tde_wallet_password")); ok {
+		tmp := tdeWalletPassword.(string)
+		result.TdeWalletPassword = &tmp
+	}
+
+	return result, nil
+}
+
 func CloudDatabaseManagementConfigToMap(obj *oci_database.CloudDatabaseManagementConfig) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -2408,6 +2568,128 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseFromBackupDetails(fiel
 	return result, nil
 }
 
+func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseFromSnapshotDetails(fieldKeyFormat string) (oci_database.CreateDatabaseFromSnapshotDetails, error) {
+	result := oci_database.CreateDatabaseFromSnapshotDetails{}
+
+	if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admin_password")); ok {
+		tmp := adminPassword.(string)
+		result.AdminPassword = &tmp
+	}
+
+	if characterSet, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "character_set")); ok {
+		tmp := characterSet.(string)
+		result.CharacterSet = &tmp
+	}
+
+	if dbBackupConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_backup_config")); ok {
+		if tmpList := dbBackupConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "db_backup_config"), 0)
+			tmp, err := s.mapToDbBackupConfig(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert db_backup_config, encountered error: %v", err)
+			}
+			result.DbBackupConfig = &tmp
+		}
+	}
+
+	if dbName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_name")); ok {
+		tmp := dbName.(string)
+		result.DbName = &tmp
+	}
+
+	if dbUniqueName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_unique_name")); ok {
+		tmp := dbUniqueName.(string)
+		result.DbUniqueName = &tmp
+	}
+
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
+		tmp, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
+		}
+		result.DefinedTags = tmp
+	}
+
+	if encryptionKeyLocationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details")); ok {
+		if tmpList := encryptionKeyLocationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details"), 0)
+			tmp, err := s.mapToEncryptionKeyLocationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert encryption_key_location_details, encountered error: %v", err)
+			}
+			result.EncryptionKeyLocationDetails = tmp
+		}
+	}
+
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
+		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if isThinClone, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_thin_clone")); ok {
+		tmp := isThinClone.(bool)
+		result.IsThinClone = &tmp
+	}
+
+	if keyStoreId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_store_id")); ok {
+		tmp := keyStoreId.(string)
+		result.KeyStoreId = &tmp
+	}
+
+	if ncharacterSet, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ncharacter_set")); ok {
+		tmp := ncharacterSet.(string)
+		result.NcharacterSet = &tmp
+	}
+
+	if sidPrefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "sid_prefix")); ok {
+		tmp := sidPrefix.(string)
+		result.SidPrefix = &tmp
+	}
+
+	if sourceAdminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_admin_password")); ok {
+		tmp := sourceAdminPassword.(string)
+		result.SourceAdminPassword = &tmp
+	}
+
+	if sourceEncryptionKeyLocationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_encryption_key_location_details")); ok {
+		if tmpList := sourceEncryptionKeyLocationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source_encryption_key_location_details"), 0)
+			tmp, err := s.mapToEncryptionKeyLocationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert source_encryption_key_location_details, encountered error: %v", err)
+			}
+			result.SourceEncryptionKeyLocationDetails = tmp
+		}
+	}
+
+	if sourceSnapshotId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_snapshot_id")); ok {
+		tmp := sourceSnapshotId.(string)
+		result.SourceSnapshotId = &tmp
+	}
+
+	if sourceTdePassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_tde_password")); ok {
+		tmp := sourceTdePassword.(string)
+		result.SourceTdePassword = &tmp
+	}
+
+	if storageSizeDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "storage_size_details")); ok {
+		if tmpList := storageSizeDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "storage_size_details"), 0)
+			tmp, err := s.mapToDatabaseStorageSizeDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert storage_size_details, encountered error: %v", err)
+			}
+			result.StorageSizeDetails = &tmp
+		}
+	}
+
+	if tdeWalletPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tde_wallet_password")); ok {
+		tmp := tdeWalletPassword.(string)
+		result.TdeWalletPassword = &tmp
+	}
+
+	return result, nil
+}
+
 func (s *DatabaseDatabaseResourceCrud) mapToCreateStandbyDetails(fieldKeyFormat string) (oci_database.CreateStandbyDetails, error) {
 	result := oci_database.CreateStandbyDetails{}
 
@@ -2834,6 +3116,64 @@ func (s *DatabaseDatabaseResourceCrud) populateTopLevelPolymorphicCreateDatabase
 			details.KmsKeyVersionId = &tmp
 		}
 		request.CreateNewDatabaseDetails = details
+	case strings.ToLower("DB_CLONE"):
+		details := oci_database.CreateCloneDatabaseFromDatabase{}
+		if database, ok := s.D.GetOkExists("database"); ok {
+			if tmpList := database.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
+				tmp, err := s.mapToCloneDatabaseDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.Database = &tmp
+			}
+		}
+		if dbHomeId, ok := s.D.GetOkExists("db_home_id"); ok {
+			tmp := dbHomeId.(string)
+			details.DbHomeId = &tmp
+		}
+		if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
+			tmp := dbVersion.(string)
+			details.DbVersion = &tmp
+		}
+		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+			tmp := kmsKeyId.(string)
+			details.KmsKeyId = &tmp
+		}
+		if kmsKeyVersionId, ok := s.D.GetOkExists("kms_key_version_id"); ok {
+			tmp := kmsKeyVersionId.(string)
+			details.KmsKeyVersionId = &tmp
+		}
+		request.CreateNewDatabaseDetails = details
+	case strings.ToLower("DB_SNAPSHOT"):
+		details := oci_database.CreateDatabaseFromSnapshot{}
+		if database, ok := s.D.GetOkExists("database"); ok {
+			if tmpList := database.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
+				tmp, err := s.mapToCreateDatabaseFromSnapshotDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.Database = &tmp
+			}
+		}
+		if dbHomeId, ok := s.D.GetOkExists("db_home_id"); ok {
+			tmp := dbHomeId.(string)
+			details.DbHomeId = &tmp
+		}
+		if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
+			tmp := dbVersion.(string)
+			details.DbVersion = &tmp
+		}
+		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+			tmp := kmsKeyId.(string)
+			details.KmsKeyId = &tmp
+		}
+		if kmsKeyVersionId, ok := s.D.GetOkExists("kms_key_version_id"); ok {
+			tmp := kmsKeyVersionId.(string)
+			details.KmsKeyVersionId = &tmp
+		}
+		request.CreateNewDatabaseDetails = details
 	case strings.ToLower("DATABASE"):
 		details := oci_database.CreateDatabaseFromDatabase{}
 		if database, ok := s.D.GetOkExists("database"); ok {
@@ -3206,6 +3546,26 @@ func (s *DatabaseDatabaseResourceCrud) DatabaseToMap(obj *oci_database.Database)
 
 	if backupTDEPassword, ok := s.D.GetOkExists("database.0.backup_tde_password"); ok && backupTDEPassword != nil {
 		result["backup_tde_password"] = backupTDEPassword.(string)
+	}
+
+	if isThinClone, ok := s.D.GetOkExists("database.0.is_thin_clone"); ok && isThinClone != nil {
+		result["is_thin_clone"] = isThinClone.(bool)
+	}
+
+	if sourceDatabaseId, ok := s.D.GetOkExists("database.0.source_database_id"); ok && sourceDatabaseId != nil {
+		result["source_database_id"] = sourceDatabaseId.(string)
+	}
+
+	if sourceSnapshotId, ok := s.D.GetOkExists("database.0.source_snapshot_id"); ok && sourceSnapshotId != nil {
+		result["source_snapshot_id"] = sourceSnapshotId.(string)
+	}
+
+	if sourceAdminPassword, ok := s.D.GetOkExists("database.0.source_admin_password"); ok && sourceAdminPassword != nil {
+		result["source_admin_password"] = sourceAdminPassword.(string)
+	}
+
+	if sourceTdePassword, ok := s.D.GetOkExists("database.0.source_tde_password"); ok && sourceTdePassword != nil {
+		result["source_tde_password"] = sourceTdePassword.(string)
 	}
 
 	if obj.CharacterSet != nil {

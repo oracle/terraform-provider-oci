@@ -21,23 +21,23 @@ type ListAggregatedComputedUsagesRequest struct {
 	// The OCID of the root compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// Subscription Id is an identifier associated to the service used for filter the Computed Usage in SPM.
+	// Subscription ID is an identifier associated with the service, used for filtering the computed usage in SPM.
 	SubscriptionId *string `mandatory:"true" contributesTo:"query" name:"subscriptionId"`
 
-	// Initial date to filter Computed Usage data in SPM. In the case of non aggregated data the time period between of fromDate and toDate , expressed in RFC 3339 timestamp format.
+	// Initial date to filter computed usage data in SPM. For non-aggregated data, the time period between fromDate and toDate, expressed in RFC 3339 timestamp format.
 	TimeFrom *common.SDKTime `mandatory:"true" contributesTo:"query" name:"timeFrom"`
 
-	// Final date to filter Computed Usage data in SPM, expressed in RFC 3339 timestamp format.
+	// Final date to filter computed usage data in SPM, expressed in RFC 3339 timestamp format.
 	TimeTo *common.SDKTime `mandatory:"true" contributesTo:"query" name:"timeTo"`
 
-	// Product part number for subscribed service line, called parent product.
+	// Product part number for the subscribed service line, referred to as the parent product.
 	ParentProduct *string `mandatory:"false" contributesTo:"query" name:"parentProduct"`
 
-	// Grouping criteria to use for aggregate the computed Usage, either hourly (`HOURLY`), daily (`DAILY`), monthly(`MONTHLY`) or none (`NONE`) to not follow a grouping criteria by date.
+	// Grouping criteria to use for aggregating the computed usage, whether hourly (`HOURLY`), daily (`DAILY`), monthly (`MONTHLY`), or none (`NONE`), so as not to follow a grouping criteria by date.
 	Grouping ListAggregatedComputedUsagesGroupingEnum `mandatory:"false" contributesTo:"query" name:"grouping" omitEmpty:"true"`
 
-	// The maximum number aggregatedComputedUsages of items to return within the Subscription "List" call, this
-	// counts the overall count across all items
+	// The maximum number of aggregatedComputedUsages items to return within the Subscription "List" call, this
+	// counts the overall count across all items.
 	// Example: `500`
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 

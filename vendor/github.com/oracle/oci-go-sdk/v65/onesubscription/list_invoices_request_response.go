@@ -21,13 +21,13 @@ type ListInvoicesRequest struct {
 	// The OCID of the root compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// AR Unique identifier for an invoice .
+	// Accounts receivable unique identifier for an invoice.
 	ArCustomerTransactionId *string `mandatory:"true" contributesTo:"query" name:"arCustomerTransactionId"`
 
-	// Initial date to filter Invoice data in SPM.
+	// Initial date to filter invoice data in SPM (Subscription Plan Management).
 	TimeFrom *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeFrom"`
 
-	// Final date to filter Invoice data in SPM.
+	// Final date to filter invoice data in SPM (Subscription Plan Management).
 	TimeTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeTo"`
 
 	// The sort order to use, either ascending ('ASC') or descending ('DESC').
@@ -44,8 +44,8 @@ type ListInvoicesRequest struct {
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// Partial response refers to an optimization technique offered
-	// by the RESTful web APIs to return only the information
-	// (fields) required by the client. This parameter is used to control what fields to
+	// by the RESTful web APIs, to return only the information
+	// (fields) required by the client. This parameter controls which fields to
 	// return.
 	Fields []string `contributesTo:"query" name:"fields" collectionFormat:"multi"`
 

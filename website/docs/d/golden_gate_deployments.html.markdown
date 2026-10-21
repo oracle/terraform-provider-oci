@@ -132,11 +132,11 @@ The following attributes are exported:
 * `next_maintenance_action_type` - Type of the next maintenance. 
 * `next_maintenance_description` - Description of the next maintenance. 
 * `nsg_ids` - An array of Network Security Group OCIDs used to define network access for either Deployments or Connections. 
-* `ogg_data` - Deployment Data for an OggDeployment 
+* `ogg_data` - Deployment Data for an OggDeployment. 
 	* `admin_username` - The GoldenGate deployment console username. 
 	* `certificate` - The base64 encoded content of the PEM file containing the SSL certificate. 
 	* `credential_store` - The type of credential store for OGG. 
-	* `deployment_name` - The name given to the GoldenGate service deployment. The name must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter. 
+	* `deployment_name` - The name given to the GoldenGate service deployment. The name must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter. For non-data-replication deployment types that do not use a GoldenGate deployment name, this property is `NONE`. Deprecated: This field is deprecated and will be removed after the date provided in the announcement: https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate 
 	* `group_to_roles_mapping` - Defines the IDP Groups to GoldenGate roles mapping. This field is used only for IAM deployment and does not have any impact on non-IAM deployments. For IAM deployment, when user does not specify this mapping, then it has null value and default mapping is used. User belonging to each group can only perform the actions according to the role the respective group is mapped to. 
 		* `administrator_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IDP group which will be mapped to goldengate role administratorGroup. It grants full access to the user, including the ability to alter general, non-security related operational parameters and profiles of the server. 
 		* `operator_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IDP group which will be mapped to goldengate role operatorGroup. It allows users to perform only operational actions, like starting and stopping resources. Operators cannot alter the operational parameters or profiles of the MA server. 

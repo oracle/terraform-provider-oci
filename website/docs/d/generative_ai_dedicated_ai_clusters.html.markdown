@@ -20,6 +20,7 @@ data "oci_generative_ai_dedicated_ai_clusters" "test_dedicated_ai_clusters" {
 	compartment_id = var.compartment_id
 
 	#Optional
+	capacity_reservation_id = oci_generative_ai_capacity_reservation.test_capacity_reservation.id
 	display_name = var.dedicated_ai_cluster_display_name
 	id = var.dedicated_ai_cluster_id
 	state = var.dedicated_ai_cluster_state
@@ -30,6 +31,7 @@ data "oci_generative_ai_dedicated_ai_clusters" "test_dedicated_ai_clusters" {
 
 The following arguments are supported:
 
+* `capacity_reservation_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the capacity reservation.
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly.
 * `id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated AI cluster.
@@ -46,6 +48,11 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `capacity` - The total capacity for a dedicated AI cluster.
+	* `capacity_type` - The type of the dedicated AI cluster capacity.
+	* `total_endpoint_capacity` - The total number of endpoints that can be hosted on this dedicated AI cluster.
+	* `used_endpoint_capacity` - The number of endpoints hosted on this dedicated AI cluster.
+* `capacity_reservation_id` - The OCID of the capacity reservation.
 * `compartment_id` - The compartment OCID to create the dedicated AI cluster in.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}`
 * `description` - An optional description of the dedicated AI cluster.
@@ -60,4 +67,3 @@ The following attributes are exported:
 * `type` - The dedicated AI cluster type indicating whether this is a fine-tuning/training processor or hosting/inference processor.
 * `unit_count` - The number of dedicated units in this AI cluster.
 * `unit_shape` - The shape of dedicated unit in this AI cluster. The underlying hardware configuration is hidden from customers.
-

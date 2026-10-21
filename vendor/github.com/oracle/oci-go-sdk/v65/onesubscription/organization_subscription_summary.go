@@ -15,30 +15,30 @@ import (
 	"strings"
 )
 
-// OrganizationSubscriptionSummary Subscription summary
+// OrganizationSubscriptionSummary Subscription summary.
 type OrganizationSubscriptionSummary struct {
 
-	// SPM internal Subscription ID
+	// SPM (Subscription Plan Management) internal subscription ID.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Customer friendly service name provided by PRG
+	// Customer-friendly service name provided by the PRG (Product Release Group).
 	ServiceName *string `mandatory:"false" json:"serviceName"`
 
-	// Subscription Type i.e. IAAS,SAAS,PAAS
+	// Subscription type, whether IaaS, SaaS, PaaS.
 	Type *string `mandatory:"false" json:"type"`
 
-	// Status of the plan
+	// Plan status.
 	Status *string `mandatory:"false" json:"status"`
 
-	// Represents the date when the first service of the subscription was activated
+	// The date when the first service of the subscription was activated.
 	TimeStart *common.SDKTime `mandatory:"false" json:"timeStart"`
 
-	// Represents the date when the last service of the subscription ends
+	// The date when the last service of the subscription ends.
 	TimeEnd *common.SDKTime `mandatory:"false" json:"timeEnd"`
 
 	Currency *OrgnizationSubsCurrency `mandatory:"false" json:"currency"`
 
-	// Total aggregate TCLV of all lines for the subscription including expired, active, and signed
+	// Total aggregate TCLV of all lines for the subscription, including expired, active, and signed.
 	TotalValue *string `mandatory:"false" json:"totalValue"`
 }
 

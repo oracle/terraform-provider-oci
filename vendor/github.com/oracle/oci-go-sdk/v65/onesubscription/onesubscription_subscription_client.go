@@ -91,10 +91,67 @@ func (client *SubscriptionClient) ConfigurationProvider() *common.ConfigurationP
 	return client.config
 }
 
-// ListSubscriptions This list API returns all subscriptions for a given plan number or subscription id or buyer email
-// and provides additional parameters to include ratecard and commitment details.
-// This API expects exactly one of the above mentioned parameters as input. If more than one parameters are provided the API will throw
-// a 400 - invalid parameters exception and if no parameters are provided it will throw a 400 - missing parameter exception
+// GetSubscriptionDetails Returns the commitment summary for a subscription.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/GetSubscriptionDetails.go.html to see an example of how to use GetSubscriptionDetails API.
+func (client SubscriptionClient) GetSubscriptionDetails(ctx context.Context, request GetSubscriptionDetailsRequest) (response GetSubscriptionDetailsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSubscriptionDetails, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSubscriptionDetailsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSubscriptionDetailsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSubscriptionDetailsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSubscriptionDetailsResponse")
+	}
+	return
+}
+
+// getSubscriptionDetails implements the OCIOperation interface (enables retrying operations)
+func (client SubscriptionClient) getSubscriptionDetails(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subscriptionDetails", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSubscriptionDetailsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "subscription", "GetSubscriptionDetails")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Subscription", "GetSubscriptionDetails", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSubscriptions Returns all subscriptions for a given plan number, subscription ID, or buyer email,
+// and provides additional parameters, to include rate card and commitment details.
+// Exactly one of the these parameters is expected as input. If more than one parameter is provided,
+// a 400 - invalid parameters exception is thrown, and if no parameters are provided, a 400 - missing parameter exception is thrown.
 //
 // # See also
 //
@@ -144,6 +201,65 @@ func (client SubscriptionClient) listSubscriptions(ctx context.Context, request 
 	if err != nil {
 		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Subscription", "ListSubscriptions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListUsageLedgers Returns revenue invoice consumption details for authorization orders that draw down from the
+// requested subscription. It includes authorization-order subscription IDs but excludes the requested
+// subscription ID itself.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/ListUsageLedgers.go.html to see an example of how to use ListUsageLedgers API.
+func (client SubscriptionClient) ListUsageLedgers(ctx context.Context, request ListUsageLedgersRequest) (response ListUsageLedgersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listUsageLedgers, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListUsageLedgersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListUsageLedgersResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListUsageLedgersResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListUsageLedgersResponse")
+	}
+	return
+}
+
+// listUsageLedgers implements the OCIOperation interface (enables retrying operations)
+func (client SubscriptionClient) listUsageLedgers(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/subscriptionDetails/{subscriptionId}/usageLedger", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListUsageLedgersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "subscription", "ListUsageLedgers")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Subscription", "ListUsageLedgers", apiReferenceLink)
 		return response, err
 	}
 

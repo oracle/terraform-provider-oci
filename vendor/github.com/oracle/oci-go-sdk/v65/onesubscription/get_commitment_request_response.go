@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/GetCommitment.go.html to see an example of how to use GetCommitmentRequest.
 type GetCommitmentRequest struct {
 
-	// The Commitment Id
+	// The commitment ID.
 	CommitmentId *string `mandatory:"true" contributesTo:"path" name:"commitmentId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

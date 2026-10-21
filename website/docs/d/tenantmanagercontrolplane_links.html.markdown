@@ -18,7 +18,7 @@ Return a (paginated) list of links.
 data "oci_tenantmanagercontrolplane_links" "test_links" {
 
 	#Optional
-	child_tenancy_id = oci_identity_tenancy.test_tenancy.id
+	child_tenancy_id = oci_tenantmanagercontrolplane_child_tenancy.test_child_tenancy.id
 	feature = var.link_feature
 	parent_tenancy_id = oci_identity_tenancy.test_tenancy.id
 	state = var.link_state

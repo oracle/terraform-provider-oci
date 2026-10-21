@@ -22,7 +22,7 @@ type DeploymentPeerSummary struct {
 	DeploymentId *string `mandatory:"true" json:"deploymentId"`
 
 	// The name of the region. e.g.: us-ashburn-1
-	// If the region is not provided, backend will default to the default region.
+	// If the region is not provided, backend will default to the current region.
 	Region *string `mandatory:"true" json:"region"`
 
 	// The availability domain of a placement.

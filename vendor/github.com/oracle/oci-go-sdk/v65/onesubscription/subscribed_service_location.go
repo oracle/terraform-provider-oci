@@ -36,7 +36,7 @@ type SubscribedServiceLocation struct {
 	// Region.
 	Region *string `mandatory:"false" json:"region"`
 
-	// Region.
+	// TCA (Trading Community Architecture) location identifier.
 	TcaLocationId *int64 `mandatory:"false" json:"tcaLocationId"`
 }
 

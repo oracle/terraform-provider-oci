@@ -40,6 +40,8 @@ type DrProtectionGroupMemberComputeInstanceMovable struct {
 	// A list of compute instance VNIC mappings.
 	VnicMappings []ComputeInstanceMovableVnicMapping `mandatory:"false" json:"vnicMappings"`
 
+	DrDrillProperties *DrProtectionGroupMemberComputeInstanceDrillProperties `mandatory:"false" json:"drDrillProperties"`
+
 	// The OCID of a compartment in the destination region in which the compute instance
 	// should be launched.
 	// Example: `ocid1.compartment.oc1..uniqueID`

@@ -34,6 +34,9 @@ const (
 	ImportedModelCapabilityAudioToText      ImportedModelCapabilityEnum = "AUDIO_TO_TEXT"
 	ImportedModelCapabilityTextToAudio      ImportedModelCapabilityEnum = "TEXT_TO_AUDIO"
 	ImportedModelCapabilityTextToVideo      ImportedModelCapabilityEnum = "TEXT_TO_VIDEO"
+	ImportedModelCapabilityAudioTextToText  ImportedModelCapabilityEnum = "AUDIO_TEXT_TO_TEXT"
+	ImportedModelCapabilityAudioTranslation ImportedModelCapabilityEnum = "AUDIO_TRANSLATION"
+	ImportedModelCapabilityVideoTextToText  ImportedModelCapabilityEnum = "VIDEO_TEXT_TO_TEXT"
 )
 
 var mappingImportedModelCapabilityEnum = map[string]ImportedModelCapabilityEnum{
@@ -50,6 +53,9 @@ var mappingImportedModelCapabilityEnum = map[string]ImportedModelCapabilityEnum{
 	"AUDIO_TO_TEXT":       ImportedModelCapabilityAudioToText,
 	"TEXT_TO_AUDIO":       ImportedModelCapabilityTextToAudio,
 	"TEXT_TO_VIDEO":       ImportedModelCapabilityTextToVideo,
+	"AUDIO_TEXT_TO_TEXT":  ImportedModelCapabilityAudioTextToText,
+	"AUDIO_TRANSLATION":   ImportedModelCapabilityAudioTranslation,
+	"VIDEO_TEXT_TO_TEXT":  ImportedModelCapabilityVideoTextToText,
 }
 
 var mappingImportedModelCapabilityEnumLowerCase = map[string]ImportedModelCapabilityEnum{
@@ -66,6 +72,9 @@ var mappingImportedModelCapabilityEnumLowerCase = map[string]ImportedModelCapabi
 	"audio_to_text":       ImportedModelCapabilityAudioToText,
 	"text_to_audio":       ImportedModelCapabilityTextToAudio,
 	"text_to_video":       ImportedModelCapabilityTextToVideo,
+	"audio_text_to_text":  ImportedModelCapabilityAudioTextToText,
+	"audio_translation":   ImportedModelCapabilityAudioTranslation,
+	"video_text_to_text":  ImportedModelCapabilityVideoTextToText,
 }
 
 // GetImportedModelCapabilityEnumValues Enumerates the set of values for ImportedModelCapabilityEnum
@@ -93,6 +102,9 @@ func GetImportedModelCapabilityEnumStringValues() []string {
 		"AUDIO_TO_TEXT",
 		"TEXT_TO_AUDIO",
 		"TEXT_TO_VIDEO",
+		"AUDIO_TEXT_TO_TEXT",
+		"AUDIO_TRANSLATION",
+		"VIDEO_TEXT_TO_TEXT",
 	}
 }
 

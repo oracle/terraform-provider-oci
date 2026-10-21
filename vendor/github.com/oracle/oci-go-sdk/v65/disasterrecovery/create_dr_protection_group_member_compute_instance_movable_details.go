@@ -26,6 +26,8 @@ type CreateDrProtectionGroupMemberComputeInstanceMovableDetails struct {
 	// Example: `ocid1.instance.oc1..uniqueID`
 	MemberId *string `mandatory:"true" json:"memberId"`
 
+	DrDrillProperties *CreateDrProtectionGroupMemberComputeInstanceDrillPropertiesDetails `mandatory:"false" json:"drDrillProperties"`
+
 	// A flag indicating if the compute instance should be moved to the same fault domain in the destination region.
 	// The compute instance launch will fail if this flag is set to true and capacity is not available in the
 	// specified fault domain in the destination region.

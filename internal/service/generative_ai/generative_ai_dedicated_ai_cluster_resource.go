@@ -56,6 +56,12 @@ func GenerativeAiDedicatedAiClusterResource() *schema.Resource {
 			},
 
 			// Optional
+			"capacity_reservation_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -202,6 +208,11 @@ func (s *GenerativeAiDedicatedAiClusterResourceCrud) DeletedTarget() []string {
 
 func (s *GenerativeAiDedicatedAiClusterResourceCrud) Create() error {
 	request := oci_generative_ai.CreateDedicatedAiClusterRequest{}
+
+	if capacityReservationId, ok := s.D.GetOkExists("capacity_reservation_id"); ok {
+		tmp := capacityReservationId.(string)
+		request.CapacityReservationId = &tmp
+	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -475,6 +486,10 @@ func (s *GenerativeAiDedicatedAiClusterResourceCrud) SetData() error {
 		s.D.Set("capacity", nil)
 	}
 
+	if s.Res.CapacityReservationId != nil {
+		s.D.Set("capacity_reservation_id", *s.Res.CapacityReservationId)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -552,6 +567,10 @@ func DedicatedAiClusterSummaryToMap(obj oci_generative_ai.DedicatedAiClusterSumm
 			capacityArray = append(capacityArray, capacityMap)
 		}
 		result["capacity"] = capacityArray
+	}
+
+	if obj.CapacityReservationId != nil {
+		result["capacity_reservation_id"] = string(*obj.CapacityReservationId)
 	}
 
 	if obj.CompartmentId != nil {

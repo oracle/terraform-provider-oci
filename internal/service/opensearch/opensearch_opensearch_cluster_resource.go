@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -30,10 +31,11 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("90m"),
 			Delete: tfresource.GetTimeoutDuration("45m"),
 		},
-		Create: createOpensearchOpensearchCluster,
-		Read:   readOpensearchOpensearchCluster,
-		Update: updateOpensearchOpensearchCluster,
-		Delete: deleteOpensearchOpensearchCluster,
+		CreateContext: createOpensearchOpensearchClusterWithContext,
+		ReadContext:   readOpensearchOpensearchClusterWithContext,
+		UpdateContext: updateOpensearchOpensearchClusterWithContext,
+		DeleteContext: deleteOpensearchOpensearchClusterWithContext,
+		CustomizeDiff: validateOpensearchRemoteReindexAliases,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -400,15 +402,22 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						// Required
 						"remote_sources": {
-							Type:     schema.TypeList,
-							Required: true,
+							Type:       schema.TypeList,
+							Required:   true,
+							ConfigMode: schema.SchemaConfigModeAttr,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
-									// Required
+									// Optional aliases: exactly one is required for each source.
 									"certificate_id": {
-										Type:     schema.TypeString,
-										Required: true,
+										Type:       schema.TypeString,
+										Optional:   true,
+										Deprecated: "Use ca_bundle_id instead. The value must be an OCI Certificates service CA bundle OCID.",
 									},
+									"ca_bundle_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+									// Required
 									"endpoint": {
 										Type:     schema.TypeString,
 										Required: true,
@@ -706,34 +715,34 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 	}
 }
 
-func createOpensearchOpensearchCluster(d *schema.ResourceData, m interface{}) error {
+func createOpensearchOpensearchClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpensearchOpensearchClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OpensearchClusterClient()
 
-	if e := tfresource.CreateResource(d, sync); e != nil {
-		return e
+	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
+		return tfresource.HandleDiagError(m, e)
 	}
 
 	if _, ok := sync.D.GetOkExists("configure_outbound_cluster_trigger"); ok {
-		err := sync.ConfigureOutboundCluster()
+		err := sync.ConfigureOutboundCluster(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 	return nil
 
 }
 
-func readOpensearchOpensearchCluster(d *schema.ResourceData, m interface{}) error {
+func readOpensearchOpensearchClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpensearchOpensearchClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OpensearchClusterClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateOpensearchOpensearchCluster(d *schema.ResourceData, m interface{}) error {
+func updateOpensearchOpensearchClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpensearchOpensearchClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OpensearchClusterClient()
@@ -743,14 +752,15 @@ func updateOpensearchOpensearchCluster(d *schema.ResourceData, m interface{}) er
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.ConfigureOutboundCluster()
+			err := sync.ConfigureOutboundCluster(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("configure_outbound_cluster_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			err := fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
@@ -759,30 +769,31 @@ func updateOpensearchOpensearchCluster(d *schema.ResourceData, m interface{}) er
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.UpgradeOpenSearchCluster()
+			err := sync.UpgradeOpenSearchCluster(ctx)
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("upgrade_major_version_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			err := fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
-	if err := tfresource.UpdateResource(d, sync); err != nil {
-		return err
+	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	return nil
 }
 
-func deleteOpensearchOpensearchCluster(d *schema.ResourceData, m interface{}) error {
+func deleteOpensearchOpensearchClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpensearchOpensearchClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OpensearchClusterClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type OpensearchOpensearchClusterResourceCrud struct {
@@ -820,7 +831,7 @@ func (s *OpensearchOpensearchClusterResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *OpensearchOpensearchClusterResourceCrud) Create() error {
+func (s *OpensearchOpensearchClusterResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_opensearch.CreateOpensearchClusterRequest{}
 
 	if certificateConfig, ok := s.D.GetOkExists("certificate_config"); ok {
@@ -1175,14 +1186,14 @@ func (s *OpensearchOpensearchClusterResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch")
 
-	response, err := s.Client.CreateOpensearchCluster(context.Background(), request)
+	response, err := s.Client.CreateOpensearchCluster(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_opensearch.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_opensearch.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -1198,14 +1209,14 @@ func (s *OpensearchOpensearchClusterResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getOpensearchClusterFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch"), oci_opensearch.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getOpensearchClusterFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch"), oci_opensearch.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OpensearchOpensearchClusterResourceCrud) getOpensearchClusterFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OpensearchOpensearchClusterResourceCrud) getOpensearchClusterFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_opensearch.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	opensearchClusterId, err := opensearchClusterWaitForWorkRequest(workId, "opensearch",
+	opensearchClusterId, err := opensearchClusterWaitForWorkRequest(ctx, workId, "opensearch",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -1213,7 +1224,7 @@ func (s *OpensearchOpensearchClusterResourceCrud) getOpensearchClusterFromWorkRe
 	}
 	s.D.SetId(*opensearchClusterId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func opensearchClusterWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -1239,7 +1250,7 @@ func opensearchClusterWorkRequestShouldRetryFunc(timeout time.Duration) func(res
 	}
 }
 
-func opensearchClusterWaitForWorkRequest(wId *string, entityType string, action oci_opensearch.ActionTypeEnum,
+func opensearchClusterWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_opensearch.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_opensearch.OpensearchClusterClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "opensearch")
 	retryPolicy.ShouldRetryOperation = opensearchClusterWorkRequestShouldRetryFunc(timeout)
@@ -1258,7 +1269,7 @@ func opensearchClusterWaitForWorkRequest(wId *string, entityType string, action 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_opensearch.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -1270,7 +1281,7 @@ func opensearchClusterWaitForWorkRequest(wId *string, entityType string, action 
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -1287,14 +1298,14 @@ func opensearchClusterWaitForWorkRequest(wId *string, entityType string, action 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_opensearch.OperationStatusFailed || response.Status == oci_opensearch.OperationStatusCanceled {
-		return nil, getErrorFromOpensearchOpensearchClusterWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOpensearchOpensearchClusterWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOpensearchOpensearchClusterWorkRequest(client *oci_opensearch.OpensearchClusterClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opensearch.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOpensearchOpensearchClusterWorkRequest(ctx context.Context, client *oci_opensearch.OpensearchClusterClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opensearch.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_opensearch.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -1316,7 +1327,7 @@ func getErrorFromOpensearchOpensearchClusterWorkRequest(client *oci_opensearch.O
 	return workRequestErr
 }
 
-func (s *OpensearchOpensearchClusterResourceCrud) Get() error {
+func (s *OpensearchOpensearchClusterResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_opensearch.GetOpensearchClusterRequest{}
 
 	tmp := s.D.Id()
@@ -1324,7 +1335,7 @@ func (s *OpensearchOpensearchClusterResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch")
 
-	response, err := s.Client.GetOpensearchCluster(context.Background(), request)
+	response, err := s.Client.GetOpensearchCluster(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1407,6 +1418,7 @@ func (s *OpensearchOpensearchClusterResourceCrud) UpdateConditionMet() (result b
 		"maintenance_details",
 		"nsg_id",
 		"outbound_cluster_config",
+		"remote_reindex_trust_config",
 		"reverse_connection_endpoint_customer_ips",
 		"security_attributes",
 		"security_master_user_auth_details",
@@ -1447,10 +1459,10 @@ func suppressNsgIdDiffWhenNotConfigured(_ string, _ string, _ string, d *schema.
 	return false
 }
 
-func (s *OpensearchOpensearchClusterResourceCrud) Update() error {
+func (s *OpensearchOpensearchClusterResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if s.HorizontalConditionMet() {
 		log.Println("Horizontal Resize Begin...")
-		err := s.ResizeOpensearchClusterHorizontal()
+		err := s.ResizeOpensearchClusterHorizontal(ctx)
 		if err != nil {
 			return err
 		}
@@ -1458,7 +1470,7 @@ func (s *OpensearchOpensearchClusterResourceCrud) Update() error {
 
 	if s.VerticalConditionMet() {
 		log.Println("Vertical Resize Begin...")
-		err := s.ResizeOpensearchClusterVertical()
+		err := s.ResizeOpensearchClusterVertical(ctx)
 		if err != nil {
 			return err
 		}
@@ -1547,8 +1559,8 @@ func (s *OpensearchOpensearchClusterResourceCrud) Update() error {
 		}
 	}
 
-	if remoteReindexTrustConfig, ok := s.D.GetOkExists("remote_reindex_trust_config"); ok {
-		if tmpList := remoteReindexTrustConfig.([]interface{}); len(tmpList) > 0 {
+	if s.D.HasChange("remote_reindex_trust_config") {
+		if tmpList := s.D.Get("remote_reindex_trust_config").([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "remote_reindex_trust_config", 0)
 			tmp, err := s.mapToRemoteReindexTrustConfig(fieldKeyFormat)
 			if err != nil {
@@ -1624,16 +1636,16 @@ func (s *OpensearchOpensearchClusterResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch")
 
-	response, err := s.Client.UpdateOpensearchCluster(context.Background(), request)
+	response, err := s.Client.UpdateOpensearchCluster(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOpensearchClusterFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch"), oci_opensearch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getOpensearchClusterFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch"), oci_opensearch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *OpensearchOpensearchClusterResourceCrud) Delete() error {
+func (s *OpensearchOpensearchClusterResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_opensearch.DeleteOpensearchClusterRequest{}
 
 	tmp := s.D.Id()
@@ -1641,14 +1653,14 @@ func (s *OpensearchOpensearchClusterResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch")
 
-	response, err := s.Client.DeleteOpensearchCluster(context.Background(), request)
+	response, err := s.Client.DeleteOpensearchCluster(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := opensearchClusterWaitForWorkRequest(workId, "opensearch",
+	_, delWorkRequestErr := opensearchClusterWaitForWorkRequest(ctx, workId, "opensearch",
 		oci_opensearch.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -1833,10 +1845,8 @@ func (s *OpensearchOpensearchClusterResourceCrud) SetData() error {
 		s.D.Set("outbound_cluster_config", nil)
 	}
 
-	if s.Res.RemoteReindexTrustConfig != nil {
-		s.D.Set("remote_reindex_trust_config", []interface{}{RemoteReindexTrustConfigToMap(s.Res.RemoteReindexTrustConfig)})
-	} else {
-		s.D.Set("remote_reindex_trust_config", nil)
+	if err := s.setRemoteReindexTrustConfig(); err != nil {
+		return err
 	}
 
 	s.D.Set("reverse_connection_endpoint_customer_ips", s.Res.ReverseConnectionEndpointCustomerIps)
@@ -1871,6 +1881,8 @@ func (s *OpensearchOpensearchClusterResourceCrud) SetData() error {
 
 	if s.Res.SecurityAttributes != nil {
 		s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+	} else {
+		s.D.Set("security_attributes", map[string]interface{}{})
 	}
 
 	if s.Res.SecurityMasterUserName != nil {
@@ -1932,7 +1944,7 @@ func (s *OpensearchOpensearchClusterResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *OpensearchOpensearchClusterResourceCrud) ConfigureOutboundCluster() error {
+func (s *OpensearchOpensearchClusterResourceCrud) ConfigureOutboundCluster(ctx context.Context) error {
 	request := oci_opensearch.ConfigureOutboundClusterRequest{}
 
 	if inboundClusterIds, ok := s.D.GetOkExists("inbound_cluster_ids"); ok {
@@ -1953,12 +1965,12 @@ func (s *OpensearchOpensearchClusterResourceCrud) ConfigureOutboundCluster() err
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch")
 
-	_, err := s.Client.ConfigureOutboundCluster(context.Background(), request)
+	_, err := s.Client.ConfigureOutboundCluster(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -1968,7 +1980,7 @@ func (s *OpensearchOpensearchClusterResourceCrud) ConfigureOutboundCluster() err
 	return nil
 }
 
-func (s *OpensearchOpensearchClusterResourceCrud) UpgradeOpenSearchCluster() error {
+func (s *OpensearchOpensearchClusterResourceCrud) UpgradeOpenSearchCluster(ctx context.Context) error {
 	request := oci_opensearch.UpgradeOpenSearchClusterRequest{}
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
@@ -2007,20 +2019,20 @@ func (s *OpensearchOpensearchClusterResourceCrud) UpgradeOpenSearchCluster() err
 	}
 	request.UpgradeType = oci_opensearch.UpgradeTypeMajor
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch")
-	response, err := s.Client.UpgradeOpenSearchCluster(context.Background(), request)
+	response, err := s.Client.UpgradeOpenSearchCluster(ctx, request)
 	if err != nil {
 		return err
 	}
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 	val := s.D.Get("upgrade_major_version_trigger")
 	s.D.Set("upgrade_major_version_trigger", val)
 
 	workId := response.OpcWorkRequestId
-	return s.getOpensearchClusterFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch"), oci_opensearch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getOpensearchClusterFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch"), oci_opensearch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
-func (s *OpensearchOpensearchClusterResourceCrud) ResizeOpensearchClusterHorizontal() error {
+func (s *OpensearchOpensearchClusterResourceCrud) ResizeOpensearchClusterHorizontal(ctx context.Context) error {
 	tfresource.ShortRetryTime = tfresource.LongRetryTime * 5
 	request := oci_opensearch.ResizeOpensearchClusterHorizontalRequest{}
 
@@ -2059,16 +2071,16 @@ func (s *OpensearchOpensearchClusterResourceCrud) ResizeOpensearchClusterHorizon
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch")
 
-	response, err := s.Client.ResizeOpensearchClusterHorizontal(context.Background(), request)
+	response, err := s.Client.ResizeOpensearchClusterHorizontal(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOpensearchClusterFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch"), oci_opensearch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getOpensearchClusterFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch"), oci_opensearch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *OpensearchOpensearchClusterResourceCrud) ResizeOpensearchClusterVertical() error {
+func (s *OpensearchOpensearchClusterResourceCrud) ResizeOpensearchClusterVertical(ctx context.Context) error {
 	tfresource.ShortRetryTime = tfresource.LongRetryTime * 5
 	request := oci_opensearch.ResizeOpensearchClusterVerticalRequest{}
 
@@ -2182,13 +2194,13 @@ func (s *OpensearchOpensearchClusterResourceCrud) ResizeOpensearchClusterVertica
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch")
 
-	response, err := s.Client.ResizeOpensearchClusterVertical(context.Background(), request)
+	response, err := s.Client.ResizeOpensearchClusterVertical(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOpensearchClusterFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch"), oci_opensearch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getOpensearchClusterFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch"), oci_opensearch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *OpensearchOpensearchClusterResourceCrud) mapToCreateMaintenanceDetails(fieldKeyFormat string) (oci_opensearch.CreateMaintenanceDetails, error) {
@@ -2499,13 +2511,45 @@ func OutboundClusterSummaryToMap(obj oci_opensearch.OutboundClusterSummary) map[
 	return result
 }
 
+// ConflictsWith/ExactlyOneOf cannot address siblings in a multi-item TypeList.
+// Validate each source independently, deferring unknown IDs until apply.
+func validateOpensearchRemoteReindexAliases(_ context.Context, d *schema.ResourceDiff, _ interface{}) error {
+	sources := d.Get("remote_reindex_trust_config.0.remote_sources").([]interface{})
+	for i := range sources {
+		prefix := fmt.Sprintf("remote_reindex_trust_config.0.remote_sources.%d.", i)
+		if !d.NewValueKnown(prefix+"certificate_id") || !d.NewValueKnown(prefix+"ca_bundle_id") {
+			continue
+		}
+		if _, err := remoteReindexCABundleID(d.Get(prefix+"certificate_id").(string), d.Get(prefix+"ca_bundle_id").(string)); err != nil {
+			return fmt.Errorf("%s: %w", strings.TrimSuffix(prefix, "."), err)
+		}
+	}
+	return nil
+}
+
+func remoteReindexCABundleID(certificateID, caBundleID string) (string, error) {
+	hasCertificateID := strings.TrimSpace(certificateID) != ""
+	hasCABundleID := strings.TrimSpace(caBundleID) != ""
+	if hasCertificateID == hasCABundleID {
+		return "", fmt.Errorf("exactly one of certificate_id or ca_bundle_id must be configured for each remote source")
+	}
+	if hasCertificateID {
+		return certificateID, nil
+	}
+	return caBundleID, nil
+}
+
 func (s *OpensearchOpensearchClusterResourceCrud) mapToRemoteReindexSourceDetails(fieldKeyFormat string) (oci_opensearch.RemoteReindexSourceDetails, error) {
 	result := oci_opensearch.RemoteReindexSourceDetails{}
 
-	if certificateId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate_id")); ok {
-		tmp := certificateId.(string)
-		result.CertificateId = &tmp
+	caBundleID, err := remoteReindexCABundleID(
+		s.D.Get(fmt.Sprintf(fieldKeyFormat, "certificate_id")).(string),
+		s.D.Get(fmt.Sprintf(fieldKeyFormat, "ca_bundle_id")).(string),
+	)
+	if err != nil {
+		return result, fmt.Errorf("%s: %w", fmt.Sprintf(fieldKeyFormat, "ca_bundle_id"), err)
 	}
+	result.CaBundleId = &caBundleID
 
 	if endpoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
 		tmp := endpoint.(string)
@@ -2523,8 +2567,11 @@ func (s *OpensearchOpensearchClusterResourceCrud) mapToRemoteReindexSourceDetail
 func RemoteReindexSourceDetailsToMap(obj oci_opensearch.RemoteReindexSourceDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	if obj.CertificateId != nil {
-		result["certificate_id"] = string(*obj.CertificateId)
+	if obj.CaBundleId != nil {
+		// Data sources expose both computed aliases for backwards compatibility.
+		// The resource read path below keeps only the configured alias.
+		result["certificate_id"] = string(*obj.CaBundleId)
+		result["ca_bundle_id"] = string(*obj.CaBundleId)
 	}
 
 	if obj.Endpoint != nil {
@@ -2559,6 +2606,33 @@ func (s *OpensearchOpensearchClusterResourceCrud) mapToRemoteReindexTrustConfig(
 	}
 
 	return result, nil
+}
+
+func (s *OpensearchOpensearchClusterResourceCrud) setRemoteReindexTrustConfig() error {
+	trust := s.Res.RemoteReindexTrustConfig
+	if trust == nil {
+		if len(s.D.Get("remote_reindex_trust_config").([]interface{})) == 0 ||
+			len(s.D.Get("remote_reindex_trust_config.0.remote_sources").([]interface{})) != 0 {
+			return s.D.Set("remote_reindex_trust_config", nil)
+		}
+		// The API returns absent trust after remote_sources = [] clears it.
+		// Preserve an existing empty block to avoid perpetual diffs on refresh,
+		// without inventing a block or masking removal of non-empty trust.
+		trust = &oci_opensearch.RemoteReindexTrustConfig{}
+	}
+	state := RemoteReindexTrustConfigToMap(trust)
+	for i, source := range state["remote_sources"].([]interface{}) {
+		prefix := fmt.Sprintf("remote_reindex_trust_config.0.remote_sources.%d.", i)
+		_, legacy := s.D.GetOk(prefix + "certificate_id")
+		_, current := s.D.GetOk(prefix + "ca_bundle_id")
+		if legacy && !current {
+			delete(source.(map[string]interface{}), "ca_bundle_id")
+		} else {
+			// Imports and newly discovered sources default to the current name.
+			delete(source.(map[string]interface{}), "certificate_id")
+		}
+	}
+	return s.D.Set("remote_reindex_trust_config", []interface{}{state})
 }
 
 func RemoteReindexTrustConfigToMap(obj *oci_opensearch.RemoteReindexTrustConfig) map[string]interface{} {

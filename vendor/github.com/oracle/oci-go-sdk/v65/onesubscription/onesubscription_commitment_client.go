@@ -91,7 +91,7 @@ func (client *CommitmentClient) ConfigurationProvider() *common.ConfigurationPro
 	return client.config
 }
 
-// GetCommitment This API returns the commitment details corresponding to the id provided
+// GetCommitment Returns the commitment details corresponding to the provided ID.
 //
 // # See also
 //
@@ -148,7 +148,7 @@ func (client CommitmentClient) getCommitment(ctx context.Context, request common
 	return response, err
 }
 
-// ListCommitments This list API returns all commitments for a particular Subscribed Service
+// ListCommitments Returns all commitments for a particular subscribed service.
 //
 // # See also
 //

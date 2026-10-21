@@ -243,6 +243,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `osp_gateway` - Discovers osp_gateway resources within the specified compartment
     * `psa` - Discovers psa resources within the specified compartment
     * `psql` - Discovers psql resources within the specified compartment
+    * `pss` - Discovers pss resources within the specified compartment
     * `queue` - Discovers queue resources within the specified compartment
     * `recovery` - Discovers recovery resources within the specified compartment
     * `redis` - Discovers redis resources within the specified compartment
@@ -748,6 +749,7 @@ database
 * oci\_database\_pluggable\_database\_snapshot
 * oci\_database\_database\_snapshot\_standby
 * oci\_database\_database\_software\_schedule\_management
+* oci\_database\_database\_snapshot
 
 database_migration
 
@@ -1404,6 +1406,10 @@ psql
 * oci\_psql\_db\_system
 * oci\_psql\_backup
 
+pss
+    
+* oci\_pss\_instance
+
 queue
 
 * oci\_queue\_queue
@@ -1471,6 +1477,7 @@ streaming
 tenantmanagercontrolplane
 
 * oci\_tenantmanagercontrolplane\_subscription\_mapping
+* oci\_tenantmanagercontrolplane\_child\_tenancy
 
 usage_proxy
 

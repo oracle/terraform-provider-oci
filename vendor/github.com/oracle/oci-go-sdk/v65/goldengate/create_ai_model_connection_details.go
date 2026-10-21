@@ -96,6 +96,12 @@ type CreateAiModelConnectionDetails struct {
 	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
 	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 
+	// Optional identifier of the AI Provider Connection backing this AI Model Connection.
+	// When provided, it must reference an existing Active connection of type `AI_PROVIDER`.
+	// When `providerId` is set, `providerType` and `authDetails` must not be provided on the AI Model Connection, because provider metadata is resolved from the referenced AI Provider Connection.
+	// When `providerId` is not set, the AI Model Connection must provide inline provider metadata using `providerType` and `authDetails`.
+	ProviderId *string `mandatory:"false" json:"providerId"`
+
 	// Maximum number of input characters supported by this AI model connection.
 	MaxInputChars *int `mandatory:"false" json:"maxInputChars"`
 
@@ -248,6 +254,7 @@ func (m *CreateAiModelConnectionDetails) UnmarshalJSON(data []byte) (e error) {
 		ClusterPlacementGroupId *string                                        `json:"clusterPlacementGroupId"`
 		SecurityAttributes      map[string]map[string]interface{}              `json:"securityAttributes"`
 		ProviderType            CreateAiModelConnectionDetailsProviderTypeEnum `json:"providerType"`
+		ProviderId              *string                                        `json:"providerId"`
 		MaxInputChars           *int                                           `json:"maxInputChars"`
 		AuthDetails             createaimodelauthdetails                       `json:"authDetails"`
 		DisplayName             *string                                        `json:"displayName"`
@@ -288,6 +295,8 @@ func (m *CreateAiModelConnectionDetails) UnmarshalJSON(data []byte) (e error) {
 	m.SecurityAttributes = model.SecurityAttributes
 
 	m.ProviderType = model.ProviderType
+
+	m.ProviderId = model.ProviderId
 
 	m.MaxInputChars = model.MaxInputChars
 

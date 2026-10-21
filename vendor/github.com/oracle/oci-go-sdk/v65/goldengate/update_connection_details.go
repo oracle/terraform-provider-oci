@@ -157,6 +157,10 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := UpdateAmazonRedshiftConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "SPARK":
+		mm := UpdateSparkConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "OCI_OBJECT_STORAGE":
 		mm := UpdateOciObjectStorageConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -209,6 +213,14 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := UpdateKafkaConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AI_PROVIDER":
+		mm := UpdateAiProviderConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "DATABRICKS_ENGINE":
+		mm := UpdateDatabricksEngineConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AZURE_DATA_LAKE_STORAGE":
 		mm := UpdateAzureDataLakeStorageConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -255,6 +267,10 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		return mm, err
 	case "GENERIC":
 		mm := UpdateGenericConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ORACLE_AI_DATA_PLATFORM_ENGINE":
+		mm := UpdateOracleAiDataPlatformEngineConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "AZURE_SYNAPSE_ANALYTICS":

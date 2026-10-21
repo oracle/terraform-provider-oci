@@ -15,25 +15,25 @@ import (
 	"strings"
 )
 
-// RateCardProduct Product description
+// RateCardProduct Product description.
 type RateCardProduct struct {
 
-	// Product part numner
+	// Product part number.
 	PartNumber *string `mandatory:"true" json:"partNumber"`
 
-	// Product name
+	// Product name.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Unit of measure
+	// Unit of measure.
 	UnitOfMeasure *string `mandatory:"true" json:"unitOfMeasure"`
 
-	// Metered service billing category
+	// Metered service billing category.
 	BillingCategory *string `mandatory:"false" json:"billingCategory"`
 
-	// Product category
+	// Product category.
 	ProductCategory *string `mandatory:"false" json:"productCategory"`
 
-	// Rate card part type of Product
+	// Rate card part type of product.
 	UcmRateCardPartType *string `mandatory:"false" json:"ucmRateCardPartType"`
 }
 

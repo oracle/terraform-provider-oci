@@ -46,6 +46,7 @@ resource "oci_psql_db_system" "test_db_system" {
 	}
 
 	#Optional
+	allow_major_version_upgrade = false
 	config_id = oci_apm_config_config.test_config.id
 	credentials {
 		#Required for stand alone dbsystem
@@ -146,12 +147,40 @@ resource "oci_psql_db_system" "test_db_system" {
 }
 ```
 
+### Major version upgrades
+
+To upgrade an existing database system in place, set `allow_major_version_upgrade = true` and change `db_version` to a higher target major version. The flag must be known to be `true` when Terraform plans the change. If it is omitted, `false`, or unknown at plan time, changing `db_version` retains the existing behavior: Terraform plans to replace the database system.
+
+For a database system using a custom configuration, also set `config_id` to a configuration for the target version. The configuration is applied as part of the upgrade. A database system using a default configuration can omit `config_id`. When supplied, the ID must contain 1–255 characters. OCI validates whether a target configuration is required and whether it is compatible with the target version when the upgrade request is submitted.
+
+```hcl
+# Update these arguments in the existing oci_psql_db_system resource.
+db_version = "17"
+
+# Allow an in-place upgrade when db_version changes.
+allow_major_version_upgrade = true
+
+# Required when the database system currently uses a custom configuration.
+config_id = var.target_version_config_id
+
+# Optional operations to run after the upgrade.
+upgrade_options = [
+  "RUN_POST_UPGRADE_VERIFICATION",
+  "RUN_POST_UPGRADE_VACUUM",
+]
+```
+
+You can leave `allow_major_version_upgrade = true` for subsequent major version upgrades. Changing the flag alone does not upgrade the database system. Downgrades are rejected when the flag is `true`; with the flag omitted or `false`, a lower `db_version` plans replacement. On creation, the database system is provisioned directly at the requested `db_version`, even when the flag is `true`.
+
+Omit `upgrade_options` or set it to `[]` to skip both post-upgrade operations. Each operation runs only when its option is included. These options are used only when `db_version` changes with `allow_major_version_upgrade = true`. Changing `upgrade_options` alone does not trigger an upgrade, and these options are not used when creating or replacing a database system.
+
 ## Argument Reference
 
 The following arguments are supported:
 
+* `allow_major_version_upgrade` - (Optional) (Updatable) Whether to allow in-place major version upgrades. Defaults to `false`. When this flag is known to be `true` at plan time, changing `db_version` to a higher major version upgrades the existing database system; a downgrade is rejected. If the flag is omitted, `false`, or unknown, a `db_version` change forces replacement. The flag can remain `true` for subsequent upgrades. Changing the flag alone does not upgrade the database system, and setting it on creation does not run a separate upgrade operation.
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the database system.
-* `config_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the configuration associated with the database system.
+* `config_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the configuration associated with the database system. For an in-place major version upgrade (`allow_major_version_upgrade = true`), **you must specify this field if the database system currently uses a custom configuration**. It may be omitted if the database system currently uses a default configuration. Any configuration specified for an upgrade must be compatible with the target major version and is applied as part of the upgrade.
 * `apply_config` - (Optional) Whether a configuration update requires a restart of the database instance or a reload of the configuration. Some configuration changes require a restart of database instances to be applied. Apply config can be passed as `RESTART` or `RELOAD`
 * `credentials` - (Optional) Initial database system credentials that the database system will be provisioned with. The password details are not visible on any subsequent operation, such as GET /dbSystems/{dbSystemId}.
 	* `password_details` - (Required) Details for the database system password. Password can be passed as `VaultSecretPasswordDetails` or `PlainTextPasswordDetails`.
@@ -160,7 +189,7 @@ The following arguments are supported:
 		* `secret_id` - (Required when password_type=VAULT_SECRET) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret where the password is stored.
 		* `secret_version` - (Required when password_type=VAULT_SECRET) The secret version of the stored password.
 	* `username` - (Required) The database system administrator username.
-* `db_version` - (Required) Version of database system software.
+* `db_version` - (Required) (Conditionally updatable) The major version of the database system software, for example `"17"`. To upgrade an existing database system in place, set a higher major version with `allow_major_version_upgrade = true`. A downgrade with the flag set to `true` is rejected. If the flag is omitted, `false`, or unknown at plan time, changing `db_version` forces replacement. On creation, the database system is provisioned directly at this version.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}`
 * `description` - (Optional) (Updatable) A user-provided description of a database system.
 * `display_name` - (Required) (Updatable) A user-friendly display name for the database system. Avoid entering confidential information.
@@ -200,12 +229,24 @@ The following arguments are supported:
 	* `odsp_insight_list` - (Required when kind=ENABLED) (Updatable) List of ODSP Insight and their configurations.
 		* `insight_type` - (Required when kind=ENABLED) (Updatable) Type of Insight collected for the database system.
 		* `retention_period_in_days` - (Applicable when kind=ENABLED) (Updatable) Retention period for Insight data, in days. Current supported value is 7 days. the system default is 7 days.
+* `upgrade_options` - (Optional) (Updatable) List of post-upgrade operations to run when `db_version` changes with `allow_major_version_upgrade = true`. Accepted values are `RUN_POST_UPGRADE_VERIFICATION` and `RUN_POST_UPGRADE_VACUUM`. Verification and vacuum are each skipped unless their option is included. If omitted or empty, both are skipped. Changing this list alone does not trigger an upgrade. These options are not used when creating or replacing a database system.
 * `replication_config` - (Optional) (Updatable) Details of the replication configuration that is applicable when database system gets the  PRIMARY_DB_SYSTEM role.
 
 	This configuration does not have any effect on database systems with other roles.
 	* `is_rpo_enforced` - (Optional) (Updatable) Specify if Recovery point objective (RPO) enforcement needs to be enabled on the database  system.
 	* `rpo_in_seconds` - (Optional) (Updatable) Specifies the Recovery point objective (RPO) in seconds that will be enforced, if the  `isRpoEnforced` flag is true.
 * `shape` - (Required) (Updatable) The name of the shape for the database instance node. Use the /shapes API for accepted shapes. Example: `VM.Standard.E4.Flex`
+
+	**Note:** The provider returns the `shape` attribute with the `PostgreSQL.` prefix after reading the DB system, even when an unprefixed shape such as `VM.Standard.E5.Flex` is used in the configuration and plan. Use `trimprefix` if you need the unprefixed shape. For example, to normalize the output in the same module that declares the `oci_psql_db_system` resource:
+
+	```hcl
+	output "shape" {
+	  description = "Normalized PostgreSQL DB system shape."
+	  value       = trimprefix(oci_psql_db_system.this.shape, "PostgreSQL.")
+	}
+	```
+
+	`trimprefix` removes the prefix when it is present and leaves an already unprefixed value unchanged, so this module output remains in the unprefixed form.
 * `patch_operations` - (Optional) (Updatable) For adding and removing from read replica database instances. Please remove the patch_operations after it is applied. Update the instance_count arrodrandly. Cannot be specified when creating the resource.
 	* `operation` - (Required) The operation can be one of these values: `INSERT`, `REMOVE`.
 	* `selection` - (Required) In case of `INSERT`, selection is `instances`. In case of `REMOVE`, selection is `instances[?id == '${var.instance_id}']`.
@@ -240,7 +281,7 @@ The following attributes are exported:
 * `admin_username` - The database system administrator username.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the database system.
 * `config_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the configuration associated with the database system.
-* `db_version` - The major and minor versions of the database system software.
+* `db_version` - The major version of the database system software.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}`
 * `description` - A description of the database system.
 * `display_name` - A user-friendly display name for the database system. Avoid entering confidential information.

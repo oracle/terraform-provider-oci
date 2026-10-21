@@ -18,6 +18,10 @@ func GenerativeAiDedicatedAiClustersDataSource() *schema.Resource {
 		Read: readGenerativeAiDedicatedAiClusters,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"capacity_reservation_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -72,6 +76,11 @@ func (s *GenerativeAiDedicatedAiClustersDataSourceCrud) VoidState() {
 
 func (s *GenerativeAiDedicatedAiClustersDataSourceCrud) Get() error {
 	request := oci_generative_ai.ListDedicatedAiClustersRequest{}
+
+	if capacityReservationId, ok := s.D.GetOkExists("capacity_reservation_id"); ok {
+		tmp := capacityReservationId.(string)
+		request.CapacityReservationId = &tmp
+	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)

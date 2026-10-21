@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/ListCommitments.go.html to see an example of how to use ListCommitmentsRequest.
 type ListCommitmentsRequest struct {
 
-	// This param is used to get the commitments for a particular subscribed service
+	// Obtains the commitments for a particular subscribed service.
 	SubscribedServiceId *string `mandatory:"true" contributesTo:"query" name:"subscribedServiceId"`
 
 	// The OCID of the root compartment.

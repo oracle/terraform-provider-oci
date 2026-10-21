@@ -15,30 +15,30 @@ import (
 	"strings"
 )
 
-// SubscriptionSummary Subscription summary
+// SubscriptionSummary Subscription summary.
 type SubscriptionSummary struct {
 
-	// Status of the plan
+	// Plan status.
 	Status *string `mandatory:"false" json:"status"`
 
-	// Represents the date when the first service of the subscription was activated
+	// The date when the first service of the subscription was activated.
 	TimeStart *common.SDKTime `mandatory:"false" json:"timeStart"`
 
-	// Represents the date when the last service of the subscription ends
+	// The date when the last service of the subscription ends.
 	TimeEnd *common.SDKTime `mandatory:"false" json:"timeEnd"`
 
 	Currency *SubscriptionCurrency `mandatory:"false" json:"currency"`
 
-	// Customer friendly service name provided by PRG
+	// Customer-friendly service name provided by the PRG (Product Release Group).
 	ServiceName *string `mandatory:"false" json:"serviceName"`
 
-	// Hold reason of the plan
+	// Hold reason of the plan.
 	HoldReason *string `mandatory:"false" json:"holdReason"`
 
-	// Represents the date of the hold release
+	// The date of the hold release.
 	TimeHoldReleaseEta *common.SDKTime `mandatory:"false" json:"timeHoldReleaseEta"`
 
-	// List of Subscribed Services of the plan
+	// List of plan's subscribed services.
 	SubscribedServices []SubscriptionSubscribedService `mandatory:"false" json:"subscribedServices"`
 }
 

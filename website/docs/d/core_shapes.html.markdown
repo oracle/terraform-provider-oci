@@ -177,4 +177,5 @@ The following attributes are exported:
 * `recommended_alternatives` - The list of shapes and shape details (if applicable) that Oracle recommends that you use as an alternative to the current shape. 
 	* `shape_name` - The name of the shape. 
 * `resize_compatible_shapes` - The list of compatible shapes that this shape can be changed to. For more information, see [Changing the Shape of an Instance](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/resizinginstances.htm). 
+* `supported_resource_management` - The resource management modes supported by this shape.
 
