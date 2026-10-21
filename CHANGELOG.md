@@ -1,3 +1,19 @@
+## 9.11.0 (October 21, 2026)
+
+### Added
+- Support for Oracle Public Safety and Security (AI-World)
+- OCI OpenSearch remote reindexing support and tests
+- Support for OCI GoldenGate Release 12 connections
+- Support for OCI Console support for Dynamic Resource VM Resource Management
+- Support for GenAI - Bring Your Own Reservations for DAC
+- Support for Include support for PostgreSQL (Changes to existing API/UI-ONLY)
+- Support child tenancy creation with governance options
+- Support for CDB Clone and Snapshot feature for ExaDB-XS databases | ExaDB-XS
+- Support for Major version migrations (in-place upgrade) and documentation updates
+
+### Bug Fix
+- Update Managed Kafka Addon entity
+
 ## 9.10.0 (October 14, 2026)
 
 ### Added
