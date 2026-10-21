@@ -38,11 +38,11 @@ not have to be unique, and you can change it anytime with
 ```hcl
 resource "oci_identity_compartment" "test_compartment" {
 	#Required
-	compartment_id = var.compartment_id
 	description = var.compartment_description
 	name = var.compartment_name
 
 	#Optional
+	compartment_id = var.compartment_id
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
 }
@@ -52,7 +52,7 @@ resource "oci_identity_compartment" "test_compartment" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) (Updatable) The OCID of the parent compartment containing the compartment.
+* `compartment_id` - (Optional) (Updatable) The OCID of the parent compartment containing the compartment. When omitted, the provider uses the tenancy OCID, creating the compartment in the root compartment. This argument must be specified when using `InstancePrincipal` authentication.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Required) (Updatable) The description you assign to the compartment during creation. Does not have to be unique, and it's changeable. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
@@ -92,4 +92,3 @@ Compartments can be imported using the `id`, e.g.
 ```
 $ terraform import oci_identity_compartment.test_compartment "id"
 ```
-
