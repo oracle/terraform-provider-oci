@@ -1330,11 +1330,13 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 	if nodePoolCyclingDetails, ok := s.D.GetOkExists("node_pool_cycling_details"); ok {
 		if tmpList := nodePoolCyclingDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "node_pool_cycling_details", 0)
-			tmp, err := s.mapToNodePoolCyclingDetails(fieldKeyFormat)
-			if err != nil {
-				return err
+			if s.hasNodePoolCyclingDetailsChange(fieldKeyFormat, tmpList) {
+				tmp, err := s.mapToNodePoolCyclingDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				request.NodePoolCyclingDetails = &tmp
 			}
-			request.NodePoolCyclingDetails = &tmp
 		}
 	}
 
@@ -2109,6 +2111,27 @@ func NodeEvictionNodePoolSettingsToMap(obj *oci_containerengine.NodeEvictionNode
 	}
 
 	return result
+}
+
+func (crud *ContainerengineNodePoolResourceCrud) hasNodePoolCyclingDetailsChange(fieldKeyFormat string, fieldNameList []interface{}) bool {
+	for _, fieldName := range fieldNameList {
+		if record, ok := fieldName.(map[string]interface{}); ok {
+			for key := range record {
+				fieldKey := fmt.Sprintf(fieldKeyFormat, key)
+				var exists bool
+				switch key {
+				case "maximum_surge", "maximum_unavailable":
+					_, exists = crud.D.GetOk(fieldKey)
+				default:
+					_, exists = crud.D.GetOkExists(fieldKey)
+				}
+				if exists && crud.D.HasChange(fieldKey) {
+					return true
+				}
+			}
+		}
+	}
+	return false
 }
 
 func (s *ContainerengineNodePoolResourceCrud) mapToNodePoolCyclingDetails(fieldKeyFormat string) (oci_containerengine.NodePoolCyclingDetails, error) {
