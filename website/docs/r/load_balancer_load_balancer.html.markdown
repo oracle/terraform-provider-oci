@@ -142,16 +142,19 @@ The following arguments are supported:
 	**Notes:**
 	* Unless the header name is "" it must start with "X-" prefix.
 	* Setting the header name to "" will set it to the default: X-Request-Id. 
-* `reserved_ips` - (Optional) (Updatable) An array of reserved Ips. Pre-created public IP that will be used as the IP of this load balancer. This reserved IP will not be deleted when load balancer is deleted. This ip should not be already mapped to any other resource.
-	* `id` - (Optional) (Updatable) Ocid of the Reserved IP/Public Ip created with VCN.
+* `reserved_ips` - (Optional) (Updatable) An array of reserved Ips. Pre-created public or private IP that will be used as the IP of this load balancer. This reserved IP will not be deleted when load balancer is deleted. This ip should not be already mapped to any other resource.
+	* `id` - (Optional) (Updatable) Ocid of the Reserved IP (Public IP or Private IP) created with VCN.
 
 		Reserved IPs are IPs which already registered using VCN API.
 
-		Create a reserved Public IP and then while creating the load balancer pass the ocid of the reserved IP in this field reservedIp to attach the Ip to Load balancer. Load balancer will be configured to listen to traffic on this IP.
+		For public load balancers, create a reserved Public IP and pass the OCID in this field.
+		For private load balancers, create a reserved Private IP and pass the OCID in this field.
+		Load balancer will be configured to listen to traffic on this IP.
 
 		Reserved IPs will not be deleted when the Load balancer is deleted. They will be unattached from the Load balancer.
 
-		Example: "ocid1.publicip.oc1.phx.unique_ID"
+		Public IP Example: "ocid1.publicip.oc1.phx.unique_ID"
+		Private IP Example: "ocid1.privateip.oc1.phx.unique_ID"
 
 		IPV6 example: "ocid1.ipv6.oc1.phx.unique_ID" Ocid of the pre-created public IP that should be attached to this load balancer. The public IP will be attached to a private IP. **Note** If public IP resource is present in the config, the terraform plan will throw `After applying this step and refreshing, the plan was not empty` error, and `private_ip_id` needs to be added as an input argument to the public IP resource block or ignore from its lifecycle as shown in [examples](https://terraform-provider-oci/blob/507acd0ed6517dbca2fbcfb8100874929c8fd8e1/examples/load_balancer/lb_full/lb_full.tf#L133) to resolve this error.
 * `security_attributes` - (Optional) (Updatable) Extended Defined tags for ZPR for this resource. Each key is predefined and scoped to a namespace.  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit", "usagetype" : "zpr"}}}` 
@@ -237,16 +240,19 @@ The following attributes are exported:
 		If "true", the IP address is public and accessible from the internet.
 
 		If "false", the IP address is private and accessible only from within the associated VCN. 
-	* `reserved_ip` - 
-        * `id` - Ocid of the Reserved IP/Public Ip created with VCN.
+	* `reserved_ip` -
+		* `id` - Ocid of the Reserved IP (Public IP or Private IP) created with VCN.
 
-            Reserved IPs are IPs which already registered using VCN API.
+			Reserved IPs are IPs which already registered using VCN API.
 
-            Create a reserved Public IP and then while creating the load balancer pass the ocid of the reserved IP in this field reservedIp to attach the Ip to Load balancer. Load balancer will be configured to listen to traffic on this IP.
+			For public load balancers, create a reserved Public IP and pass the OCID in this field.
+			For private load balancers, create a reserved Private IP and pass the OCID in this field.
+			Load balancer will be configured to listen to traffic on this IP.
 
-            Reserved IPs will not be deleted when the Load balancer is deleted. They will be unattached from the Load balancer.
+			Reserved IPs will not be deleted when the Load balancer is deleted. They will be unattached from the Load balancer.
 
-            Example: "ocid1.publicip.oc1.phx.unique_ID" 
+			Public IP Example: "ocid1.publicip.oc1.phx.unique_ID"
+			Private IP Example: "ocid1.privateip.oc1.phx.unique_ID"
 * `ip_addresses` - An array of IP addresses. Deprecated: use ip_address_details instead
 * 
 * `is_delete_protection_enabled` - Whether or not the load balancer has delete protection enabled.
@@ -378,4 +384,3 @@ LoadBalancers can be imported using the `id`, e.g.
 ```
 $ terraform import oci_load_balancer_load_balancer.test_load_balancer "id"
 ```
-

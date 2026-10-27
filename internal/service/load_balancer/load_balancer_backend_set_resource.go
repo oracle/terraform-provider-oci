@@ -13,6 +13,7 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/hashicorp/go-cty/cty"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
@@ -34,6 +35,7 @@ func LoadBalancerBackendSetResource() *schema.Resource {
 		ReadContext:   readLoadBalancerBackendSetWithContext,
 		UpdateContext: updateLoadBalancerBackendSetWithContext,
 		DeleteContext: deleteLoadBalancerBackendSetWithContext,
+		CustomizeDiff: validateLoadBalancerBackendSetDynamicBackendWeightDiff,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"health_checker": {
@@ -50,10 +52,21 @@ func LoadBalancerBackendSetResource() *schema.Resource {
 						},
 
 						// Optional
+						"default_weight": {
+							Type:         schema.TypeInt,
+							Optional:     true,
+							Computed:     true,
+							ValidateFunc: validation.IntBetween(1, 100),
+						},
 						"interval_ms": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Default:  30000,
+						},
+						"is_dynamic_backend_weight_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
 						},
 						"is_force_plain_text": {
 							Type:     schema.TypeBool,
@@ -317,6 +330,37 @@ func LoadBalancerBackendSetResource() *schema.Resource {
 			},
 		},
 	}
+}
+
+func validateLoadBalancerBackendSetDynamicBackendWeightDiff(_ context.Context, diff *schema.ResourceDiff, _ interface{}) error {
+	_, defaultWeightConfigured := getLoadBalancerBackendSetConfiguredRawValue(diff, cty.Path{
+		cty.GetAttrStep{Name: "health_checker"},
+		cty.IndexStep{Key: cty.NumberIntVal(0)},
+		cty.GetAttrStep{Name: "default_weight"},
+	})
+	if !defaultWeightConfigured {
+		return nil
+	}
+
+	isDynamicBackendWeightEnabled, dynamicBackendWeightConfigured := getLoadBalancerBackendSetConfiguredRawValue(diff, cty.Path{
+		cty.GetAttrStep{Name: "health_checker"},
+		cty.IndexStep{Key: cty.NumberIntVal(0)},
+		cty.GetAttrStep{Name: "is_dynamic_backend_weight_enabled"},
+	})
+	if !dynamicBackendWeightConfigured || !isDynamicBackendWeightEnabled.Type().Equals(cty.Bool) || !isDynamicBackendWeightEnabled.True() {
+		return fmt.Errorf("health_checker.0.default_weight can be set only when health_checker.0.is_dynamic_backend_weight_enabled is true")
+	}
+
+	return nil
+}
+
+func getLoadBalancerBackendSetConfiguredRawValue(diff *schema.ResourceDiff, path cty.Path) (cty.Value, bool) {
+	value, diags := diff.GetRawConfigAt(path)
+	if diags.HasError() || !value.IsKnown() || value.IsNull() {
+		return cty.DynamicVal, false
+	}
+
+	return value, true
 }
 
 func createLoadBalancerBackendSetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
@@ -869,6 +913,20 @@ func BackendToMap(obj oci_load_balancer.Backend) map[string]interface{} {
 func (s *LoadBalancerBackendSetResourceCrud) mapToHealthCheckerDetails(fieldKeyFormat string) (oci_load_balancer.HealthCheckerDetails, error) {
 	result := oci_load_balancer.HealthCheckerDetails{}
 
+	isDynamicBackendWeightEnabledValue := true
+	if isDynamicBackendWeightEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_dynamic_backend_weight_enabled")); ok {
+		tmp := isDynamicBackendWeightEnabled.(bool)
+		isDynamicBackendWeightEnabledValue = tmp
+		result.IsDynamicBackendWeightEnabled = &tmp
+	}
+
+	if isDynamicBackendWeightEnabledValue {
+		if defaultWeight, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "default_weight")); ok {
+			tmp := defaultWeight.(int)
+			result.DefaultWeight = &tmp
+		}
+	}
+
 	if intervalMs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "interval_ms")); ok {
 		tmp := intervalMs.(int)
 		result.IntervalInMillis = &tmp
@@ -920,8 +978,16 @@ func (s *LoadBalancerBackendSetResourceCrud) mapToHealthCheckerDetails(fieldKeyF
 func HealthCheckerToMap(obj *oci_load_balancer.HealthChecker) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.DefaultWeight != nil {
+		result["default_weight"] = int(*obj.DefaultWeight)
+	}
+
 	if obj.IntervalInMillis != nil {
 		result["interval_ms"] = int(*obj.IntervalInMillis)
+	}
+
+	if obj.IsDynamicBackendWeightEnabled != nil {
+		result["is_dynamic_backend_weight_enabled"] = bool(*obj.IsDynamicBackendWeightEnabled)
 	}
 
 	if obj.IsForcePlainText != nil {
