@@ -47,6 +47,10 @@ func CoreClusterNetworkResource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Required: true,
 						},
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 
 						// Optional
 						"defined_tags": {
@@ -81,10 +85,6 @@ func CoreClusterNetworkResource() *schema.Resource {
 							Computed: true,
 						},
 						"instance_hostname_formatter": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"compartment_id": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -125,6 +125,132 @@ func CoreClusterNetworkResource() *schema.Resource {
 									"vnic_selection": {
 										Type:     schema.TypeString,
 										Computed: true,
+									},
+								},
+							},
+						},
+						"override_policy": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"override_statements": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"name": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"override_options": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+
+															// Computed
+															"name": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"override": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+
+																		// Optional
+
+																		// Computed
+																		"capacity_reservation_id": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"shape": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"shape_config_details": {
+																			Type:     schema.TypeList,
+																			Computed: true,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+
+																					// Optional
+
+																					// Computed
+																					"baseline_ocpu_utilization": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																					"local_volume_size_in_gbs": {
+																						Type:     schema.TypeInt,
+																						Computed: true,
+																					},
+																					"memory_in_gbs": {
+																						Type:     schema.TypeFloat,
+																						Computed: true,
+																					},
+																					"nvmes": {
+																						Type:     schema.TypeInt,
+																						Computed: true,
+																					},
+																					"ocpus": {
+																						Type:     schema.TypeFloat,
+																						Computed: true,
+																					},
+																					"resource_management": {
+																						Type:     schema.TypeString,
+																						Computed: true,
+																					},
+																					"vcpus": {
+																						Type:     schema.TypeInt,
+																						Computed: true,
+																					},
+																				},
+																			},
+																		},
+																	},
+																},
+															},
+														},
+													},
+												},
+												"selector": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+
+															// Computed
+															"availability_domain": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+														},
+													},
+												},
+											},
+										},
 									},
 								},
 							},
@@ -272,14 +398,14 @@ func CoreClusterNetworkResource() *schema.Resource {
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 						},
 						// Optional
-						"primary_subnet_id": {
+						"placement_constraint": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
 						},
 						// Optional
-						"placement_constraint": {
+						"primary_subnet_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -982,6 +1108,10 @@ func InstancePoolToMap(obj oci_core.InstancePool) map[string]interface{} {
 	}
 	result["load_balancers"] = loadBalancers
 
+	if obj.OverridePolicy != nil {
+		result["override_policy"] = []interface{}{InstancePoolLaunchOverridePolicyToMap(obj.OverridePolicy)}
+	}
+
 	placementConfigurations := []interface{}{}
 	for _, item := range obj.PlacementConfigurations {
 		placementConfigurations = append(placementConfigurations, InstancePoolPlacementConfigurationToMap(item))
@@ -998,6 +1128,10 @@ func InstancePoolToMap(obj oci_core.InstancePool) map[string]interface{} {
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeStateUpdated != nil {
+		result["time_state_updated"] = obj.TimeStateUpdated.String()
 	}
 
 	return result

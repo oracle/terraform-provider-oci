@@ -331,6 +331,104 @@ func CoreInstancePoolResource() *schema.Resource {
 					},
 				},
 			},
+			"override_policy": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"override_statements": {
+							Type:     schema.TypeList,
+							Required: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"override_options": {
+										Type:     schema.TypeList,
+										Required: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"name": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+												"override": {
+													Type:     schema.TypeList,
+													Required: true,
+													MaxItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															"capacity_reservation_id": {
+																Type:     schema.TypeString,
+																Optional: true,
+															},
+															"shape": {
+																Type:     schema.TypeString,
+																Optional: true,
+															},
+															"shape_config_details": {
+																Type:     schema.TypeList,
+																Optional: true,
+																MaxItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		"baseline_ocpu_utilization": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																		},
+																		"local_volume_size_in_gbs": {
+																			Type:     schema.TypeInt,
+																			Optional: true,
+																		},
+																		"memory_in_gbs": {
+																			Type:     schema.TypeFloat,
+																			Optional: true,
+																		},
+																		"nvmes": {
+																			Type:     schema.TypeInt,
+																			Optional: true,
+																		},
+																		"ocpus": {
+																			Type:     schema.TypeFloat,
+																			Optional: true,
+																		},
+																		"resource_management": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																		},
+																		"vcpus": {
+																			Type:     schema.TypeInt,
+																			Optional: true,
+																		},
+																	},
+																},
+															},
+														},
+													},
+												},
+											},
+										},
+									},
+									"selector": {
+										Type:     schema.TypeList,
+										Required: true,
+										MaxItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"availability_domain": {
+													Type:             schema.TypeString,
+													Required:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
 
 			// Computed
 			"current_size": {
@@ -351,12 +449,12 @@ func CoreInstancePoolResource() *schema.Resource {
 					instancePoolStoppedState,
 				}, true),
 			},
-			"actual_size": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
 			"time_created": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"actual_size": {
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 		},
@@ -515,6 +613,14 @@ func (s *CoreInstancePoolResourceCrud) Create() error {
 		}
 	}
 
+	if overridePolicy, ok := s.D.GetOkExists("override_policy"); ok && len(overridePolicy.([]interface{})) > 0 {
+		policy, err := s.mapToInstancePoolLaunchOverridePolicy("override_policy.0.%s")
+		if err != nil {
+			return err
+		}
+		request.OverridePolicy = &policy
+	}
+
 	if placementConfigurations, ok := s.D.GetOkExists("placement_configurations"); ok {
 		interfaces := placementConfigurations.([]interface{})
 		tmp := make([]oci_core.CreateInstancePoolPlacementConfigurationDetails, len(interfaces))
@@ -658,6 +764,16 @@ func (s *CoreInstancePoolResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.InstancePoolId = &tmp
 
+	if s.D.HasChange("override_policy") {
+		if overridePolicy, ok := s.D.GetOkExists("override_policy"); ok && len(overridePolicy.([]interface{})) > 0 {
+			policy, err := s.mapToInstancePoolLaunchOverridePolicy("override_policy.0.%s")
+			if err != nil {
+				return err
+			}
+			request.OverridePolicy = &policy
+		}
+	}
+
 	if lifecycleManagement, ok := s.D.GetOkExists("lifecycle_management"); ok {
 		if tmpList := lifecycleManagement.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "lifecycle_management", 0)
@@ -781,6 +897,12 @@ func (s *CoreInstancePoolResourceCrud) SetData() error {
 		}
 	}
 	s.D.Set("load_balancers", loadBalancers)
+
+	if s.Res.OverridePolicy != nil {
+		s.D.Set("override_policy", []interface{}{InstancePoolLaunchOverridePolicyToMap(s.Res.OverridePolicy)})
+	} else {
+		s.D.Set("override_policy", nil)
+	}
 
 	placementConfigurations := []interface{}{}
 	for _, item := range s.Res.PlacementConfigurations {
@@ -1023,6 +1145,165 @@ func InstancePoolPlacementConfigurationToMap(obj oci_core.InstancePoolPlacementC
 	}
 	result["secondary_vnic_subnets"] = secondaryVnicSubnets
 
+	return result
+}
+
+func (s *CoreInstancePoolResourceCrud) mapToInstancePoolLaunchOverridePolicy(fieldKeyFormat string) (oci_core.InstancePoolLaunchOverridePolicy, error) {
+	result := oci_core.InstancePoolLaunchOverridePolicy{}
+	statements, _ := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "override_statements"))
+	for i := range statements.([]interface{}) {
+		statement, err := s.mapToInstancePoolLaunchOverrideStatement(fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "override_statements"), i))
+		if err != nil {
+			return result, err
+		}
+		result.OverrideStatements = append(result.OverrideStatements, statement)
+	}
+	return result, nil
+}
+
+func (s *CoreInstancePoolResourceCrud) mapToInstancePoolLaunchOverrideStatement(fieldKeyFormat string) (oci_core.InstancePoolLaunchOverrideStatement, error) {
+	result := oci_core.InstancePoolLaunchOverrideStatement{}
+	if selector, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "selector")); ok && len(selector.([]interface{})) > 0 {
+		availabilityDomain, _ := s.D.GetOk(fmt.Sprintf("%s.0.availability_domain", fmt.Sprintf(fieldKeyFormat, "selector")))
+		value := availabilityDomain.(string)
+		result.Selector = &oci_core.InstancePoolLaunchOverrideSelector{AvailabilityDomain: &value}
+	}
+	options, _ := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "override_options"))
+	for i := range options.([]interface{}) {
+		option, err := s.mapToInstancePoolLaunchOverrideOption(fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "override_options"), i))
+		if err != nil {
+			return result, err
+		}
+		result.OverrideOptions = append(result.OverrideOptions, option)
+	}
+	return result, nil
+}
+
+func (s *CoreInstancePoolResourceCrud) mapToInstancePoolLaunchOverrideOption(fieldKeyFormat string) (oci_core.InstancePoolLaunchOverrideOption, error) {
+	result := oci_core.InstancePoolLaunchOverrideOption{}
+	name, _ := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "name"))
+	nameValue := name.(string)
+	result.Name = &nameValue
+	if override, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "override")); ok && len(override.([]interface{})) > 0 {
+		details, err := s.mapToInstancePoolLaunchOverrideDetails(fmt.Sprintf("%s.0.%%s", fmt.Sprintf(fieldKeyFormat, "override")))
+		if err != nil {
+			return result, err
+		}
+		result.Override = &details
+	}
+	return result, nil
+}
+
+func (s *CoreInstancePoolResourceCrud) mapToInstancePoolLaunchOverrideDetails(fieldKeyFormat string) (oci_core.InstancePoolLaunchOverrideDetails, error) {
+	result := oci_core.InstancePoolLaunchOverrideDetails{}
+	if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "capacity_reservation_id")); ok {
+		id := value.(string)
+		result.CapacityReservationId = &id
+	}
+	if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "shape")); ok {
+		shape := value.(string)
+		result.Shape = &shape
+	}
+	if details, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape_config_details")); ok && len(details.([]interface{})) > 0 {
+		shapeConfig, err := s.mapToInstancePoolLaunchOverrideShapeConfigDetails(fmt.Sprintf("%s.0.%%s", fmt.Sprintf(fieldKeyFormat, "shape_config_details")))
+		if err != nil {
+			return result, err
+		}
+		result.ShapeConfigDetails = &shapeConfig
+	}
+	return result, nil
+}
+
+func (s *CoreInstancePoolResourceCrud) mapToInstancePoolLaunchOverrideShapeConfigDetails(fieldKeyFormat string) (oci_core.InstancePoolLaunchOverrideShapeConfigDetails, error) {
+	result := oci_core.InstancePoolLaunchOverrideShapeConfigDetails{}
+	if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "baseline_ocpu_utilization")); ok {
+		result.BaselineOcpuUtilization = oci_core.InstancePoolLaunchOverrideShapeConfigDetailsBaselineOcpuUtilizationEnum(value.(string))
+	}
+	if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "local_volume_size_in_gbs")); ok {
+		v := value.(int)
+		result.LocalVolumeSizeInGBs = &v
+	}
+	if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
+		v := float32(value.(float64))
+		result.MemoryInGBs = &v
+	}
+	if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "nvmes")); ok {
+		v := value.(int)
+		result.Nvmes = &v
+	}
+	if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
+		v := float32(value.(float64))
+		result.Ocpus = &v
+	}
+	if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "resource_management")); ok {
+		result.ResourceManagement = oci_core.InstancePoolLaunchOverrideShapeConfigDetailsResourceManagementEnum(value.(string))
+	}
+	if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "vcpus")); ok {
+		v := value.(int)
+		result.Vcpus = &v
+	}
+	return result, nil
+}
+
+func InstancePoolLaunchOverridePolicyToMap(obj *oci_core.InstancePoolLaunchOverridePolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+	statements := make([]interface{}, 0, len(obj.OverrideStatements))
+	for _, statement := range obj.OverrideStatements {
+		statementMap := map[string]interface{}{}
+		if statement.Selector != nil && statement.Selector.AvailabilityDomain != nil {
+			statementMap["selector"] = []interface{}{map[string]interface{}{"availability_domain": *statement.Selector.AvailabilityDomain}}
+		}
+		options := make([]interface{}, 0, len(statement.OverrideOptions))
+		for _, option := range statement.OverrideOptions {
+			optionMap := map[string]interface{}{}
+			if option.Name != nil {
+				optionMap["name"] = *option.Name
+			}
+			if option.Override != nil {
+				optionMap["override"] = []interface{}{InstancePoolLaunchOverrideDetailsToMap(option.Override)}
+			}
+			options = append(options, optionMap)
+		}
+		statementMap["override_options"] = options
+		statements = append(statements, statementMap)
+	}
+	result["override_statements"] = statements
+	return result
+}
+
+func InstancePoolLaunchOverrideDetailsToMap(obj *oci_core.InstancePoolLaunchOverrideDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	if obj.CapacityReservationId != nil {
+		result["capacity_reservation_id"] = *obj.CapacityReservationId
+	}
+	if obj.Shape != nil {
+		result["shape"] = *obj.Shape
+	}
+	if obj.ShapeConfigDetails != nil {
+		shapeConfig := map[string]interface{}{}
+		if obj.ShapeConfigDetails.LocalVolumeSizeInGBs != nil {
+			shapeConfig["local_volume_size_in_gbs"] = *obj.ShapeConfigDetails.LocalVolumeSizeInGBs
+		}
+		if obj.ShapeConfigDetails.MemoryInGBs != nil {
+			shapeConfig["memory_in_gbs"] = *obj.ShapeConfigDetails.MemoryInGBs
+		}
+		if obj.ShapeConfigDetails.Nvmes != nil {
+			shapeConfig["nvmes"] = *obj.ShapeConfigDetails.Nvmes
+		}
+		if obj.ShapeConfigDetails.Ocpus != nil {
+			shapeConfig["ocpus"] = *obj.ShapeConfigDetails.Ocpus
+		}
+		if obj.ShapeConfigDetails.Vcpus != nil {
+			shapeConfig["vcpus"] = *obj.ShapeConfigDetails.Vcpus
+		}
+		if obj.ShapeConfigDetails.BaselineOcpuUtilization != "" {
+			shapeConfig["baseline_ocpu_utilization"] = string(obj.ShapeConfigDetails.BaselineOcpuUtilization)
+		}
+		if obj.ShapeConfigDetails.ResourceManagement != "" {
+			shapeConfig["resource_management"] = string(obj.ShapeConfigDetails.ResourceManagement)
+		}
+		result["shape_config_details"] = []interface{}{shapeConfig}
+	}
 	return result
 }
 
