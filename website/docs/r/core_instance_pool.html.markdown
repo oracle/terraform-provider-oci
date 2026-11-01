@@ -71,6 +71,15 @@ resource "oci_core_instance_pool" "test_instance_pool" {
 	freeform_tags = {"Department"= "Finance"}
 	instance_display_name_formatter = var.instance_pool_instance_display_name_formatter
 	instance_hostname_formatter = var.instance_pool_instance_hostname_formatter
+	instance_maintenance_policy {
+
+		#Optional
+		launch_before_terminating {
+			#Required
+			is_full_refresh = var.instance_pool_instance_maintenance_policy_launch_before_terminating_is_full_refresh
+			max_healthy_percent = var.instance_pool_instance_maintenance_policy_launch_before_terminating_max_healthy_percent
+		}
+	}
 	lifecycle_management {
 		#Required
 		lifecycle_actions {
@@ -141,6 +150,10 @@ The following arguments are supported:
 * `instance_configuration_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance configuration associated with the instance pool. 
 * `instance_display_name_formatter` - (Optional) (Updatable) A user-friendly formatter for the instance pool's instances. Instance displaynames follow the format. The formatter does not retroactively change instance's displaynames, only instance displaynames in the future follow the format 
 * `instance_hostname_formatter` - (Optional) (Updatable) A user-friendly formatter for the instance pool's instances. Instance hostnames follow the format. The formatter does not retroactively change instance's hostnames, only instance hostnames in the future follow the format 
+* `instance_maintenance_policy` - (Optional) (Updatable) Optional maintenance policy settings for an instance pool.
+	* `launch_before_terminating` - (Optional) (Updatable) Default launch-before-termination settings for instance pool refreshes.
+		* `is_full_refresh` - (Required) (Updatable) Whether to refresh eligible instances that already use the target instance configuration.
+		* `max_healthy_percent` - (Required) (Updatable) The maximum percentage of instances that can be in the pool during a refresh. The service uses this value to calculate launch-before-terminate surge capacity.
 * `lifecycle_management` - (Optional) (Updatable) The lifecycle management options for the instance pool. 
 	* `lifecycle_actions` - (Required) (Updatable) The lifecycle actions for the instance pool. 
 		* `pre_termination` - (Optional) (Updatable) The data for pre-termination action for an instance pool 
@@ -245,6 +258,10 @@ The following attributes are exported:
 * `instance_configuration_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance configuration associated with the instance pool. 
 * `instance_display_name_formatter` - A user-friendly formatter for the instance pool's instances. Instance displaynames follow the format. The formatter does not retroactively change instance's displaynames, only instance displaynames in the future follow the format 
 * `instance_hostname_formatter` - A user-friendly formatter for the instance pool's instances. Instance hostnames follow the format. The formatter does not retroactively change instance's hostnames, only instance hostnames in the future follow the format 
+* `instance_maintenance_policy` - Optional maintenance policy settings for an instance pool.
+	* `launch_before_terminating` - Default launch-before-termination settings for instance pool refreshes.
+		* `is_full_refresh` - Whether to refresh eligible instances that already use the target instance configuration.
+		* `max_healthy_percent` - The maximum percentage of instances that can be in the pool during a refresh. The service uses this value to calculate launch-before-terminate surge capacity.
 * `lifecycle_management` - The lifecycle management options for the instance pool. 
 	* `lifecycle_actions` - The lifecycle actions for the instance pool. 
 		* `pre_termination` - The data for pre-termination action for an instance pool 
@@ -349,4 +366,3 @@ InstancePools can be imported using the `id`, e.g.
 ```
 $ terraform import oci_core_instance_pool.test_instance_pool "id"
 ```
-
