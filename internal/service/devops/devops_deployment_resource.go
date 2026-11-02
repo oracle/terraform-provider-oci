@@ -1252,13 +1252,14 @@ func DevopsDeploymentSummaryToMap(obj oci_devops.DeploymentSummary) map[string]i
 	}
 
 	if obj.GetDeployArtifactOverrideArguments() != nil {
-		result["deploy_artifact_override_arguments"] = DeployArtifactOverrideArgumentCollectionToMap(obj.GetDeployArtifactOverrideArguments())
+		result["deploy_artifact_override_arguments"] = []interface{}{DeployArtifactOverrideArgumentCollectionToMap(obj.GetDeployArtifactOverrideArguments())}
 	} else {
 		result["deploy_artifact_override_arguments"] = nil
 	}
 
+	// If re-enabled, keep the singleton list wrapper required by the TypeList schema.
 	//if obj.GetDeploymentArguments() != nil {
-	//	result["deployment_arguments"] = DeploymentArgumentCollectionToMap(obj.GetDeploymentArguments())
+	//	result["deployment_arguments"] = []interface{}{DeploymentArgumentCollectionToMap(obj.GetDeploymentArguments())}
 	//} else {
 	//	result["deployment_arguments"] = nil
 	//}
