@@ -101,6 +101,10 @@ func (s *ArtifactsContainerRepositoryDataSourceCrud) SetData() error {
 		s.D.Set("is_public", *s.Res.IsPublic)
 	}
 
+	if s.Res.IsTopLevel != nil {
+		s.D.Set("is_top_level", *s.Res.IsTopLevel)
+	}
+
 	if s.Res.LayerCount != nil {
 		s.D.Set("layer_count", *s.Res.LayerCount)
 	}
@@ -108,6 +112,8 @@ func (s *ArtifactsContainerRepositoryDataSourceCrud) SetData() error {
 	if s.Res.LayersSizeInBytes != nil {
 		s.D.Set("layers_size_in_bytes", strconv.FormatInt(*s.Res.LayersSizeInBytes, 10))
 	}
+
+	s.D.Set("multi_region_peers", s.Res.MultiRegionPeers)
 
 	if s.Res.Namespace != nil {
 		s.D.Set("namespace", *s.Res.Namespace)
@@ -118,6 +124,8 @@ func (s *ArtifactsContainerRepositoryDataSourceCrud) SetData() error {
 	} else {
 		s.D.Set("readme", nil)
 	}
+
+	s.D.Set("repository_type", s.Res.RepositoryType)
 
 	s.D.Set("state", s.Res.LifecycleState)
 
@@ -131,6 +139,18 @@ func (s *ArtifactsContainerRepositoryDataSourceCrud) SetData() error {
 
 	if s.Res.TimeLastPushed != nil {
 		s.D.Set("time_last_pushed", s.Res.TimeLastPushed.String())
+	}
+
+	if s.Res.UpstreamSecretId != nil {
+		s.D.Set("upstream_secret_id", *s.Res.UpstreamSecretId)
+	}
+
+	if s.Res.UpstreamUrl != nil {
+		s.D.Set("upstream_url", *s.Res.UpstreamUrl)
+	}
+
+	if s.Res.UpstreamUsername != nil {
+		s.D.Set("upstream_username", *s.Res.UpstreamUsername)
 	}
 
 	return nil

@@ -92,11 +92,12 @@ var (
 		"predict": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceModelDeploymentCategoryLogDetailsPredictRepresentation},
 	}
 	DatascienceModelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsRepresentation = map[string]interface{}{
-		"instance_configuration": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceModelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsInstanceConfigurationRepresentation},
-		"model_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_model.test_model.id}`, Update: `${oci_datascience_model.test_model_update.id}`},
-		"bandwidth_mbps":         acctest.Representation{RepType: acctest.Optional, Create: `10`},
-		"maximum_bandwidth_mbps": acctest.Representation{RepType: acctest.Optional, Create: `10`},
-		"scaling_policy":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceModelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsScalingPolicyRepresentation},
+		"bandwidth_mbps":              acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"instance_configuration":      acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceModelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsInstanceConfigurationRepresentation},
+		"maximum_bandwidth_mbps":      acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"model_artifact_signature_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_datascience_model_artifact_signature.test_model_artifact_signature.id}`},
+		"model_id":                    acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_model.test_model.id}`, Update: `${oci_datascience_model.test_model_update.id}`},
+		"scaling_policy":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceModelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsScalingPolicyRepresentation},
 	}
 	DatascienceModelDeploymentCategoryLogDetailsAccessRepresentation = map[string]interface{}{
 		"log_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_logging_log_group.test_log_group.id}`},
@@ -179,6 +180,10 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, DatascienceProjectRepresentation) +
 		DefinedTagsDependencies +
+		KeyResourceDependencyConfig +
+		keyIdVariableStr +
+		acctest.GenerateResourceFromRepresentationMap("oci_kms_key_version", "test_key_version", acctest.Required, acctest.Create, KmsKeyVersionRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_artifact_signature", "test_model_artifact_signature", acctest.Required, acctest.Create, DatascienceModelArtifactSignatureRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", acctest.Required, acctest.Create, logGroupMDRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_access_log", acctest.Required, acctest.Create, customAccessLogRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_predict_log", acctest.Required, acctest.Create, customPredictLogRepresentation) +
@@ -334,6 +339,15 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.deployment_type", "SINGLE_MODEL"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.compute_target_id"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.infrastructure_type", "MANAGED_COMPUTE_CLUSTER"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.instance_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.instance_configuration.0.instance_shape_name"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_request_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_request_configuration.0.memory_in_gbs", "1.0"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_request_configuration.0.ocpus", "1.0"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.instance_configuration.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.instance_configuration.0.instance_shape_name"),
@@ -379,6 +393,7 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.instance_configuration.0.model_deployment_instance_shape_config_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.instance_configuration.0.model_deployment_instance_shape_config_details.0.cpu_baseline", "BASELINE_1_8"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.maximum_bandwidth_mbps", "10"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.model_artifact_signature_id"),
 
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.instance_configuration.0.model_deployment_instance_shape_config_details.0.memory_in_gbs", "6"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.instance_configuration.0.model_deployment_instance_shape_config_details.0.ocpus", "1"),
@@ -531,6 +546,7 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.instance_configuration.0.model_deployment_instance_shape_config_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.instance_configuration.0.model_deployment_instance_shape_config_details.0.cpu_baseline", "BASELINE_1_8"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.maximum_bandwidth_mbps", "10"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.model_artifact_signature_id"),
 
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.instance_configuration.0.model_deployment_instance_shape_config_details.0.memory_in_gbs", "6"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.instance_configuration.0.model_deployment_instance_shape_config_details.0.ocpus", "1"),
@@ -586,6 +602,8 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.instance_configuration.0.model_deployment_instance_shape_config_details.0.ocpus", "2"),
 
 				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.instance_configuration.0.subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.maximum_bandwidth_mbps", "11"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.model_artifact_signature_id"),
 
 				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.model_id"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.scaling_policy.#", "1"),
@@ -645,6 +663,8 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "model_deployments.0.model_deployment_configuration_details.0.model_configuration_details.0.instance_configuration.0.model_deployment_instance_shape_config_details.0.ocpus", "2"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "model_deployments.0.model_deployment_configuration_details.0.model_configuration_details.0.instance_configuration.0.subnet_id"),
+				resource.TestCheckResourceAttr(datasourceName, "model_deployments.0.model_deployment_configuration_details.0.model_configuration_details.0.maximum_bandwidth_mbps", "11"),
+				resource.TestCheckResourceAttrSet(datasourceName, "model_deployments.0.model_deployment_configuration_details.0.model_configuration_details.0.model_artifact_signature_id"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "model_deployments.0.model_deployment_configuration_details.0.model_configuration_details.0.model_id"),
 				resource.TestCheckResourceAttr(datasourceName, "model_deployments.0.model_deployment_configuration_details.0.model_configuration_details.0.scaling_policy.#", "1"),

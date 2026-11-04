@@ -181,9 +181,7 @@ func (s *OpsiOpsiConfigurationDataSourceCrud) SetData() error {
 			s.D.Set("display_name", *v.DisplayName)
 		}
 
-		if v.FreeformTags != nil {
-			s.D.Set("freeform_tags", v.FreeformTags)
-		}
+		s.D.Set("freeform_tags", v.FreeformTags)
 
 		s.D.Set("state", v.LifecycleState)
 

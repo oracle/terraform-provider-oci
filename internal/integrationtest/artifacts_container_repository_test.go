@@ -6,7 +6,9 @@ package integrationtest
 import (
 	"context"
 	"fmt"
+	"sort"
 	"strconv"
+	"strings"
 	"testing"
 	"time"
 
@@ -56,6 +58,54 @@ var (
 		"is_public":      acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"readme":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: ArtifactscontainerRepositoryReadmeRepresentation},
 	}
+	ArtifactsContainerRepositoryStandardRepresentation = map[string]interface{}{
+		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":    acctest.Representation{RepType: acctest.Required, Create: utils.RandomString(15, utils.CharsetLowerCaseWithoutDigits)},
+		"is_top_level":    acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"repository_type": acctest.Representation{RepType: acctest.Required, Create: `STANDARD`},
+	}
+	ArtifactsContainerRepositoryStandardCollectionDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"is_top_level":    acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"repository_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_artifacts_container_repository.test_standard_container_repository.id}`},
+		"repository_type": acctest.Representation{RepType: acctest.Required, Create: `STANDARD`},
+	}
+	ArtifactsContainerRepositoryStandardSingularDataSourceRepresentation = map[string]interface{}{
+		"repository_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_artifacts_container_repository.test_standard_container_repository.id}`},
+	}
+	ArtifactsContainerRepositoryPullThroughRepresentation = map[string]interface{}{
+		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":    acctest.Representation{RepType: acctest.Required, Create: utils.RandomString(15, utils.CharsetLowerCaseWithoutDigits)},
+		"is_top_level":    acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"repository_type": acctest.Representation{RepType: acctest.Required, Create: `PULL_THROUGH`},
+		"upstream_secret_id": acctest.Representation{RepType: acctest.Required,
+			Create: `${var.container_repository_upstream_secret_id}`, Update: `${var.container_repository_upstream_secret_id_for_update}`},
+		"upstream_url": acctest.Representation{RepType: acctest.Required, Create: `${var.container_repository_upstream_url}`},
+		"upstream_username": acctest.Representation{RepType: acctest.Required,
+			Create: `${var.container_repository_upstream_username}`, Update: `${var.container_repository_upstream_username_for_update}`},
+	}
+	ArtifactsContainerRepositoryPullThroughCollectionDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"repository_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_artifacts_container_repository.test_pull_through_container_repository.id}`},
+		"repository_type": acctest.Representation{RepType: acctest.Required, Create: `PULL_THROUGH`},
+	}
+	ArtifactsContainerRepositoryPullThroughSingularDataSourceRepresentation = map[string]interface{}{
+		"repository_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_artifacts_container_repository.test_pull_through_container_repository.id}`},
+	}
+	ArtifactsContainerRepositoryMultiRegionRepresentation = map[string]interface{}{
+		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":    acctest.Representation{RepType: acctest.Required, Create: utils.RandomString(15, utils.CharsetLowerCaseWithoutDigits)},
+		"is_top_level":    acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"repository_type": acctest.Representation{RepType: acctest.Required, Create: `MULTI_REGION`},
+	}
+	ArtifactsContainerRepositoryMultiRegionCollectionDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"repository_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_artifacts_container_repository.test_multi_region_container_repository.id}`},
+		"repository_type": acctest.Representation{RepType: acctest.Required, Create: `MULTI_REGION`},
+	}
+	ArtifactsContainerRepositoryMultiRegionSingularDataSourceRepresentation = map[string]interface{}{
+		"repository_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_artifacts_container_repository.test_multi_region_container_repository.id}`},
+	}
 	ArtifactscontainerRepositoryReadmeRepresentation = map[string]interface{}{
 		"content": acctest.Representation{RepType: acctest.Required, Create: `content`, Update: `content2`},
 		"format":  acctest.Representation{RepType: acctest.Required, Create: `TEXT_MARKDOWN`, Update: `TEXT_PLAIN`},
@@ -65,8 +115,9 @@ var (
 )
 
 // issue-routing-tag: artifacts/default
-func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
-	httpreplay.SetScenario("TestArtifactsContainerRepositoryResource_basic")
+func TestArtifactsContainerRepositoryResource_legacy(t *testing.T) {
+	// Verify legacy Create, List, and Update behavior without repository-mode fields.
+	httpreplay.SetScenario("TestArtifactsContainerRepositoryResource_legacy")
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()
@@ -272,6 +323,250 @@ func TestArtifactsContainerRepositoryResource_basic(t *testing.T) {
 			ResourceName:            resourceName,
 		},
 	})
+}
+
+// issue-routing-tag: artifacts/default
+func TestArtifactsContainerRepositoryResource_STANDARD(t *testing.T) {
+	httpreplay.SetScenario("TestArtifactsContainerRepositoryResource_STANDARD")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+	compartmentID := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIDVariable := artifactsContainerRepositoryStringVariable("compartment_id", compartmentID)
+
+	resourceName := "oci_artifacts_container_repository.test_standard_container_repository"
+	collectionDataSourceName := "data.oci_artifacts_container_repositories.test_standard_container_repositories"
+	singularDataSourceName := "data.oci_artifacts_container_repository.test_standard_container_repository"
+	standardResourceConfig := config + compartmentIDVariable +
+		acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_standard_container_repository", acctest.Required, acctest.Create, ArtifactsContainerRepositoryStandardRepresentation)
+	standardCollectionDataSourceConfig := standardResourceConfig +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_artifacts_container_repositories", "test_standard_container_repositories", acctest.Required, acctest.Create, ArtifactsContainerRepositoryStandardCollectionDataSourceRepresentation)
+	standardSingularDataSourceConfig := standardResourceConfig +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_artifacts_container_repository", "test_standard_container_repository", acctest.Required, acctest.Create, ArtifactsContainerRepositoryStandardSingularDataSourceRepresentation)
+
+	acctest.ResourceTest(t, testAccCheckArtifactsContainerRepositoryDestroy, []resource.TestStep{
+		{
+			Config: standardResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentID),
+				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
+				resource.TestCheckResourceAttr(resourceName, "is_top_level", "false"),
+				resource.TestCheckResourceAttr(resourceName, "repository_type", "STANDARD"),
+			),
+		},
+		{
+			Config: standardCollectionDataSourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(collectionDataSourceName, "is_top_level", "false"),
+				resource.TestCheckResourceAttr(collectionDataSourceName, "repository_type", "STANDARD"),
+				resource.TestCheckResourceAttr(collectionDataSourceName, "container_repository_collection.#", "1"),
+				resource.TestCheckResourceAttr(collectionDataSourceName, "container_repository_collection.0.items.#", "1"),
+				resource.TestCheckResourceAttr(collectionDataSourceName, "container_repository_collection.0.items.0.is_top_level", "false"),
+				resource.TestCheckResourceAttr(collectionDataSourceName, "container_repository_collection.0.items.0.repository_type", "STANDARD"),
+			),
+		},
+		{
+			Config: standardSingularDataSourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDataSourceName, "repository_id"),
+				resource.TestCheckResourceAttr(singularDataSourceName, "is_top_level", "false"),
+				resource.TestCheckResourceAttr(singularDataSourceName, "repository_type", "STANDARD"),
+			),
+		},
+		{
+			Config:                  standardResourceConfig,
+			ResourceName:            resourceName,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+		},
+	})
+}
+
+// issue-routing-tag: artifacts/default
+func TestArtifactsContainerRepositoryResource_PULL_THROUGH(t *testing.T) {
+	upstreamSecretID := utils.GetEnvSettingWithBlankDefault("container_repository_upstream_secret_id")
+	upstreamSecretIDForUpdate := utils.GetEnvSettingWithBlankDefault("container_repository_upstream_secret_id_for_update")
+	upstreamURL := utils.GetEnvSettingWithBlankDefault("container_repository_upstream_url")
+	upstreamUsername := utils.GetEnvSettingWithBlankDefault("container_repository_upstream_username")
+	upstreamUsernameForUpdate := utils.GetEnvSettingWithBlankDefault("container_repository_upstream_username_for_update")
+	if upstreamSecretID == "" || upstreamSecretIDForUpdate == "" || upstreamURL == "" || upstreamUsername == "" || upstreamUsernameForUpdate == "" {
+		t.Skip("set TF_VAR_container_repository_upstream_secret_id, TF_VAR_container_repository_upstream_secret_id_for_update, TF_VAR_container_repository_upstream_url, TF_VAR_container_repository_upstream_username, and TF_VAR_container_repository_upstream_username_for_update to run this test")
+	}
+	if upstreamSecretID == upstreamSecretIDForUpdate || upstreamUsername == upstreamUsernameForUpdate {
+		t.Fatal("the pull-through update secret and username must both differ from their create values")
+	}
+
+	httpreplay.SetScenario("TestArtifactsContainerRepositoryResource_PULL_THROUGH")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+	compartmentID := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	pullThroughVariables := artifactsContainerRepositoryStringVariable("compartment_id", compartmentID) +
+		artifactsContainerRepositoryStringVariable("container_repository_upstream_secret_id", upstreamSecretID) +
+		artifactsContainerRepositoryStringVariable("container_repository_upstream_secret_id_for_update", upstreamSecretIDForUpdate) +
+		artifactsContainerRepositoryStringVariable("container_repository_upstream_url", upstreamURL) +
+		artifactsContainerRepositoryStringVariable("container_repository_upstream_username", upstreamUsername) +
+		artifactsContainerRepositoryStringVariable("container_repository_upstream_username_for_update", upstreamUsernameForUpdate)
+
+	resourceName := "oci_artifacts_container_repository.test_pull_through_container_repository"
+	collectionDataSourceName := "data.oci_artifacts_container_repositories.test_pull_through_container_repositories"
+	singularDataSourceName := "data.oci_artifacts_container_repository.test_pull_through_container_repository"
+	pullThroughCreateConfig := config + pullThroughVariables +
+		acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_pull_through_container_repository", acctest.Required, acctest.Create, ArtifactsContainerRepositoryPullThroughRepresentation)
+	pullThroughUpdateConfig := config + pullThroughVariables +
+		acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_pull_through_container_repository", acctest.Required, acctest.Update, ArtifactsContainerRepositoryPullThroughRepresentation)
+	pullThroughCollectionDataSourceConfig := config + pullThroughVariables +
+		acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_pull_through_container_repository", acctest.Required, acctest.Update, ArtifactsContainerRepositoryPullThroughRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_artifacts_container_repositories", "test_pull_through_container_repositories", acctest.Required, acctest.Create, ArtifactsContainerRepositoryPullThroughCollectionDataSourceRepresentation)
+	pullThroughSingularDataSourceConfig := config + pullThroughVariables +
+		acctest.GenerateResourceFromRepresentationMap("oci_artifacts_container_repository", "test_pull_through_container_repository", acctest.Required, acctest.Update, ArtifactsContainerRepositoryPullThroughRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_artifacts_container_repository", "test_pull_through_container_repository", acctest.Required, acctest.Create, ArtifactsContainerRepositoryPullThroughSingularDataSourceRepresentation)
+
+	var resourceID string
+	acctest.ResourceTest(t, testAccCheckArtifactsContainerRepositoryDestroy, []resource.TestStep{
+		{
+			Config: pullThroughCreateConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentID),
+				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
+				resource.TestCheckResourceAttr(resourceName, "is_top_level", "false"),
+				resource.TestCheckResourceAttr(resourceName, "repository_type", "PULL_THROUGH"),
+				resource.TestCheckResourceAttr(resourceName, "upstream_secret_id", upstreamSecretID),
+				resource.TestCheckResourceAttr(resourceName, "upstream_url", upstreamURL),
+				resource.TestCheckResourceAttr(resourceName, "upstream_username", upstreamUsername),
+				func(s *terraform.State) (err error) {
+					resourceID, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		{
+			Config: pullThroughUpdateConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "repository_type", "PULL_THROUGH"),
+				resource.TestCheckResourceAttr(resourceName, "upstream_secret_id", upstreamSecretIDForUpdate),
+				resource.TestCheckResourceAttr(resourceName, "upstream_url", upstreamURL),
+				resource.TestCheckResourceAttr(resourceName, "upstream_username", upstreamUsernameForUpdate),
+				func(s *terraform.State) error {
+					resourceIDForUpdate, err := acctest.FromInstanceState(s, resourceName, "id")
+					if err != nil {
+						return err
+					}
+					if resourceID != resourceIDForUpdate {
+						return fmt.Errorf("resource recreated during pull-through credential update")
+					}
+					return nil
+				},
+			),
+		},
+		{
+			Config: pullThroughCollectionDataSourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(collectionDataSourceName, "repository_type", "PULL_THROUGH"),
+				resource.TestCheckResourceAttr(collectionDataSourceName, "container_repository_collection.#", "1"),
+				resource.TestCheckResourceAttr(collectionDataSourceName, "container_repository_collection.0.items.#", "1"),
+				resource.TestCheckResourceAttr(collectionDataSourceName, "container_repository_collection.0.items.0.repository_type", "PULL_THROUGH"),
+			),
+		},
+		{
+			Config: pullThroughSingularDataSourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDataSourceName, "repository_id"),
+				resource.TestCheckResourceAttr(singularDataSourceName, "is_top_level", "false"),
+				resource.TestCheckResourceAttr(singularDataSourceName, "repository_type", "PULL_THROUGH"),
+				resource.TestCheckResourceAttr(singularDataSourceName, "upstream_secret_id", upstreamSecretIDForUpdate),
+				resource.TestCheckResourceAttr(singularDataSourceName, "upstream_url", upstreamURL),
+				resource.TestCheckResourceAttr(singularDataSourceName, "upstream_username", upstreamUsernameForUpdate),
+			),
+		},
+		{
+			Config:                  pullThroughUpdateConfig,
+			ResourceName:            resourceName,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+		},
+	})
+}
+
+func artifactsContainerRepositoryStringVariable(name string, value string) string {
+	return fmt.Sprintf("variable %q { default = %s }\n", name, strconv.Quote(value))
+}
+
+func artifactsContainerRepositoryMultiRegionPeers(t *testing.T, rawPeers string) []string {
+	t.Helper()
+
+	peers := make([]string, 0)
+	seen := make(map[string]bool)
+	for _, value := range strings.Split(rawPeers, ",") {
+		peer := strings.TrimSpace(value)
+		if peer == "" {
+			t.Fatal("TF_VAR_container_repository_multi_region_peers contains an empty region")
+		}
+		if seen[peer] {
+			t.Fatalf("TF_VAR_container_repository_multi_region_peers contains duplicate region %q", peer)
+		}
+		seen[peer] = true
+		peers = append(peers, peer)
+	}
+	if len(peers) < 2 {
+		t.Fatal("TF_VAR_container_repository_multi_region_peers must contain at least two regions")
+	}
+	sort.Strings(peers)
+
+	return peers
+}
+
+func artifactsContainerRepositoryPeerSetContains(peers []string, expected string) bool {
+	for _, peer := range peers {
+		if peer == expected {
+			return true
+		}
+	}
+
+	return false
+}
+
+func testAccCheckArtifactsContainerRepositoryPeerSet(resourceName string, expectedPeers []string) resource.TestCheckFunc {
+	return func(s *terraform.State) error {
+		rs, ok := s.RootModule().Resources[resourceName]
+		if !ok {
+			return fmt.Errorf("resource not found in state: %s", resourceName)
+		}
+		if rs.Primary == nil {
+			return fmt.Errorf("resource has no primary state: %s", resourceName)
+		}
+
+		actualCountValue, ok := rs.Primary.Attributes["multi_region_peers.#"]
+		if !ok {
+			return fmt.Errorf("multi_region_peers count not found in state: %s", resourceName)
+		}
+		actualCount, err := strconv.Atoi(actualCountValue)
+		if err != nil {
+			return fmt.Errorf("invalid multi_region_peers count for %s: %w", resourceName, err)
+		}
+		if actualCount != len(expectedPeers) {
+			return fmt.Errorf("expected %d multi-region peers for %s, got %d", len(expectedPeers), resourceName, actualCount)
+		}
+
+		actualPeers := make(map[string]bool, actualCount)
+		for index := 0; index < actualCount; index++ {
+			key := fmt.Sprintf("multi_region_peers.%d", index)
+			peer, ok := rs.Primary.Attributes[key]
+			if !ok {
+				return fmt.Errorf("missing %s in state for %s", key, resourceName)
+			}
+			actualPeers[peer] = true
+		}
+		for _, peer := range expectedPeers {
+			if !actualPeers[peer] {
+				return fmt.Errorf("expected multi-region peer %q in state for %s", peer, resourceName)
+			}
+		}
+
+		return nil
+	}
 }
 
 func testAccCheckArtifactsContainerRepositoryDestroy(s *terraform.State) error {

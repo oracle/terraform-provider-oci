@@ -20,8 +20,9 @@ func DatabaseDbSystemsDataSource() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"availability_domain": {
-				Type:     schema.TypeString,
-				Optional: true,
+				Type:             schema.TypeString,
+				Optional:         true,
+				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 			},
 			"backup_id": {
 				Type:     schema.TypeString,
@@ -143,6 +144,10 @@ func (s *DatabaseDbSystemsDataSourceCrud) SetData() error {
 			dbSystem["cluster_name"] = *r.ClusterName
 		}
 
+		if r.ClusterPlacementGroupId != nil {
+			dbSystem["cluster_placement_group_id"] = *r.ClusterPlacementGroupId
+		}
+
 		if r.ComputeCount != nil {
 			dbSystem["compute_count"] = *r.ComputeCount
 		}
@@ -151,14 +156,6 @@ func (s *DatabaseDbSystemsDataSourceCrud) SetData() error {
 
 		if r.CpuCoreCount != nil {
 			dbSystem["cpu_core_count"] = *r.CpuCoreCount
-		}
-
-		if r.ClusterPlacementGroupId != nil {
-			dbSystem["cluster_placement_group_id"] = *r.ClusterPlacementGroupId
-		}
-
-		if r.SubscriptionId != nil {
-			dbSystem["subscription_id"] = *r.SubscriptionId
 		}
 
 		if r.DataCollectionOptions != nil {
@@ -297,6 +294,10 @@ func (s *DatabaseDbSystemsDataSourceCrud) SetData() error {
 
 		if r.SubnetId != nil {
 			dbSystem["subnet_id"] = *r.SubnetId
+		}
+
+		if r.SubscriptionId != nil {
+			dbSystem["subscription_id"] = *r.SubscriptionId
 		}
 
 		if r.SystemTags != nil {

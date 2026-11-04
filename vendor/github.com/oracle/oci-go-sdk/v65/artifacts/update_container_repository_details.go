@@ -28,6 +28,12 @@ type UpdateContainerRepositoryDetails struct {
 	// Whether the repository is public. A public repository allows unauthenticated access.
 	IsPublic *bool `mandatory:"false" json:"isPublic"`
 
+	// The upstream registry username for a pull-through cache repository.
+	UpstreamUsername *string `mandatory:"false" json:"upstreamUsername"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OCI Vault secret that contains the upstream registry password as base64 encoded string for a pull-through cache repository
+	UpstreamSecretId *string `mandatory:"false" json:"upstreamSecretId"`
+
 	Readme *ContainerRepositoryReadme `mandatory:"false" json:"readme"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no

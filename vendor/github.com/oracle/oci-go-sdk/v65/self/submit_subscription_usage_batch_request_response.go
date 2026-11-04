@@ -23,7 +23,7 @@ type SubmitSubscriptionUsageBatchRequest struct {
 	CompartmentId *string `mandatory:"true" contributesTo:"header" name:"compartment-id"`
 
 	// UTF-8 CSV file with no more than 30,000 usage records and a maximum size of 50 MB.
-	// Required columns are `MarketplaceOfferId`, `Id`, `Amount`, `CurrencyCode`,
+	// Required columns are `MarketplaceOfferId`, `ListingId`, `Id`, `Amount`, `CurrencyCode`,
 	// `UsageStartTime`, `UsageEndTime`, and `UsageDimensionName`.
 	// Optional columns are `ConsumedQuantity`, `CustomerTenancyId`,
 	// `BillingIdentifier`, `ProductSku`, `UnitOfMeasure`, `UnitPrice`,

@@ -130,4 +130,4 @@ The following attributes are exported:
 * `ssh_public_key` - The SSH public key on each node in the node pool on launch.
 * `state` - The state of the nodepool.
 * `subnet_ids` - The OCIDs of the subnets in which to place nodes for this node pool.
-
+* `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}`

@@ -72,6 +72,7 @@ var (
 		"type":                        acctest.Representation{RepType: acctest.Optional, Create: `ENHANCED_CLUSTER`, Update: `ENHANCED_CLUSTER`},
 		"options":                     acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterOptionsRepresentation},
 	}
+
 	ContainerengineClusterClusterPodNetworkOptionsRepresentation = map[string]interface{}{
 		"cni_type": acctest.Representation{RepType: acctest.Required, Create: `OCI_VCN_IP_NATIVE`},
 	}
@@ -129,7 +130,7 @@ var (
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 	ContainerengineClusterOptionsServiceLbConfigRepresentation = map[string]interface{}{
-		"backend_nsg_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`backendNsgIds`}, Update: []string{`backendNsgIds2`}},
+		"backend_nsg_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 		"defined_tags":    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
@@ -149,7 +150,7 @@ var (
 			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 		})) +
 		DefinedTagsDependencies +
-		KeyResourceDependencyConfig
+		KeyResourceDependencyConfig2
 )
 
 // issue-routing-tag: containerengine/default

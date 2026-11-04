@@ -35,7 +35,15 @@ func ArtifactsContainerRepositoriesDataSource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
+			"is_top_level": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"repository_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"repository_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -127,9 +135,19 @@ func (s *ArtifactsContainerRepositoriesDataSourceCrud) Get() error {
 		request.IsPublic = &tmp
 	}
 
+	if isTopLevel, ok := s.D.GetOkExists("is_top_level"); ok {
+		tmp := isTopLevel.(bool)
+		request.IsTopLevel = &tmp
+	}
+
 	if repositoryId, ok := s.D.GetOkExists("repository_id"); ok {
 		tmp := repositoryId.(string)
 		request.RepositoryId = &tmp
+	}
+
+	if repositoryType, ok := s.D.GetOkExists("repository_type"); ok {
+		tmp := repositoryType.(string)
+		request.RepositoryType = &tmp
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {

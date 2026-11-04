@@ -111,6 +111,7 @@ The following attributes are exported:
 	* `public_ip` - The public IP address of this node.
 	* `state` - The state of the node.
 	* `subnet_id` - The OCID of the subnet in which this node is placed
+	* `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}`
 * `primary_vnic` - Details for node's primary VNIC
 	* `security_attributes` - [Security attributes](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes) are labels for a resource that can be referenced in a [Zero Trust Packet Routing](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm) (ZPR) policy to control access to ZPR-supported resources
 * `quantity_per_subnet` - The number of nodes in each subnet.
@@ -135,4 +136,4 @@ The following attributes are exported:
 * `ssh_public_key` - The SSH public key on each node in the node pool on launch.
 * `state` - The state of the nodepool.
 * `subnet_ids` - The OCIDs of the subnets in which to place nodes for this node pool.
-
+* `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}`

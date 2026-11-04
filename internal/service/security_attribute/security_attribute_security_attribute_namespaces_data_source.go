@@ -27,8 +27,9 @@ func SecurityAttributeSecurityAttributeNamespacesDataSource() *schema.Resource {
 				Optional: true,
 			},
 			"name": {
-				Type:     schema.TypeString,
-				Optional: true,
+				Type:             schema.TypeString,
+				Optional:         true,
+				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 			},
 			"state": {
 				Type:     schema.TypeString,
