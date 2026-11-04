@@ -25,6 +25,9 @@ type CreateSubscriptionUsageRecordDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the marketplace offer being billed. A submit request can contain records for multiple marketplace offers.
 	MarketplaceOfferId *string `mandatory:"true" json:"marketplaceOfferId"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the listing that generated this usage.
+	ListingId *string `mandatory:"true" json:"listingId"`
+
 	// The pricing dimension against which usage is being reported.
 	UsageDimensionName *string `mandatory:"true" json:"usageDimensionName"`
 

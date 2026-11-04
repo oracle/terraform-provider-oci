@@ -69,6 +69,12 @@ type ContainerRepositorySummary struct {
 	// The system tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"true" json:"systemTags"`
+
+	// The type of container repository. This determines the repository behavior and required settings.
+	RepositoryType ContainerRepositoryRepositoryTypeEnum `mandatory:"false" json:"repositoryType,omitempty"`
+
+	// Whether the repository is top-level. A top-level repository reserves its name in namespace as a prefix and allows images to be hosted under child paths of that prefix.
+	IsTopLevel *bool `mandatory:"false" json:"isTopLevel"`
 }
 
 func (m ContainerRepositorySummary) String() string {
@@ -84,6 +90,9 @@ func (m ContainerRepositorySummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetContainerRepositoryLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingContainerRepositoryRepositoryTypeEnum(string(m.RepositoryType)); !ok && m.RepositoryType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RepositoryType: %s. Supported values are: %s.", m.RepositoryType, strings.Join(GetContainerRepositoryRepositoryTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
