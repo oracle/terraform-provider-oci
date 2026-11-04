@@ -1,3 +1,16 @@
+## 9.12.0 (November 4, 2026)
+
+### Added
+- Support for OCIR: Enabling Pull-through cache, multi-region and top-level repository capabilities and Global Endpoint for US Multi region
+- Support for listingId in SELF usage submission APIs
+
+### Bug Fix
+- Data Science artifact signature lifecycle handling and model deployment update support
+- Restore systemTags support to container engine resources
+- Prevent sending node_pool_cycling_details in update request if there are no changes
+- TERSI-5584: Fix database import panic on nil Data Guard IDs
+- Run Terraform Integration Test - ADBD
+
 ## 9.11.0 (October 21, 2026)
 
 ### Added
