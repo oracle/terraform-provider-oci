@@ -1,7 +1,6 @@
 package datascience
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
@@ -65,7 +64,7 @@ func TestModelDeploymentWaitForWorkRequestStatuses(t *testing.T) {
 			}}
 
 			identifier, err := modelDeploymentWaitForWorkRequest(
-				context.Background(), &workRequestID, "model-deployment", action, time.Second, false, &client)
+				&workRequestID, "model-deployment", action, time.Second, false, &client)
 			if tt.wantID {
 				if err != nil || identifier == nil || *identifier != modelDeploymentID {
 					t.Fatalf("waiter returned identifier=%v, error=%v; want %q", identifier, err, modelDeploymentID)

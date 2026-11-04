@@ -8,7 +8,7 @@
 - Data Science artifact signature lifecycle handling and model deployment update support
 - Restore systemTags support to container engine resources
 - Prevent sending node_pool_cycling_details in update request if there are no changes
-- TERSI-5584: Fix database import panic on nil Data Guard IDs
+- Fix database import panic on nil Data Guard IDs
 - Run Terraform Integration Test - ADBD
 
 ## 9.11.0 (October 21, 2026)
