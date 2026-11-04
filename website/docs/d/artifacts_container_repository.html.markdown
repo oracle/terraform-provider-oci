@@ -42,14 +42,20 @@ The following attributes are exported:
 * `image_count` - Total number of images.
 * `is_immutable` - Whether the repository is immutable. Images cannot be overwritten in an immutable repository.
 * `is_public` - Whether the repository is public. A public repository allows unauthenticated access.
+* `is_top_level` - Whether the repository is top-level. A top-level repository reserves its name in namespace as a prefix and allows images to be hosted under child paths of that prefix.
 * `layer_count` - Total number of layers.
 * `layers_size_in_bytes` - Total storage in bytes consumed by layers.
+* `multi_region_peers` - List of peer regions that define the multi-region group. Peer regions must be specified using canonical region names (for example, us-phoenix-1). The peer set must match a supported multi-region endpoint group and MUST include the local OCIR region where the repository is created. 
 * `namespace` - The tenancy namespace used in the container repository path.
 * `readme` - Container repository readme.
 	* `content` - Readme content. Avoid entering confidential information.
 	* `format` - Readme format. Supported formats are text/plain and text/markdown.
+* `repository_type` - The type of container repository. This determines the repository behavior and required settings.
 * `state` - The current state of the container repository.
 * `system_tags` - The system tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - An RFC 3339 timestamp indicating when the repository was created.
 * `time_last_pushed` - An RFC 3339 timestamp indicating when an image was last pushed to the repository.
+* `upstream_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure Vault secret that contains the upstream registry password as base64 encoded string for a pull-through cache repository. 
+* `upstream_url` - The upstream registry URL for a pull-through cache repository.
+* `upstream_username` - The upstream registry username for a pull-through cache repository.
 

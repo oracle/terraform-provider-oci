@@ -62,6 +62,21 @@ func ArtifactsContainerRepositoryResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"is_top_level": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"multi_region_peers": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"readme": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -85,6 +100,28 @@ func ArtifactsContainerRepositoryResource() *schema.Resource {
 						// Computed
 					},
 				},
+			},
+			"repository_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"upstream_secret_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"upstream_url": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"upstream_username": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 
 			// Computed
@@ -234,6 +271,24 @@ func (s *ArtifactsContainerRepositoryResourceCrud) Create() error {
 		request.IsPublic = &tmp
 	}
 
+	if isTopLevel, ok := s.D.GetOkExists("is_top_level"); ok {
+		tmp := isTopLevel.(bool)
+		request.IsTopLevel = &tmp
+	}
+
+	if multiRegionPeers, ok := s.D.GetOkExists("multi_region_peers"); ok {
+		interfaces := multiRegionPeers.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("multi_region_peers") {
+			request.MultiRegionPeers = tmp
+		}
+	}
+
 	if readme, ok := s.D.GetOkExists("readme"); ok {
 		if tmpList := readme.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "readme", 0)
@@ -243,6 +298,25 @@ func (s *ArtifactsContainerRepositoryResourceCrud) Create() error {
 			}
 			request.Readme = &tmp
 		}
+	}
+
+	if repositoryType, ok := s.D.GetOkExists("repository_type"); ok {
+		request.RepositoryType = oci_artifacts.ContainerRepositoryRepositoryTypeEnum(repositoryType.(string))
+	}
+
+	if upstreamSecretId, ok := s.D.GetOkExists("upstream_secret_id"); ok {
+		tmp := upstreamSecretId.(string)
+		request.UpstreamSecretId = &tmp
+	}
+
+	if upstreamUrl, ok := s.D.GetOkExists("upstream_url"); ok {
+		tmp := upstreamUrl.(string)
+		request.UpstreamUrl = &tmp
+	}
+
+	if upstreamUsername, ok := s.D.GetOkExists("upstream_username"); ok {
+		tmp := upstreamUsername.(string)
+		request.UpstreamUsername = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "artifacts")
@@ -321,6 +395,16 @@ func (s *ArtifactsContainerRepositoryResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.RepositoryId = &tmp
 
+	if upstreamSecretId, ok := s.D.GetOkExists("upstream_secret_id"); ok {
+		tmp := upstreamSecretId.(string)
+		request.UpstreamSecretId = &tmp
+	}
+
+	if upstreamUsername, ok := s.D.GetOkExists("upstream_username"); ok {
+		tmp := upstreamUsername.(string)
+		request.UpstreamUsername = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "artifacts")
 
 	response, err := s.Client.UpdateContainerRepository(context.Background(), request)
@@ -380,6 +464,10 @@ func (s *ArtifactsContainerRepositoryResourceCrud) SetData() error {
 		s.D.Set("is_public", *s.Res.IsPublic)
 	}
 
+	if s.Res.IsTopLevel != nil {
+		s.D.Set("is_top_level", *s.Res.IsTopLevel)
+	}
+
 	if s.Res.LayerCount != nil {
 		s.D.Set("layer_count", *s.Res.LayerCount)
 	}
@@ -387,6 +475,8 @@ func (s *ArtifactsContainerRepositoryResourceCrud) SetData() error {
 	if s.Res.LayersSizeInBytes != nil {
 		s.D.Set("layers_size_in_bytes", strconv.FormatInt(*s.Res.LayersSizeInBytes, 10))
 	}
+
+	s.D.Set("multi_region_peers", s.Res.MultiRegionPeers)
 
 	if s.Res.Namespace != nil {
 		s.D.Set("namespace", *s.Res.Namespace)
@@ -397,6 +487,8 @@ func (s *ArtifactsContainerRepositoryResourceCrud) SetData() error {
 	} else {
 		s.D.Set("readme", nil)
 	}
+
+	s.D.Set("repository_type", s.Res.RepositoryType)
 
 	s.D.Set("state", s.Res.LifecycleState)
 
@@ -410,6 +502,18 @@ func (s *ArtifactsContainerRepositoryResourceCrud) SetData() error {
 
 	if s.Res.TimeLastPushed != nil {
 		s.D.Set("time_last_pushed", s.Res.TimeLastPushed.String())
+	}
+
+	if s.Res.UpstreamSecretId != nil {
+		s.D.Set("upstream_secret_id", *s.Res.UpstreamSecretId)
+	}
+
+	if s.Res.UpstreamUrl != nil {
+		s.D.Set("upstream_url", *s.Res.UpstreamUrl)
+	}
+
+	if s.Res.UpstreamUsername != nil {
+		s.D.Set("upstream_username", *s.Res.UpstreamUsername)
 	}
 
 	return nil
@@ -475,6 +579,10 @@ func ContainerRepositorySummaryToMap(obj oci_artifacts.ContainerRepositorySummar
 		result["is_public"] = bool(*obj.IsPublic)
 	}
 
+	if obj.IsTopLevel != nil {
+		result["is_top_level"] = bool(*obj.IsTopLevel)
+	}
+
 	if obj.LayerCount != nil {
 		result["layer_count"] = int(*obj.LayerCount)
 	}
@@ -486,6 +594,8 @@ func ContainerRepositorySummaryToMap(obj oci_artifacts.ContainerRepositorySummar
 	if obj.Namespace != nil {
 		result["namespace"] = string(*obj.Namespace)
 	}
+
+	result["repository_type"] = string(obj.RepositoryType)
 
 	result["state"] = string(obj.LifecycleState)
 

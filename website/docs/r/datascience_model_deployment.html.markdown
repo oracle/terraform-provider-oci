@@ -66,6 +66,24 @@ resource "oci_datascience_model_deployment" "test_model_deployment" {
 				private_endpoint_id = oci_dataflow_private_endpoint.test_private_endpoint.id
 				subnet_id = oci_core_subnet.test_subnet.id
 			}
+			model_deployment_resource_configuration {
+				#Required
+				resource_request_configuration {
+					#Required
+					memory_in_gbs = var.model_deployment_model_deployment_configuration_details_infrastructure_configuration_details_model_deployment_resource_configuration_resource_request_configuration_memory_in_gbs
+					ocpus = var.model_deployment_model_deployment_configuration_details_infrastructure_configuration_details_model_deployment_resource_configuration_resource_request_configuration_ocpus
+
+					#Optional
+					gpus = var.model_deployment_model_deployment_configuration_details_infrastructure_configuration_details_model_deployment_resource_configuration_resource_request_configuration_gpus
+				}
+
+				#Optional
+				resource_limit_configuration {
+					#Required
+					memory_in_gbs = var.model_deployment_model_deployment_configuration_details_infrastructure_configuration_details_model_deployment_resource_configuration_resource_limit_configuration_memory_in_gbs
+					ocpus = var.model_deployment_model_deployment_configuration_details_infrastructure_configuration_details_model_deployment_resource_configuration_resource_limit_configuration_ocpus
+				}
+			}
 
 			#Optional
 			bandwidth_mbps = var.model_deployment_model_deployment_configuration_details_infrastructure_configuration_details_bandwidth_mbps
@@ -131,6 +149,8 @@ resource "oci_datascience_model_deployment" "test_model_deployment" {
 				private_endpoint_id = oci_dataflow_private_endpoint.test_private_endpoint.id
 				subnet_id = oci_core_subnet.test_subnet.id
 			}
+			maximum_bandwidth_mbps = var.model_deployment_model_deployment_configuration_details_model_configuration_details_maximum_bandwidth_mbps
+			model_artifact_signature_id = oci_datascience_model_artifact_signature.test_model_artifact_signature.id
 			model_id = oci_datascience_model.test_model.id
 
 			#Optional
@@ -424,6 +444,15 @@ The following arguments are supported:
 			* `private_endpoint_id` - (Optional) (Updatable) The OCID of a Data Science private endpoint. 
 			* `subnet_id` - (Optional) (Updatable) A model deployment instance is provided with a VNIC for network access.  This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT/SGW gateway for egress.
 		* `maximum_bandwidth_mbps` - (Optional) (Updatable) The maximum network bandwidth for the model deployment.
+		* `model_deployment_resource_configuration` - (Required) (Updatable) Resource configuration details for model deploy on managed compute cluster type compute target.
+			* `resource_limit_configuration` - (Optional) (Updatable) Resource limit configuration details for workload on managed compute cluster type compute target
+				* `memory_in_gbs` - (Required) (Updatable) Burstable limit for memory.
+				* `ocpus` - (Required) (Updatable) Burstable limit for cpu.
+			* `resource_request_configuration` - (Required) (Updatable) Resource request configuration to run workload on managed compute cluster type compute target compute target.
+				* `gpus` - (Optional) (Updatable) The total number of gpus required to be allocated to the workload.
+				* `memory_in_gbs` - (Required) (Updatable) The memory in Gbs required to be allocated to run the workload.
+				* `ocpus` - (Required) (Updatable) The ocpus required to be allocated to run the workload.
+		* `scaling_policy` - (Applicable when infrastructure_type=INSTANCE_POOL | MANAGED_COMPUTE_CLUSTER) (Updatable) The scaling policy to apply to workloads on managed compute cluster type compute target.
 		* `model_id` - (Required) (Updatable) The OCID of the model you want to deploy.
 		* `scaling_policy` - (Optional) (Updatable) The scaling policy to apply to each model of the deployment.
 			* `auto_scaling_policies` - (Required when policy_type=AUTOSCALING) (Updatable) The list of autoscaling policy details. 
@@ -486,7 +515,8 @@ The following arguments are supported:
 			* `private_endpoint_id` - (Applicable when deployment_type=SINGLE_MODEL) (Updatable) The OCID of a Data Science private endpoint. 
 			* `subnet_id` - (Applicable when deployment_type=SINGLE_MODEL) (Updatable) A model deployment instance is provided with a VNIC for network access.  This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT/SGW gateway for egress. 
 		* `maximum_bandwidth_mbps` - (Applicable when deployment_type=SINGLE_MODEL) (Updatable) The maximum network bandwidth for the model deployment.
-		* `model_id` - (Required when deployment_type=SINGLE_MODEL) (Updatable) The OCID of the model you want to deploy.
+		* `model_artifact_signature_id` - (Applicable when deployment_type=SINGLE_MODEL | SINGLE_MODEL_FLEX) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a model artifact signature.
+		* `model_id` - (Required when deployment_type=SINGLE_MODEL | SINGLE_MODEL_FLEX) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a model.
 		* `scaling_policy` - (Applicable when deployment_type=SINGLE_MODEL) (Updatable) The scaling policy to apply to each model of the deployment.
 			* `auto_scaling_policies` - (Required when policy_type=AUTOSCALING) (Updatable) The list of autoscaling policy details. 
 				* `auto_scaling_policy_type` - (Required) (Updatable) The type of autoscaling policy.
@@ -657,7 +687,8 @@ The following attributes are exported:
 			* `private_endpoint_id` - The OCID of a Data Science private endpoint. 
 			* `subnet_id` - A model deployment instance is provided with a VNIC for network access.  This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT/SGW gateway for egress. 
 		* `maximum_bandwidth_mbps` - The maximum network bandwidth for the model deployment.
-		* `model_id` - The OCID of the model you want to deploy.
+		* `model_artifact_signature_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a model artifact signature.
+		* `model_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a model.
 		* `scaling_policy` - The scaling policy to apply to each model of the deployment.
 			* `auto_scaling_policies` - The list of autoscaling policy details. 
 				* `auto_scaling_policy_type` - The type of autoscaling policy.

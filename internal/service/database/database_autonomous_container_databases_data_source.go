@@ -29,8 +29,9 @@ func DatabaseAutonomousContainerDatabasesDataSource() *schema.Resource {
 				Optional: true,
 			},
 			"availability_domain": {
-				Type:     schema.TypeString,
-				Optional: true,
+				Type:             schema.TypeString,
+				Optional:         true,
+				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 			},
 			"cloud_autonomous_vm_cluster_id": {
 				Type:     schema.TypeString,

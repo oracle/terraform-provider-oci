@@ -138,7 +138,8 @@ The following attributes are exported:
 			* `private_endpoint_id` - The OCID of a Data Science private endpoint. 
 			* `subnet_id` - A model deployment instance is provided with a VNIC for network access.  This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT/SGW gateway for egress. 
 		* `maximum_bandwidth_mbps` - The maximum network bandwidth for the model deployment.
-		* `model_id` - The OCID of the model you want to deploy.
+		* `model_artifact_signature_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a model artifact signature.
+		* `model_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a model.
 		* `scaling_policy` - The scaling policy to apply to each model of the deployment.
 			* `auto_scaling_policies` - The list of autoscaling policy details. 
 				* `auto_scaling_policy_type` - The type of autoscaling policy.

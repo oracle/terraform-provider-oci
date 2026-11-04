@@ -3658,7 +3658,7 @@ func (s *DatabaseDatabaseResourceCrud) DatabaseToMap(obj *oci_database.Database)
 			if oci_database.AutoFailoverConfigurationManagedAutoFailoverEnum(member.ManagedAutoFailover) == oci_database.AutoFailoverConfigurationManagedAutoFailoverEnable {
 				autoFailoverConfiguration["managed_auto_failover"] = oci_database.AutoFailoverConfigurationManagedAutoFailoverEnable
 			}
-			if currentDbId := *obj.Id; currentDbId == *member.DatabaseId && member.FailoverTargets != nil && len(member.FailoverTargets) > 0 {
+			if obj.Id != nil && member.DatabaseId != nil && *obj.Id == *member.DatabaseId && len(member.FailoverTargets) > 0 {
 				autoFailoverConfiguration["failover_targets"] = member.FailoverTargets
 			}
 		}

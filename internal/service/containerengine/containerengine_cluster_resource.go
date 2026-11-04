@@ -94,10 +94,7 @@ func ContainerengineClusterResource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
-						"subnet_id": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
+
 						// Optional
 						"is_public_ip_enabled": {
 							Type:     schema.TypeBool,
@@ -118,6 +115,12 @@ func ContainerengineClusterResource() *schema.Resource {
 							Computed: true,
 							Elem:     schema.TypeString,
 						},
+						// Required by the provider; keep this field in generated order.
+						"subnet_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
 						// Computed
 					},
 				},
@@ -270,6 +273,27 @@ func ContainerengineClusterResource() *schema.Resource {
 								},
 							},
 						},
+						"open_id_connect_discovery": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"is_open_id_connect_discovery_enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"open_id_connect_token_authentication_config": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -354,27 +378,6 @@ func ContainerengineClusterResource() *schema.Resource {
 										Type:          schema.TypeString,
 										Optional:      true,
 										ConflictsWith: []string{"options.0.open_id_connect_token_authentication_config.0.configuration_file"},
-									},
-
-									// Computed
-								},
-							},
-						},
-						"open_id_connect_discovery": {
-							Type:     schema.TypeList,
-							Optional: true,
-							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-									"is_open_id_connect_discovery_enabled": {
-										Type:     schema.TypeBool,
-										Optional: true,
-										Computed: true,
 									},
 
 									// Computed
@@ -576,6 +579,11 @@ func ContainerengineClusterResource() *schema.Resource {
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 		},
 		CustomizeDiff: customdiff.All(
@@ -1210,6 +1218,10 @@ func (s *ContainerengineClusterResourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
 	s.D.Set("type", s.Res.Type)
 
 	if s.Res.VcnId != nil {
@@ -1328,17 +1340,6 @@ func (s *ContainerengineClusterResourceCrud) mapToClusterCreateOptions(fieldKeyF
 		}
 	}
 
-	if openIdConnectTokenAuthenticationConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "open_id_connect_token_authentication_config")); ok {
-		if tmpList := openIdConnectTokenAuthenticationConfig.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "open_id_connect_token_authentication_config"), 0)
-			tmp, err := s.mapToOpenIdConnectTokenAuthenticationConfig(fieldKeyFormatNextLevel)
-			if err != nil {
-				return result, fmt.Errorf("unable to convert open_id_connect_token_authentication_config, encountered error: %v", err)
-			}
-			result.OpenIdConnectTokenAuthenticationConfig = &tmp
-		}
-	}
-
 	if openIdConnectDiscovery, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "open_id_connect_discovery")); ok {
 		if tmpList := openIdConnectDiscovery.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "open_id_connect_discovery"), 0)
@@ -1347,6 +1348,17 @@ func (s *ContainerengineClusterResourceCrud) mapToClusterCreateOptions(fieldKeyF
 				return result, fmt.Errorf("unable to convert open_id_connect_discovery, encountered error: %v", err)
 			}
 			result.OpenIdConnectDiscovery = &tmp
+		}
+	}
+
+	if openIdConnectTokenAuthenticationConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "open_id_connect_token_authentication_config")); ok {
+		if tmpList := openIdConnectTokenAuthenticationConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "open_id_connect_token_authentication_config"), 0)
+			tmp, err := s.mapToOpenIdConnectTokenAuthenticationConfig(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert open_id_connect_token_authentication_config, encountered error: %v", err)
+			}
+			result.OpenIdConnectTokenAuthenticationConfig = &tmp
 		}
 	}
 
@@ -1402,17 +1414,6 @@ func (s *ContainerengineClusterResourceCrud) mapToUpdateClusterOptionsDetails(fi
 		}
 	}
 
-	if openIdConnectTokenAuthenticationConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "open_id_connect_token_authentication_config")); ok {
-		if tmpList := openIdConnectTokenAuthenticationConfig.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "open_id_connect_token_authentication_config"), 0)
-			tmp, err := s.mapToOpenIdConnectTokenAuthenticationConfig(fieldKeyFormatNextLevel)
-			if err != nil {
-				return result, fmt.Errorf("unable to convert open_id_connect_token_authentication_config, encountered error: %v", err)
-			}
-			result.OpenIdConnectTokenAuthenticationConfig = &tmp
-		}
-	}
-
 	if openIdConnectDiscovery, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "open_id_connect_discovery")); ok {
 		if tmpList := openIdConnectDiscovery.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "open_id_connect_discovery"), 0)
@@ -1421,6 +1422,17 @@ func (s *ContainerengineClusterResourceCrud) mapToUpdateClusterOptionsDetails(fi
 				return result, fmt.Errorf("unable to convert open_id_connect_discovery, encountered error: %v", err)
 			}
 			result.OpenIdConnectDiscovery = &tmp
+		}
+	}
+
+	if openIdConnectTokenAuthenticationConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "open_id_connect_token_authentication_config")); ok {
+		if tmpList := openIdConnectTokenAuthenticationConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "open_id_connect_token_authentication_config"), 0)
+			tmp, err := s.mapToOpenIdConnectTokenAuthenticationConfig(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert open_id_connect_token_authentication_config, encountered error: %v", err)
+			}
+			result.OpenIdConnectTokenAuthenticationConfig = &tmp
 		}
 	}
 
@@ -1466,12 +1478,12 @@ func ClusterCreateOptionsToMap(obj *oci_containerengine.ClusterCreateOptions) ma
 		result["kubernetes_network_config"] = []interface{}{KubernetesNetworkConfigToMap(obj.KubernetesNetworkConfig)}
 	}
 
-	if obj.OpenIdConnectTokenAuthenticationConfig != nil {
-		result["open_id_connect_token_authentication_config"] = []interface{}{OpenIdConnectTokenAuthenticationConfigToMap(obj.OpenIdConnectTokenAuthenticationConfig)}
-	}
-
 	if obj.OpenIdConnectDiscovery != nil {
 		result["open_id_connect_discovery"] = []interface{}{OpenIdConnectDiscoveryToMap(obj.OpenIdConnectDiscovery)}
+	}
+
+	if obj.OpenIdConnectTokenAuthenticationConfig != nil {
+		result["open_id_connect_token_authentication_config"] = []interface{}{OpenIdConnectTokenAuthenticationConfigToMap(obj.OpenIdConnectTokenAuthenticationConfig)}
 	}
 
 	if obj.PersistentVolumeConfig != nil {
@@ -1873,6 +1885,27 @@ func KubernetesNetworkConfigToMap(obj *oci_containerengine.KubernetesNetworkConf
 	return result
 }
 
+func (s *ContainerengineClusterResourceCrud) mapToOpenIdConnectDiscovery(fieldKeyFormat string) (oci_containerengine.OpenIdConnectDiscovery, error) {
+	result := oci_containerengine.OpenIdConnectDiscovery{}
+
+	if isOpenIdConnectDiscoveryEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_open_id_connect_discovery_enabled")); ok {
+		tmp := isOpenIdConnectDiscoveryEnabled.(bool)
+		result.IsOpenIdConnectDiscoveryEnabled = &tmp
+	}
+
+	return result, nil
+}
+
+func OpenIdConnectDiscoveryToMap(obj *oci_containerengine.OpenIdConnectDiscovery) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsOpenIdConnectDiscoveryEnabled != nil {
+		result["is_open_id_connect_discovery_enabled"] = bool(*obj.IsOpenIdConnectDiscoveryEnabled)
+	}
+
+	return result
+}
+
 func (s *ContainerengineClusterResourceCrud) mapToOpenIdConnectTokenAuthenticationConfig(fieldKeyFormat string) (oci_containerengine.OpenIdConnectTokenAuthenticationConfig, error) {
 	result := oci_containerengine.OpenIdConnectTokenAuthenticationConfig{}
 
@@ -1999,27 +2032,6 @@ func OpenIdConnectTokenAuthenticationConfigToMap(obj *oci_containerengine.OpenId
 
 	if obj.UsernamePrefix != nil {
 		result["username_prefix"] = string(*obj.UsernamePrefix)
-	}
-
-	return result
-}
-
-func (s *ContainerengineClusterResourceCrud) mapToOpenIdConnectDiscovery(fieldKeyFormat string) (oci_containerengine.OpenIdConnectDiscovery, error) {
-	result := oci_containerengine.OpenIdConnectDiscovery{}
-
-	if isOpenIdConnectDiscoveryEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_open_id_connect_discovery_enabled")); ok {
-		tmp := isOpenIdConnectDiscoveryEnabled.(bool)
-		result.IsOpenIdConnectDiscoveryEnabled = &tmp
-	}
-
-	return result, nil
-}
-
-func OpenIdConnectDiscoveryToMap(obj *oci_containerengine.OpenIdConnectDiscovery) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.IsOpenIdConnectDiscoveryEnabled != nil {
-		result["is_open_id_connect_discovery_enabled"] = bool(*obj.IsOpenIdConnectDiscoveryEnabled)
 	}
 
 	return result

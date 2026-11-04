@@ -743,12 +743,22 @@ func ContainerengineNodePoolResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"system_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
 					},
 				},
 			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 		},
 	}
@@ -1330,11 +1340,13 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 	if nodePoolCyclingDetails, ok := s.D.GetOkExists("node_pool_cycling_details"); ok {
 		if tmpList := nodePoolCyclingDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "node_pool_cycling_details", 0)
-			tmp, err := s.mapToNodePoolCyclingDetails(fieldKeyFormat)
-			if err != nil {
-				return err
+			if s.hasNodePoolCyclingDetailsChange(fieldKeyFormat, tmpList) {
+				tmp, err := s.mapToNodePoolCyclingDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				request.NodePoolCyclingDetails = &tmp
 			}
-			request.NodePoolCyclingDetails = &tmp
 		}
 	}
 
@@ -1603,6 +1615,10 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 		s.D.Set("subnet_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, subnetIds))
 	} else {
 		s.D.Set("subnet_ids", nil)
+	}
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
 	return nil
@@ -2047,6 +2063,10 @@ func NodeToMap(obj oci_containerengine.Node) map[string]interface{} {
 		result["subnet_id"] = string(*obj.SubnetId)
 	}
 
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
+
 	return result
 }
 
@@ -2109,6 +2129,27 @@ func NodeEvictionNodePoolSettingsToMap(obj *oci_containerengine.NodeEvictionNode
 	}
 
 	return result
+}
+
+func (crud *ContainerengineNodePoolResourceCrud) hasNodePoolCyclingDetailsChange(fieldKeyFormat string, fieldNameList []interface{}) bool {
+	for _, fieldName := range fieldNameList {
+		if record, ok := fieldName.(map[string]interface{}); ok {
+			for key := range record {
+				fieldKey := fmt.Sprintf(fieldKeyFormat, key)
+				var exists bool
+				switch key {
+				case "maximum_surge", "maximum_unavailable":
+					_, exists = crud.D.GetOk(fieldKey)
+				default:
+					_, exists = crud.D.GetOkExists(fieldKey)
+				}
+				if exists && crud.D.HasChange(fieldKey) {
+					return true
+				}
+			}
+		}
+	}
+	return false
 }
 
 func (s *ContainerengineNodePoolResourceCrud) mapToNodePoolCyclingDetails(fieldKeyFormat string) (oci_containerengine.NodePoolCyclingDetails, error) {

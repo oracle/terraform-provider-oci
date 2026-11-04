@@ -152,12 +152,12 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
-									"predict_api_specification": {
+									"image_signature_id": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-									"image_signature_id": {
+									"predict_api_specification": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -208,6 +208,14 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 												},
 
 												// Optional
+												"capacity_reservation_ids": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
 												"model_deployment_instance_shape_config_details": {
 													Type:     schema.TypeList,
 													Optional: true,
@@ -258,18 +266,6 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 												// Computed
 											},
 										},
-									},
-
-									// Optional
-									"bandwidth_mbps": {
-										Type:     schema.TypeInt,
-										Optional: true,
-										Computed: true,
-									},
-									"maximum_bandwidth_mbps": {
-										Type:     schema.TypeInt,
-										Optional: true,
-										Computed: true,
 									},
 									"model_deployment_resource_configuration": {
 										Type:     schema.TypeList,
@@ -330,6 +326,18 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 												},
 											},
 										},
+									},
+
+									// Optional
+									"bandwidth_mbps": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"maximum_bandwidth_mbps": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
 									},
 									"scaling_policy": {
 										Type:     schema.TypeList,
@@ -619,6 +627,14 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 												// Required
 
 												// Optional
+												"capacity_reservation_ids": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
 												"instance_shape_name": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -677,6 +693,11 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 									},
 									"maximum_bandwidth_mbps": {
 										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"model_artifact_signature_id": {
+										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
@@ -1327,6 +1348,7 @@ func modelDeploymentWaitForWorkRequest(wId *string, entityType string, action oc
 			string(oci_datascience.WorkRequestStatusFailed),
 			string(oci_datascience.WorkRequestStatusSucceeded),
 			string(oci_datascience.WorkRequestStatusCanceled),
+			string(oci_datascience.WorkRequestStatusPartiallySucceeded),
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
@@ -1358,7 +1380,7 @@ func modelDeploymentWaitForWorkRequest(wId *string, entityType string, action oc
 	}
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
-	if identifier == nil || response.Status == oci_datascience.WorkRequestStatusFailed || response.Status == oci_datascience.WorkRequestStatusCanceled {
+	if identifier == nil || response.Status == oci_datascience.WorkRequestStatusFailed || response.Status == oci_datascience.WorkRequestStatusCanceled || response.Status == oci_datascience.WorkRequestStatusPartiallySucceeded {
 		return nil, getErrorFromDatascienceModelDeploymentWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
@@ -2057,6 +2079,19 @@ func InfrastructureConfigurationDetailsToMap(obj *oci_datascience.Infrastructure
 func (s *DatascienceModelDeploymentResourceCrud) mapToInstanceConfiguration(fieldKeyFormat string) (oci_datascience.InstanceConfiguration, error) {
 	result := oci_datascience.InstanceConfiguration{}
 
+	if capacityReservationIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "capacity_reservation_ids")); ok {
+		interfaces := capacityReservationIds.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "capacity_reservation_ids")) {
+			result.CapacityReservationIds = tmp
+		}
+	}
+
 	if instanceShapeName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instance_shape_name")); ok {
 		tmp := instanceShapeName.(string)
 		result.InstanceShapeName = &tmp
@@ -2094,6 +2129,8 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToInstanceConfiguration(fiel
 
 func InstanceConfigurationToMap(obj *oci_datascience.InstanceConfiguration) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	result["capacity_reservation_ids"] = obj.CapacityReservationIds
 
 	if obj.InstanceShapeName != nil {
 		result["instance_shape_name"] = string(*obj.InstanceShapeName)
@@ -2618,6 +2655,11 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToModelConfigurationDetails(
 		}
 	}
 
+	if modelArtifactSignatureId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_artifact_signature_id")); ok {
+		tmp := modelArtifactSignatureId.(string)
+		result.ModelArtifactSignatureId = &tmp
+	}
+
 	if modelId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_id")); ok {
 		tmp := modelId.(string)
 		result.ModelId = &tmp
@@ -2665,6 +2707,11 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToUpdateModelConfigurationDe
 		}
 	}
 
+	if modelArtifactSignatureId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_artifact_signature_id")); ok {
+		tmp := modelArtifactSignatureId.(string)
+		result.ModelArtifactSignatureId = &tmp
+	}
+
 	if modelId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_id")); ok {
 		tmp := modelId.(string)
 		result.ModelId = &tmp
@@ -2701,6 +2748,10 @@ func ModelConfigurationDetailsToMap(obj *oci_datascience.ModelConfigurationDetai
 			result["maximum_bandwidth_mbps"] = nil
 		}
 		result["maximum_bandwidth_mbps"] = tmp
+	}
+
+	if obj.ModelArtifactSignatureId != nil {
+		result["model_artifact_signature_id"] = string(*obj.ModelArtifactSignatureId)
 	}
 
 	if obj.ModelId != nil {
@@ -3104,13 +3155,13 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToModelDeploymentEnvironment
 			tmp := imageDigest.(string)
 			details.ImageDigest = &tmp
 		}
-		if predictApiSpecification, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "predict_api_specification")); ok {
-			tmp := predictApiSpecification.(string)
-			details.PredictApiSpecification = &tmp
-		}
 		if imageSignatureId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image_signature_id")); ok {
 			tmp := imageSignatureId.(string)
 			details.ImageSignatureId = &tmp
+		}
+		if predictApiSpecification, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "predict_api_specification")); ok {
+			tmp := predictApiSpecification.(string)
+			details.PredictApiSpecification = &tmp
 		}
 		if serverPort, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "server_port")); ok {
 			tmp := serverPort.(int)
@@ -3197,13 +3248,13 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToUpdateModelDeploymentEnvir
 			tmp := imageDigest.(string)
 			details.ImageDigest = &tmp
 		}
-		if predictApiSpecification, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "predict_api_specification")); ok {
-			tmp := predictApiSpecification.(string)
-			details.PredictApiSpecification = &tmp
-		}
 		if imageSignatureId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image_signature_id")); ok {
 			tmp := imageSignatureId.(string)
 			details.ImageSignatureId = &tmp
+		}
+		if predictApiSpecification, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "predict_api_specification")); ok {
+			tmp := predictApiSpecification.(string)
+			details.PredictApiSpecification = &tmp
 		}
 		if serverPort, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "server_port")); ok {
 			tmp := serverPort.(int)
@@ -3254,12 +3305,12 @@ func ModelDeploymentEnvironmentConfigurationDetailsToMap(obj *oci_datascience.Mo
 			result["image_digest"] = string(*v.ImageDigest)
 		}
 
-		if v.PredictApiSpecification != nil {
-			result["predict_api_specification"] = string(*v.PredictApiSpecification)
-		}
-
 		if v.ImageSignatureId != nil {
 			result["image_signature_id"] = string(*v.ImageSignatureId)
+		}
+
+		if v.PredictApiSpecification != nil {
+			result["predict_api_specification"] = string(*v.PredictApiSpecification)
 		}
 
 		if v.ServerPort != nil {
@@ -3686,6 +3737,10 @@ func UpdateModelConfigurationDetailsToMap(obj *oci_datascience.ModelConfiguratio
 		result["maximum_bandwidth_mbps"] = tmp
 	}
 
+	if obj.ModelArtifactSignatureId != nil {
+		result["model_artifact_signature_id"] = string(*obj.ModelArtifactSignatureId)
+	}
+
 	if obj.ModelId != nil {
 		result["model_id"] = string(*obj.ModelId)
 	}
@@ -3859,12 +3914,12 @@ func UpdateModelDeploymentEnvironmentConfigurationDetailsToMap(obj *oci_datascie
 			result["image_digest"] = string(*v.ImageDigest)
 		}
 
-		if v.PredictApiSpecification != nil {
-			result["predict_api_specification"] = string(*v.PredictApiSpecification)
-		}
-
 		if v.ImageSignatureId != nil {
 			result["image_signature_id"] = string(*v.ImageSignatureId)
+		}
+
+		if v.PredictApiSpecification != nil {
+			result["predict_api_specification"] = string(*v.PredictApiSpecification)
 		}
 
 		if v.ServerPort != nil {
@@ -3891,6 +3946,11 @@ func UpdateModelGroupConfigurationDetailsToMap(obj *oci_datascience.UpdateModelG
 func (s *DatascienceModelDeploymentResourceCrud) mapToUpdateSingleModelConfigurationDetails(fieldKeyFormat string) (oci_datascience.UpdateSingleModelConfigurationDetails, error) {
 	result := oci_datascience.UpdateSingleModelConfigurationDetails{}
 
+	if modelArtifactSignatureId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_artifact_signature_id")); ok {
+		tmp := modelArtifactSignatureId.(string)
+		result.ModelArtifactSignatureId = &tmp
+	}
+
 	if modelId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_id")); ok {
 		tmp := modelId.(string)
 		result.ModelId = &tmp
@@ -3901,6 +3961,10 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToUpdateSingleModelConfigura
 
 func UpdateSingleModelConfigurationDetailsToMap(obj *oci_datascience.UpdateSingleModelConfigurationDetails) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.ModelArtifactSignatureId != nil {
+		result["model_artifact_signature_id"] = string(*obj.ModelArtifactSignatureId)
+	}
 
 	if obj.ModelId != nil {
 		result["model_id"] = string(*obj.ModelId)

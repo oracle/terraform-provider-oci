@@ -16,6 +16,11 @@ variable "container_repository_defined_tags_value" {
   default = "value"
 }
 
+// Avoid dependency on Hashicorp Random
+variable "container_repository_display_name" {
+  default = "a-random-container-repository-display-name"
+}
+
 variable "container_repository_freeform_tags" {
   default = { "Department" = "Finance" }
 }
@@ -50,18 +55,10 @@ provider "oci" {
   region           = var.region
 }
 
-// repository displayName needs to be unique within a tenant, so generate random string here to avoid collision
-resource "random_string" "container_repository_display_name" {
-  length  = 5
-  numeric  = false
-  special = false
-  upper = false
-}
-
 resource "oci_artifacts_container_repository" "test_container_repository" {
   #Required
   compartment_id = var.compartment_ocid
-  display_name   = random_string.container_repository_display_name.result
+  display_name   = var.container_repository_display_name
 
   #Optional
   defined_tags  = { "example-tag-namespace-all.example-tag" = var.container_repository_defined_tags_value }
@@ -73,6 +70,10 @@ resource "oci_artifacts_container_repository" "test_container_repository" {
     content = var.container_repository_readme_content
     format  = var.container_repository_readme_format
   }
+}
+
+data "oci_artifacts_container_repository" "test_container_repository" {
+  repository_id = oci_artifacts_container_repository.test_container_repository.id
 }
 
 data "oci_artifacts_container_repositories" "test_container_repositories" {

@@ -20,8 +20,9 @@ func FileStorageReplicationsDataSource() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"availability_domain": {
-				Type:     schema.TypeString,
-				Required: true,
+				Type:             schema.TypeString,
+				Required:         true,
+				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 			},
 			"compartment_id": {
 				Type:     schema.TypeString,

@@ -114,9 +114,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 
 									// Computed
 									"availability_domain": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
+										Type:             schema.TypeString,
+										Optional:         true,
+										Computed:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 									},
 									"day_of_week": {
 										Type:     schema.TypeList,
@@ -1147,9 +1148,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 										},
 									},
 									"availability_domain": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
+										Type:             schema.TypeString,
+										Optional:         true,
+										Computed:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 									},
 									"is_maintenance_window_change_scheduled": {
 										Type:     schema.TypeBool,

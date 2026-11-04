@@ -63,7 +63,6 @@ var (
 	}
 
 	// ACD with peer dependencies
-	AdbdDgSetupDependencies  = DatabaseAutonomousContainerDatabaseDataguardAssociationResourceConfig
 	AdbccDgSetupDependencies = getAdbccDgSetupDependency()
 
 	DatabaseAdbdAutonomousContainerDatabaseAddStandbyResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
@@ -84,26 +83,48 @@ func TestDatabaseAutonomousContainerDatabaseAddStandbyResource_basic(t *testing.
 	httpreplay.SetScenario("TestDatabaseAutonomousContainerDatabaseAddStandbyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := acctest.ProviderTestConfig()
+	dbName := utils.RandomStringOrHttpReplayValue(8, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "STANDBY1")
+	adbdDgSetupDependencies := getAdbdAddStandbyDgSetupDependencies(dbName)
+
+	config := acctest.ProviderTestConfig() + `
+provider "oci" {
+	ignore_defined_tags = [
+		"Oracle-Tags.CreatedBy",
+		"Oracle-Tags.CreatedOn",
+	]
+}
+`
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_autonomous_container_database_add_standby.test_autonomous_container_database_add_standby"
+	standbyResourceName := "oci_database_autonomous_container_database.standby_acd"
+	addStandbyRepresentation := acctest.RepresentationCopyWithNewProperties(DatabaseAdbdAutonomousContainerDatabaseAddStandbyRepresentation, map[string]interface{}{
+		"is_automatic_failover_enabled": acctest.Representation{RepType: acctest.Required, Create: `false`},
+	})
+	standbyRepresentation := acctest.RepresentationCopyWithNewProperties(AdbdStandbyACDRepresentation, map[string]interface{}{
+		"depends_on": acctest.Representation{RepType: acctest.Required, Create: []string{resourceName}},
+	})
+	standbyConfig := acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "standby_acd", acctest.Optional, acctest.Create, standbyRepresentation)
+	standbyDeleteConfig := acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "standby_acd", acctest.Optional, acctest.Create,
+		acctest.RepresentationCopyWithNewProperties(standbyRepresentation, map[string]interface{}{
+			"count": acctest.Representation{RepType: acctest.Required, Create: `0`},
+		}))
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseAdbdAutonomousContainerDatabaseAddStandbyResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_add_standby", "test_autonomous_container_database_add_standby", acctest.Optional, acctest.Create, DatabaseAdbdAutonomousContainerDatabaseAddStandbyRepresentation), "database", "autonomousContainerDatabaseAddStandby", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_add_standby", "test_autonomous_container_database_add_standby", acctest.Optional, acctest.Create, addStandbyRepresentation), "database", "autonomousContainerDatabaseAddStandby", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + AdbdDgSetupDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_add_standby", "test_autonomous_container_database_add_standby", acctest.Required, acctest.Create, DatabaseAdbdAutonomousContainerDatabaseAddStandbyRepresentation),
+			Config: config + compartmentIdVariableStr + adbdDgSetupDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_add_standby", "test_autonomous_container_database_add_standby", acctest.Required, acctest.Create, addStandbyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_id"),
 				resource.TestCheckResourceAttr(resourceName, "fast_start_fail_over_lag_limit_in_seconds", "30"),
-				resource.TestCheckResourceAttr(resourceName, "is_automatic_failover_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_automatic_failover_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_display_name", "FirstStandby"),
 				resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_AVAILABILITY"),
 				resource.TestCheckResourceAttr(resourceName, "standby_maintenance_buffer_in_days", "7"),
@@ -111,17 +132,49 @@ func TestDatabaseAutonomousContainerDatabaseAddStandbyResource_basic(t *testing.
 				resource.TestCheckResourceAttrSet(resourceName, "peer_autonomous_container_database_compartment_id"),
 			),
 		},
-		// delete before next Create
+		// Refresh the Add Standby state before using its Data Guard group member to import the standby ACD.
 		{
-			Config: config + compartmentIdVariableStr,
+			RefreshState: true,
+		},
+		// Import the standby ACD created by Add Standby so Terraform can clean it up explicitly.
+		{
+			Config:             config + compartmentIdVariableStr + adbdDgSetupDependencies + acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_add_standby", "test_autonomous_container_database_add_standby", acctest.Optional, acctest.Create, addStandbyRepresentation) + standbyConfig,
+			ImportState:        true,
+			ImportStateIdFunc:  getStandbyAcdOcid(resourceName),
+			ImportStatePersist: true,
+			ResourceName:       standbyResourceName,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(standbyResourceName, "role", "STANDBY"),
+			),
+		},
+		// Adopt the imported standby into the normal configuration. Terraform
+		// import does not persist configuration dependencies in state; this
+		// no-op apply records them before the standby is removed.
+		{
+			Config: config + compartmentIdVariableStr + adbdDgSetupDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_add_standby", "test_autonomous_container_database_add_standby", acctest.Optional, acctest.Create, addStandbyRepresentation) +
+				standbyConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(standbyResourceName, "role", "STANDBY"),
+			),
+		},
+		// Delete the imported standby before the primary ACD and its dependencies.
+		{
+			// Keep the standby block with count zero so the cleanup plan targets
+			// only the imported instance. The adoption step recorded its dependency
+			// edges in state, ordering this delete before the primary ACD and peer
+			// VM cluster can be destroyed.
+			Config: config + compartmentIdVariableStr + adbdDgSetupDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_add_standby", "test_autonomous_container_database_add_standby", acctest.Optional, acctest.Create, addStandbyRepresentation) +
+				standbyDeleteConfig,
 		},
 		{
-			Config: config + compartmentIdVariableStr + AdbdDgSetupDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_add_standby", "test_autonomous_container_database_add_standby", acctest.Optional, acctest.Create, DatabaseAdbdAutonomousContainerDatabaseAddStandbyRepresentation),
+			Config: config + compartmentIdVariableStr + adbdDgSetupDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_add_standby", "test_autonomous_container_database_add_standby", acctest.Optional, acctest.Create, addStandbyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "autonomous_container_database_id"),
 				resource.TestCheckResourceAttr(resourceName, "fast_start_fail_over_lag_limit_in_seconds", "30"),
-				resource.TestCheckResourceAttr(resourceName, "is_automatic_failover_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_automatic_failover_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "peer_autonomous_container_database_display_name", "FirstStandby"),
 				resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_AVAILABILITY"),
 				resource.TestCheckResourceAttr(resourceName, "standby_maintenance_buffer_in_days", "7"),
@@ -130,6 +183,30 @@ func TestDatabaseAutonomousContainerDatabaseAddStandbyResource_basic(t *testing.
 			),
 		},
 	})
+}
+
+func getAdbdAddStandbyDgSetupDependencies(dbName string) string {
+	// Cloud Autonomous VM Cluster dependencies can receive automatic Oracle-Tags
+	// after creation. Scope this ignore to this test so shared tag checks stay active.
+	cavmIgnoreChanges := acctest.Representation{RepType: acctest.Optional, Create: []string{
+		`autonomous_data_storage_size_in_tbs`,
+		`cpu_core_count_per_node`,
+		`defined_tags`,
+	}}
+	testCavmRepresentation := acctest.GetUpdatedRepresentationCopy("lifecycle.ignore_changes", cavmIgnoreChanges, ATPDCloudAutonomousVmClusterRepresentation)
+	peerCavmRepresentation := acctest.GetUpdatedRepresentationCopy("cloud_exadata_infrastructure_id", acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_exadata_infrastructure.peer_cloud_exadata_infrastructure.id}`}, testCavmRepresentation)
+	primaryAcdRepresentation := acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousContainerDatabaseRepresentation, []string{"vault_id", "kms_key_id"}), map[string]interface{}{
+		"db_name":                      acctest.Representation{RepType: acctest.Optional, Create: dbName},
+		"service_level_agreement_type": acctest.Representation{RepType: acctest.Optional, Create: `STANDARD`},
+		"protection_mode":              acctest.Representation{RepType: acctest.Optional, Create: `MAXIMUM_AVAILABILITY`},
+		"lifecycle":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDataguardChangesRep},
+	})
+
+	return acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Create, primaryAcdRepresentation) +
+		DatabaseCloudAutonomousVmClusterResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "peer_cloud_exadata_infrastructure", acctest.Required, acctest.Create, PeerCeiRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_autonomous_vm_cluster", "test_cloud_autonomous_vm_cluster", acctest.Optional, acctest.Create, testCavmRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_autonomous_vm_cluster", "peer_cloud_autonomous_vm_cluster", acctest.Optional, acctest.Create, peerCavmRepresentation)
 }
 
 func TestDatabaseAdbccAutonomousContainerDatabaseAddStandbyResource_basic(t *testing.T) {
