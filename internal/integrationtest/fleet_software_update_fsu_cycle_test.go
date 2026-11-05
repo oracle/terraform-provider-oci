@@ -6,6 +6,7 @@ package integrationtest
 import (
 	"context"
 	"fmt"
+	"regexp"
 
 	"strconv"
 	"testing"
@@ -220,30 +221,34 @@ var (
 		"diagnostics_collection": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataCollectionModesRepresentation},
 	}
 	FleetSoftwareUpdateFsuCycleGoalVersionDetailsRepresentation = map[string]interface{}{
-		"type":       acctest.Representation{RepType: acctest.Required, Create: `VERSION`, Update: `IMAGE_ID`},
-		"components": acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetSoftwareUpdateFsuCycleGoalVersionDetailsComponentsRepresentation},
+		"type":                          acctest.Representation{RepType: acctest.Required, Create: `VERSION`, Update: `IMAGE_ID`},
+		"is_older_version_acknowledged": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"components":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: FleetSoftwareUpdateFsuCycleGoalVersionDetailsComponentsRepresentation},
 	}
 
 	Patch_FsuCycleGoalVersionDetailsRepresentation_DB_VersionType = map[string]interface{}{
-		"type":            acctest.Representation{RepType: acctest.Required, Create: `VERSION`, Update: `VERSION`},
-		"version":         acctest.Representation{RepType: acctest.Required, Create: db_19_min_ver, Update: db_19_max_ver},
-		"home_policy":     acctest.Representation{RepType: acctest.Optional, Create: `CREATE_NEW`, Update: `USE_EXISTING`},
-		"new_home_prefix": acctest.Representation{RepType: acctest.Optional, Create: `newHomePrefix`, Update: `newHomePrefix2`},
+		"type":                          acctest.Representation{RepType: acctest.Required, Create: `VERSION`, Update: `VERSION`},
+		"version":                       acctest.Representation{RepType: acctest.Required, Create: db_19_min_ver, Update: db_19_max_ver},
+		"home_policy":                   acctest.Representation{RepType: acctest.Optional, Create: `CREATE_NEW`, Update: `USE_EXISTING`},
+		"is_older_version_acknowledged": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+		"new_home_prefix":               acctest.Representation{RepType: acctest.Optional, Create: `newHomePrefix`, Update: `newHomePrefix2`},
 	}
 
 	Patch_FsuCycleGoalVersionDetailsRepresentation_DB_XSVersionType = map[string]interface{}{
-		"type":            acctest.Representation{RepType: acctest.Required, Create: `VERSION`, Update: `VERSION`},
-		"version":         acctest.Representation{RepType: acctest.Required, Create: db_23_min_ver, Update: db_23_max_ver},
-		"home_policy":     acctest.Representation{RepType: acctest.Optional, Create: `CREATE_NEW`, Update: `USE_EXISTING`},
-		"new_home_prefix": acctest.Representation{RepType: acctest.Optional, Create: `newHomePrefix`, Update: `newHomePrefix2`},
+		"type":                          acctest.Representation{RepType: acctest.Required, Create: `VERSION`, Update: `VERSION`},
+		"version":                       acctest.Representation{RepType: acctest.Required, Create: db_23_min_ver, Update: db_23_max_ver},
+		"home_policy":                   acctest.Representation{RepType: acctest.Optional, Create: `CREATE_NEW`, Update: `USE_EXISTING`},
+		"is_older_version_acknowledged": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+		"new_home_prefix":               acctest.Representation{RepType: acctest.Optional, Create: `newHomePrefix`, Update: `newHomePrefix2`},
 	}
 
 	// UDX-22532-23AI-UPGRADE
 	Upgrade_FsuCycleGoalVersionDetailsRepresentation_DB_VersionType = map[string]interface{}{
-		"type":            acctest.Representation{RepType: acctest.Required, Create: `VERSION`, Update: `VERSION`},
-		"version":         acctest.Representation{RepType: acctest.Required, Create: db_23_min_ver, Update: db_23_max_ver},
-		"home_policy":     acctest.Representation{RepType: acctest.Optional, Create: `CREATE_NEW`, Update: `USE_EXISTING`},
-		"new_home_prefix": acctest.Representation{RepType: acctest.Optional, Create: `newHomePrefix`, Update: `newHomePrefix2`},
+		"type":                          acctest.Representation{RepType: acctest.Required, Create: `VERSION`, Update: `VERSION`},
+		"version":                       acctest.Representation{RepType: acctest.Required, Create: db_23_min_ver, Update: db_23_max_ver},
+		"home_policy":                   acctest.Representation{RepType: acctest.Optional, Create: `CREATE_NEW`, Update: `USE_EXISTING`},
+		"is_older_version_acknowledged": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+		"new_home_prefix":               acctest.Representation{RepType: acctest.Optional, Create: `newHomePrefix`, Update: `newHomePrefix2`},
 	}
 
 	UpgradeDetailsRepresentation_DB = map[string]interface{}{
@@ -253,22 +258,25 @@ var (
 	}
 
 	FleetSoftwareUpdateFsuCycleGoalVersionDetailsRepresentation_DB_ImageType = map[string]interface{}{
-		"type":              acctest.Representation{RepType: acctest.Required, Create: `IMAGE_ID`},
-		"software_image_id": acctest.Representation{RepType: acctest.Required, Create: `${var.db_software_image_1}`},
-		"home_policy":       acctest.Representation{RepType: acctest.Optional, Create: `CREATE_NEW`, Update: `USE_EXISTING`},
-		"new_home_prefix":   acctest.Representation{RepType: acctest.Optional, Create: `newHomePrefix`, Update: `newHomePrefix2`},
+		"type":                          acctest.Representation{RepType: acctest.Required, Create: `IMAGE_ID`},
+		"software_image_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.db_software_image_1}`},
+		"home_policy":                   acctest.Representation{RepType: acctest.Optional, Create: `CREATE_NEW`, Update: `USE_EXISTING`},
+		"is_older_version_acknowledged": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+		"new_home_prefix":               acctest.Representation{RepType: acctest.Optional, Create: `newHomePrefix`, Update: `newHomePrefix2`},
 	}
 
 	// UDX-21995-GI-CUSTOM-IMAGE
 	FleetSoftwareUpdateFsuCycleGoalVersionDetailsRepresentation_GI_ImageType = map[string]interface{}{
-		"type":              acctest.Representation{RepType: acctest.Required, Create: `IMAGE_ID`},
-		"software_image_id": acctest.Representation{RepType: acctest.Required, Create: `${var.db_grid_software_image_1}`},
+		"type":                          acctest.Representation{RepType: acctest.Required, Create: `IMAGE_ID`},
+		"software_image_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.db_grid_software_image_1}`},
+		"is_older_version_acknowledged": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
 	}
 
 	Patch_FsuCycleGoalVersionDetailsRepresentation_GUEST_OS_VersionType = map[string]interface{}{
-		"type":            acctest.Representation{RepType: acctest.Required, Create: `VERSION`, Update: `VERSION`},
-		"version":         acctest.Representation{RepType: acctest.Required, Create: system_version_23_1_26_min_ver, Update: system_version_24_1_12_min_ver},
-		"new_home_prefix": acctest.Representation{RepType: acctest.Optional, Create: nil, Update: nil},
+		"type":                          acctest.Representation{RepType: acctest.Required, Create: `VERSION`, Update: `VERSION`},
+		"version":                       acctest.Representation{RepType: acctest.Required, Create: system_version_23_1_26_min_ver, Update: system_version_24_1_12_min_ver},
+		"is_older_version_acknowledged": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+		"new_home_prefix":               acctest.Representation{RepType: acctest.Optional, Create: nil, Update: nil},
 	}
 
 	Patch_BatchingStrategyRepresentation = map[string]interface{}{
@@ -369,6 +377,7 @@ func Test_Patch_FsuCycleResource_DB_VersionDetails(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "fsu_collection_id"),
 				resource.TestCheckResourceAttr(resourceName, "goal_version_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.is_older_version_acknowledged", "true"),
 				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.type", "VERSION"),
 				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.version", db_19_min_ver),
 				resource.TestCheckResourceAttr(resourceName, "type", "PATCH"),
@@ -397,6 +406,7 @@ func Test_Patch_FsuCycleResource_DB_VersionDetails(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "fsu_collection_id"),
 				resource.TestCheckResourceAttr(resourceName, "goal_version_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.home_policy", "CREATE_NEW"),
+				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.is_older_version_acknowledged", "true"),
 				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.new_home_prefix", "newHomePrefix"),
 				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.type", "VERSION"),
 				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.version", db_19_min_ver),
@@ -440,6 +450,7 @@ func Test_Patch_FsuCycleResource_DB_VersionDetails(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "fsu_collection_id"),
 				resource.TestCheckResourceAttr(resourceName, "goal_version_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.home_policy", "CREATE_NEW"),
+				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.is_older_version_acknowledged", "true"),
 				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.new_home_prefix", "newHomePrefix"),
 				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.type", "VERSION"),
 				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.version", db_19_min_ver),
@@ -479,6 +490,7 @@ func Test_Patch_FsuCycleResource_DB_VersionDetails(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "fsu_collection_id"),
 				resource.TestCheckResourceAttr(resourceName, "goal_version_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.home_policy", "USE_EXISTING"),
+				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.is_older_version_acknowledged", "true"),
 				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.new_home_prefix", "newHomePrefix2"),
 				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.type", "VERSION"),
 				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.version", db_19_max_ver),
@@ -536,6 +548,7 @@ func Test_Patch_FsuCycleResource_DB_VersionDetails(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "TF_TEST_Cycle_Updated"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "goal_version_details.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "goal_version_details.0.home_policy", "USE_EXISTING"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "goal_version_details.0.is_older_version_acknowledged", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "goal_version_details.0.new_home_prefix", "newHomePrefix2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "goal_version_details.0.type", "VERSION"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "goal_version_details.0.version", db_19_max_ver),
@@ -791,7 +804,7 @@ func Test_Patch_FsuCycleResource_EXADBXS_DB_VersionDetails(t *testing.T) {
 }
 
 func Test_Patch_FsuCycleResource_EXADBXS_DB_ImageIdDetails(t *testing.T) {
-	httpreplay.SetScenario("TestFleetSoftwareUpdateFsuCycleResource_basic")
+	httpreplay.SetScenario("Test_Patch_FsuCycleResource_EXADBXS_DB_ImageIdDetails")
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()
@@ -799,224 +812,28 @@ func Test_Patch_FsuCycleResource_EXADBXS_DB_ImageIdDetails(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
-	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
-
 	dbTargetId1 := utils.GetEnvSettingWithBlankDefault("fsu_db_23_XS_target_1")
 	dbTargetId1VariableStr := fmt.Sprintf("variable \"db_target_1\" { default = \"%s\" }\n", dbTargetId1)
 
 	dbSwImage1 := utils.GetEnvSettingWithBlankDefault("fsu_db_23_XS_software_image_1")
 	dbSwImage1VariableStr := fmt.Sprintf("variable \"db_software_image_1\" { default = \"%s\" }\n", dbSwImage1)
 
-	var variablesStr = compartmentIdVariableStr + dbTargetId1VariableStr + dbSwImage1VariableStr
+	variablesStr := compartmentIdVariableStr + dbTargetId1VariableStr + dbSwImage1VariableStr
+	invalidCycleConfig := config + variablesStr + FleetSoftwareUpdateFsuCycleDB_XSResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap(
+			"oci_fleet_software_update_fsu_cycle",
+			"test_fsu_cycle",
+			acctest.Required,
+			acctest.Create,
+			Patch_FsuCycleRepresentation_DB_ImageType,
+		)
 
-	resourceName := "oci_fleet_software_update_fsu_cycle.test_fsu_cycle"
-	datasourceName := "data.oci_fleet_software_update_fsu_cycles.test_fsu_cycles"
-	singularDatasourceName := "data.oci_fleet_software_update_fsu_cycle.test_fsu_cycle"
-
-	var resId, resId2 string
-	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+variablesStr+FleetSoftwareUpdateFsuCycleDB_XSResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_cycle", "test_fsu_cycle", acctest.Optional, acctest.Create, Patch_FsuCycleRepresentation_DB_ImageType), "fleetsoftwareupdate", "fsuCycle", t)
-
-	acctest.ResourceTest(t, testAccCheckFleetSoftwareUpdateFsuCycleDestroy, []resource.TestStep{
-		// verify Create
+	acctest.ResourceTest(t, nil, []resource.TestStep{
 		{
-			Config: config + variablesStr + FleetSoftwareUpdateFsuCycleDB_XSResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_cycle", "test_fsu_cycle", acctest.Required, acctest.Create, Patch_FsuCycleRepresentation_DB_ImageType),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttrSet(resourceName, "fsu_collection_id"),
-				resource.TestCheckResourceAttr(resourceName, "goal_version_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.type", "IMAGE_ID"),
-				resource.TestCheckResourceAttrSet(resourceName, "goal_version_details.0.software_image_id"),
-				resource.TestCheckResourceAttr(resourceName, "type", "PATCH"),
-
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					return err
-				},
+			Config: invalidCycleConfig,
+			ExpectError: regexp.MustCompile(
+				`(?s)400-InvalidParameter.*EXADBXS Collection.*cannot have an ImageIdFsuTargetDetails property`,
 			),
-		},
-
-		// delete before next Create
-		{
-			Config: config + variablesStr + FleetSoftwareUpdateFsuCycleDB_XSResourceDependencies,
-		},
-		// verify Create with optionals
-		{
-			Config: config + variablesStr + FleetSoftwareUpdateFsuCycleDB_XSResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_cycle", "test_fsu_cycle", acctest.Optional, acctest.Create, Patch_FsuCycleRepresentation_DB_ImageType),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "batching_strategy.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "batching_strategy.0.is_force_rolling", "true"),
-				resource.TestCheckResourceAttr(resourceName, "batching_strategy.0.type", "SEQUENTIAL"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "TF_TEST_Cycle"),
-				resource.TestCheckResourceAttrSet(resourceName, "fsu_collection_id"),
-				resource.TestCheckResourceAttr(resourceName, "goal_version_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.home_policy", "CREATE_NEW"),
-				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.new_home_prefix", "newHomePrefix"),
-				resource.TestCheckResourceAttrSet(resourceName, "goal_version_details.0.software_image_id"),
-				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.type", "IMAGE_ID"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "is_ignore_missing_patches.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "is_ignore_patches", "true"),
-				resource.TestCheckResourceAttr(resourceName, "is_keep_placement", "false"),
-				resource.TestCheckResourceAttr(resourceName, "max_drain_timeout_in_seconds", "10"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-				resource.TestCheckResourceAttr(resourceName, "type", "PATCH"),
-				// UDX-22040-OPT-IN
-				resource.TestCheckResourceAttr(resourceName, "diagnostics_collection.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "diagnostics_collection.0.log_collection_mode", "ENABLE"),
-
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-							return errExport
-						}
-					}
-					return err
-				},
-			),
-		},
-
-		// verify Update to the compartment (the compartment will be switched back in the next step)
-		{
-			Config: config + variablesStr + compartmentIdUVariableStr + FleetSoftwareUpdateFsuCycleDB_XSResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_cycle", "test_fsu_cycle", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(Patch_FsuCycleRepresentation_DB_ImageType, map[string]interface{}{
-						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
-					})),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "batching_strategy.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "batching_strategy.0.is_force_rolling", "true"),
-				resource.TestCheckResourceAttr(resourceName, "batching_strategy.0.type", "SEQUENTIAL"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "TF_TEST_Cycle"),
-				resource.TestCheckResourceAttrSet(resourceName, "fsu_collection_id"),
-				resource.TestCheckResourceAttr(resourceName, "goal_version_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.home_policy", "CREATE_NEW"),
-				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.new_home_prefix", "newHomePrefix"),
-				resource.TestCheckResourceAttrSet(resourceName, "goal_version_details.0.software_image_id"),
-				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.type", "IMAGE_ID"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "is_ignore_missing_patches.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "is_ignore_patches", "true"),
-				resource.TestCheckResourceAttr(resourceName, "is_keep_placement", "false"),
-				resource.TestCheckResourceAttr(resourceName, "max_drain_timeout_in_seconds", "10"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-				resource.TestCheckResourceAttr(resourceName, "type", "PATCH"),
-				// UDX-22040-OPT-IN
-				resource.TestCheckResourceAttr(resourceName, "diagnostics_collection.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "diagnostics_collection.0.log_collection_mode", "ENABLE"),
-
-				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId != resId2 {
-						return fmt.Errorf("resource recreated when it was supposed to be updated")
-					}
-					return err
-				},
-			),
-		},
-
-		// verify updates to updatable parameters
-		{
-			Config: config + variablesStr + FleetSoftwareUpdateFsuCycleDB_XSResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_cycle", "test_fsu_cycle", acctest.Optional, acctest.Update, Patch_FsuCycleRepresentation_DB_ImageType),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "batching_strategy.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "batching_strategy.0.is_force_rolling", "true"),
-				resource.TestCheckResourceAttr(resourceName, "batching_strategy.0.is_wait_for_batch_resume", "false"),
-				resource.TestCheckResourceAttr(resourceName, "batching_strategy.0.type", "FIFTY_FIFTY"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "TF_TEST_Cycle_Updated"),
-				resource.TestCheckResourceAttrSet(resourceName, "fsu_collection_id"),
-				resource.TestCheckResourceAttr(resourceName, "goal_version_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.home_policy", "USE_EXISTING"),
-				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.new_home_prefix", "newHomePrefix2"),
-				resource.TestCheckResourceAttrSet(resourceName, "goal_version_details.0.software_image_id"),
-				resource.TestCheckResourceAttr(resourceName, "goal_version_details.0.type", "IMAGE_ID"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "is_ignore_missing_patches.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "is_ignore_patches", "false"),
-				resource.TestCheckResourceAttr(resourceName, "is_keep_placement", "true"),
-				resource.TestCheckResourceAttr(resourceName, "max_drain_timeout_in_seconds", "11"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-				resource.TestCheckResourceAttr(resourceName, "type", "PATCH"),
-				// UDX-22040-OPT-IN
-				resource.TestCheckResourceAttr(resourceName, "diagnostics_collection.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "diagnostics_collection.0.log_collection_mode", "NO_CHANGE"),
-
-				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId != resId2 {
-						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-					}
-					return err
-				},
-			),
-		},
-		// verify datasource
-		{
-			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_fleet_software_update_fsu_cycles", "test_fsu_cycles", acctest.Optional, acctest.Update, FleetSoftwareUpdateFsuCycle_DB_DataSourceRepresentation) +
-				variablesStr + FleetSoftwareUpdateFsuCycleDB_XSResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_cycle", "test_fsu_cycle", acctest.Optional, acctest.Update, Patch_FsuCycleRepresentation_DB_ImageType),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "collection_type", "DB"),
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "display_name", "TF_TEST_Cycle_Updated"),
-				resource.TestCheckResourceAttrSet(datasourceName, "fsu_collection_id"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-				resource.TestCheckResourceAttr(datasourceName, "target_version", "targetVersion"),
-				resource.TestCheckResourceAttr(datasourceName, "fsu_cycle_summary_collection.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "fsu_cycle_summary_collection.0.items.#", "1"),
-			),
-		},
-		// verify singular datasource
-		{
-			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_fleet_software_update_fsu_cycle", "test_fsu_cycle", acctest.Required, acctest.Create, FleetSoftwareUpdateFsuCycleSingularDataSourceRepresentation) +
-				variablesStr + Patch_FsuCycleResourceConfig_DB_ImageType,
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "fsu_cycle_id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "batching_strategy.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "batching_strategy.0.is_force_rolling", "true"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "batching_strategy.0.is_wait_for_batch_resume", "false"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "batching_strategy.0.type", "FIFTY_FIFTY"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "collection_type"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "TF_TEST_Cycle_Updated"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "goal_version_details.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "goal_version_details.0.home_policy", "USE_EXISTING"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "goal_version_details.0.new_home_prefix", "newHomePrefix2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "goal_version_details.0.type", "IMAGE_ID"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "is_ignore_missing_patches.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "is_ignore_patches", "false"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "is_keep_placement", "true"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "max_drain_timeout_in_seconds", "11"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "next_action_to_execute.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "rollback_cycle_state", ""),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "type", "PATCH"),
-			),
-		},
-		// verify resource import
-		{
-			Config:                  config + Patch_FsuCycleRequiredOnlyResource_DB_XS_ImageType,
-			ImportState:             true,
-			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{"identity_domain", "defined_tags", "system_tags", "freeform_tags"},
-			ResourceName:            resourceName,
 		},
 	})
 }
