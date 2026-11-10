@@ -38,7 +38,7 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `items` - Array of DeploymentTypeSummary 
-	* `category` - The deployment category defines the broad separation of the deployment type into categories.  Currently the separation is 'DATA_REPLICATION' and 'STREAM_ANALYTICS'. 
+	* `category` - The deployment category defines the broad separation of the deployment type into five categories. Currently the separation is 'DATA_REPLICATION', 'STREAM_ANALYTICS', 'DATA_TRANSFORMS', 'DATA_VERIFICATION' and 'DATA_CATALOG'.
 	* `connection_types` - An array of connectionTypes. 
 	* `deployment_type` - The type of deployment, the value determines the exact 'type' of service executed in the Deployment. NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.  Its use is discouraged in favor of the equivalent 'DATABASE_ORACLE' value. 
 	* `display_name` - An object's Display Name. 

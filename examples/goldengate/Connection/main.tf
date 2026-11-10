@@ -39,9 +39,9 @@ variable "description" {
 variable "freeform_tags" {
   default = { "bar-key" = "value" }
 }
-variable "private_ip" {
-  default = "10.0.1.78"
-}
+# variable "private_ip" {
+#   default = "10.0.1.78"
+# }// computed automatically and cannot be configured
 variable "connection_type" {
   default = "POSTGRESQL"
 }
@@ -87,7 +87,7 @@ resource "oci_golden_gate_connection" "test_connection"{
   key_id = var.kms_key_id
 
   #Optional for Postgresql connection_type
-  private_ip = var.private_ip
+  # private_ip = var.private_ip
   locks {
     type = var.locks_type
     message = var.locks_message
