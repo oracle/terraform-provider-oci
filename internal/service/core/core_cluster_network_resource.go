@@ -1130,10 +1130,6 @@ func InstancePoolToMap(obj oci_core.InstancePool) map[string]interface{} {
 		result["time_created"] = obj.TimeCreated.String()
 	}
 
-	if obj.TimeStateUpdated != nil {
-		result["time_state_updated"] = obj.TimeStateUpdated.String()
-	}
-
 	return result
 }
 
