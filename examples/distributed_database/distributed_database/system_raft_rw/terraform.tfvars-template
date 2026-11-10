@@ -1,0 +1,108 @@
+auth                = "SecurityToken"
+config_file_profile = "DEFAULT"
+region              = "<region>"
+compartment_id      = "<compartment-ocid>"
+
+create_private_endpoint         = false
+additional_private_endpoint_ids = ["<private-endpoint-ocid>"]
+private_endpoint = {
+  display_name = "exascale-system-raft-rw-pe"
+  subnet_id    = "<subnet-ocid>"
+  vcn_id       = "<vcn-ocid>"
+  nsg_ids      = []
+}
+
+display_name       = "tf-exascale-system-raft-rw"
+prefix             = "erw1"
+database_version   = "26ai"
+character_set      = "AL32UTF8"
+ncharacter_set     = "AL16UTF16"
+listener_port      = 33353
+ons_port_local     = 33356
+ons_port_remote    = 33258
+scan_listener_port = 1521
+
+catalog_details = [{
+  original_replica = {
+    name = "catalog"
+    database = {
+      source                               = "XS_EXISTING_CLUSTER"
+      vm_cluster_id                        = "<catalog-exadb-vm-cluster-ocid>"
+      vault_id                             = "<vault-ocid>"
+      kms_key_id                           = "<key-ocid>"
+      admin_password_secret_id             = "<catalog-admin-password-secret-ocid>"
+      admin_password_secret_version_number = null
+    }
+  }
+}]
+
+system_chunk_count                 = 120
+system_raft_replication_unit_count = 6
+system_raft_clusters = [{
+  name               = "rwcluster"
+  replication_factor = 3
+  witness_count      = 0
+  ru_mode            = "READ_WRITE"
+  databases = [
+    {
+      source                               = "XS_EXISTING_CLUSTER"
+      vm_cluster_id                        = "<rw-db-1-exadb-vm-cluster-ocid>"
+      vault_id                             = "<vault-ocid>"
+      kms_key_id                           = "<key-ocid>"
+      admin_password_secret_id             = "<shard-admin-password-secret-ocid>"
+      admin_password_secret_version_number = null
+    },
+    {
+      source                               = "XS_EXISTING_CLUSTER"
+      vm_cluster_id                        = "<rw-db-2-exadb-vm-cluster-ocid>"
+      vault_id                             = "<vault-ocid>"
+      kms_key_id                           = "<key-ocid>"
+      admin_password_secret_id             = "<shard-admin-password-secret-ocid>"
+      admin_password_secret_version_number = null
+    },
+    {
+      source                               = "XS_EXISTING_CLUSTER"
+      vm_cluster_id                        = "<rw-db-3-exadb-vm-cluster-ocid>"
+      vault_id                             = "<vault-ocid>"
+      kms_key_id                           = "<key-ocid>"
+      admin_password_secret_id             = "<shard-admin-password-secret-ocid>"
+      admin_password_secret_version_number = null
+    }
+  ]
+}]
+
+configure_sharding_enabled               = true
+configure_sharding_is_rebalance_required = true
+# Optional post-create actions can be added in a later apply.
+gds_control_nodes = [{
+  public_ssh_key = "ssh-rsa <public-key-for-gdsctl-node>"
+  subnet_id      = "ocid1.subnet.oc1.<region>.<gdsctl-node-subnet>"
+}]
+# Add/remove databases and Data Guard replicas in the topology above.
+# Configure Sharding is a separate explicit operation when required.
+# See ../../ACTIONS.md.
+# Included during creation; edit this block for a later backup configuration update.
+db_backup_config = {
+  is_auto_backup_enabled        = true
+  auto_backup_window            = "SLOT_FIVE"
+  auto_full_backup_day          = "SUNDAY"
+  auto_full_backup_window       = "SLOT_FIVE"
+  backup_deletion_policy        = "DELETE_IMMEDIATELY"
+  recovery_window_in_days       = 30
+  can_run_immediate_full_backup = true
+  backup_destination_details = [{
+    type = "OBJECT_STORE"
+  }]
+}
+validate_network_trigger        = null
+freeform_tags                   = { topology = "exascale_system_raft_rw" }
+# Set operational_state to AVAILABLE or STOPPED only after database creation.
+# operational_state = "AVAILABLE"
+
+# Keep successful action lists unchanged. Add another instance for additional operations.
+actions = {
+  insert    = []
+  insert_dg = []
+  remove_dg = []
+  remove    = []
+}
