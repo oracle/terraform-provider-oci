@@ -53,6 +53,9 @@ type JobRun struct {
 	// A user-friendly display name for the resource.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// Retention period in days for job run.
+	JobRunRetentionPeriodInDaysOverride *int `mandatory:"false" json:"jobRunRetentionPeriodInDaysOverride"`
+
 	JobEnvironmentConfigurationOverrideDetails JobEnvironmentConfigurationDetails `mandatory:"false" json:"jobEnvironmentConfigurationOverrideDetails"`
 
 	JobLogConfigurationOverrideDetails *JobLogConfigurationDetails `mandatory:"false" json:"jobLogConfigurationOverrideDetails"`
@@ -109,6 +112,7 @@ func (m *JobRun) UnmarshalJSON(data []byte) (e error) {
 		TimeStarted                                     *common.SDKTime                       `json:"timeStarted"`
 		TimeFinished                                    *common.SDKTime                       `json:"timeFinished"`
 		DisplayName                                     *string                               `json:"displayName"`
+		JobRunRetentionPeriodInDaysOverride             *int                                  `json:"jobRunRetentionPeriodInDaysOverride"`
 		JobEnvironmentConfigurationOverrideDetails      jobenvironmentconfigurationdetails    `json:"jobEnvironmentConfigurationOverrideDetails"`
 		JobLogConfigurationOverrideDetails              *JobLogConfigurationDetails           `json:"jobLogConfigurationOverrideDetails"`
 		JobStorageMountConfigurationDetailsList         []storagemountconfigurationdetails    `json:"jobStorageMountConfigurationDetailsList"`
@@ -141,6 +145,8 @@ func (m *JobRun) UnmarshalJSON(data []byte) (e error) {
 	m.TimeFinished = model.TimeFinished
 
 	m.DisplayName = model.DisplayName
+
+	m.JobRunRetentionPeriodInDaysOverride = model.JobRunRetentionPeriodInDaysOverride
 
 	nn, e = model.JobEnvironmentConfigurationOverrideDetails.UnmarshalPolymorphicJSON(model.JobEnvironmentConfigurationOverrideDetails.JsonData)
 	if e != nil {

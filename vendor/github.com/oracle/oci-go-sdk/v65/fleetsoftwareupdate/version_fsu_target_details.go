@@ -24,6 +24,11 @@ type VersionFsuTargetDetails struct {
 	// Applicable to Database, Grid Infrastructure, or Exadata Image software updates.
 	Version *string `mandatory:"true" json:"version"`
 
+	// Indicates whether the customer acknowledged the risk of selecting an older eligible software version
+	// for this Exadata Fleet Update Cycle. This value is used for downstream
+	// Database service APIs that requires older-version acknowledgement.
+	IsOlderVersionAcknowledged *bool `mandatory:"false" json:"isOlderVersionAcknowledged"`
+
 	// Prefix name used for new DB home resources created as part of the Stage Action.
 	// Format: <specified_prefix>_<timestamp>
 	// If not specified, a default OCI DB home resource will be generated for the new DB home resources created.
@@ -36,6 +41,11 @@ type VersionFsuTargetDetails struct {
 	//   If more than one existing home for the selected image is found, then the home with the least number of databases will be used.
 	//   If multiple homes have the least number of databases, then a home will be selected at random.
 	HomePolicy FsuGoalVersionDetailsHomePolicyEnum `mandatory:"false" json:"homePolicy,omitempty"`
+}
+
+// GetIsOlderVersionAcknowledged returns IsOlderVersionAcknowledged
+func (m VersionFsuTargetDetails) GetIsOlderVersionAcknowledged() *bool {
+	return m.IsOlderVersionAcknowledged
 }
 
 // GetHomePolicy returns HomePolicy

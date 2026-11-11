@@ -10,6 +10,7 @@
 package datascience
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -28,6 +29,8 @@ type ManagedComputeClusterInstanceConfigurationDetails struct {
 	BootVolumeSizeInGBs *int `mandatory:"false" json:"bootVolumeSizeInGBs"`
 
 	InstanceShapeDetails *ManagedComputeClusterInstanceShapeDetails `mandatory:"false" json:"instanceShapeDetails"`
+
+	NetworkConfigurationDetails ManagedComputeClusterNetworkConfigurationDetails `mandatory:"false" json:"networkConfigurationDetails"`
 }
 
 func (m ManagedComputeClusterInstanceConfigurationDetails) String() string {
@@ -44,4 +47,40 @@ func (m ManagedComputeClusterInstanceConfigurationDetails) ValidateEnumValue() (
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *ManagedComputeClusterInstanceConfigurationDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		CapacityReservationIds      []string                                         `json:"capacityReservationIds"`
+		BootVolumeSizeInGBs         *int                                             `json:"bootVolumeSizeInGBs"`
+		InstanceShapeDetails        *ManagedComputeClusterInstanceShapeDetails       `json:"instanceShapeDetails"`
+		NetworkConfigurationDetails managedcomputeclusternetworkconfigurationdetails `json:"networkConfigurationDetails"`
+		InstanceShape               *string                                          `json:"instanceShape"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.CapacityReservationIds = make([]string, len(model.CapacityReservationIds))
+	copy(m.CapacityReservationIds, model.CapacityReservationIds)
+	m.BootVolumeSizeInGBs = model.BootVolumeSizeInGBs
+
+	m.InstanceShapeDetails = model.InstanceShapeDetails
+
+	nn, e = model.NetworkConfigurationDetails.UnmarshalPolymorphicJSON(model.NetworkConfigurationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.NetworkConfigurationDetails = nn.(ManagedComputeClusterNetworkConfigurationDetails)
+	} else {
+		m.NetworkConfigurationDetails = nil
+	}
+
+	m.InstanceShape = model.InstanceShape
+
+	return
 }
