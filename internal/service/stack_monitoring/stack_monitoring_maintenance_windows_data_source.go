@@ -6,6 +6,7 @@ package stack_monitoring
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_stack_monitoring "github.com/oracle/oci-go-sdk/v65/stackmonitoring"
 
@@ -15,7 +16,7 @@ import (
 
 func StackMonitoringMaintenanceWindowsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readStackMonitoringMaintenanceWindows,
+		ReadContext: readStackMonitoringMaintenanceWindowsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -52,12 +53,12 @@ func StackMonitoringMaintenanceWindowsDataSource() *schema.Resource {
 	}
 }
 
-func readStackMonitoringMaintenanceWindows(d *schema.ResourceData, m interface{}) error {
+func readStackMonitoringMaintenanceWindowsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StackMonitoringMaintenanceWindowsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StackMonitoringClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type StackMonitoringMaintenanceWindowsDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *StackMonitoringMaintenanceWindowsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *StackMonitoringMaintenanceWindowsDataSourceCrud) Get() error {
+func (s *StackMonitoringMaintenanceWindowsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_stack_monitoring.ListMaintenanceWindowsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -93,7 +94,7 @@ func (s *StackMonitoringMaintenanceWindowsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "stack_monitoring")
 
-	response, err := s.Client.ListMaintenanceWindows(context.Background(), request)
+	response, err := s.Client.ListMaintenanceWindows(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -102,7 +103,7 @@ func (s *StackMonitoringMaintenanceWindowsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListMaintenanceWindows(context.Background(), request)
+		listResponse, err := s.Client.ListMaintenanceWindows(ctx, request)
 		if err != nil {
 			return err
 		}

@@ -134,6 +134,10 @@ func (s *DatascienceJobDataSourceCrud) SetData() error {
 		s.D.Set("job_node_configuration_details", nil)
 	}
 
+	if s.Res.JobRunRetentionPeriodInDays != nil {
+		s.D.Set("job_run_retention_period_in_days", *s.Res.JobRunRetentionPeriodInDays)
+	}
+
 	jobStorageMountConfigurationDetailsList := []interface{}{}
 	for _, item := range s.Res.JobStorageMountConfigurationDetailsList {
 		jobStorageMountConfigurationDetailsList = append(jobStorageMountConfigurationDetailsList, StorageMountConfigurationDetailsToMap(item))

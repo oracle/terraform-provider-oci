@@ -320,6 +320,7 @@ type InstanceMaintenanceEventLifecycleStateEnum string
 // Set of constants representing the allowable values for InstanceMaintenanceEventLifecycleStateEnum
 const (
 	InstanceMaintenanceEventLifecycleStateScheduled  InstanceMaintenanceEventLifecycleStateEnum = "SCHEDULED"
+	InstanceMaintenanceEventLifecycleStateQueued     InstanceMaintenanceEventLifecycleStateEnum = "QUEUED"
 	InstanceMaintenanceEventLifecycleStateStarted    InstanceMaintenanceEventLifecycleStateEnum = "STARTED"
 	InstanceMaintenanceEventLifecycleStateProcessing InstanceMaintenanceEventLifecycleStateEnum = "PROCESSING"
 	InstanceMaintenanceEventLifecycleStateSucceeded  InstanceMaintenanceEventLifecycleStateEnum = "SUCCEEDED"
@@ -329,6 +330,7 @@ const (
 
 var mappingInstanceMaintenanceEventLifecycleStateEnum = map[string]InstanceMaintenanceEventLifecycleStateEnum{
 	"SCHEDULED":  InstanceMaintenanceEventLifecycleStateScheduled,
+	"QUEUED":     InstanceMaintenanceEventLifecycleStateQueued,
 	"STARTED":    InstanceMaintenanceEventLifecycleStateStarted,
 	"PROCESSING": InstanceMaintenanceEventLifecycleStateProcessing,
 	"SUCCEEDED":  InstanceMaintenanceEventLifecycleStateSucceeded,
@@ -338,6 +340,7 @@ var mappingInstanceMaintenanceEventLifecycleStateEnum = map[string]InstanceMaint
 
 var mappingInstanceMaintenanceEventLifecycleStateEnumLowerCase = map[string]InstanceMaintenanceEventLifecycleStateEnum{
 	"scheduled":  InstanceMaintenanceEventLifecycleStateScheduled,
+	"queued":     InstanceMaintenanceEventLifecycleStateQueued,
 	"started":    InstanceMaintenanceEventLifecycleStateStarted,
 	"processing": InstanceMaintenanceEventLifecycleStateProcessing,
 	"succeeded":  InstanceMaintenanceEventLifecycleStateSucceeded,
@@ -358,6 +361,7 @@ func GetInstanceMaintenanceEventLifecycleStateEnumValues() []InstanceMaintenance
 func GetInstanceMaintenanceEventLifecycleStateEnumStringValues() []string {
 	return []string{
 		"SCHEDULED",
+		"QUEUED",
 		"STARTED",
 		"PROCESSING",
 		"SUCCEEDED",

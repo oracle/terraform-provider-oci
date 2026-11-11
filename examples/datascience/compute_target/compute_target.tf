@@ -187,6 +187,11 @@ resource "oci_datascience_compute_target" "tf_compute_target" {
         memory_in_gbs = var.compute_target_compute_configuration_details_instance_configuration_instance_shape_details_memory_in_gbs_fixed_size
         ocpus         = var.compute_target_compute_configuration_details_instance_configuration_instance_shape_details_ocpus_fixed_size
       }
+
+      network_configuration_details {
+        network_type = "CUSTOM_NETWORK"
+        subnet_ids   = ["subnet_id"]
+      }
     }
 
     scaling_policy {

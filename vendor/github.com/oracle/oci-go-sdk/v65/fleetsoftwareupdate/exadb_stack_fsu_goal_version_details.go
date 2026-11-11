@@ -25,6 +25,11 @@ type ExadbStackFsuGoalVersionDetails struct {
 	// Details of goal versions for components in an Exadata software stack.
 	Components []GoalSoftwareComponentDetails `mandatory:"true" json:"components"`
 
+	// Indicates whether the customer acknowledged the risk of selecting an older eligible software version
+	// for this Exadata Fleet Update Cycle. This value is used for downstream
+	// Database service APIs that requires older-version acknowledgement.
+	IsOlderVersionAcknowledged *bool `mandatory:"false" json:"isOlderVersionAcknowledged"`
+
 	// Prefix name used for new DB home resources created as part of the Stage Action.
 	// Format: <specified_prefix>_<timestamp>
 	// If not specified, a default OCI DB home resource will be generated for the new DB home resources created.
@@ -37,6 +42,11 @@ type ExadbStackFsuGoalVersionDetails struct {
 	//   If more than one existing home for the selected image is found, then the home with the least number of databases will be used.
 	//   If multiple homes have the least number of databases, then a home will be selected at random.
 	HomePolicy FsuGoalVersionDetailsHomePolicyEnum `mandatory:"false" json:"homePolicy,omitempty"`
+}
+
+// GetIsOlderVersionAcknowledged returns IsOlderVersionAcknowledged
+func (m ExadbStackFsuGoalVersionDetails) GetIsOlderVersionAcknowledged() *bool {
+	return m.IsOlderVersionAcknowledged
 }
 
 // GetHomePolicy returns HomePolicy
@@ -85,9 +95,10 @@ func (m ExadbStackFsuGoalVersionDetails) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *ExadbStackFsuGoalVersionDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		HomePolicy    FsuGoalVersionDetailsHomePolicyEnum `json:"homePolicy"`
-		NewHomePrefix *string                             `json:"newHomePrefix"`
-		Components    []goalsoftwarecomponentdetails      `json:"components"`
+		IsOlderVersionAcknowledged *bool                               `json:"isOlderVersionAcknowledged"`
+		HomePolicy                 FsuGoalVersionDetailsHomePolicyEnum `json:"homePolicy"`
+		NewHomePrefix              *string                             `json:"newHomePrefix"`
+		Components                 []goalsoftwarecomponentdetails      `json:"components"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -95,6 +106,8 @@ func (m *ExadbStackFsuGoalVersionDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.IsOlderVersionAcknowledged = model.IsOlderVersionAcknowledged
+
 	m.HomePolicy = model.HomePolicy
 
 	m.NewHomePrefix = model.NewHomePrefix

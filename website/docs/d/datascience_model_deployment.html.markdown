@@ -68,6 +68,7 @@ The following attributes are exported:
 		* `bandwidth_mbps` - The minimum network bandwidth for the model deployment.
 		* `infrastructure_type` - The type of the model deployment infrastructure.
 		* `instance_configuration` - The model deployment instance configuration.
+			* `capacity_reservation_ids` - This specifies the list of [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer-managed capacity reservation to be used for launching model deployment instances. Capacity reservations are supported only for GPU shapes and are subject to service access restrictions. Specify at most one reservation OCID.
 			* `instance_shape_name` - The shape used to launch the model deployment instances.  When using service managed open source foundation model, the supported shapes can be retrieved using get model api /models/{modelId}/definedMetadata/deploymentConfiguration/artifact/content. 
 			* `model_deployment_instance_shape_config_details` - Details for the model-deployment instance shape configuration.
 				* `cpu_baseline` - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
@@ -77,6 +78,17 @@ The following attributes are exported:
 			* `private_endpoint_id` - The OCID of a Data Science private endpoint. 
 			* `subnet_id` - A model deployment instance is provided with a VNIC for network access.  This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT/SGW gateway for egress. 
 		* `maximum_bandwidth_mbps` - The maximum network bandwidth for the model deployment.
+		* `model_deployment_resource_configuration` - Resource configuration details for model deploy on managed compute cluster type compute target.
+			* `resource_limit_configuration` - Resource limit configuration details for workload on managed compute cluster type compute target
+				* `memory_in_gbs` - Burstable limit for memory. 
+				* `ocpus` - Burstable limit for cpu. 
+			* `resource_request_configuration` - Resource request configuration to run workload on managed compute cluster type compute target compute target.
+				* `gpus` - The total number of gpus required to be allocated to the workload. 
+				* `memory_in_gbs` - The memory in Gbs required to be allocated to run the workload. 
+				* `ocpus` - The ocpus required to be allocated to run the workload. 
+		* `network_configuration` - The network configuration details for model deploy on managed compute cluster type compute target. 
+			* `network_type` - network type
+			* `subnet_id` - The OCID of the customer-supplied subnet for VNIC attach
 		* `scaling_policy` - The scaling policy to apply to each model of the deployment.
 			* `auto_scaling_policies` - The list of autoscaling policy details. 
 				* `auto_scaling_policy_type` - The type of autoscaling policy.
@@ -129,6 +141,7 @@ The following attributes are exported:
 	* `model_configuration_details` - The model configuration details.
 		* `bandwidth_mbps` - The minimum network bandwidth for the model deployment.
 		* `instance_configuration` - The model deployment instance configuration.
+			* `capacity_reservation_ids` - This specifies the list of [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer-managed capacity reservation to be used for launching model deployment instances. Capacity reservations are supported only for GPU shapes and are subject to service access restrictions. Specify at most one reservation OCID.
 			* `instance_shape_name` - The shape used to launch the model deployment instances.  When using service managed open source foundation model, the supported shapes can be retrieved using get model api /models/{modelId}/definedMetadata/deploymentConfiguration/artifact/content. 
 			* `model_deployment_instance_shape_config_details` - Details for the model-deployment instance shape configuration.
 				* `cpu_baseline` - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 

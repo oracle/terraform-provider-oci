@@ -744,6 +744,12 @@ func DatasciencePipelineResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"pipeline_run_retention_period_in_days": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"storage_mount_configuration_details_list": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -1041,6 +1047,11 @@ func (s *DatasciencePipelineResourceCrud) Create() error {
 
 	if parameters, ok := s.D.GetOkExists("parameters"); ok {
 		request.Parameters = tfresource.ObjectMapToStringMap(parameters.(map[string]interface{}))
+	}
+
+	if pipelineRunRetentionPeriodInDays, ok := s.D.GetOkExists("pipeline_run_retention_period_in_days"); ok {
+		tmp := pipelineRunRetentionPeriodInDays.(int)
+		request.PipelineRunRetentionPeriodInDays = &tmp
 	}
 
 	if projectId, ok := s.D.GetOkExists("project_id"); ok {
@@ -1445,6 +1456,10 @@ func (s *DatasciencePipelineResourceCrud) SetData() error {
 	}
 
 	s.D.Set("parameters", s.Res.Parameters)
+
+	if s.Res.PipelineRunRetentionPeriodInDays != nil {
+		s.D.Set("pipeline_run_retention_period_in_days", *s.Res.PipelineRunRetentionPeriodInDays)
+	}
 
 	if s.Res.ProjectId != nil {
 		s.D.Set("project_id", *s.Res.ProjectId)

@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,11 +25,11 @@ func ContainerengineVirtualNodePoolResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createContainerengineVirtualNodePool,
-		Read:     readContainerengineVirtualNodePool,
-		Update:   updateContainerengineVirtualNodePool,
-		Delete:   deleteContainerengineVirtualNodePool,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createContainerengineVirtualNodePoolWithContext,
+		ReadContext:   readContainerengineVirtualNodePoolWithContext,
+		UpdateContext: updateContainerengineVirtualNodePoolWithContext,
+		DeleteContext: deleteContainerengineVirtualNodePoolWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"cluster_id": {
@@ -278,37 +279,37 @@ func ContainerengineVirtualNodePoolResource() *schema.Resource {
 	}
 }
 
-func createContainerengineVirtualNodePool(d *schema.ResourceData, m interface{}) error {
+func createContainerengineVirtualNodePoolWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerengineVirtualNodePoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerEngineClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readContainerengineVirtualNodePool(d *schema.ResourceData, m interface{}) error {
+func readContainerengineVirtualNodePoolWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerengineVirtualNodePoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerEngineClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateContainerengineVirtualNodePool(d *schema.ResourceData, m interface{}) error {
+func updateContainerengineVirtualNodePoolWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerengineVirtualNodePoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerEngineClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteContainerengineVirtualNodePool(d *schema.ResourceData, m interface{}) error {
+func deleteContainerengineVirtualNodePoolWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerengineVirtualNodePoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerEngineClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type ContainerengineVirtualNodePoolResourceCrud struct {
@@ -347,7 +348,7 @@ func (s *ContainerengineVirtualNodePoolResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *ContainerengineVirtualNodePoolResourceCrud) Create() error {
+func (s *ContainerengineVirtualNodePoolResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_containerengine.CreateVirtualNodePoolRequest{}
 
 	if clusterId, ok := s.D.GetOkExists("cluster_id"); ok {
@@ -482,14 +483,14 @@ func (s *ContainerengineVirtualNodePoolResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
-	response, err := s.Client.CreateVirtualNodePool(context.Background(), request)
+	response, err := s.Client.CreateVirtualNodePool(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_containerengine.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_containerengine.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -505,14 +506,14 @@ func (s *ContainerengineVirtualNodePoolResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getVirtualNodePoolFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine"), oci_containerengine.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getVirtualNodePoolFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine"), oci_containerengine.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *ContainerengineVirtualNodePoolResourceCrud) getVirtualNodePoolFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *ContainerengineVirtualNodePoolResourceCrud) getVirtualNodePoolFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_containerengine.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	virtualNodePoolId, err := virtualNodePoolWaitForWorkRequest(workId, "virtualnodepool",
+	virtualNodePoolId, err := virtualNodePoolWaitForWorkRequest(ctx, workId, "virtualnodepool",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -520,7 +521,7 @@ func (s *ContainerengineVirtualNodePoolResourceCrud) getVirtualNodePoolFromWorkR
 	}
 	s.D.SetId(*virtualNodePoolId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func virtualNodePoolWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -546,7 +547,7 @@ func virtualNodePoolWorkRequestShouldRetryFunc(timeout time.Duration) func(respo
 	}
 }
 
-func virtualNodePoolWaitForWorkRequest(wId *string, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum,
+func virtualNodePoolWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_containerengine.ContainerEngineClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "containerengine")
 	retryPolicy.ShouldRetryOperation = virtualNodePoolWorkRequestShouldRetryFunc(timeout)
@@ -565,7 +566,7 @@ func virtualNodePoolWaitForWorkRequest(wId *string, entityType string, action oc
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_containerengine.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -577,7 +578,7 @@ func virtualNodePoolWaitForWorkRequest(wId *string, entityType string, action oc
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -594,14 +595,14 @@ func virtualNodePoolWaitForWorkRequest(wId *string, entityType string, action oc
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_containerengine.WorkRequestStatusFailed || response.Status == oci_containerengine.WorkRequestStatusCanceled {
-		return nil, getErrorFromContainerengineVirtualNodePoolWorkRequest(client, wId, response.CompartmentId, retryPolicy, entityType, action)
+		return nil, getErrorFromContainerengineVirtualNodePoolWorkRequest(ctx, client, wId, response.CompartmentId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromContainerengineVirtualNodePoolWorkRequest(client *oci_containerengine.ContainerEngineClient, workId *string, compartmentId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromContainerengineVirtualNodePoolWorkRequest(ctx context.Context, client *oci_containerengine.ContainerEngineClient, workId *string, compartmentId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_containerengine.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			CompartmentId: compartmentId,
@@ -624,7 +625,7 @@ func getErrorFromContainerengineVirtualNodePoolWorkRequest(client *oci_container
 	return workRequestErr
 }
 
-func (s *ContainerengineVirtualNodePoolResourceCrud) Get() error {
+func (s *ContainerengineVirtualNodePoolResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_containerengine.GetVirtualNodePoolRequest{}
 
 	tmp := s.D.Id()
@@ -632,7 +633,7 @@ func (s *ContainerengineVirtualNodePoolResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
-	response, err := s.Client.GetVirtualNodePool(context.Background(), request)
+	response, err := s.Client.GetVirtualNodePool(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -641,7 +642,7 @@ func (s *ContainerengineVirtualNodePoolResourceCrud) Get() error {
 	return nil
 }
 
-func (s *ContainerengineVirtualNodePoolResourceCrud) Update() error {
+func (s *ContainerengineVirtualNodePoolResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_containerengine.UpdateVirtualNodePoolRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -769,16 +770,16 @@ func (s *ContainerengineVirtualNodePoolResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
-	response, err := s.Client.UpdateVirtualNodePool(context.Background(), request)
+	response, err := s.Client.UpdateVirtualNodePool(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getVirtualNodePoolFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine"), oci_containerengine.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getVirtualNodePoolFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine"), oci_containerengine.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *ContainerengineVirtualNodePoolResourceCrud) Delete() error {
+func (s *ContainerengineVirtualNodePoolResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_containerengine.DeleteVirtualNodePoolRequest{}
 
 	if isForceDeletionAfterOverrideGraceDurationVnp, ok := s.D.GetOkExists("is_force_deletion_after_override_grace_duration_vnp"); ok {
@@ -796,14 +797,14 @@ func (s *ContainerengineVirtualNodePoolResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
-	response, err := s.Client.DeleteVirtualNodePool(context.Background(), request)
+	response, err := s.Client.DeleteVirtualNodePool(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := virtualNodePoolWaitForWorkRequest(workId, "virtualnodepool",
+	_, delWorkRequestErr := virtualNodePoolWaitForWorkRequest(ctx, workId, "virtualnodepool",
 		oci_containerengine.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

@@ -21,18 +21,29 @@ import (
 	"strings"
 )
 
-// Instances SPLAT authorization alias for Compute instance operations that use the downstream instances resource kind.
-type Instances struct {
+// InstancePoolLaunchOverrideStatement One availability domain-scoped rule inside an instance pool launch override policy.
+type InstancePoolLaunchOverrideStatement struct {
+
+	// A user-friendly name for the override statement.
+	Name *string `mandatory:"true" json:"name"`
+
+	Selector *InstancePoolLaunchOverrideSelector `mandatory:"true" json:"selector"`
+
+	// The ordered list of candidate override options for the matched availability domain.
+	// Request order defines the canonical candidate sequence.
+	// Override options within the same statement must normalize to
+	// distinct override payloads.
+	OverrideOptions []InstancePoolLaunchOverrideOption `mandatory:"true" json:"overrideOptions"`
 }
 
-func (m Instances) String() string {
+func (m InstancePoolLaunchOverrideStatement) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m Instances) ValidateEnumValue() (bool, error) {
+func (m InstancePoolLaunchOverrideStatement) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

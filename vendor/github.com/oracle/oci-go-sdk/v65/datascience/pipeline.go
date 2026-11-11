@@ -51,6 +51,9 @@ type Pipeline struct {
 	// A short description of the pipeline.
 	Description *string `mandatory:"false" json:"description"`
 
+	// Retention period in days for pipeline runs.
+	PipelineRunRetentionPeriodInDays *int `mandatory:"false" json:"pipelineRunRetentionPeriodInDays"`
+
 	ConfigurationDetails PipelineConfigurationDetails `mandatory:"false" json:"configurationDetails"`
 
 	LogConfigurationDetails *PipelineLogConfigurationDetails `mandatory:"false" json:"logConfigurationDetails"`
@@ -103,6 +106,7 @@ func (m *Pipeline) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		TimeUpdated                          *common.SDKTime                             `json:"timeUpdated"`
 		Description                          *string                                     `json:"description"`
+		PipelineRunRetentionPeriodInDays     *int                                        `json:"pipelineRunRetentionPeriodInDays"`
 		ConfigurationDetails                 pipelineconfigurationdetails                `json:"configurationDetails"`
 		LogConfigurationDetails              *PipelineLogConfigurationDetails            `json:"logConfigurationDetails"`
 		InfrastructureConfigurationDetails   *PipelineInfrastructureConfigurationDetails `json:"infrastructureConfigurationDetails"`
@@ -130,6 +134,8 @@ func (m *Pipeline) UnmarshalJSON(data []byte) (e error) {
 	m.TimeUpdated = model.TimeUpdated
 
 	m.Description = model.Description
+
+	m.PipelineRunRetentionPeriodInDays = model.PipelineRunRetentionPeriodInDays
 
 	nn, e = model.ConfigurationDetails.UnmarshalPolymorphicJSON(model.ConfigurationDetails.JsonData)
 	if e != nil {

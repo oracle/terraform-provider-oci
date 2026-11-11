@@ -55,6 +55,9 @@ type PipelineRun struct {
 	// The date and time the pipeline run request was finished in the timestamp format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
 
+	// Retention period in days for pipeline run.
+	PipelineRunRetentionPeriodInDaysOverride *int `mandatory:"false" json:"pipelineRunRetentionPeriodInDaysOverride"`
+
 	ConfigurationDetails PipelineConfigurationDetails `mandatory:"false" json:"configurationDetails"`
 
 	ConfigurationOverrideDetails PipelineConfigurationDetails `mandatory:"false" json:"configurationOverrideDetails"`
@@ -115,6 +118,7 @@ func (m *PipelineRun) UnmarshalJSON(data []byte) (e error) {
 		TimeStarted                                  *common.SDKTime                             `json:"timeStarted"`
 		TimeUpdated                                  *common.SDKTime                             `json:"timeUpdated"`
 		TimeFinished                                 *common.SDKTime                             `json:"timeFinished"`
+		PipelineRunRetentionPeriodInDaysOverride     *int                                        `json:"pipelineRunRetentionPeriodInDaysOverride"`
 		ConfigurationDetails                         pipelineconfigurationdetails                `json:"configurationDetails"`
 		ConfigurationOverrideDetails                 pipelineconfigurationdetails                `json:"configurationOverrideDetails"`
 		LogConfigurationOverrideDetails              *PipelineLogConfigurationDetails            `json:"logConfigurationOverrideDetails"`
@@ -148,6 +152,8 @@ func (m *PipelineRun) UnmarshalJSON(data []byte) (e error) {
 	m.TimeUpdated = model.TimeUpdated
 
 	m.TimeFinished = model.TimeFinished
+
+	m.PipelineRunRetentionPeriodInDaysOverride = model.PipelineRunRetentionPeriodInDaysOverride
 
 	nn, e = model.ConfigurationDetails.UnmarshalPolymorphicJSON(model.ConfigurationDetails.JsonData)
 	if e != nil {

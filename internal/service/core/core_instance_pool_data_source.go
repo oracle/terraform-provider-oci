@@ -110,6 +110,12 @@ func (s *CoreInstancePoolDataSourceCrud) SetData() error {
 	}
 	s.D.Set("load_balancers", loadBalancers)
 
+	if s.Res.OverridePolicy != nil {
+		s.D.Set("override_policy", []interface{}{InstancePoolLaunchOverridePolicyToMap(s.Res.OverridePolicy)})
+	} else {
+		s.D.Set("override_policy", nil)
+	}
+
 	placementConfigurations := []interface{}{}
 	for _, item := range s.Res.PlacementConfigurations {
 		placementConfigurations = append(placementConfigurations, InstancePoolPlacementConfigurationToMap(item))

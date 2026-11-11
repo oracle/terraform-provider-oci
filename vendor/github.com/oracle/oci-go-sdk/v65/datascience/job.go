@@ -48,6 +48,9 @@ type Job struct {
 	// A short description of the job.
 	Description *string `mandatory:"false" json:"description"`
 
+	// Retention period in days for job runs.
+	JobRunRetentionPeriodInDays *int `mandatory:"false" json:"jobRunRetentionPeriodInDays"`
+
 	JobEnvironmentConfigurationDetails JobEnvironmentConfigurationDetails `mandatory:"false" json:"jobEnvironmentConfigurationDetails"`
 
 	JobLogConfigurationDetails *JobLogConfigurationDetails `mandatory:"false" json:"jobLogConfigurationDetails"`
@@ -93,6 +96,7 @@ func (m *Job) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		DisplayName                             *string                               `json:"displayName"`
 		Description                             *string                               `json:"description"`
+		JobRunRetentionPeriodInDays             *int                                  `json:"jobRunRetentionPeriodInDays"`
 		JobEnvironmentConfigurationDetails      jobenvironmentconfigurationdetails    `json:"jobEnvironmentConfigurationDetails"`
 		JobLogConfigurationDetails              *JobLogConfigurationDetails           `json:"jobLogConfigurationDetails"`
 		JobStorageMountConfigurationDetailsList []storagemountconfigurationdetails    `json:"jobStorageMountConfigurationDetailsList"`
@@ -118,6 +122,8 @@ func (m *Job) UnmarshalJSON(data []byte) (e error) {
 	m.DisplayName = model.DisplayName
 
 	m.Description = model.Description
+
+	m.JobRunRetentionPeriodInDays = model.JobRunRetentionPeriodInDays
 
 	nn, e = model.JobEnvironmentConfigurationDetails.UnmarshalPolymorphicJSON(model.JobEnvironmentConfigurationDetails.JsonData)
 	if e != nil {

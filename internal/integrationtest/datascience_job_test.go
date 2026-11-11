@@ -65,6 +65,7 @@ var (
 		"job_storage_mount_configuration_details_list": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobStorageMountConfigurationDetailsListRepresentation},
 		"description":                                  acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":                                 acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"job_run_retention_period_in_days":             acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"freeform_tags":                                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
 		"delete_related_job_runs":                      acctest.Representation{RepType: acctest.Required, Create: `true`},
 	}
@@ -104,6 +105,7 @@ var (
 		"block_storage_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"compute_target_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_datascience_compute_target.test_compute_target.id}`},
 		"job_shape_config_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobJobInfrastructureConfigurationDetailsJobShapeConfigDetailsRepresentation},
+		"network_configuration":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobJobInfrastructureConfigurationDetailsNetworkConfigurationRepresentation},
 		"resource_configuration":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobJobInfrastructureConfigurationDetailsResourceConfigurationRepresentation},
 		"shape_name":                acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_shape.test_shape.name}`},
 		"subnet_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
@@ -142,8 +144,8 @@ var (
 		"destination_directory_name": acctest.Representation{RepType: acctest.Required, Create: `fss`, Update: `fss1`},
 		"storage_type":               acctest.Representation{RepType: acctest.Required, Create: `FILE_STORAGE`},
 		"destination_path":           acctest.Representation{RepType: acctest.Optional, Create: `/mnt`, Update: `/mnt1`},
-		"export_id":                  acctest.Representation{RepType: acctest.Optional, Create: `export_id`},
-		"mount_target_id":            acctest.Representation{RepType: acctest.Optional, Create: `mount_id`},
+		"export_id":                  acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_export.test_export.id}`},
+		"mount_target_id":            acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_mount_target.test_mount_target.id}`},
 	}
 	DatascienceJobJobConfigurationDetailsStartupProbeDetailsRepresentation = map[string]interface{}{
 		"command":                  acctest.Representation{RepType: acctest.Required, Create: []string{`command`}},
@@ -156,21 +158,25 @@ var (
 		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `16.0`},
 		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `3.0`},
 	}
+	DatascienceJobJobInfrastructureConfigurationDetailsNetworkConfigurationRepresentation = map[string]interface{}{
+		"network_type": acctest.Representation{RepType: acctest.Required, Create: `CUSTOM_NETWORK`, Update: `DEFAULT_NETWORK`},
+		"subnet_id":    acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
+	}
 	DatascienceJobJobInfrastructureConfigurationDetailsResourceConfigurationRepresentation = map[string]interface{}{
 		"resource_limit_configuration":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobJobInfrastructureConfigurationDetailsResourceConfigurationResourceLimitConfigurationRepresentation},
 		"resource_request_configuration": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobJobInfrastructureConfigurationDetailsResourceConfigurationResourceRequestConfigurationRepresentation},
 	}
 	DatascienceJobJobNodeConfigurationDetailsJobNetworkConfigurationRepresentation = map[string]interface{}{
 		"job_network_type": acctest.Representation{RepType: acctest.Required, Create: `CUSTOM_NETWORK`},
-		"subnet_id":        acctest.Representation{RepType: acctest.Required, Create: `subnet_id`},
+		"subnet_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
 	DatascienceJobJobNodeConfigurationDetailsJobNodeGroupConfigurationDetailsListRepresentation = map[string]interface{}{
 		"name":                      acctest.Representation{RepType: acctest.Required, Create: `replica1`},
 		"job_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceJobJobNodeConfigurationDetailsJobNodeGroupConfigurationDetailsListJobConfigurationDetailsRepresentation},
 		// "job_environment_configuration_details":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobJobNodeConfigurationDetailsJobNodeGroupConfigurationDetailsListJobEnvironmentConfigurationDetailsRepresentation},
-		//"job_infrastructure_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DataScienceMultiNodeJobJobInfrastructureConfigurationDetailsRepresentation},
-		"minimum_success_replicas": acctest.Representation{RepType: acctest.Optional, Create: `1`},
-		"replicas":                 acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"job_infrastructure_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceJobJobNodeConfigurationDetailsJobNodeGroupConfigurationDetailsListJobInfrastructureConfigurationDetailsRepresentation},
+		"minimum_success_replicas":                 acctest.Representation{RepType: acctest.Optional, Create: `1`},
+		"replicas":                                 acctest.Representation{RepType: acctest.Required, Create: `1`},
 	}
 	DatascienceJobJobInfrastructureConfigurationDetailsResourceConfigurationResourceLimitConfigurationRepresentation = map[string]interface{}{
 		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `1.1`},
@@ -197,12 +203,13 @@ var (
 		"image_signature_id":   acctest.Representation{RepType: acctest.Optional, Create: `imageSignatureId`},
 	}
 	DatascienceJobJobNodeConfigurationDetailsJobNodeGroupConfigurationDetailsListJobInfrastructureConfigurationDetailsRepresentation = map[string]interface{}{
-		"job_infrastructure_type":   acctest.Representation{RepType: acctest.Required, Create: `STANDALONE`},
-		"block_storage_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"job_infrastructure_type":   acctest.Representation{RepType: acctest.Required, Create: `MULTI_NODE`},
+		"block_storage_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `50`},
 		"compute_target_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_datascience_compute_target.test_compute_target.id}`},
-		"job_shape_config_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobJobNodeConfigurationDetailsJobNodeGroupConfigurationDetailsListJobInfrastructureConfigurationDetailsJobShapeConfigDetailsRepresentation},
+		"job_shape_config_details":  acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceJobJobNodeConfigurationDetailsJobNodeGroupConfigurationDetailsListJobInfrastructureConfigurationDetailsJobShapeConfigDetailsRepresentation},
+		"network_configuration":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobJobNodeConfigurationDetailsJobNodeGroupConfigurationDetailsListJobInfrastructureConfigurationDetailsNetworkConfigurationRepresentation},
 		"resource_configuration":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobJobNodeConfigurationDetailsJobNodeGroupConfigurationDetailsListJobInfrastructureConfigurationDetailsResourceConfigurationRepresentation},
-		"shape_name":                acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_shape.test_shape.name}`},
+		"shape_name":                acctest.Representation{RepType: acctest.Required, Create: `VM.Standard3.Flex`},
 		"subnet_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
 	DatascienceJobJobNodeConfigurationDetailsJobNodeGroupConfigurationDetailsListJobConfigurationDetailsStartupProbeDetailsRepresentation = map[string]interface{}{
@@ -214,8 +221,12 @@ var (
 	}
 	DatascienceJobJobNodeConfigurationDetailsJobNodeGroupConfigurationDetailsListJobInfrastructureConfigurationDetailsJobShapeConfigDetailsRepresentation = map[string]interface{}{
 		"cpu_baseline":  acctest.Representation{RepType: acctest.Optional, Create: `BASELINE_1_8`},
-		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `1.0`},
-		"ocpus":         acctest.Representation{RepType: acctest.Optional, Create: `1.0`},
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `16.0`},
+		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `3.0`},
+	}
+	DatascienceJobJobNodeConfigurationDetailsJobNodeGroupConfigurationDetailsListJobInfrastructureConfigurationDetailsNetworkConfigurationRepresentation = map[string]interface{}{
+		"network_type": acctest.Representation{RepType: acctest.Required, Create: `CUSTOM_NETWORK`},
+		"subnet_id":    acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
 	DatascienceJobJobNodeConfigurationDetailsJobNodeGroupConfigurationDetailsListJobInfrastructureConfigurationDetailsResourceConfigurationRepresentation = map[string]interface{}{
 		"resource_limit_configuration":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobJobNodeConfigurationDetailsJobNodeGroupConfigurationDetailsListJobInfrastructureConfigurationDetailsResourceConfigurationResourceLimitConfigurationRepresentation},
@@ -231,8 +242,7 @@ var (
 		"ocpus":         acctest.Representation{RepType: acctest.Optional, Create: `1.0`},
 	}
 
-	DatascienceJobResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_apm_traces_logs", "test_logs", acctest.Required, acctest.Create, ApmTracesLogSingularDataSourceRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", acctest.Required, acctest.Create, CoreCoreShapeDataSourceRepresentation) +
+	DatascienceJobResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", acctest.Required, acctest.Create, CoreCoreShapeDataSourceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_datascience_compute_target", "test_compute_target", acctest.Required, acctest.Create, DatascienceComputeTargetRepresentation) +
@@ -241,10 +251,52 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_export", "test_export", acctest.Required, acctest.Create, FileStorageExportRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", acctest.Required, acctest.Create, FileStorageFileSystemRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Required, acctest.Create, FileStorageMountTargetRepresentation) +
-		AvailabilityDomainConfig +
-		DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", acctest.Required, acctest.Create, LoggingLogGroupRepresentation)
+		AvailabilityDomainConfig
 )
+
+// issue-routing-tag: datascience/default
+func TestDatascienceJobResource_custom_network(t *testing.T) {
+	httpreplay.SetScenario("TestDatascienceJobResource_custom_network")
+	defer httpreplay.SaveScenario()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	resourceName := "oci_datascience_job.test_job"
+	dependencies := acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_compute_target", "test_compute_target", acctest.Required, acctest.Create, DatascienceComputeTargetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, DatascienceProjectRepresentation) +
+		AvailabilityDomainConfig
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { acctest.TestAccPreCheck(t) },
+		Providers: map[string]*schema.Provider{
+			"oci": acctest.TestAccProvider,
+		},
+		Steps: []resource.TestStep{{
+			Config: acctest.ProviderTestConfig() + compartmentIdVariableStr + dependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_job", "test_job", acctest.Required, acctest.Create, DatascienceJobRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_type", "MULTI_NODE"),
+				resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_network_configuration.0.job_network_type", "CUSTOM_NETWORK"),
+				resource.TestCheckResourceAttrPair(resourceName, "job_node_configuration_details.0.job_network_configuration.0.subnet_id", "oci_core_subnet.test_subnet", "id"),
+				resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_infrastructure_type", "MULTI_NODE"),
+				func(s *terraform.State) error {
+					resId, err := acctest.FromInstanceState(s, resourceName, "id")
+					if err != nil {
+						return err
+					}
+					if enabled, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); enabled {
+						return resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName)
+					}
+					return nil
+				},
+			),
+		}},
+	})
+}
 
 // issue-routing-tag: datascience/default
 func TestDatascienceJobResource_basic(t *testing.T) {
@@ -312,6 +364,9 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.job_shape_config_details.0.cpu_baseline", "BASELINE_1_8"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.job_shape_config_details.0.memory_in_gbs", "1.0"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.job_shape_config_details.0.ocpus", "1.0"),
+					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.network_configuration.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.network_configuration.0.network_type", "CUSTOM_NETWORK"),
+					resource.TestCheckResourceAttrSet(resourceName, "job_infrastructure_configuration_details.0.network_configuration.0.subnet_id"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.resource_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.resource_configuration.0.resource_limit_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.resource_configuration.0.resource_limit_configuration.0.memory_in_gbs", "1.0"),
@@ -351,13 +406,16 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_environment_configuration_details.0.image_signature_id"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_environment_configuration_details.0.job_environment_type", "OCIR_CONTAINER"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "10"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
 					resource.TestCheckResourceAttrSet(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.compute_target_id"),
-					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_infrastructure_type", "STANDALONE"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_infrastructure_type", "MULTI_NODE"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.0.cpu_baseline", "BASELINE_1_8"),
-					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.0.memory_in_gbs", "1.0"),
-					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.0.ocpus", "1.0"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.0.memory_in_gbs", "16.0"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.0.ocpus", "3.0"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.network_configuration.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.network_configuration.0.network_type", "CUSTOM_NETWORK"),
+					resource.TestCheckResourceAttrSet(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.network_configuration.0.subnet_id"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.resource_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.resource_configuration.0.resource_limit_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.resource_configuration.0.resource_limit_configuration.0.memory_in_gbs", "1.0"),
@@ -374,6 +432,7 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_type", "MULTI_NODE"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.maximum_runtime_in_minutes", "10"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.startup_order", "IN_ORDER"),
+					resource.TestCheckResourceAttr(resourceName, "job_run_retention_period_in_days", "10"),
 					resource.TestCheckResourceAttr(resourceName, "job_storage_mount_configuration_details_list.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_storage_mount_configuration_details_list.0.bucket", "bucket"),
 					resource.TestCheckResourceAttr(resourceName, "job_storage_mount_configuration_details_list.0.destination_directory_name", "destinationDirectoryName"),
@@ -439,6 +498,9 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.job_shape_config_details.0.cpu_baseline", "BASELINE_1_8"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.job_shape_config_details.0.memory_in_gbs", "1.0"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.job_shape_config_details.0.ocpus", "1.0"),
+					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.network_configuration.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.network_configuration.0.network_type", "CUSTOM_NETWORK"),
+					resource.TestCheckResourceAttrSet(resourceName, "job_infrastructure_configuration_details.0.network_configuration.0.subnet_id"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.resource_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.resource_configuration.0.resource_limit_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.resource_configuration.0.resource_limit_configuration.0.memory_in_gbs", "1.0"),
@@ -478,13 +540,16 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_environment_configuration_details.0.image_signature_id"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_environment_configuration_details.0.job_environment_type", "OCIR_CONTAINER"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "10"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
 					resource.TestCheckResourceAttrSet(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.compute_target_id"),
-					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_infrastructure_type", "STANDALONE"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_infrastructure_type", "MULTI_NODE"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.0.cpu_baseline", "BASELINE_1_8"),
-					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.0.memory_in_gbs", "1.0"),
-					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.0.ocpus", "1.0"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.0.memory_in_gbs", "16.0"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.0.ocpus", "3.0"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.network_configuration.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.network_configuration.0.network_type", "CUSTOM_NETWORK"),
+					resource.TestCheckResourceAttrSet(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.network_configuration.0.subnet_id"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.resource_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.resource_configuration.0.resource_limit_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.resource_configuration.0.resource_limit_configuration.0.memory_in_gbs", "1.0"),
@@ -501,6 +566,7 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_type", "MULTI_NODE"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.maximum_runtime_in_minutes", "10"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.startup_order", "IN_ORDER"),
+					resource.TestCheckResourceAttr(resourceName, "job_run_retention_period_in_days", "10"),
 					resource.TestCheckResourceAttr(resourceName, "job_storage_mount_configuration_details_list.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_storage_mount_configuration_details_list.0.bucket", "bucket"),
 					resource.TestCheckResourceAttr(resourceName, "job_storage_mount_configuration_details_list.0.destination_directory_name", "destinationDirectoryName"),
@@ -561,6 +627,9 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.job_shape_config_details.0.cpu_baseline", "BASELINE_1_2"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.job_shape_config_details.0.memory_in_gbs", "1.1"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.job_shape_config_details.0.ocpus", "1.1"),
+					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.network_configuration.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.network_configuration.0.network_type", "DEFAULT_NETWORK"),
+					resource.TestCheckResourceAttrSet(resourceName, "job_infrastructure_configuration_details.0.network_configuration.0.subnet_id"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.resource_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.resource_configuration.0.resource_limit_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.resource_configuration.0.resource_limit_configuration.0.memory_in_gbs", "1.1"),
@@ -600,13 +669,16 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_environment_configuration_details.0.image_signature_id"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_environment_configuration_details.0.job_environment_type", "OCIR_CONTAINER"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "10"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
 					resource.TestCheckResourceAttrSet(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.compute_target_id"),
-					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_infrastructure_type", "STANDALONE"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_infrastructure_type", "MULTI_NODE"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.0.cpu_baseline", "BASELINE_1_8"),
-					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.0.memory_in_gbs", "1.0"),
-					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.0.ocpus", "1.0"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.0.memory_in_gbs", "16.0"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.0.ocpus", "3.0"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.network_configuration.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.network_configuration.0.network_type", "CUSTOM_NETWORK"),
+					resource.TestCheckResourceAttrSet(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.network_configuration.0.subnet_id"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.resource_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.resource_configuration.0.resource_limit_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.resource_configuration.0.resource_limit_configuration.0.memory_in_gbs", "1.0"),
@@ -623,6 +695,7 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.job_node_type", "MULTI_NODE"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.maximum_runtime_in_minutes", "10"),
 					resource.TestCheckResourceAttr(resourceName, "job_node_configuration_details.0.startup_order", "IN_ORDER"),
+					resource.TestCheckResourceAttr(resourceName, "job_run_retention_period_in_days", "10"),
 					resource.TestCheckResourceAttr(resourceName, "job_storage_mount_configuration_details_list.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_storage_mount_configuration_details_list.0.bucket", "bucket2"),
 					resource.TestCheckResourceAttr(resourceName, "job_storage_mount_configuration_details_list.0.destination_directory_name", "destinationDirectoryName2"),
@@ -708,6 +781,8 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_infrastructure_configuration_details.0.job_shape_config_details.0.cpu_baseline", "BASELINE_1_2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_infrastructure_configuration_details.0.job_shape_config_details.0.memory_in_gbs", "1.1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_infrastructure_configuration_details.0.job_shape_config_details.0.ocpus", "1.1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_infrastructure_configuration_details.0.network_configuration.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_infrastructure_configuration_details.0.network_configuration.0.network_type", "DEFAULT_NETWORK"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_infrastructure_configuration_details.0.resource_configuration.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_infrastructure_configuration_details.0.resource_configuration.0.resource_limit_configuration.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_infrastructure_configuration_details.0.resource_configuration.0.resource_limit_configuration.0.memory_in_gbs", "1.1"),
@@ -741,12 +816,14 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_environment_configuration_details.0.image_digest", "imageDigest"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_environment_configuration_details.0.job_environment_type", "OCIR_CONTAINER"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "10"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_infrastructure_type", "STANDALONE"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_infrastructure_type", "MULTI_NODE"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.0.cpu_baseline", "BASELINE_1_8"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.0.memory_in_gbs", "1.0"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.0.ocpus", "1.0"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.0.memory_in_gbs", "16.0"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.job_shape_config_details.0.ocpus", "3.0"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.network_configuration.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.network_configuration.0.network_type", "CUSTOM_NETWORK"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.resource_configuration.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.resource_configuration.0.resource_limit_configuration.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_details.0.job_node_group_configuration_details_list.0.job_infrastructure_configuration_details.0.resource_configuration.0.resource_limit_configuration.0.memory_in_gbs", "1.0"),
@@ -761,6 +838,7 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_details.0.job_node_type", "MULTI_NODE"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_details.0.maximum_runtime_in_minutes", "10"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_node_configuration_details.0.startup_order", "IN_ORDER"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_run_retention_period_in_days", "10"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_storage_mount_configuration_details_list.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_storage_mount_configuration_details_list.0.bucket", "bucket2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_storage_mount_configuration_details_list.0.destination_directory_name", "destinationDirectoryName2"),

@@ -116,6 +116,10 @@ func (s *DatasciencePipelineDataSourceCrud) SetData() error {
 
 	s.D.Set("parameters", s.Res.Parameters)
 
+	if s.Res.PipelineRunRetentionPeriodInDays != nil {
+		s.D.Set("pipeline_run_retention_period_in_days", *s.Res.PipelineRunRetentionPeriodInDays)
+	}
+
 	if s.Res.ProjectId != nil {
 		s.D.Set("project_id", *s.Res.ProjectId)
 	}

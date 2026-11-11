@@ -24,6 +24,8 @@ import (
 // CreateInstancePoolDetails The data to create an instance pool.
 // For a GMC-enabled resource pool, the referenced instance configuration must be a GMC configuration and
 // the placement configuration must identify the availability domain and compute cluster for the pool.
+// Optionally include `overridePolicy` to define availability domain-scoped
+// launch overrides for future launches. Existing pool members are not modified.
 type CreateInstancePoolDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the instance pool.
@@ -61,6 +63,8 @@ type CreateInstancePoolDetails struct {
 
 	// The load balancers to attach to the instance pool.
 	LoadBalancers []AttachLoadBalancerDetails `mandatory:"false" json:"loadBalancers"`
+
+	OverridePolicy *InstancePoolLaunchOverridePolicy `mandatory:"false" json:"overridePolicy"`
 
 	// A user-friendly formatter for the instance pool's instances. Instance displaynames follow the format.
 	// The formatter does not retroactively change instance's displaynames, only instance displaynames in the future follow the format

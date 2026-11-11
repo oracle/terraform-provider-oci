@@ -61,10 +61,11 @@ var (
 		"scaling_policy":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceComputeTargetComputeConfigurationDetailsScalingPolicyRepresentation},
 	}
 	DatascienceComputeTargetComputeConfigurationDetailsInstanceConfigurationRepresentation = map[string]interface{}{
-		"instance_shape":          acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E4.Flex`, Update: `VM.Standard.E4.Flex`},
-		"boot_volume_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `100`, Update: `100`},
-		"capacity_reservation_id": acctest.Representation{RepType: acctest.Optional, Create: nil, Update: nil},
-		"instance_shape_details":  acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceComputeTargetComputeConfigurationDetailsInstanceConfigurationInstanceShapeDetailsRepresentation},
+		"instance_shape":                acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E4.Flex`, Update: `VM.Standard.E4.Flex`},
+		"boot_volume_size_in_gbs":       acctest.Representation{RepType: acctest.Optional, Create: `100`, Update: `100`},
+		"capacity_reservation_id":       acctest.Representation{RepType: acctest.Optional, Create: nil, Update: nil},
+		"instance_shape_details":        acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceComputeTargetComputeConfigurationDetailsInstanceConfigurationInstanceShapeDetailsRepresentation},
+		"network_configuration_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceComputeTargetComputeConfigurationDetailsInstanceConfigurationNetworkConfigurationDetailsRepresentation},
 	}
 	DatascienceComputeTargetComputeConfigurationDetailsScalingPolicyRepresentation = map[string]interface{}{
 		"policy_type":           acctest.Representation{RepType: acctest.Required, Create: `AUTOSCALING`, Update: `AUTOSCALING`},
@@ -76,6 +77,10 @@ var (
 	DatascienceComputeTargetComputeConfigurationDetailsInstanceConfigurationInstanceShapeDetailsRepresentation = map[string]interface{}{
 		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `10`},
 		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `10`},
+	}
+	DatascienceComputeTargetComputeConfigurationDetailsInstanceConfigurationNetworkConfigurationDetailsRepresentation = map[string]interface{}{
+		"network_type": acctest.Representation{RepType: acctest.Required, Create: `CUSTOM_NETWORK`},
+		"subnet_ids":   acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_subnet.lb_test_subnet_1.id}`, `${oci_core_subnet.lb_test_subnet_2.id}`}},
 	}
 	DatascienceComputeTargetComputeConfigurationDetailsScalingPolicyAutoScalingPoliciesRepresentation = map[string]interface{}{
 		"auto_scaling_policy_type": acctest.Representation{RepType: acctest.Required, Create: `THRESHOLD`},
@@ -167,6 +172,9 @@ func TestDatascienceComputeTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compute_configuration_details.0.instance_configuration.0.instance_shape_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compute_configuration_details.0.instance_configuration.0.instance_shape_details.0.memory_in_gbs", "10"),
 				resource.TestCheckResourceAttr(resourceName, "compute_configuration_details.0.instance_configuration.0.instance_shape_details.0.ocpus", "10"),
+				resource.TestCheckResourceAttr(resourceName, "compute_configuration_details.0.instance_configuration.0.network_configuration_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "compute_configuration_details.0.instance_configuration.0.network_configuration_details.0.network_type", "CUSTOM_NETWORK"),
+				resource.TestCheckResourceAttr(resourceName, "compute_configuration_details.0.instance_configuration.0.network_configuration_details.0.subnet_ids.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "compute_configuration_details.0.scaling_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compute_configuration_details.0.scaling_policy.0.auto_scaling_policies.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compute_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.auto_scaling_policy_type", "THRESHOLD"),
@@ -230,6 +238,9 @@ func TestDatascienceComputeTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compute_configuration_details.0.instance_configuration.0.instance_shape_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compute_configuration_details.0.instance_configuration.0.instance_shape_details.0.memory_in_gbs", "10"),
 				resource.TestCheckResourceAttr(resourceName, "compute_configuration_details.0.instance_configuration.0.instance_shape_details.0.ocpus", "10"),
+				resource.TestCheckResourceAttr(resourceName, "compute_configuration_details.0.instance_configuration.0.network_configuration_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "compute_configuration_details.0.instance_configuration.0.network_configuration_details.0.network_type", "CUSTOM_NETWORK"),
+				resource.TestCheckResourceAttr(resourceName, "compute_configuration_details.0.instance_configuration.0.network_configuration_details.0.subnet_ids.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "compute_configuration_details.0.scaling_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compute_configuration_details.0.scaling_policy.0.auto_scaling_policies.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compute_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.auto_scaling_policy_type", "THRESHOLD"),
@@ -288,6 +299,9 @@ func TestDatascienceComputeTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compute_configuration_details.0.instance_configuration.0.instance_shape_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compute_configuration_details.0.instance_configuration.0.instance_shape_details.0.memory_in_gbs", "10"),
 				resource.TestCheckResourceAttr(resourceName, "compute_configuration_details.0.instance_configuration.0.instance_shape_details.0.ocpus", "10"),
+				resource.TestCheckResourceAttr(resourceName, "compute_configuration_details.0.instance_configuration.0.network_configuration_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "compute_configuration_details.0.instance_configuration.0.network_configuration_details.0.network_type", "CUSTOM_NETWORK"),
+				resource.TestCheckResourceAttr(resourceName, "compute_configuration_details.0.instance_configuration.0.network_configuration_details.0.subnet_ids.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "compute_configuration_details.0.scaling_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compute_configuration_details.0.scaling_policy.0.auto_scaling_policies.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compute_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.auto_scaling_policy_type", "THRESHOLD"),
@@ -365,6 +379,9 @@ func TestDatascienceComputeTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "compute_configuration_details.0.instance_configuration.0.instance_shape_details.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compute_configuration_details.0.instance_configuration.0.instance_shape_details.0.memory_in_gbs", "10"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compute_configuration_details.0.instance_configuration.0.instance_shape_details.0.ocpus", "10"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compute_configuration_details.0.instance_configuration.0.network_configuration_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compute_configuration_details.0.instance_configuration.0.network_configuration_details.0.network_type", "CUSTOM_NETWORK"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compute_configuration_details.0.instance_configuration.0.network_configuration_details.0.subnet_ids.#", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compute_configuration_details.0.scaling_policy.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compute_configuration_details.0.scaling_policy.0.auto_scaling_policies.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compute_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.auto_scaling_policy_type", "THRESHOLD"),

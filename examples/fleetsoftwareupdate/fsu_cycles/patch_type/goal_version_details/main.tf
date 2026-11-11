@@ -27,9 +27,10 @@ resource "oci_fleet_software_update_fsu_cycle" "test_fsu_cycle_db19_goal_version
   display_name      = "tf-test-db19-cycle"
   compartment_id    = var.compartment_id
   fsu_collection_id = oci_fleet_software_update_fsu_collection.test_fsu_collection_db19.id
-  type = "PATCH"
+  type              = "PATCH"
   goal_version_details {
-		type = "VERSION"
-		version = "19.20.0.0.0"
-	}
+    is_older_version_acknowledged = true
+    type                          = "VERSION"
+    version                       = "19.17.0.0.0"
+  }
 }

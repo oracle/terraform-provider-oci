@@ -39,11 +39,6 @@ func DatasciencePipelineRunResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"project_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 
 			// Optional
 			"configuration_override_details": {
@@ -151,6 +146,12 @@ func DatasciencePipelineRunResource() *schema.Resource {
 									// Required
 
 									// Optional
+									"cpu_baseline": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"memory_in_gbs": {
 										Type:     schema.TypeFloat,
 										Optional: true,
@@ -170,12 +171,6 @@ func DatasciencePipelineRunResource() *schema.Resource {
 										ForceNew: true,
 									},
 									"ocpus_parameterized": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-										ForceNew: true,
-									},
-									"cpu_baseline": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -253,6 +248,17 @@ func DatasciencePipelineRunResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 				Elem:     schema.TypeString,
+			},
+			"pipeline_run_retention_period_in_days_override": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"project_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
 			},
 			"step_override_details": {
 				Type:     schema.TypeList,
@@ -543,6 +549,12 @@ func DatasciencePipelineRunResource() *schema.Resource {
 												// Required
 
 												// Optional
+												"cpu_baseline": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
 												"memory_in_gbs": {
 													Type:     schema.TypeFloat,
 													Optional: true,
@@ -562,12 +574,6 @@ func DatasciencePipelineRunResource() *schema.Resource {
 													ForceNew: true,
 												},
 												"ocpus_parameterized": {
-													Type:     schema.TypeString,
-													Optional: true,
-													Computed: true,
-													ForceNew: true,
-												},
-												"cpu_baseline": {
 													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
@@ -1020,6 +1026,11 @@ func (s *DatasciencePipelineRunResourceCrud) Create() error {
 		request.PipelineId = &tmp
 	}
 
+	if pipelineRunRetentionPeriodInDaysOverride, ok := s.D.GetOkExists("pipeline_run_retention_period_in_days_override"); ok {
+		tmp := pipelineRunRetentionPeriodInDaysOverride.(int)
+		request.PipelineRunRetentionPeriodInDaysOverride = &tmp
+	}
+
 	if projectId, ok := s.D.GetOkExists("project_id"); ok {
 		tmp := projectId.(string)
 		request.ProjectId = &tmp
@@ -1220,6 +1231,10 @@ func (s *DatasciencePipelineRunResourceCrud) SetData() error {
 
 	if s.Res.PipelineId != nil {
 		s.D.Set("pipeline_id", *s.Res.PipelineId)
+	}
+
+	if s.Res.PipelineRunRetentionPeriodInDaysOverride != nil {
+		s.D.Set("pipeline_run_retention_period_in_days_override", *s.Res.PipelineRunRetentionPeriodInDaysOverride)
 	}
 
 	if s.Res.ProjectId != nil {

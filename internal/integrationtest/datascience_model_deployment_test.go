@@ -193,7 +193,7 @@ var (
 		"compartment_id":                         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"model_deployment_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceMCCModelDeploymentModelDeploymentConfigurationDetailsRepresentation},
 		"project_id":                             acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
-		"defined_tags":                           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                           acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"description":                            acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":                           acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":                          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
@@ -221,7 +221,7 @@ var (
 	DatascienceMCCModelDeploymentModelDeploymentConfigurationDetailsEnvironmentConfigurationDetailsRepresentation = map[string]interface{}{
 		"environment_configuration_type": acctest.Representation{RepType: acctest.Required, Create: `OCIR_CONTAINER`},
 		"image":                          acctest.Representation{RepType: acctest.Required, Create: `iad.ocir.io/ociodscdev/sample-byoc:cpu`},
-		"image_digest":                   acctest.Representation{RepType: acctest.Required, Create: `sha256:2b90a418013aae4422177e24c6fd2269931272efc4fda3c54e82ab1da60219af`},
+		"image_digest":                   acctest.Representation{RepType: acctest.Required, Create: `sha256:baa498965f77389eac9ef5a1905e9a5e599803f63323b72b496bd6bddf1e973d`},
 		"server_port":                    acctest.Representation{RepType: acctest.Required, Create: `8080`},
 		"health_check_port":              acctest.Representation{RepType: acctest.Required, Create: `8080`},
 	}
@@ -309,6 +309,67 @@ var (
 
 	DatascienceMCCModelDeploymentResourceConfig = DatascienceMCCModelDeploymentResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Optional, acctest.Update, DatascienceMCCModelDeploymentRepresentation)
+
+	DatascienceMCCCustomNetworkRepresentation = acctest.RepresentationCopyWithNewProperties(DatascienceMCCModelDeploymentRepresentation, map[string]interface{}{
+		"model_deployment_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(DatascienceMCCModelDeploymentModelDeploymentConfigurationDetailsRepresentation, map[string]interface{}{
+			"infrastructure_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(DatascienceMCCModelDeploymentModelDeploymentConfigurationDetailsInfrastructureConfigurationDetailsRepresentation, map[string]interface{}{
+				"network_configuration": acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
+					"network_type": acctest.Representation{RepType: acctest.Required, Create: `CUSTOM_NETWORK`},
+					"subnet_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+				}},
+			})},
+		})},
+	})
+	DatascienceMCCInactiveCustomNetworkRepresentation = acctest.RepresentationCopyWithNewProperties(DatascienceMCCCustomNetworkRepresentation, map[string]interface{}{
+		"state": acctest.Representation{RepType: acctest.Required, Create: `INACTIVE`},
+	})
+	DatascienceMCCSecondSubnetCustomNetworkRepresentation = acctest.GetUpdatedRepresentationCopy(
+		"model_deployment_configuration_details.infrastructure_configuration_details.compute_target_id",
+		acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_compute_target.test_compute_target_2.id}`},
+		acctest.GetUpdatedRepresentationCopy(
+			"model_deployment_configuration_details.infrastructure_configuration_details.network_configuration.subnet_id",
+			acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet_2.id}`},
+			DatascienceMCCCustomNetworkRepresentation))
+	DatascienceMCCInactiveSecondSubnetCustomNetworkRepresentation = acctest.RepresentationCopyWithNewProperties(DatascienceMCCSecondSubnetCustomNetworkRepresentation, map[string]interface{}{
+		"state": acctest.Representation{RepType: acctest.Required, Create: `INACTIVE`},
+	})
+	DatascienceMCCActiveSecondSubnetCustomNetworkRepresentation = acctest.RepresentationCopyWithNewProperties(DatascienceMCCSecondSubnetCustomNetworkRepresentation, map[string]interface{}{
+		"state": acctest.Representation{RepType: acctest.Required, Create: `ACTIVE`},
+	})
+
+	DatascienceMCCCustomNetworkComputeTargetRepresentation = acctest.RepresentationCopyWithNewProperties(DatascienceComputeTargetRepresentation, map[string]interface{}{
+		"compute_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(DatascienceComputeTargetComputeConfigurationDetailsRepresentation, map[string]interface{}{
+			"instance_configuration": acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(DatascienceComputeTargetComputeConfigurationDetailsInstanceConfigurationRepresentation, map[string]interface{}{
+				"network_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
+					"network_type": acctest.Representation{RepType: acctest.Required, Create: `CUSTOM_NETWORK`},
+					"subnet_ids":   acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_subnet.test_subnet.id}`}},
+				}},
+			})},
+		})},
+	})
+	DatascienceMCCCustomNetworkUpdateComputeTargetRepresentation = acctest.GetUpdatedRepresentationCopy(
+		"compute_configuration_details.instance_configuration.network_configuration_details.subnet_ids",
+		acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_subnet.test_subnet_2.id}`}},
+		DatascienceMCCCustomNetworkComputeTargetRepresentation)
+	DatascienceMCCCustomNetworkUpdateFirstSubnetRepresentation = acctest.RepresentationCopyWithNewProperties(ModelDeploymentCoreSubnetRepresentation, map[string]interface{}{
+		"cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.0.0/24`},
+	})
+	DatascienceMCCCustomNetworkUpdateSecondSubnetRepresentation = acctest.RepresentationCopyWithNewProperties(ModelDeploymentCoreSubnetRepresentation, map[string]interface{}{
+		"cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.1.0/24`},
+	})
+	DatascienceMCCCustomNetworkDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, DatascienceProjectRepresentation) +
+		// Include artifact_content_disposition so the downloaded artifact retains its .zip filename.
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Optional, acctest.Create, modelForModelDeploymentRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_compute_target", "test_compute_target", acctest.Required, acctest.Create, DatascienceMCCCustomNetworkComputeTargetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, ModelDeploymentCoreSubnetRepresentation)
+	DatascienceMCCCustomNetworkUpdateDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, DatascienceProjectRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Optional, acctest.Create, modelForModelDeploymentRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_compute_target", "test_compute_target", acctest.Required, acctest.Create, DatascienceMCCCustomNetworkComputeTargetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_compute_target", "test_compute_target_2", acctest.Required, acctest.Create, DatascienceMCCCustomNetworkUpdateComputeTargetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, DatascienceMCCCustomNetworkUpdateFirstSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet_2", acctest.Required, acctest.Create, DatascienceMCCCustomNetworkUpdateSecondSubnetRepresentation)
 )
 
 // issue-routing-tag: datascience/default
@@ -705,7 +766,9 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "model_deployment_configuration_details.0.model_configuration_details.0.scaling_policy.0.instance_count", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "model_deployment_configuration_details.0.model_configuration_details.0.scaling_policy.0.policy_type", "FIXED_SIZE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "model_deployment_url"),
-				resource.TestCheckNoResourceAttr(singularDatasourceName, "model_deployment_system_data.#"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "model_deployment_system_data.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "model_deployment_system_data.0.system_infra_type", "INSTANCE_POOL"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "model_deployment_system_data.0.current_instance_count", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 			),
@@ -724,6 +787,106 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: datascience/default
+func TestDatascienceModelDeploymentResource_custom_network(t *testing.T) {
+	httpreplay.SetScenario("TestDatascienceModelDeploymentResource_custom_network")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	resourceName := "oci_datascience_model_deployment.test_model_deployment"
+	datasourceName := "data.oci_datascience_model_deployment.test_model_deployment"
+	networkPath := "model_deployment_configuration_details.0.infrastructure_configuration_details.0.network_configuration.0"
+	dependencies := DatascienceMCCCustomNetworkDependencies
+	customNetworkConfig := config + compartmentIdVariableStr + dependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Required, acctest.Create, DatascienceMCCCustomNetworkRepresentation)
+	datasourceConfig := acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Required, acctest.Create, DatascienceDatascienceModelDeploymentSingularDataSourceRepresentation)
+
+	acctest.ResourceTest(t, testAccCheckDatascienceModelDeploymentDestroy, []resource.TestStep{
+		{
+			Config: customNetworkConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, networkPath+".network_type", "CUSTOM_NETWORK"),
+				resource.TestCheckResourceAttrPair(resourceName, networkPath+".subnet_id", "oci_core_subnet.test_subnet", "id"),
+				resource.TestCheckResourceAttrPair("oci_datascience_compute_target.test_compute_target", "compute_configuration_details.0.instance_configuration.0.network_configuration_details.0.subnet_ids.0", "oci_core_subnet.test_subnet", "id"),
+				func(s *terraform.State) error {
+					resId, err := acctest.FromInstanceState(s, resourceName, "id")
+					if err != nil {
+						return err
+					}
+					if enabled, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); enabled {
+						return resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName)
+					}
+					return nil
+				},
+			),
+		},
+		{
+			Config: customNetworkConfig + datasourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, networkPath+".network_type", "CUSTOM_NETWORK"),
+				resource.TestCheckResourceAttrPair(datasourceName, networkPath+".subnet_id", "oci_core_subnet.test_subnet", "id"),
+			),
+		},
+	})
+}
+
+// issue-routing-tag: datascience/default
+func TestDatascienceModelDeploymentResource_update_custom_network(t *testing.T) {
+	httpreplay.SetScenario("TestDatascienceModelDeploymentResource_update_custom_network")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	resourceName := "oci_datascience_model_deployment.test_model_deployment"
+	networkPath := "model_deployment_configuration_details.0.infrastructure_configuration_details.0.network_configuration.0"
+	dependencies := DatascienceMCCCustomNetworkUpdateDependencies
+	resourceConfig := func(representation map[string]interface{}) string {
+		return config + compartmentIdVariableStr + dependencies +
+			acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Required, acctest.Create, representation)
+	}
+
+	acctest.ResourceTest(t, testAccCheckDatascienceModelDeploymentDestroy, []resource.TestStep{
+		{
+			Config: resourceConfig(DatascienceMCCCustomNetworkRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(resourceName, networkPath+".network_type", "CUSTOM_NETWORK"),
+				resource.TestCheckResourceAttrPair(resourceName, networkPath+".subnet_id", "oci_core_subnet.test_subnet", "id"),
+				resource.TestCheckResourceAttrPair(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.compute_target_id", "oci_datascience_compute_target.test_compute_target", "id"),
+			),
+		},
+		{
+			Config: resourceConfig(DatascienceMCCInactiveCustomNetworkRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "state", "INACTIVE"),
+				resource.TestCheckResourceAttr(resourceName, networkPath+".network_type", "CUSTOM_NETWORK"),
+			),
+		},
+		{
+			Config: resourceConfig(DatascienceMCCInactiveSecondSubnetCustomNetworkRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "state", "INACTIVE"),
+				resource.TestCheckResourceAttr(resourceName, networkPath+".network_type", "CUSTOM_NETWORK"),
+				resource.TestCheckResourceAttrPair(resourceName, networkPath+".subnet_id", "oci_core_subnet.test_subnet_2", "id"),
+				resource.TestCheckResourceAttrPair(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.compute_target_id", "oci_datascience_compute_target.test_compute_target_2", "id"),
+			),
+		},
+		{
+			Config: resourceConfig(DatascienceMCCActiveSecondSubnetCustomNetworkRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(resourceName, networkPath+".network_type", "CUSTOM_NETWORK"),
+				resource.TestCheckResourceAttrPair(resourceName, networkPath+".subnet_id", "oci_core_subnet.test_subnet_2", "id"),
+				resource.TestCheckResourceAttrPair(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.compute_target_id", "oci_datascience_compute_target.test_compute_target_2", "id"),
+			),
+		},
+	})
+}
+
+// issue-routing-tag: datascience/default
 func TestDatascienceModelDeploymentResource_single_model_flex_only(t *testing.T) {
 	httpreplay.SetScenario("TestDatascienceModelDeploymentResource_single_model_flex_only")
 	defer httpreplay.SaveScenario()
@@ -763,7 +926,7 @@ func runDatascienceModelDeploymentMCCLifecycleTest(t *testing.T, config, compart
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.environment_configuration_type", "OCIR_CONTAINER"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image", "iad.ocir.io/ociodscdev/sample-byoc:cpu"),
-				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:2b90a418013aae4422177e24c6fd2269931272efc4fda3c54e82ab1da60219af"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:baa498965f77389eac9ef5a1905e9a5e599803f63323b72b496bd6bddf1e973d"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.server_port", "8080"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.health_check_port", "8080"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.#", "1"),
@@ -805,7 +968,7 @@ func runDatascienceModelDeploymentMCCLifecycleTest(t *testing.T, config, compart
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.environment_configuration_type", "OCIR_CONTAINER"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image", "iad.ocir.io/ociodscdev/sample-byoc:cpu"),
-				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:2b90a418013aae4422177e24c6fd2269931272efc4fda3c54e82ab1da60219af"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:baa498965f77389eac9ef5a1905e9a5e599803f63323b72b496bd6bddf1e973d"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.server_port", "8080"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.health_check_port", "8080"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.#", "1"),
@@ -844,7 +1007,7 @@ func runDatascienceModelDeploymentMCCLifecycleTest(t *testing.T, config, compart
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.environment_configuration_type", "OCIR_CONTAINER"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image", "iad.ocir.io/ociodscdev/sample-byoc:cpu"),
-				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:2b90a418013aae4422177e24c6fd2269931272efc4fda3c54e82ab1da60219af"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:baa498965f77389eac9ef5a1905e9a5e599803f63323b72b496bd6bddf1e973d"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.server_port", "8080"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.health_check_port", "8080"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.#", "1"),
@@ -885,7 +1048,7 @@ func runDatascienceModelDeploymentMCCLifecycleTest(t *testing.T, config, compart
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.environment_configuration_type", "OCIR_CONTAINER"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image", "iad.ocir.io/ociodscdev/sample-byoc:cpu"),
-				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:2b90a418013aae4422177e24c6fd2269931272efc4fda3c54e82ab1da60219af"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:baa498965f77389eac9ef5a1905e9a5e599803f63323b72b496bd6bddf1e973d"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.server_port", "8080"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.health_check_port", "8080"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.#", "1"),
@@ -923,7 +1086,7 @@ func runDatascienceModelDeploymentMCCLifecycleTest(t *testing.T, config, compart
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.environment_configuration_type", "OCIR_CONTAINER"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image", "iad.ocir.io/ociodscdev/sample-byoc:cpu"),
-				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:2b90a418013aae4422177e24c6fd2269931272efc4fda3c54e82ab1da60219af"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:baa498965f77389eac9ef5a1905e9a5e599803f63323b72b496bd6bddf1e973d"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.server_port", "8080"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.health_check_port", "8080"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.#", "1"),
@@ -958,7 +1121,7 @@ func runDatascienceModelDeploymentMCCLifecycleTest(t *testing.T, config, compart
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.environment_configuration_type", "OCIR_CONTAINER"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image", "iad.ocir.io/ociodscdev/sample-byoc:cpu"),
-				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:2b90a418013aae4422177e24c6fd2269931272efc4fda3c54e82ab1da60219af"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:baa498965f77389eac9ef5a1905e9a5e599803f63323b72b496bd6bddf1e973d"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.server_port", "8080"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.health_check_port", "8080"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.#", "1"),
@@ -1008,7 +1171,7 @@ func runDatascienceModelDeploymentMCCLifecycleTest(t *testing.T, config, compart
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.environment_configuration_type", "OCIR_CONTAINER"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image", "iad.ocir.io/ociodscdev/sample-byoc:cpu"),
-				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:2b90a418013aae4422177e24c6fd2269931272efc4fda3c54e82ab1da60219af"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:baa498965f77389eac9ef5a1905e9a5e599803f63323b72b496bd6bddf1e973d"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.server_port", "8080"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.health_check_port", "8080"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.#", "1"),
@@ -1061,7 +1224,7 @@ func runDatascienceModelDeploymentMCCLifecycleTest(t *testing.T, config, compart
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.environment_configuration_type", "OCIR_CONTAINER"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image", "iad.ocir.io/ociodscdev/sample-byoc:cpu"),
-				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:2b90a418013aae4422177e24c6fd2269931272efc4fda3c54e82ab1da60219af"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:baa498965f77389eac9ef5a1905e9a5e599803f63323b72b496bd6bddf1e973d"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.server_port", "8080"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.health_check_port", "8080"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.#", "1"),

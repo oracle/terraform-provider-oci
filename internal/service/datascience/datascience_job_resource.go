@@ -271,6 +271,11 @@ func DatascienceJobResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"capacity_reservation_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"compute_target_id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -299,6 +304,36 @@ func DatascienceJobResource() *schema.Resource {
 									},
 									"ocpus": {
 										Type:     schema.TypeFloat,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"network_configuration": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"network_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"CUSTOM_NETWORK",
+											"DEFAULT_NETWORK",
+										}, true),
+									},
+
+									// Optional
+									"subnet_id": {
+										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
@@ -697,6 +732,12 @@ func DatascienceJobResource() *schema.Resource {
 													Computed: true,
 													ForceNew: true,
 												},
+												"capacity_reservation_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
 												"compute_target_id": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -715,6 +756,12 @@ func DatascienceJobResource() *schema.Resource {
 															// Required
 
 															// Optional
+															"cpu_baseline": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
 															"memory_in_gbs": {
 																Type:     schema.TypeFloat,
 																Optional: true,
@@ -727,7 +774,34 @@ func DatascienceJobResource() *schema.Resource {
 																Computed: true,
 																ForceNew: true,
 															},
-															"cpu_baseline": {
+
+															// Computed
+														},
+													},
+												},
+												"network_configuration": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"network_type": {
+																Type:             schema.TypeString,
+																Required:         true,
+																ForceNew:         true,
+																DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																ValidateFunc: validation.StringInSlice([]string{
+																	"CUSTOM_NETWORK",
+																	"DEFAULT_NETWORK",
+																}, true),
+															},
+
+															// Optional
+															"subnet_id": {
 																Type:     schema.TypeString,
 																Optional: true,
 																Computed: true,
@@ -871,6 +945,12 @@ func DatascienceJobResource() *schema.Resource {
 						// Computed
 					},
 				},
+			},
+			"job_run_retention_period_in_days": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"job_storage_mount_configuration_details_list": {
 				Type:     schema.TypeList,
@@ -1141,6 +1221,11 @@ func (s *DatascienceJobResourceCrud) Create() error {
 		}
 	}
 
+	if jobRunRetentionPeriodInDays, ok := s.D.GetOkExists("job_run_retention_period_in_days"); ok {
+		tmp := jobRunRetentionPeriodInDays.(int)
+		request.JobRunRetentionPeriodInDays = &tmp
+	}
+
 	if jobStorageMountConfigurationDetailsList, ok := s.D.GetOkExists("job_storage_mount_configuration_details_list"); ok {
 		interfaces := jobStorageMountConfigurationDetailsList.([]interface{})
 		tmp := make([]oci_datascience.StorageMountConfigurationDetails, len(interfaces))
@@ -1362,6 +1447,10 @@ func (s *DatascienceJobResourceCrud) SetData() error {
 		s.D.Set("job_node_configuration_details", nil)
 	}
 
+	if s.Res.JobRunRetentionPeriodInDays != nil {
+		s.D.Set("job_run_retention_period_in_days", *s.Res.JobRunRetentionPeriodInDays)
+	}
+
 	jobStorageMountConfigurationDetailsList := []interface{}{}
 	for _, item := range s.Res.JobStorageMountConfigurationDetailsList {
 		jobStorageMountConfigurationDetailsList = append(jobStorageMountConfigurationDetailsList, StorageMountConfigurationDetailsToMap(item))
@@ -1571,6 +1660,16 @@ func (s *DatascienceJobResourceCrud) mapToJobInfrastructureConfigurationDetails(
 			tmp := computeTargetId.(string)
 			details.ComputeTargetId = &tmp
 		}
+		if networkConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_configuration")); ok {
+			if tmpList := networkConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "network_configuration"), 0)
+				tmp, err := s.mapToManagedComputeClusterJobNetworkConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert network_configuration, encountered error: %v", err)
+				}
+				details.NetworkConfiguration = tmp
+			}
+		}
 		if resourceConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_configuration")); ok {
 			if tmpList := resourceConfiguration.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "resource_configuration"), 0)
@@ -1587,6 +1686,10 @@ func (s *DatascienceJobResourceCrud) mapToJobInfrastructureConfigurationDetails(
 		if blockStorageSizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "block_storage_size_in_gbs")); ok {
 			tmp := blockStorageSizeInGBs.(int)
 			details.BlockStorageSizeInGBs = &tmp
+		}
+		if capacityReservationId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "capacity_reservation_id")); ok {
+			tmp := capacityReservationId.(string)
+			details.CapacityReservationId = &tmp
 		}
 		if jobShapeConfigDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "job_shape_config_details")); ok {
 			if tmpList := jobShapeConfigDetails.([]interface{}); len(tmpList) > 0 {
@@ -1630,6 +1733,10 @@ func (s *DatascienceJobResourceCrud) mapToJobInfrastructureConfigurationDetails(
 			tmp := blockStorageSizeInGBs.(int)
 			details.BlockStorageSizeInGBs = &tmp
 		}
+		if capacityReservationId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "capacity_reservation_id")); ok {
+			tmp := capacityReservationId.(string)
+			details.CapacityReservationId = &tmp
+		}
 		if jobShapeConfigDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "job_shape_config_details")); ok {
 			if tmpList := jobShapeConfigDetails.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "job_shape_config_details"), 0)
@@ -1667,6 +1774,14 @@ func JobInfrastructureConfigurationDetailsToMap(obj *oci_datascience.JobInfrastr
 			result["compute_target_id"] = string(*v.ComputeTargetId)
 		}
 
+		if v.NetworkConfiguration != nil {
+			networkConfigurationArray := []interface{}{}
+			if networkConfigurationMap := ManagedComputeClusterJobNetworkConfigurationToMap(&v.NetworkConfiguration); networkConfigurationMap != nil {
+				networkConfigurationArray = append(networkConfigurationArray, networkConfigurationMap)
+			}
+			result["network_configuration"] = networkConfigurationArray
+		}
+
 		if v.ResourceConfiguration != nil {
 			result["resource_configuration"] = []interface{}{ManagedComputeClusterJobResourceConfigurationToMap(v.ResourceConfiguration)}
 		}
@@ -1675,6 +1790,10 @@ func JobInfrastructureConfigurationDetailsToMap(obj *oci_datascience.JobInfrastr
 
 		if v.BlockStorageSizeInGBs != nil {
 			result["block_storage_size_in_gbs"] = int(*v.BlockStorageSizeInGBs)
+		}
+
+		if v.CapacityReservationId != nil {
+			result["capacity_reservation_id"] = string(*v.CapacityReservationId)
 		}
 
 		if v.JobShapeConfigDetails != nil {
@@ -1703,6 +1822,10 @@ func JobInfrastructureConfigurationDetailsToMap(obj *oci_datascience.JobInfrastr
 
 		if v.BlockStorageSizeInGBs != nil {
 			result["block_storage_size_in_gbs"] = int(*v.BlockStorageSizeInGBs)
+		}
+
+		if v.CapacityReservationId != nil {
+			result["capacity_reservation_id"] = string(*v.CapacityReservationId)
 		}
 
 		if v.JobShapeConfigDetails != nil {
@@ -2112,6 +2235,52 @@ func JobShapeConfigDetailsToMap(obj *oci_datascience.JobShapeConfigDetails) map[
 
 	if obj.Ocpus != nil {
 		result["ocpus"] = float32(*obj.Ocpus)
+	}
+
+	return result
+}
+
+func (s *DatascienceJobResourceCrud) mapToManagedComputeClusterJobNetworkConfiguration(fieldKeyFormat string) (oci_datascience.ManagedComputeClusterJobNetworkConfiguration, error) {
+	var baseObject oci_datascience.ManagedComputeClusterJobNetworkConfiguration
+	//discriminator
+	networkTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_type"))
+	var networkType string
+	if ok {
+		networkType = networkTypeRaw.(string)
+	} else {
+		networkType = "" // default value
+	}
+	switch strings.ToLower(networkType) {
+	case strings.ToLower("CUSTOM_NETWORK"):
+		details := oci_datascience.ManagedComputeClusterJobCustomNetworkConfiguration{}
+		if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("DEFAULT_NETWORK"):
+		details := oci_datascience.ManagedComputeClusterJobDefaultNetworkConfiguration{}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown network_type '%v' was specified", networkType)
+	}
+	return baseObject, nil
+}
+
+func ManagedComputeClusterJobNetworkConfigurationToMap(obj *oci_datascience.ManagedComputeClusterJobNetworkConfiguration) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_datascience.ManagedComputeClusterJobCustomNetworkConfiguration:
+		result["network_type"] = "CUSTOM_NETWORK"
+
+		if v.SubnetId != nil {
+			result["subnet_id"] = string(*v.SubnetId)
+		}
+	case oci_datascience.ManagedComputeClusterJobDefaultNetworkConfiguration:
+		result["network_type"] = "DEFAULT_NETWORK"
+	default:
+		log.Printf("[WARN] Received 'network_type' of unknown type %v", *obj)
+		return nil
 	}
 
 	return result

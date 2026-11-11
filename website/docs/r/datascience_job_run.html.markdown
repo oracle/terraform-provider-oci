@@ -72,6 +72,13 @@ resource "oci_datascience_job_run" "test_job_run" {
 			memory_in_gbs = var.job_run_job_infrastructure_configuration_override_details_job_shape_config_details_memory_in_gbs
 			ocpus = var.job_run_job_infrastructure_configuration_override_details_job_shape_config_details_ocpus
 		}
+		network_configuration {
+			#Required
+			network_type = var.job_run_job_infrastructure_configuration_override_details_network_configuration_network_type
+
+			#Optional
+			subnet_id = oci_core_subnet.test_subnet.id
+		}
 		resource_configuration {
 
 			#Optional
@@ -160,6 +167,13 @@ resource "oci_datascience_job_run" "test_job_run" {
 					memory_in_gbs = var.job_run_job_node_configuration_override_details_job_node_group_configuration_details_list_job_infrastructure_configuration_details_job_shape_config_details_memory_in_gbs
 					ocpus = var.job_run_job_node_configuration_override_details_job_node_group_configuration_details_list_job_infrastructure_configuration_details_job_shape_config_details_ocpus
 				}
+				network_configuration {
+					#Required
+					network_type = var.job_run_job_node_configuration_override_details_job_node_group_configuration_details_list_job_infrastructure_configuration_details_network_configuration_network_type
+
+					#Optional
+					subnet_id = oci_core_subnet.test_subnet.id
+				}
 				resource_configuration {
 
 					#Optional
@@ -186,6 +200,7 @@ resource "oci_datascience_job_run" "test_job_run" {
 		maximum_runtime_in_minutes = var.job_run_job_node_configuration_override_details_maximum_runtime_in_minutes
 		startup_order = var.job_run_job_node_configuration_override_details_startup_order
 	}
+	job_run_retention_period_in_days_override = var.job_run_job_run_retention_period_in_days_override
 	job_storage_mount_configuration_override_details_list {
 		#Required
 		destination_directory_name = var.job_run_job_storage_mount_configuration_override_details_list_destination_directory_name
@@ -202,6 +217,19 @@ resource "oci_datascience_job_run" "test_job_run" {
 	opc_parent_rpt_url = var.job_run_opc_parent_rpt_url
 }
 ```
+
+### Custom network override for a job run
+
+To override the network of a managed compute cluster job for a run, add this block inside `job_infrastructure_configuration_override_details`:
+
+```hcl
+network_configuration {
+  network_type = "CUSTOM_NETWORK"
+  subnet_id    = var.job_run_subnet_id
+}
+```
+
+For a multi-node job run, `job_node_configuration_override_details.job_network_configuration` also accepts `job_network_type = "CUSTOM_NETWORK"` and a customer `subnet_id`. To use the default network in either configuration block, set the network type to `DEFAULT_NETWORK` and omit `subnet_id`.
 
 ## Argument Reference
 
@@ -233,11 +261,16 @@ The following arguments are supported:
 * `job_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job to create a run for.
 * `job_infrastructure_configuration_override_details` - (Optional) The job infrastructure configuration details (shape, block storage, etc.) 
 	* `block_storage_size_in_gbs` - (Required when job_infrastructure_type=ME_STANDALONE | MULTI_NODE | STANDALONE) The size of the block storage volume to attach to the instance running the job 
+	* `capacity_reservation_id` - (Applicable when job_infrastructure_type=ME_STANDALONE | STANDALONE) This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer-managed compute capacity reservation to be used for launching jobs.  Supported for `STANDALONE` and `ME_STANDALONE` infrastructure only.
 	* `compute_target_id` - (Required when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute target.
 	* `job_infrastructure_type` - (Required) The infrastructure type used for job run.
 	* `job_shape_config_details` - (Applicable when job_infrastructure_type=ME_STANDALONE | MULTI_NODE | STANDALONE) Details for the job run shape configuration. Specify only when a flex shape is selected.
+		* `cpu_baseline` - (Applicable when job_infrastructure_type=ME_STANDALONE | MULTI_NODE | STANDALONE) The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance.
 		* `memory_in_gbs` - (Applicable when job_infrastructure_type=ME_STANDALONE | MULTI_NODE | STANDALONE) The total amount of memory available to the job run instance, in gigabytes. 
 		* `ocpus` - (Applicable when job_infrastructure_type=ME_STANDALONE | MULTI_NODE | STANDALONE) The total number of OCPUs available to the job run instance. 
+	* `network_configuration` - (Applicable when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) The network configuration details for the compute target job.
+		* `network_type` - (Required) The network type. Valid values are `CUSTOM_NETWORK` and `DEFAULT_NETWORK`.
+		* `subnet_id` - (Required when network_type=CUSTOM_NETWORK) The OCID of the customer-supplied subnet for VNIC attach
 	* `resource_configuration` - (Required when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) Details for the compute target job resource configuration.
 		* `resource_limit_configuration` - (Applicable when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) Resource limit configuration details for workload on managed compute cluster type compute target
 			* `memory_in_gbs` - (Required when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) Burstable limit for memory. 
@@ -255,7 +288,7 @@ The following arguments are supported:
 	* `log_id` - (Optional) The log id the job run will push logs too. 
 * `job_node_configuration_override_details` - (Optional) The job node configuration details
 	* `job_network_configuration` - (Optional) The job network configuration details 
-		* `job_network_type` - (Required) job network type
+		* `job_network_type` - (Required) The job network type. Valid values are `CUSTOM_NETWORK` and `DEFAULT_NETWORK`.
 		* `subnet_id` - (Required when job_network_type=CUSTOM_NETWORK) The custom subnet id
 	* `job_node_group_configuration_details_list` - (Optional) List of JobNodeGroupConfigurationDetails
 		* `job_configuration_details` - (Optional) The job configuration details 
@@ -278,11 +311,16 @@ The following arguments are supported:
 			* `job_environment_type` - (Required) The environment configuration type used for job runtime.
 		* `job_infrastructure_configuration_details` - (Optional) The job infrastructure configuration details (shape, block storage, etc.) 
 			* `block_storage_size_in_gbs` - (Required when job_infrastructure_type=ME_STANDALONE | MULTI_NODE | STANDALONE) The size of the block storage volume to attach to the instance running the job 
+			* `capacity_reservation_id` - (Applicable when job_infrastructure_type=ME_STANDALONE | STANDALONE) This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer-managed compute capacity reservation to be used for launching jobs.  Supported for `STANDALONE` and `ME_STANDALONE` infrastructure only.
 			* `compute_target_id` - (Required when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute target.
 			* `job_infrastructure_type` - (Required) The infrastructure type used for job run.
 			* `job_shape_config_details` - (Applicable when job_infrastructure_type=ME_STANDALONE | MULTI_NODE | STANDALONE) Details for the job run shape configuration. Specify only when a flex shape is selected.
+				* `cpu_baseline` - (Applicable when job_infrastructure_type=ME_STANDALONE | MULTI_NODE | STANDALONE) The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance.
 				* `memory_in_gbs` - (Applicable when job_infrastructure_type=ME_STANDALONE | MULTI_NODE | STANDALONE) The total amount of memory available to the job run instance, in gigabytes. 
 				* `ocpus` - (Applicable when job_infrastructure_type=ME_STANDALONE | MULTI_NODE | STANDALONE) The total number of OCPUs available to the job run instance. 
+			* `network_configuration` - (Applicable when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) The network configuration details for the compute target job.
+				* `network_type` - (Required) The network type. Valid values are `CUSTOM_NETWORK` and `DEFAULT_NETWORK`.
+				* `subnet_id` - (Required when network_type=CUSTOM_NETWORK) The OCID of the customer-supplied subnet for VNIC attach
 			* `resource_configuration` - (Required when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) Details for the compute target job resource configuration.
 				* `resource_limit_configuration` - (Applicable when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) Resource limit configuration details for workload on managed compute cluster type compute target
 					* `memory_in_gbs` - (Required when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) Burstable limit for memory. 
@@ -299,6 +337,7 @@ The following arguments are supported:
 	* `job_node_type` - (Required) The node type used for job run.
 	* `maximum_runtime_in_minutes` - (Optional) A time bound for the execution of the job run. Timer starts when the job run is in progress. 
 	* `startup_order` - (Optional) The execution order of node groups
+* `job_run_retention_period_in_days_override` - (Optional) Retention period in days for job run.
 * `job_storage_mount_configuration_override_details_list` - (Optional) Collection of JobStorageMountConfigurationDetails.
 	* `bucket` - (Required when storage_type=OBJECT_STORAGE) The object storage bucket
 	* `destination_directory_name` - (Required) The local directory name to be mounted
@@ -346,11 +385,16 @@ The following attributes are exported:
 * `job_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job.
 * `job_infrastructure_configuration_details` - The job infrastructure configuration details (shape, block storage, etc.) 
 	* `block_storage_size_in_gbs` - The size of the block storage volume to attach to the instance running the job 
+	* `capacity_reservation_id` - This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer-managed compute capacity reservation to be used for launching jobs.  Supported for `STANDALONE` and `ME_STANDALONE` infrastructure only.
 	* `compute_target_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute target.
 	* `job_infrastructure_type` - The infrastructure type used for job run.
 	* `job_shape_config_details` - Details for the job run shape configuration. Specify only when a flex shape is selected.
+		* `cpu_baseline` - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance.
 		* `memory_in_gbs` - The total amount of memory available to the job run instance, in gigabytes. 
 		* `ocpus` - The total number of OCPUs available to the job run instance. 
+	* `network_configuration` - The network configuration details for the compute target job.
+		* `network_type` - network type
+		* `subnet_id` - The OCID of the customer-supplied subnet for VNIC attach
 	* `resource_configuration` - Details for the compute target job resource configuration.
 		* `resource_limit_configuration` - Resource limit configuration details for workload on managed compute cluster type compute target
 			* `memory_in_gbs` - Burstable limit for memory. 
@@ -363,12 +407,16 @@ The following attributes are exported:
 	* `subnet_id` - The subnet to create a secondary vnic in to attach to the instance running the job 
 * `job_infrastructure_configuration_override_details` - The job infrastructure configuration details (shape, block storage, etc.) 
 	* `block_storage_size_in_gbs` - The size of the block storage volume to attach to the instance running the job 
+	* `capacity_reservation_id` - This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer-managed compute capacity reservation to be used for launching jobs.  Supported for `STANDALONE` and `ME_STANDALONE` infrastructure only.
 	* `compute_target_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute target.
 	* `job_infrastructure_type` - The infrastructure type used for job run.
 	* `job_shape_config_details` - Details for the job run shape configuration. Specify only when a flex shape is selected.
 		* `cpu_baseline` - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 		* `memory_in_gbs` - The total amount of memory available to the job run instance, in gigabytes. 
 		* `ocpus` - The total number of OCPUs available to the job run instance. 
+	* `network_configuration` - The network configuration details for the compute target job.
+		* `network_type` - network type
+		* `subnet_id` - The OCID of the customer-supplied subnet for VNIC attach
 	* `resource_configuration` - Details for the compute target job resource configuration.
 		* `resource_limit_configuration` - Resource limit configuration details for workload on managed compute cluster type compute target
 			* `memory_in_gbs` - Burstable limit for memory. 
@@ -409,11 +457,16 @@ The following attributes are exported:
 			* `job_environment_type` - The environment configuration type used for job runtime.
 		* `job_infrastructure_configuration_details` - The job infrastructure configuration details (shape, block storage, etc.) 
 			* `block_storage_size_in_gbs` - The size of the block storage volume to attach to the instance running the job 
+			* `capacity_reservation_id` - This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer-managed compute capacity reservation to be used for launching jobs.  Supported for `STANDALONE` and `ME_STANDALONE` infrastructure only.
 			* `compute_target_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute target.
 			* `job_infrastructure_type` - The infrastructure type used for job run.
 			* `job_shape_config_details` - Details for the job run shape configuration. Specify only when a flex shape is selected.
+				* `cpu_baseline` - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance.
 				* `memory_in_gbs` - The total amount of memory available to the job run instance, in gigabytes. 
 				* `ocpus` - The total number of OCPUs available to the job run instance. 
+			* `network_configuration` - The network configuration details for the compute target job.
+				* `network_type` - network type
+				* `subnet_id` - The OCID of the customer-supplied subnet for VNIC attach
 			* `resource_configuration` - Details for the compute target job resource configuration.
 				* `resource_limit_configuration` - Resource limit configuration details for workload on managed compute cluster type compute target
 					* `memory_in_gbs` - Burstable limit for memory. 
@@ -430,6 +483,7 @@ The following attributes are exported:
 	* `job_node_type` - The node type used for job run.
 	* `maximum_runtime_in_minutes` - A time bound for the execution of the job run. Timer starts when the job run is in progress. 
 	* `startup_order` - The execution order of node groups
+* `job_run_retention_period_in_days_override` - Retention period in days for job run.
 * `job_storage_mount_configuration_details_list` - Collection of JobStorageMountConfigurationDetails.
 	* `bucket` - The object storage bucket
 	* `destination_directory_name` - The local directory name to be mounted

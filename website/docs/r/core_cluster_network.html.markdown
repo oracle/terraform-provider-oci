@@ -158,7 +158,49 @@ The following attributes are exported:
 		* `load_balancer_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the load balancer attached to the instance pool.
 		* `port` - The port value used for the backends.
 		* `state` - The status of the interaction between the instance pool and the load balancer.
-		* `vnic_selection` - Indicates which VNIC on each instance in the instance pool should be used to associate with the load balancer. Possible values are "PrimaryVnic" or the displayName of one of the secondary VNICs on the instance configuration that is associated with the instance pool.
+	* `override_policy` - Optional pool-level launch override policy for future instance launches.
+
+		The policy is evaluated only after placement is resolved for a launch. In V1, provide between 1 and 3 availability domain-scoped statements and no more than one statement for the same availability domain.
+
+		For a matched availability domain, request order defines the canonical override candidate sequence. Preferred-candidate reuse may try one current option once as a fast path. If that fast path misses, canonical evaluation restarts from option 1. During canonical evaluation, the worker advances to the next option only for `out-of-host-capacity`, `LimitExceeded`, and `QuotaExceeded`, and only after same-option retries are exhausted. Other failures are terminal for that launch attempt.
+
+		When used on create, omitting `overridePolicy` preserves the existing base-plus-placement behavior. When used on update, omitting `overridePolicy` leaves the stored policy unchanged, a non-null value replaces the stored policy, and `null` clears it. Read surfaces omit `overridePolicy` when no policy is stored on the pool. 
+		* `override_statements` - The ordered set of availability domain-scoped override statements for this policy. 
+			* `name` - A user-friendly name for the override statement. 
+			* `override_options` - The ordered list of candidate override options for the matched availability domain.
+
+				Request order defines the canonical candidate sequence. Override options within the same statement must normalize to distinct override payloads. 
+				* `name` - A user-friendly name for the override option. 
+				* `override` - The concrete launch mutation payload for an override option.
+
+					In V1, the override payload is limited to `shape`, `shapeConfigDetails`, and `capacityReservationId`.
+
+					Each override option must include at least one of `shape` or `capacityReservationId`, so a `capacityReservationId`-only override is valid. `shapeConfigDetails` may be supplied only when `shape` is supplied. If `shape` is a Flex or Fungible shape, `shapeConfigDetails` is required.
+
+					Placement-owned and system-owned fields are not supported in this payload. Any field outside this V1 payload shape is rejected. 
+					* `capacity_reservation_id` - The OCID of the compute capacity reservation to use for the override option. 
+					* `shape` - The shape of an instance. The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance.
+
+						You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Shape/ListShapes). 
+					* `shape_config_details` - The shape configuration requested for the override option. 
+						* `baseline_ocpu_utilization` - The baseline OCPU utilization for a subcore burstable VM instance. Leave this attribute blank for a non-burstable instance, or explicitly specify non-burstable with `BASELINE_1_1`.
+
+							The following values are supported:
+							* `BASELINE_1_8` - baseline usage is 1/8 of an OCPU.
+							* `BASELINE_1_2` - baseline usage is 1/2 of an OCPU.
+							* `BASELINE_1_1` - baseline usage is an entire OCPU. This represents a non-burstable instance. 
+						* `local_volume_size_in_gbs` - The NVMe-backed local storage capacity, in GB, for flexible dense (DenseLV) VM shapes. If the selected shape  is DenseLV, the value must be greater than 0. For all other shapes, the value must be null (if specified);  any non-null value for a non-DenseLV shape results in an error. 
+						* `memory_in_gbs` - The total amount of memory available to the instance, in gigabytes. 
+						* `nvmes` - The number of NVMe drives to be used for storage. A single drive has 6.8 TB available. 
+						* `ocpus` - The total number of OCPUs available to the instance. 
+						* `resource_management` - This field is reserved for internal use. 
+						* `vcpus` - The total number of VCPUs available to the instance. This can be used instead of OCPUs, in which case the actual number of OCPUs will be calculated based on this value and the actual hardware. This must be a multiple of 2. 
+			* `selector` - The selector for an override statement.
+
+				In V1, the selector contains only the scalar `availabilityDomain`. Additional selector fields are rejected. 
+				* `availability_domain` - The availability domain that this statement applies to.
+
+					The value must match an availability domain present in the pool's `placementConfigurations`.
 	* `placement_configurations` - The placement configurations for the instance pool.
 		* `availability_domain` - The availability domain to place instances.  Example: `Uocm:PHX-AD-1` 
 		* `compute_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the [compute cluster](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) that the instance will be created in. 

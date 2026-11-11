@@ -623,6 +623,8 @@ func (client ComputeManagementClient) createInstanceConfiguration(ctx context.Co
 // To determine whether capacity is available for a specific shape before you create an instance pool,
 // use the CreateComputeCapacityReport
 // operation.
+// You can optionally include `overridePolicy` to define availability domain-scoped
+// launch overrides for future launches. Existing pool members are not modified.
 //
 // # See also
 //
@@ -2310,6 +2312,9 @@ func (client ComputeManagementClient) updateInstanceConfiguration(ctx context.Co
 
 // UpdateInstancePool Update the specified instance pool.
 // The OCID of the instance pool remains the same.
+// If `overridePolicy` is omitted, the stored policy remains unchanged.
+// Provide a non-null `overridePolicy` to replace the stored policy as a whole.
+// Provide `null` to clear the stored policy for future launches.
 //
 // # See also
 //

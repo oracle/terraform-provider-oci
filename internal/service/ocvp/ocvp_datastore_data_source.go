@@ -6,6 +6,7 @@ package ocvp
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ocvp "github.com/oracle/oci-go-sdk/v65/ocvp"
 
@@ -19,15 +20,15 @@ func OcvpDatastoreDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(OcvpDatastoreResource(), fieldMap, readSingularOcvpDatastore)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(OcvpDatastoreResource(), fieldMap, readSingularOcvpDatastoreWithContext)
 }
 
-func readSingularOcvpDatastore(d *schema.ResourceData, m interface{}) error {
+func readSingularOcvpDatastoreWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpDatastoreDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatastoreClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OcvpDatastoreDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *OcvpDatastoreDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OcvpDatastoreDataSourceCrud) Get() error {
+func (s *OcvpDatastoreDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ocvp.GetDatastoreRequest{}
 
 	if datastoreId, ok := s.D.GetOkExists("datastore_id"); ok {
@@ -50,7 +51,7 @@ func (s *OcvpDatastoreDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ocvp")
 
-	response, err := s.Client.GetDatastore(context.Background(), request)
+	response, err := s.Client.GetDatastore(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -60,18 +60,23 @@ resource "oci_datascience_project" "job" {
 resource "oci_datascience_job" "job" {
   compartment_id               = var.compartment_ocid
   project_id                   = oci_datascience_project.job.id
-  job_artifact                 = "${path.root}/job-artifact.py"
-  artifact_content_length      = 1380
-  artifact_content_disposition = "attachment; filename=job_artifact.py"
   delete_related_job_runs      = true
-  job_storage_mount_configuration_details_list {
-    destination_directory_name = "fss"
-    storage_type = "FILE_STORAGE"
-    destination_path = "/mnt"
-    export_id = "<export_id>"
-    mount_target_id = "<mount_id>"
+  job_run_retention_period_in_days = 10
+  # job_storage_mount_configuration_details_list {
+  #   storage_type               = "OBJECT_STORAGE"
+  #   namespace                  = "ociodscdev"
+  #   bucket                     = "Jobs-Dev-tools-Script-Bkt"
+  #   destination_directory_name = "oss1"
+  #   destination_path           = "/"
+  # }
 
-  }
+  # job_storage_mount_configuration_details_list {
+  #   storage_type               = "OBJECT_STORAGE"
+  #   namespace                  = "ociodscdev"
+  #   bucket                     = "Jobs-Dev-tools-Script-Bkt"
+  #   destination_directory_name = "oss2"
+  #   prefix                     = "dir"
+  # }
   # optional parameter
   # opc_parent_rpt_url = ""
 
@@ -80,18 +85,25 @@ resource "oci_datascience_job" "job" {
      maximum_runtime_in_minutes = 30
    }
 
-   job_infrastructure_configuration_details {
-     job_infrastructure_type   = "STANDALONE"
-     shape_name                = "VM.Standard3.Flex"
-     block_storage_size_in_gbs = 100
-     subnet_id = "<subnet_id>"
+  job_environment_configuration_details {
+    job_environment_type = var.job_environment_configuration_details_job_environment_type
+    image                = var.job_environment_configuration_details_image
+  }
 
-  #   # Optional
-     job_shape_config_details {
-       memory_in_gbs = 16
-       ocpus         = 2
-     }
-   }
+  job_infrastructure_configuration_details {
+    job_infrastructure_type = "MANAGED_COMPUTE_CLUSTER"
+    compute_target_id       = "compute_target_id"
+    network_configuration {
+      network_type = "CUSTOM_NETWORK"
+      subnet_id    = "subnet_id"
+    }
+    resource_configuration {
+      resource_request_configuration {
+        ocpus         = 1
+        memory_in_gbs = 2
+      }
+    }
+  }
 
   # New Optional parameter for Multi Node
 #  job_node_configuration_details {
@@ -139,6 +151,14 @@ resource "oci_datascience_job" "job" {
   #    enable_auto_log_creation = true
   #    log_group_id             = oci_logging_log_group.job.id
   #  }
+}
+
+data "oci_datascience_job" "read_job" {
+  job_id = oci_datascience_job.job.id
+}
+
+output "job_run_retention_period_in_days" {
+  value = data.oci_datascience_job.read_job.job_run_retention_period_in_days
 }
 
 data "oci_datascience_jobs" "by_compartment" {
