@@ -24,12 +24,15 @@ variable "compartment_ocid" {
 }
 
 variable "project_ocid" {
+  default = "project_ocid"
 }
 
 variable "shape" {
+  default = "shape"
 }
 
 variable "model_id" {
+  default = "model_id"
 }
 
 variable "model_deployment_display_name" {
@@ -199,6 +202,7 @@ variable "model_deployment_model_deployment_configuration_details_environment_co
 
 # For Custom Egress
 variable "model_egress_id" {
+  default = "model_id"
 }
 
 # Private Networking
@@ -454,7 +458,7 @@ resource "oci_datascience_model_deployment" "tf_model_deployment_custom_networki
         }
 
         # Required
-        subnet_id = oci_core_subnet.tf_subnet.id
+        subnet_id = "subnet_ocid"
       }
       model_id = var.model_egress_id
 

@@ -25,6 +25,8 @@ type ManagedComputeClusterModelDeployInfrastructureConfigDetails struct {
 	ModelDeploymentResourceConfiguration *ManagedComputeClusterModelDeploymentResourceConfiguration `mandatory:"true" json:"modelDeploymentResourceConfiguration"`
 
 	ScalingPolicy ManagedComputeClusterWorkloadScalingPolicy `mandatory:"false" json:"scalingPolicy"`
+
+	NetworkConfiguration ManagedComputeClusterModelDeploymentNetworkConfiguration `mandatory:"false" json:"networkConfiguration"`
 }
 
 func (m ManagedComputeClusterModelDeployInfrastructureConfigDetails) String() string {
@@ -61,6 +63,7 @@ func (m ManagedComputeClusterModelDeployInfrastructureConfigDetails) MarshalJSON
 func (m *ManagedComputeClusterModelDeployInfrastructureConfigDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		ScalingPolicy                        managedcomputeclusterworkloadscalingpolicy                 `json:"scalingPolicy"`
+		NetworkConfiguration                 managedcomputeclustermodeldeploymentnetworkconfiguration   `json:"networkConfiguration"`
 		ComputeTargetId                      *string                                                    `json:"computeTargetId"`
 		ModelDeploymentResourceConfiguration *ManagedComputeClusterModelDeploymentResourceConfiguration `json:"modelDeploymentResourceConfiguration"`
 	}{}
@@ -78,6 +81,16 @@ func (m *ManagedComputeClusterModelDeployInfrastructureConfigDetails) UnmarshalJ
 		m.ScalingPolicy = nn.(ManagedComputeClusterWorkloadScalingPolicy)
 	} else {
 		m.ScalingPolicy = nil
+	}
+
+	nn, e = model.NetworkConfiguration.UnmarshalPolymorphicJSON(model.NetworkConfiguration.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.NetworkConfiguration = nn.(ManagedComputeClusterModelDeploymentNetworkConfiguration)
+	} else {
+		m.NetworkConfiguration = nil
 	}
 
 	m.ComputeTargetId = model.ComputeTargetId

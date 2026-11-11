@@ -22,6 +22,9 @@ import (
 )
 
 // UpdateInstancePoolDetails The data to update an instance pool.
+// If `overridePolicy` is omitted, the stored launch override policy remains unchanged.
+// A non-null `overridePolicy` replaces the stored policy as a whole, and `null`
+// clears it for future launches.
 type UpdateInstancePoolDetails struct {
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
@@ -55,6 +58,8 @@ type UpdateInstancePoolDetails struct {
 	// use the CreateComputeCapacityReport
 	// operation.
 	Size *int `mandatory:"false" json:"size"`
+
+	OverridePolicy *InstancePoolLaunchOverridePolicy `mandatory:"false" json:"overridePolicy"`
 
 	// A user-friendly formatter for the instance pool's instances. Instance displaynames follow the format.
 	// The formatter does not retroactively change instance's displaynames, only instance displaynames in the future follow the format

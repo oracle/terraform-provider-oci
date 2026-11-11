@@ -47,16 +47,19 @@ var (
 	}
 
 	CoreInstancePoolRepresentation = map[string]interface{}{
-		"compartment_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"instance_configuration_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance_configuration.test_instance_configuration.id}`},
-		"placement_configurations":        acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolPlacementConfigurationsRepresentation},
-		"size":                            acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
-		"state":                           acctest.Representation{RepType: acctest.Optional, Create: `Running`},
-		"defined_tags":                    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":                    acctest.Representation{RepType: acctest.Optional, Create: `backend-servers-pool`, Update: `displayName2`},
-		"freeform_tags":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle_management":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolLifecycleManagementRepresentation},
-		"load_balancers":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolLoadBalancersRepresentation},
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"instance_configuration_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance_configuration.test_instance_configuration.id}`},
+		"placement_configurations":  acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolPlacementConfigurationsRepresentation},
+		"size":                      acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
+		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `Running`},
+		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
+		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `backend-servers-pool`, Update: `displayName2`},
+		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle_management":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolLifecycleManagementRepresentation},
+		"load_balancers":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolLoadBalancersRepresentation},
+
+		"override_policy": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolOverridePolicyRepresentation},
+
 		"instance_display_name_formatter": acctest.Representation{RepType: acctest.Optional, Create: `host-$${launchCount}`, Update: `host2-$${launchCount}`},
 		"instance_hostname_formatter":     acctest.Representation{RepType: acctest.Optional, Create: `host-$${launchCount}`, Update: `host2-$${launchCount}`},
 	}
@@ -67,7 +70,7 @@ var (
 		"placement_configurations":  acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolPlacementConfigurationsRepresentationIpv6},
 		"size":                      acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `Running`},
-		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `backend-servers-pool`, Update: `displayName2`},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"load_balancers":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolLoadBalancersRepresentation},
@@ -79,7 +82,7 @@ var (
 		"placement_configurations":  acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolPlacementConfigurationsRepresentationIpv6WithPrimaryVnicSubnets},
 		"size":                      acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `Running`},
-		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `backend-servers-pool`, Update: `displayName2`},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"load_balancers":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolLoadBalancersRepresentation},
@@ -91,7 +94,7 @@ var (
 		"placement_configurations":  acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolPlacementConfigurationsRepresentation},
 		"size":                      acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `Running`},
-		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `backend-servers-pool`, Update: `displayName2`},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"load_balancers":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolLoadBalancersRepresentation},
@@ -106,7 +109,7 @@ var (
 		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"vcn_id":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
 		"availability_domain":        acctest.Representation{RepType: acctest.Optional, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`},
-		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"dhcp_options_id":            acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.default_dhcp_options_id}`, Update: `${oci_core_dhcp_options.test_dhcp_options.id}`},
 		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `IpvSubnet1`, Update: `IpvSubnet2`},
 		"dns_label":                  acctest.Representation{RepType: acctest.Optional, Create: `dnslabel`},
@@ -162,6 +165,11 @@ var (
 		"port":             acctest.Representation{RepType: acctest.Required, Create: `10`},
 		"vnic_selection":   acctest.Representation{RepType: acctest.Required, Create: `PrimaryVnic`},
 	}
+
+	CoreInstancePoolOverridePolicyRepresentation = map[string]interface{}{
+		"override_statements": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolOverridePolicyOverrideStatementsRepresentation},
+	}
+
 	CoreInstancePoolPlacementConfigurationsSecondaryVnicSubnetsRepresentation = map[string]interface{}{
 		"subnet_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"display_name": acctest.Representation{RepType: acctest.Required, Create: `backend-servers-pool`},
@@ -203,7 +211,7 @@ var (
 	CoreInstancePoolConfigurationPoolRepresentation = map[string]interface{}{
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"instance_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolInstanceConfigurationInstanceDetailsPoolRepresentation},
-		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`, Update: `displayName2`},
 		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
@@ -212,6 +220,10 @@ var (
 		"pre_termination": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolLifecycleManagementLifecycleActionsPreTerminationRepresentation},
 	}
 
+	CoreInstancePoolOverridePolicyOverrideStatementsRepresentation = map[string]interface{}{
+		"override_options": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolOverridePolicyOverrideStatementsOverrideOptionsRepresentation},
+		"selector":         acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolOverridePolicyOverrideStatementsSelectorRepresentation},
+	}
 	CoreInstancePoolInstanceConfigurationInstanceDetailsPoolRepresentation = map[string]interface{}{
 		"instance_type":   acctest.Representation{RepType: acctest.Required, Create: `compute`},
 		"secondary_vnics": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolInstanceConfigurationInstanceDetailsSecondaryVnicsPoolRepresentation},
@@ -228,15 +240,36 @@ var (
 		"on_timeout": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolLifecycleManagementLifecycleActionsPreTerminationOnTimeoutRepresentation},
 		"timeout":    acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 	}
+	CoreInstancePoolOverridePolicyOverrideStatementsOverrideOptionsRepresentation = map[string]interface{}{
+		"name":     acctest.Representation{RepType: acctest.Required, Create: `ad-2-shape-fallbacks`, Update: `name2`},
+		"override": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolOverridePolicyOverrideStatementsOverrideOptionsOverrideRepresentation},
+	}
+	CoreInstancePoolOverridePolicyOverrideStatementsSelectorRepresentation = map[string]interface{}{
+		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`, Update: `availabilityDomain2`},
+	}
 	CoreInstancePoolLifecycleManagementLifecycleActionsPreTerminationOnTimeoutRepresentation = map[string]interface{}{
 		"preserve_block_volume_mode": acctest.Representation{RepType: acctest.Required, Create: `PRESERVE_ALWAYS`, Update: `PRESERVE_ON_TIMEOUT`},
 		"preserve_boot_volume_mode":  acctest.Representation{RepType: acctest.Required, Create: `PRESERVE_ALWAYS`, Update: `PRESERVE_ON_TIMEOUT`},
+	}
+	CoreInstancePoolOverridePolicyOverrideStatementsOverrideOptionsOverrideRepresentation = map[string]interface{}{
+		"capacity_reservation_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_capacity_reservation.test_capacity_reservation.id}`},
+		"shape":                   acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E6.Flex`, Update: `shape2`},
+		"shape_config_details":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolOverridePolicyOverrideStatementsOverrideOptionsOverrideShapeConfigDetailsRepresentation},
+	}
+	CoreInstancePoolOverridePolicyOverrideStatementsOverrideOptionsOverrideShapeConfigDetailsRepresentation = map[string]interface{}{
+		"baseline_ocpu_utilization": acctest.Representation{RepType: acctest.Optional, Create: `BASELINE_1_8`, Update: `BASELINE_1_2`},
+		"local_volume_size_in_gbs":  acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"memory_in_gbs":             acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `1.1`},
+		"nvmes":                     acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"ocpus":                     acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `1.1`},
+		"resource_management":       acctest.Representation{RepType: acctest.Optional, Create: `DYNAMIC`, Update: `STATIC`},
+		"vcpus":                     acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 	}
 
 	CoreInstancePoolInstanceConfigurationInstanceDetailsLaunchDetailsPoolRepresentation = map[string]interface{}{
 		"compartment_id":                      acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"create_vnic_details":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolInstanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsPoolRepresentation},
-		"defined_tags":                        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                        acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"display_name":                        acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
 		"extended_metadata":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"extendedMetadata": "extendedMetadata"}, Update: map[string]string{"extendedMetadata2": "extendedMetadata2"}},
 		"freeform_tags":                       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
@@ -261,7 +294,7 @@ var (
 	CoreVcnRepresentationIpv6 = map[string]interface{}{
 		"cidr_block":     acctest.Representation{RepType: acctest.Required, Create: `10.0.0.0/16`},
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `NewVcn`, Update: `LatestVcn`},
 		"dns_label":      acctest.Representation{RepType: acctest.Optional, Create: `dnslabel`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
@@ -387,6 +420,23 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "load_balancers.0.port", "10"),
 				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.state"),
 				resource.TestCheckResourceAttr(resourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
+				resource.TestCheckResourceAttr(resourceName, "override_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "override_policy.0.override_statements.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "override_policy.0.override_statements.0.override_options.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "override_policy.0.override_statements.0.override_options.0.name", "ad-2-shape-fallbacks"),
+				resource.TestCheckResourceAttr(resourceName, "override_policy.0.override_statements.0.override_options.0.override.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "override_policy.0.override_statements.0.override_options.0.override.0.capacity_reservation_id"),
+				resource.TestCheckResourceAttr(resourceName, "override_policy.0.override_statements.0.override_options.0.override.0.shape", "VM.Standard.E6.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "override_policy.0.override_statements.0.override_options.0.override.0.shape_config_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "override_policy.0.override_statements.0.override_options.0.override.0.shape_config_details.0.baseline_ocpu_utilization", "BASELINE_1_8"),
+				resource.TestCheckResourceAttr(resourceName, "override_policy.0.override_statements.0.override_options.0.override.0.shape_config_details.0.local_volume_size_in_gbs", "10"),
+				resource.TestCheckResourceAttr(resourceName, "override_policy.0.override_statements.0.override_options.0.override.0.shape_config_details.0.memory_in_gbs", "1.0"),
+				resource.TestCheckResourceAttr(resourceName, "override_policy.0.override_statements.0.override_options.0.override.0.shape_config_details.0.nvmes", "10"),
+				resource.TestCheckResourceAttr(resourceName, "override_policy.0.override_statements.0.override_options.0.override.0.shape_config_details.0.ocpus", "1.0"),
+				resource.TestCheckResourceAttr(resourceName, "override_policy.0.override_statements.0.override_options.0.override.0.shape_config_details.0.resource_management", "DYNAMIC"),
+				resource.TestCheckResourceAttr(resourceName, "override_policy.0.override_statements.0.override_options.0.override.0.shape_config_details.0.vcpus", "10"),
+				resource.TestCheckResourceAttr(resourceName, "override_policy.0.override_statements.0.selector.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "override_policy.0.override_statements.0.selector.0.availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.compute_cluster_id"),

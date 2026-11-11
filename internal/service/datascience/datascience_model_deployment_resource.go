@@ -339,6 +339,36 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"network_configuration": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"network_type": {
+													Type:             schema.TypeString,
+													Required:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"CUSTOM_NETWORK",
+														"DEFAULT_NETWORK",
+													}, true),
+												},
+
+												// Optional
+												"subnet_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
 									"scaling_policy": {
 										Type:     schema.TypeList,
 										Optional: true,
@@ -1123,22 +1153,24 @@ func updateDatascienceModelDeploymentWithContext(ctx context.Context, d *schema.
 		}
 	}
 
-	if powerOn {
-		if err := sync.StartModelDeployment(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
-		}
-		sync.D.Set("state", oci_datascience.ModelDeploymentLifecycleStateActive)
-	}
-
-	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
-		return tfresource.HandleDiagError(m, err)
-	}
-
 	if powerOff {
 		if err := sync.StopModelDeployment(ctx); err != nil {
 			return tfresource.HandleDiagError(m, err)
 		}
 		sync.D.Set("state", oci_datascience.ModelDeploymentLifecycleStateInactive)
+	}
+
+	if sync.D.HasChangeExcept("state") {
+		if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
+			return tfresource.HandleDiagError(m, err)
+		}
+	}
+
+	if powerOn {
+		if err := sync.StartModelDeployment(ctx); err != nil {
+			return tfresource.HandleDiagError(m, err)
+		}
+		sync.D.Set("state", oci_datascience.ModelDeploymentLifecycleStateActive)
 	}
 
 	return nil
@@ -1919,6 +1951,16 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToInfrastructureConfiguratio
 				details.ModelDeploymentResourceConfiguration = &tmp
 			}
 		}
+		if networkConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_configuration")); ok {
+			if tmpList := networkConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "network_configuration"), 0)
+				tmp, err := s.mapToManagedComputeClusterModelDeploymentNetworkConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert network_configuration, encountered error: %v", err)
+				}
+				details.NetworkConfiguration = tmp
+			}
+		}
 		if scalingPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scaling_policy")); ok {
 			if tmpList := scalingPolicy.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "scaling_policy"), 0)
@@ -2008,6 +2050,16 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToUpdateInfrastructureConfig
 				details.ModelDeploymentResourceConfiguration = &tmp
 			}
 		}
+		if networkConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_configuration")); ok {
+			if tmpList := networkConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "network_configuration"), 0)
+				tmp, err := s.mapToManagedComputeClusterModelDeploymentNetworkConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert network_configuration, encountered error: %v", err)
+				}
+				details.NetworkConfiguration = tmp
+			}
+		}
 		if scalingPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scaling_policy")); ok {
 			if tmpList := scalingPolicy.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "scaling_policy"), 0)
@@ -2059,6 +2111,14 @@ func InfrastructureConfigurationDetailsToMap(obj *oci_datascience.Infrastructure
 
 		if v.ModelDeploymentResourceConfiguration != nil {
 			result["model_deployment_resource_configuration"] = []interface{}{ManagedComputeClusterModelDeploymentResourceConfigurationToMap(v.ModelDeploymentResourceConfiguration)}
+		}
+
+		if v.NetworkConfiguration != nil {
+			networkConfigurationArray := []interface{}{}
+			if networkConfigurationMap := ManagedComputeClusterModelDeploymentNetworkConfigurationToMap(&v.NetworkConfiguration); networkConfigurationMap != nil {
+				networkConfigurationArray = append(networkConfigurationArray, networkConfigurationMap)
+			}
+			result["network_configuration"] = networkConfigurationArray
 		}
 
 		if v.ScalingPolicy != nil {
@@ -2186,6 +2246,52 @@ func LogDetailsToMap(obj *oci_datascience.LogDetails) map[string]interface{} {
 
 	if obj.LogId != nil {
 		result["log_id"] = string(*obj.LogId)
+	}
+
+	return result
+}
+
+func (s *DatascienceModelDeploymentResourceCrud) mapToManagedComputeClusterModelDeploymentNetworkConfiguration(fieldKeyFormat string) (oci_datascience.ManagedComputeClusterModelDeploymentNetworkConfiguration, error) {
+	var baseObject oci_datascience.ManagedComputeClusterModelDeploymentNetworkConfiguration
+	//discriminator
+	networkTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_type"))
+	var networkType string
+	if ok {
+		networkType = networkTypeRaw.(string)
+	} else {
+		networkType = "" // default value
+	}
+	switch strings.ToLower(networkType) {
+	case strings.ToLower("CUSTOM_NETWORK"):
+		details := oci_datascience.ManagedComputeClusterModelDeploymentCustomNetworkConfiguration{}
+		if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("DEFAULT_NETWORK"):
+		details := oci_datascience.ManagedComputeClusterModelDeploymentDefaultNetworkConfiguration{}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown network_type '%v' was specified", networkType)
+	}
+	return baseObject, nil
+}
+
+func ManagedComputeClusterModelDeploymentNetworkConfigurationToMap(obj *oci_datascience.ManagedComputeClusterModelDeploymentNetworkConfiguration) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_datascience.ManagedComputeClusterModelDeploymentCustomNetworkConfiguration:
+		result["network_type"] = "CUSTOM_NETWORK"
+
+		if v.SubnetId != nil {
+			result["subnet_id"] = string(*v.SubnetId)
+		}
+	case oci_datascience.ManagedComputeClusterModelDeploymentDefaultNetworkConfiguration:
+		result["network_type"] = "DEFAULT_NETWORK"
+	default:
+		log.Printf("[WARN] Received 'network_type' of unknown type %v", *obj)
+		return nil
 	}
 
 	return result
@@ -3783,6 +3889,19 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToUpdateModelDeployInfrastru
 				details.ModelDeploymentResourceConfiguration = &tmp
 			}
 		}
+		// Create shares this mapper. Updates must omit unchanged networking because
+		// the API requires an inactive deployment whenever network configuration is sent.
+		networkConfigurationField := fmt.Sprintf(fieldKeyFormat, "network_configuration")
+		if networkConfiguration, ok := s.D.GetOkExists(networkConfigurationField); ok && (s.D.Id() == "" || s.D.HasChange(networkConfigurationField)) {
+			if tmpList := networkConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "network_configuration"), 0)
+				tmp, err := s.mapToManagedComputeClusterModelDeploymentNetworkConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert network_configuration, encountered error: %v", err)
+				}
+				details.NetworkConfiguration = tmp
+			}
+		}
 		if scalingPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scaling_policy")); ok {
 			if tmpList := scalingPolicy.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "scaling_policy"), 0)
@@ -3814,6 +3933,14 @@ func UpdateModelDeployInfrastructureConfigurationDetailsToMap(obj *oci_datascien
 			result["model_deployment_resource_configuration"] = []interface{}{ManagedComputeClusterModelDeploymentResourceConfigurationToMap(v.ModelDeploymentResourceConfiguration)}
 		}
 
+		if v.NetworkConfiguration != nil {
+			networkConfigurationArray := []interface{}{}
+			if networkConfigurationMap := ManagedComputeClusterModelDeploymentNetworkConfigurationToMap(&v.NetworkConfiguration); networkConfigurationMap != nil {
+				networkConfigurationArray = append(networkConfigurationArray, networkConfigurationMap)
+			}
+			result["network_configuration"] = networkConfigurationArray
+		}
+
 		if v.ScalingPolicy != nil {
 			scalingPolicyArray := []interface{}{}
 			if scalingPolicyMap := ManagedComputeClusterWorkloadScalingPolicyToMap(&v.ScalingPolicy); scalingPolicyMap != nil {
@@ -3830,6 +3957,14 @@ func UpdateModelDeployInfrastructureConfigurationDetailsToMap(obj *oci_datascien
 
 		if v.ModelDeploymentResourceConfiguration != nil {
 			result["model_deployment_resource_configuration"] = []interface{}{ManagedComputeClusterModelDeploymentResourceConfigurationToMap(v.ModelDeploymentResourceConfiguration)}
+		}
+
+		if v.NetworkConfiguration != nil {
+			networkConfigurationArray := []interface{}{}
+			if networkConfigurationMap := ManagedComputeClusterModelDeploymentNetworkConfigurationToMap(&v.NetworkConfiguration); networkConfigurationMap != nil {
+				networkConfigurationArray = append(networkConfigurationArray, networkConfigurationMap)
+			}
+			result["network_configuration"] = networkConfigurationArray
 		}
 
 		if v.ScalingPolicy != nil {
@@ -3858,6 +3993,14 @@ func ModelDeployInfrastructureConfigurationDetailsToMap(obj *oci_datascience.Mod
 
 		if v.ModelDeploymentResourceConfiguration != nil {
 			result["model_deployment_resource_configuration"] = []interface{}{ManagedComputeClusterModelDeploymentResourceConfigurationToMap(v.ModelDeploymentResourceConfiguration)}
+		}
+
+		if v.NetworkConfiguration != nil {
+			networkConfigurationArray := []interface{}{}
+			if networkConfigurationMap := ManagedComputeClusterModelDeploymentNetworkConfigurationToMap(&v.NetworkConfiguration); networkConfigurationMap != nil {
+				networkConfigurationArray = append(networkConfigurationArray, networkConfigurationMap)
+			}
+			result["network_configuration"] = networkConfigurationArray
 		}
 
 		if v.ScalingPolicy != nil {

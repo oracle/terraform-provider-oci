@@ -23,6 +23,8 @@ type ManagedComputeClusterJobInfrastructureConfigurationDetails struct {
 	ComputeTargetId *string `mandatory:"true" json:"computeTargetId"`
 
 	ResourceConfiguration *ManagedComputeClusterJobResourceConfiguration `mandatory:"true" json:"resourceConfiguration"`
+
+	NetworkConfiguration ManagedComputeClusterJobNetworkConfiguration `mandatory:"false" json:"networkConfiguration"`
 }
 
 func (m ManagedComputeClusterJobInfrastructureConfigurationDetails) String() string {
@@ -53,4 +55,34 @@ func (m ManagedComputeClusterJobInfrastructureConfigurationDetails) MarshalJSON(
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *ManagedComputeClusterJobInfrastructureConfigurationDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		NetworkConfiguration  managedcomputeclusterjobnetworkconfiguration   `json:"networkConfiguration"`
+		ComputeTargetId       *string                                        `json:"computeTargetId"`
+		ResourceConfiguration *ManagedComputeClusterJobResourceConfiguration `json:"resourceConfiguration"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	nn, e = model.NetworkConfiguration.UnmarshalPolymorphicJSON(model.NetworkConfiguration.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.NetworkConfiguration = nn.(ManagedComputeClusterJobNetworkConfiguration)
+	} else {
+		m.NetworkConfiguration = nil
+	}
+
+	m.ComputeTargetId = model.ComputeTargetId
+
+	m.ResourceConfiguration = model.ResourceConfiguration
+
+	return
 }

@@ -296,6 +296,7 @@ resource "oci_datascience_pipeline" "test_pipeline" {
   compartment_id = var.compartment_ocid
   project_id     = oci_datascience_project.pipeline.id
   delete_related_pipeline_runs = true
+  pipeline_run_retention_period_in_days = 90
   # optional parameter
   # opc_parent_rpt_url = ""
   dynamic storage_mount_configuration_details_list {
@@ -768,10 +769,20 @@ resource "oci_datascience_pipeline_run" "test_pipeline_run" {
   delete_related_job_runs = true
 }
 
-#data "oci_datascience_pipeline" "read_pipeline" {
-#  pipeline_id = oci_datascience_pipeline.test_pipeline.id
-#}
-#
-#data "oci_datascience_pipeline_run" "read_pipeline_run" {
-#  pipeline_run_id = oci_datascience_pipeline_run.test_pipeline_run.id
-#}
+data "oci_datascience_pipeline" "read_pipeline" {
+  pipeline_id = oci_datascience_pipeline.test_pipeline.id
+}
+
+data "oci_datascience_pipeline_run" "read_pipeline_run" {
+  pipeline_run_id = oci_datascience_pipeline_run.test_pipeline_run.id
+}
+
+data "oci_datascience_pipelines" "by_project" {
+  compartment_id = var.compartment_ocid
+  project_id     = oci_datascience_project.pipeline.id
+}
+
+data "oci_datascience_pipeline_runs" "by_pipeline" {
+  compartment_id = var.compartment_ocid
+  pipeline_id    = oci_datascience_pipeline.test_pipeline.id
+}

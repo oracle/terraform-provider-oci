@@ -72,6 +72,14 @@ func DatascienceComputeTargetResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"capacity_reservation_ids": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"instance_shape_details": {
 										Type:     schema.TypeList,
 										Optional: true,
@@ -94,6 +102,44 @@ func DatascienceComputeTargetResource() *schema.Resource {
 											},
 										},
 									},
+									"network_configuration_details": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"network_type": {
+													Type:             schema.TypeString,
+													Required:         true,
+													ForceNew:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"CUSTOM_NETWORK",
+														"DEFAULT_NETWORK",
+													}, true),
+												},
+
+												// Optional
+												"subnet_ids": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+
+												// Computed
+											},
+										},
+									},
+
+									// Computed
 								},
 							},
 						},
@@ -764,11 +810,11 @@ func (s *DatascienceComputeTargetResourceCrud) mapToComputeConfigurationDetails(
 	}
 	switch strings.ToLower(computeType) {
 	case strings.ToLower("MANAGED_COMPUTE_CLUSTER"):
-		details := oci_datascience.UpdateManagedComputeClusterConfigurationDetails{}
+		details := oci_datascience.ManagedComputeClusterComputeConfigurationDetails{}
 		if instanceConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instance_configuration")); ok {
 			if tmpList := instanceConfiguration.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "instance_configuration"), 0)
-				tmp, err := s.mapToUpdateManagedComputeClusterInstanceConfigurationDetails(fieldKeyFormatNextLevel)
+				tmp, err := s.mapToManagedComputeClusterInstanceConfigurationDetails(fieldKeyFormatNextLevel)
 				if err != nil {
 					return details, fmt.Errorf("unable to convert instance_configuration, encountered error: %v", err)
 				}
@@ -1018,6 +1064,19 @@ func (s *DatascienceComputeTargetResourceCrud) mapToManagedComputeClusterInstanc
 		result.BootVolumeSizeInGBs = &tmp
 	}
 
+	if capacityReservationIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "capacity_reservation_ids")); ok {
+		interfaces := capacityReservationIds.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "capacity_reservation_ids")) {
+			result.CapacityReservationIds = tmp
+		}
+	}
+
 	if instanceShape, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instance_shape")); ok {
 		tmp := instanceShape.(string)
 		result.InstanceShape = &tmp
@@ -1034,6 +1093,17 @@ func (s *DatascienceComputeTargetResourceCrud) mapToManagedComputeClusterInstanc
 		}
 	}
 
+	if networkConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_configuration_details")); ok {
+		if tmpList := networkConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "network_configuration_details"), 0)
+			tmp, err := s.mapToManagedComputeClusterNetworkConfigurationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert network_configuration_details, encountered error: %v", err)
+			}
+			result.NetworkConfigurationDetails = tmp
+		}
+	}
+
 	return result, nil
 }
 
@@ -1043,6 +1113,19 @@ func (s *DatascienceComputeTargetResourceCrud) mapToUpdateManagedComputeClusterI
 	if bootVolumeSizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "boot_volume_size_in_gbs")); ok {
 		tmp := bootVolumeSizeInGBs.(int)
 		result.BootVolumeSizeInGBs = &tmp
+	}
+
+	if capacityReservationIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "capacity_reservation_ids")); ok {
+		interfaces := capacityReservationIds.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "capacity_reservation_ids")) {
+			result.CapacityReservationIds = tmp
+		}
 	}
 
 	if instanceShape, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instance_shape")); ok {
@@ -1071,12 +1154,22 @@ func ManagedComputeClusterInstanceConfigurationDetailsToMap(obj *oci_datascience
 		result["boot_volume_size_in_gbs"] = int(*obj.BootVolumeSizeInGBs)
 	}
 
+	result["capacity_reservation_ids"] = obj.CapacityReservationIds
+
 	if obj.InstanceShape != nil {
 		result["instance_shape"] = string(*obj.InstanceShape)
 	}
 
 	if obj.InstanceShapeDetails != nil {
 		result["instance_shape_details"] = []interface{}{ManagedComputeClusterInstanceShapeDetailsToMap(obj.InstanceShapeDetails)}
+	}
+
+	if obj.NetworkConfigurationDetails != nil {
+		networkConfigurationDetailsArray := []interface{}{}
+		if networkConfigurationDetailsMap := ManagedComputeClusterNetworkConfigurationDetailsToMap(&obj.NetworkConfigurationDetails); networkConfigurationDetailsMap != nil {
+			networkConfigurationDetailsArray = append(networkConfigurationDetailsArray, networkConfigurationDetailsMap)
+		}
+		result["network_configuration_details"] = networkConfigurationDetailsArray
 	}
 
 	return result
@@ -1205,6 +1298,58 @@ func ManagedComputeClusterMetricExpressionRuleToMap(obj oci_datascience.ManagedC
 		}
 	default:
 		log.Printf("[WARN] Received 'metric_expression_rule_type' of unknown type %v", obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *DatascienceComputeTargetResourceCrud) mapToManagedComputeClusterNetworkConfigurationDetails(fieldKeyFormat string) (oci_datascience.ManagedComputeClusterNetworkConfigurationDetails, error) {
+	var baseObject oci_datascience.ManagedComputeClusterNetworkConfigurationDetails
+	//discriminator
+	networkTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_type"))
+	var networkType string
+	if ok {
+		networkType = networkTypeRaw.(string)
+	} else {
+		networkType = "" // default value
+	}
+	switch strings.ToLower(networkType) {
+	case strings.ToLower("CUSTOM_NETWORK"):
+		details := oci_datascience.ManagedComputeClusterCustomNetworkConfigurationDetails{}
+		if subnetIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_ids")); ok {
+			interfaces := subnetIds.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "subnet_ids")) {
+				details.SubnetIds = tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("DEFAULT_NETWORK"):
+		details := oci_datascience.ManagedComputeClusterDefaultNetworkConfigurationDetails{}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown network_type '%v' was specified", networkType)
+	}
+	return baseObject, nil
+}
+
+func ManagedComputeClusterNetworkConfigurationDetailsToMap(obj *oci_datascience.ManagedComputeClusterNetworkConfigurationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_datascience.ManagedComputeClusterCustomNetworkConfigurationDetails:
+		result["network_type"] = "CUSTOM_NETWORK"
+
+		result["subnet_ids"] = v.SubnetIds
+	case oci_datascience.ManagedComputeClusterDefaultNetworkConfigurationDetails:
+		result["network_type"] = "DEFAULT_NETWORK"
+	default:
+		log.Printf("[WARN] Received 'network_type' of unknown type %v", *obj)
 		return nil
 	}
 
@@ -1340,6 +1485,8 @@ func UpdateManagedComputeClusterInstanceConfigurationDetailsToMap(obj *oci_datas
 	if obj.BootVolumeSizeInGBs != nil {
 		result["boot_volume_size_in_gbs"] = int(*obj.BootVolumeSizeInGBs)
 	}
+
+	result["capacity_reservation_ids"] = obj.CapacityReservationIds
 
 	if obj.InstanceShape != nil {
 		result["instance_shape"] = string(*obj.InstanceShape)

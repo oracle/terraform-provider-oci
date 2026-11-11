@@ -36,6 +36,13 @@ resource "oci_datascience_compute_target" "test_compute_target" {
 				memory_in_gbs = var.compute_target_compute_configuration_details_instance_configuration_instance_shape_details_memory_in_gbs
 				ocpus = var.compute_target_compute_configuration_details_instance_configuration_instance_shape_details_ocpus
 			}
+			network_configuration_details {
+				#Required
+				network_type = var.compute_target_compute_configuration_details_instance_configuration_network_configuration_details_network_type
+
+				#Optional
+				subnet_ids = var.compute_target_compute_configuration_details_instance_configuration_network_configuration_details_subnet_ids
+			}
 		}
 
 		#Optional
@@ -91,6 +98,19 @@ resource "oci_datascience_compute_target" "test_compute_target" {
 }
 ```
 
+### Custom network for a managed compute cluster
+
+To use customer subnets, add the following block inside `compute_configuration_details.instance_configuration`. Supply the customer subnet OCIDs as a list. For the service network, set `network_type` to `DEFAULT_NETWORK` and omit `subnet_ids`.
+
+```hcl
+network_configuration_details {
+  network_type = "CUSTOM_NETWORK"
+  subnet_ids   = var.compute_target_subnet_ids
+}
+```
+
+Changing `network_configuration_details` recreates the compute target.
+
 ## Argument Reference
 
 The following arguments are supported:
@@ -100,10 +120,14 @@ The following arguments are supported:
 	* `compute_type` - (Required) (Updatable) The type of compute.
 	* `instance_configuration` - (Required) (Updatable) The compute target instance configuration details for managed compute cluster type compute target.
 		* `boot_volume_size_in_gbs` - (Optional) (Updatable) The size of the boot volume to attach to the instance.
+		* `capacity_reservation_ids` - (Optional) (Updatable) The list of [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute capacity reservation. When provided, specify exactly one reservation OCID. Capacity reservations are supported only for GPU shapes.
 		* `instance_shape` - (Required) (Updatable) The shape used to launch the instances in compute target. Supported shapes can be retrieved using compute target shapes api.
 		* `instance_shape_details` - (Optional) (Updatable) Instance shape configuration for managed compute cluster type compute target. Specify only when a flex shape is selected.
 			* `memory_in_gbs` - (Optional) (Updatable) The total amount of memory allocated to the instance, in gigabytes.
 			* `ocpus` - (Optional) (Updatable) The total number of OCPUs allocated to the instance.
+		* `network_configuration_details` - (Optional) The network configuration details for managed compute cluster type resource.
+			* `network_type` - (Required) The network type. Valid values are `CUSTOM_NETWORK` and `DEFAULT_NETWORK`.
+			* `subnet_ids` - (Required when network_type=CUSTOM_NETWORK) The list of customer subnet [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	* `scaling_policy` - (Optional) (Updatable) The scaling policy to apply to managed compute cluster type compute target.
 		* `auto_scaling_policies` - (Required when policy_type=AUTOSCALING) (Updatable) The list of autoscaling policy details.
 			* `auto_scaling_policy_type` - (Required) (Updatable) The type of autoscaling policy.
@@ -148,10 +172,14 @@ The following attributes are exported:
 	* `compute_type` - The type of compute.
 	* `instance_configuration` - The compute target instance configuration details for managed compute cluster type compute target.
 		* `boot_volume_size_in_gbs` - The size of the boot volume to attach to the instance.
+		* `capacity_reservation_ids` - The list of [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute capacity reservation. When provided, specify exactly one reservation OCID. Capacity reservations are supported only for GPU shapes.
 		* `instance_shape` - The shape used to launch the instances in compute target. Supported shapes can be retrieved using compute target shapes api.
 		* `instance_shape_details` - Instance shape configuration for managed compute cluster type compute target. Specify only when a flex shape is selected.
 			* `memory_in_gbs` - The total amount of memory allocated to the instance, in gigabytes.
 			* `ocpus` - The total number of OCPUs allocated to the instance.
+		* `network_configuration_details` - The network configuration details for managed compute cluster type resource.
+			* `network_type` - network type
+			* `subnet_ids` - The list of [OCID] of customer subnetIds.
 	* `scaling_policy` - The scaling policy to apply to managed compute cluster type compute target.
 		* `auto_scaling_policies` - The list of autoscaling policy details.
 			* `auto_scaling_policy_type` - The type of autoscaling policy.
