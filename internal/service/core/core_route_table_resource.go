@@ -79,11 +79,14 @@ func CoreRouteTableResource() *schema.Resource {
 							Optional:   true,
 							Computed:   true,
 							Deprecated: tfresource.FieldDeprecatedForAnother("cidr_block", "destination"),
+							// SDKv2 plans a Computed "" as unknown whenever the set is re-diffed.
+							DiffSuppressFunc: suppressEmptyComputedSetAttrDiff,
 						},
 						"description": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							DiffSuppressFunc: suppressEmptyComputedSetAttrDiff,
 						},
 						"destination": {
 							Type:     schema.TypeString,

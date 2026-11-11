@@ -27,6 +27,11 @@ type coreWorkRequestClient interface {
 	ListWorkRequestErrors(context.Context, oci_work_requests.ListWorkRequestErrorsRequest) (oci_work_requests.ListWorkRequestErrorsResponse, error)
 }
 
+// suppressEmptyComputedSetAttrDiff keeps "" -> "" for a Computed attribute in a set instead of planning it as unknown.
+func suppressEmptyComputedSetAttrDiff(_ string, old string, new string, _ *schema.ResourceData) bool {
+	return old == "" && new == ""
+}
+
 // This applies the differences between the regular schema and the one
 // we supply for default resources, and returns the schema for a default resource
 func ConvertToDefaultVcnResourceSchema(resourceSchema *schema.Resource) *schema.Resource {
