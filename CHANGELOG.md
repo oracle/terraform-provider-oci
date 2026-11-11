@@ -1,3 +1,11 @@
+## 9.13.0 (November 11, 2026)
+
+### Added
+- Support OCI Data Science SMOKE enhancements, custom networking and capacity reservations
+- Support for Exadata Fleet Update DB/GI/Guest OS version control (EXADB-XS/EXADB-D/EXADB-C@C)
+- Support for Launch Override Support in Instance Pools
+
+
 ## 9.12.0 (November 4, 2026)
 
 ### Added
