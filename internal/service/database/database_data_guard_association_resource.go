@@ -114,18 +114,6 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
-			"database_defined_tags": {
-				Type:     schema.TypeMap,
-				Optional: true,
-				ForceNew: true,
-				Elem:     schema.TypeString,
-			},
-			"database_freeform_tags": {
-				Type:     schema.TypeMap,
-				Optional: true,
-				ForceNew: true,
-				Elem:     schema.TypeString,
-			},
 			"data_collection_options": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -160,6 +148,18 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 						// Computed
 					},
 				},
+			},
+			"database_defined_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				ForceNew: true,
+				Elem:     schema.TypeString,
+			},
+			"database_freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				ForceNew: true,
+				Elem:     schema.TypeString,
 			},
 			"database_software_image_id": {
 				Type:     schema.TypeString,
@@ -212,6 +212,12 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 			"is_active_data_guard_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
+			},
+			"is_older_version_acknowledged": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"license_model": {
 				Type:     schema.TypeString,
@@ -687,6 +693,10 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 			tmp := isActiveDataGuardEnabled.(bool)
 			details.IsActiveDataGuardEnabled = &tmp
 		}
+		if isOlderVersionAcknowledged, ok := s.D.GetOkExists("is_older_version_acknowledged"); ok {
+			tmp := isOlderVersionAcknowledged.(bool)
+			details.IsOlderVersionAcknowledged = &tmp
+		}
 
 		if peerDbUniqueName, ok := s.D.GetOkExists("peer_db_unique_name"); ok {
 			tmp := peerDbUniqueName.(string)
@@ -729,6 +739,10 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 		if isActiveDataGuardEnabled, ok := s.D.GetOkExists("is_active_data_guard_enabled"); ok {
 			tmp := isActiveDataGuardEnabled.(bool)
 			details.IsActiveDataGuardEnabled = &tmp
+		}
+		if isOlderVersionAcknowledged, ok := s.D.GetOkExists("is_older_version_acknowledged"); ok {
+			tmp := isOlderVersionAcknowledged.(bool)
+			details.IsOlderVersionAcknowledged = &tmp
 		}
 
 		if peerDbUniqueName, ok := s.D.GetOkExists("peer_db_unique_name"); ok {
@@ -840,6 +854,10 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 		if isActiveDataGuardEnabled, ok := s.D.GetOkExists("is_active_data_guard_enabled"); ok {
 			tmp := isActiveDataGuardEnabled.(bool)
 			details.IsActiveDataGuardEnabled = &tmp
+		}
+		if isOlderVersionAcknowledged, ok := s.D.GetOkExists("is_older_version_acknowledged"); ok {
+			tmp := isOlderVersionAcknowledged.(bool)
+			details.IsOlderVersionAcknowledged = &tmp
 		}
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnum(licenseModel.(string))

@@ -98,6 +98,7 @@ The following arguments are supported:
 	The maximum length of the combined hostname and domain is 63 characters.
 
 	**Note:** The hostname must be unique within the subnet. If it is not unique,  then the Exadata VM cluster on Exascale Infrastructure will fail to provision. 
+* `is_older_version_acknowledged` - (Required when version is not the latest) Indicates whether the customer acknowledged the risk of selecting an older eligible database/GI version for the Exadata VM Cluster. This value is used for downstream Database service APIs that requires older-version acknowledgement.
 * `license_model` - (Optional) (Updatable) The Oracle license model that applies to the Exadata VM cluster on Exascale Infrastructure. The default is BRING_YOUR_OWN_LICENSE. 
 * `node_config` - (Required) (Updatable) The configuration of each node in the Exadata VM cluster on Exascale Infrastructure.
 	* `enabled_ecpu_count_per_node` - (Required) (Updatable) The number of ECPUs to enable for each node.

@@ -281,6 +281,12 @@ func DatabaseVmClusterResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"is_older_version_acknowledged": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"is_sparse_diskgroup_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -629,6 +635,11 @@ func (s *DatabaseVmClusterResourceCrud) CreateWithContext(ctx context.Context) e
 	if isLocalBackupEnabled, ok := s.D.GetOkExists("is_local_backup_enabled"); ok {
 		tmp := isLocalBackupEnabled.(bool)
 		request.IsLocalBackupEnabled = &tmp
+	}
+
+	if isOlderVersionAcknowledged, ok := s.D.GetOkExists("is_older_version_acknowledged"); ok {
+		tmp := isOlderVersionAcknowledged.(bool)
+		request.IsOlderVersionAcknowledged = &tmp
 	}
 
 	if isSparseDiskgroupEnabled, ok := s.D.GetOkExists("is_sparse_diskgroup_enabled"); ok {

@@ -64,6 +64,12 @@ func DatabaseDatabaseUpgradeResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"is_older_version_acknowledged": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"options": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -689,6 +695,10 @@ func (s *DatabaseDatabaseUpgradeResourceCrud) mapToDatabaseUpgradeSourceBase(fie
 			tmp := databaseSoftwareImageId.(string)
 			details.DatabaseSoftwareImageId = &tmp
 		}
+		if isOlderVersionAcknowledged, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_older_version_acknowledged")); ok {
+			tmp := isOlderVersionAcknowledged.(bool)
+			details.IsOlderVersionAcknowledged = &tmp
+		}
 		if options, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "options")); ok {
 			tmp := options.(string)
 			details.Options = &tmp
@@ -699,6 +709,10 @@ func (s *DatabaseDatabaseUpgradeResourceCrud) mapToDatabaseUpgradeSourceBase(fie
 		if dbVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_version")); ok {
 			tmp := dbVersion.(string)
 			details.DbVersion = &tmp
+		}
+		if isOlderVersionAcknowledged, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_older_version_acknowledged")); ok {
+			tmp := isOlderVersionAcknowledged.(bool)
+			details.IsOlderVersionAcknowledged = &tmp
 		}
 		if options, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "options")); ok {
 			tmp := options.(string)
@@ -717,11 +731,19 @@ func DatabaseUpgradeSourceBaseToMap(obj *oci_database.DatabaseUpgradeSourceBase)
 	case oci_database.DatabaseUpgradeWithDatabaseSoftwareImageDetails:
 		result["source"] = "DB_SOFTWARE_IMAGE"
 
+		if v.IsOlderVersionAcknowledged != nil {
+			result["is_older_version_acknowledged"] = bool(*v.IsOlderVersionAcknowledged)
+		}
+
 		if v.DatabaseSoftwareImageId != nil {
 			result["database_software_image_id"] = string(*v.DatabaseSoftwareImageId)
 		}
 	case oci_database.DatabaseUpgradeWithDbVersionDetails:
 		result["source"] = "DB_VERSION"
+
+		if v.IsOlderVersionAcknowledged != nil {
+			result["is_older_version_acknowledged"] = bool(*v.IsOlderVersionAcknowledged)
+		}
 
 		if v.DbVersion != nil {
 			result["db_version"] = string(*v.DbVersion)

@@ -11,14 +11,13 @@ import (
 	"strings"
 
 	"github.com/hashicorp/go-cty/cty"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
-
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 )
@@ -316,6 +315,12 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"is_older_version_acknowledged": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"is_sparse_diskgroup_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -413,18 +418,6 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
-			},
-			"tde_key_store_type": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ValidateFunc: validation.StringInSlice([]string{
-					"OCI",
-					"AWS",
-					"AZURE",
-					"GCP",
-					"NONE",
-				}, true),
 			},
 
 			// Computed
@@ -603,6 +596,18 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Type:     schema.TypeMap,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"tde_key_store_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					"OCI",
+					"AWS",
+					"AZURE",
+					"GCP",
+					"NONE",
+				}, true),
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -885,6 +890,11 @@ func (s *DatabaseCloudVmClusterResourceCrud) CreateWithContext(ctx context.Conte
 	if isLocalBackupEnabled, ok := s.D.GetOkExists("is_local_backup_enabled"); ok {
 		tmp := isLocalBackupEnabled.(bool)
 		request.IsLocalBackupEnabled = &tmp
+	}
+
+	if isOlderVersionAcknowledged, ok := s.D.GetOkExists("is_older_version_acknowledged"); ok {
+		tmp := isOlderVersionAcknowledged.(bool)
+		request.IsOlderVersionAcknowledged = &tmp
 	}
 
 	if isSparseDiskgroupEnabled, ok := s.D.GetOkExists("is_sparse_diskgroup_enabled"); ok {

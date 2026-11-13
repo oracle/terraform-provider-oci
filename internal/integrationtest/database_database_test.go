@@ -2569,3 +2569,107 @@ func DatabaseDatabaseSweepResponseFetchOperation(client *client.OracleClients, r
 	})
 	return err
 }
+
+// The live API validates managed-software enablement on the owned parent cluster.
+// The new input is nested inside VERSION_SERIES, not a top-level flag.
+func TestDatabaseDatabaseResourceOlderVersionAcknowledgement(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseDatabaseResourceOlderVersionAcknowledgement")
+	defer httpreplay.SaveScenario()
+	parentID := databaseAckRequiredInput(t, "ack_test_managed_vm_cluster_id")
+	if !strings.HasPrefix(parentID, "ocid1.exadbvmcluster.") {
+		t.Fatal("TF_VAR_ack_test_managed_vm_cluster_id must identify the disposable, test-owned Exadb VM cluster")
+	}
+	databaseAckRequiredInput(t, "ack_test_managed_major_version")
+	databaseAckRequiredInput(t, "ack_test_managed_version_preference")
+	databaseAckRequiredInput(t, "ack_test_admin_password")
+	config := acctest.ProviderTestConfig() + `
+variable "ack_test_managed_vm_cluster_id" { type = string }
+data "oci_database_exadb_vm_cluster" "ack_managed_parent" {
+ exadb_vm_cluster_id = var.ack_test_managed_vm_cluster_id
+ lifecycle {
+  postcondition {
+   condition = self.domain != null && self.domain != ""
+   error_message = "The disposable Exadb parent must return its client-subnet domain before the Database acknowledgment test runs."
+  }
+ }
+}
+variable "ack_test_managed_major_version" { type = string }
+variable "ack_test_managed_version_preference" { type = string }
+variable "ack_test_admin_password" {
+ type = string
+ sensitive = true
+}
+`
+	name := "oci_database_database.ack_managed_database"
+	ackPath := "database.0.managed_software_update_details.0.preference_details.0.version_scheme_details.0.is_older_version_acknowledged"
+	configFor := func(ack bool) string {
+		return config + fmt.Sprintf(`
+resource "oci_database_database" "ack_managed_database" {
+ source = "NONE"
+ database {
+  admin_password = var.ack_test_admin_password
+  db_name = "ACKMAN01"
+  vm_cluster_id = data.oci_database_exadb_vm_cluster.ack_managed_parent.id
+  db_backup_config {
+   auto_backup_enabled = false
+  }
+  dynamic "storage_size_details" {
+   for_each = data.oci_database_exadb_vm_cluster.ack_managed_parent.shape_attribute == "BLOCK_STORAGE" ? [true] : []
+   content {
+    data_storage_size_in_gb = 100
+    reco_storage_size_in_gbs = 50
+   }
+  }
+  managed_software_update_details {
+   is_enrolled = true
+   preference_details {
+    update_mode = "ROLLING"
+    days_of_week = ["FRIDAY"]
+    hour_of_day = 14
+    version_scheme_details {
+     source = "VERSION_SERIES"
+     major_version = var.ack_test_managed_major_version
+     version_preference = var.ack_test_managed_version_preference
+     is_older_version_acknowledged = %t
+    }
+   }
+  }
+ }
+}
+`, ack)
+	}
+	var dbID string
+	managedHomes := map[string]bool{}
+	recordManagedHome := func(state *terraform.State) error {
+		id, err := acctest.FromInstanceState(state, name, "db_home_id")
+		if err != nil {
+			return err
+		}
+		if id == "" {
+			return fmt.Errorf("managed database has no service-owned DB Home ID")
+		}
+		if !managedHomes[id] {
+			managedHomes[id] = true
+			t.Logf("Managed database uses DB Home %s; the enclosing disposable parent-cluster cleanup owns its final reclamation", id)
+		}
+		return nil
+	}
+	acctest.ResourceTest(t, testAccCheckDatabaseDatabaseDestroy, []resource.TestStep{
+		{Config: configFor(true), Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+			resource.TestCheckResourceAttr(name, ackPath, "true"),
+			resource.TestCheckResourceAttr(name, "state", "AVAILABLE"),
+			resource.TestCheckResourceAttr(name, "database.0.managed_software_update_details.0.is_enrolled", "true"),
+			databaseAckRequireReplacedID(name, &dbID),
+			recordManagedHome,
+			databaseAcknowledgementScopedDiscoveryCheck(t, name),
+		)},
+		{Config: configFor(true), PlanOnly: true},
+		{Config: configFor(false), Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+			resource.TestCheckResourceAttr(name, ackPath, "false"),
+			resource.TestCheckResourceAttr(name, "state", "AVAILABLE"),
+			resource.TestCheckResourceAttr(name, "database.0.managed_software_update_details.0.is_enrolled", "true"),
+			databaseAckRequireReplacedID(name, &dbID),
+			recordManagedHome,
+		)},
+	})
+}
