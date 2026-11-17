@@ -46,6 +46,12 @@ type AutonomousDatabaseConnectionUrls struct {
 	// Essbase URL for the Autonomous AI Database. Applicable to Autonomous AI Database Serverless only.
 	EssbaseUrl *string `mandatory:"false" json:"essbaseUrl"`
 
+	// The URL of the Agent-to-Agent (A2A) server for the Autonomous AI Database. Applicable to Autonomous AI Database Serverless only.
+	A2aUrl *string `mandatory:"false" json:"a2aUrl"`
+
+	// The URL of the Model Context Protocol (MCP) server for the Autonomous AI Database. Applicable to Autonomous AI Database Serverless only.
+	McpUrl *string `mandatory:"false" json:"mcpUrl"`
+
 	// The URL of the Spatial Studio for the Autonomous AI Database. Applicable to Autonomous AI Database Serverless only.
 	SpatialStudioUrl *string `mandatory:"false" json:"spatialStudioUrl"`
 }

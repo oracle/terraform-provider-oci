@@ -18,7 +18,9 @@ import (
 
 // HostDistributionReportDetails Details for how ESXi hosts are distributed across Fault Domains in a Cluster.
 type HostDistributionReportDetails struct {
-	FaultDomainHostDistributionState HostDistributionReportDetailsFaultDomainHostDistributionStateEnum `mandatory:"true" json:"faultDomainHostDistributionState"`
+
+	// Current Fault Domain distribution state.
+	FaultDomainHostDistributionState FaultDomainHostDistributionStateEnum `mandatory:"true" json:"faultDomainHostDistributionState"`
 }
 
 func (m HostDistributionReportDetails) String() string {
@@ -30,58 +32,12 @@ func (m HostDistributionReportDetails) String() string {
 // Not recommended for calling this function directly
 func (m HostDistributionReportDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingHostDistributionReportDetailsFaultDomainHostDistributionStateEnum(string(m.FaultDomainHostDistributionState)); !ok && m.FaultDomainHostDistributionState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FaultDomainHostDistributionState: %s. Supported values are: %s.", m.FaultDomainHostDistributionState, strings.Join(GetHostDistributionReportDetailsFaultDomainHostDistributionStateEnumStringValues(), ",")))
+	if _, ok := GetMappingFaultDomainHostDistributionStateEnum(string(m.FaultDomainHostDistributionState)); !ok && m.FaultDomainHostDistributionState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FaultDomainHostDistributionState: %s. Supported values are: %s.", m.FaultDomainHostDistributionState, strings.Join(GetFaultDomainHostDistributionStateEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// HostDistributionReportDetailsFaultDomainHostDistributionStateEnum Enum with underlying type: string
-type HostDistributionReportDetailsFaultDomainHostDistributionStateEnum string
-
-// Set of constants representing the allowable values for HostDistributionReportDetailsFaultDomainHostDistributionStateEnum
-const (
-	HostDistributionReportDetailsFaultDomainHostDistributionStateEvenlyDistributed   HostDistributionReportDetailsFaultDomainHostDistributionStateEnum = "EVENLY_DISTRIBUTED"
-	HostDistributionReportDetailsFaultDomainHostDistributionStateUnevenlyDistributed HostDistributionReportDetailsFaultDomainHostDistributionStateEnum = "UNEVENLY_DISTRIBUTED"
-	HostDistributionReportDetailsFaultDomainHostDistributionStateUnsupported         HostDistributionReportDetailsFaultDomainHostDistributionStateEnum = "UNSUPPORTED"
-)
-
-var mappingHostDistributionReportDetailsFaultDomainHostDistributionStateEnum = map[string]HostDistributionReportDetailsFaultDomainHostDistributionStateEnum{
-	"EVENLY_DISTRIBUTED":   HostDistributionReportDetailsFaultDomainHostDistributionStateEvenlyDistributed,
-	"UNEVENLY_DISTRIBUTED": HostDistributionReportDetailsFaultDomainHostDistributionStateUnevenlyDistributed,
-	"UNSUPPORTED":          HostDistributionReportDetailsFaultDomainHostDistributionStateUnsupported,
-}
-
-var mappingHostDistributionReportDetailsFaultDomainHostDistributionStateEnumLowerCase = map[string]HostDistributionReportDetailsFaultDomainHostDistributionStateEnum{
-	"evenly_distributed":   HostDistributionReportDetailsFaultDomainHostDistributionStateEvenlyDistributed,
-	"unevenly_distributed": HostDistributionReportDetailsFaultDomainHostDistributionStateUnevenlyDistributed,
-	"unsupported":          HostDistributionReportDetailsFaultDomainHostDistributionStateUnsupported,
-}
-
-// GetHostDistributionReportDetailsFaultDomainHostDistributionStateEnumValues Enumerates the set of values for HostDistributionReportDetailsFaultDomainHostDistributionStateEnum
-func GetHostDistributionReportDetailsFaultDomainHostDistributionStateEnumValues() []HostDistributionReportDetailsFaultDomainHostDistributionStateEnum {
-	values := make([]HostDistributionReportDetailsFaultDomainHostDistributionStateEnum, 0)
-	for _, v := range mappingHostDistributionReportDetailsFaultDomainHostDistributionStateEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetHostDistributionReportDetailsFaultDomainHostDistributionStateEnumStringValues Enumerates the set of values in String for HostDistributionReportDetailsFaultDomainHostDistributionStateEnum
-func GetHostDistributionReportDetailsFaultDomainHostDistributionStateEnumStringValues() []string {
-	return []string{
-		"EVENLY_DISTRIBUTED",
-		"UNEVENLY_DISTRIBUTED",
-		"UNSUPPORTED",
-	}
-}
-
-// GetMappingHostDistributionReportDetailsFaultDomainHostDistributionStateEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingHostDistributionReportDetailsFaultDomainHostDistributionStateEnum(val string) (HostDistributionReportDetailsFaultDomainHostDistributionStateEnum, bool) {
-	enum, ok := mappingHostDistributionReportDetailsFaultDomainHostDistributionStateEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

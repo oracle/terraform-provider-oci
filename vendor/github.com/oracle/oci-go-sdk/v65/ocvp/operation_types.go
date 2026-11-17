@@ -54,6 +54,7 @@ const (
 	OperationTypesManagementApplianceEsxiHostDeletion      OperationTypesEnum = "MANAGEMENT_APPLIANCE_ESXI_HOST_DELETION"
 	OperationTypesManagementApplianceDatastoreProvisioning OperationTypesEnum = "MANAGEMENT_APPLIANCE_DATASTORE_PROVISIONING"
 	OperationTypesManagementApplianceDatastoreDelete       OperationTypesEnum = "MANAGEMENT_APPLIANCE_DATASTORE_DELETE"
+	OperationTypesManagementApplianceRenameResource        OperationTypesEnum = "MANAGEMENT_APPLIANCE_RENAME_RESOURCE"
 	OperationTypesCreateByol                               OperationTypesEnum = "CREATE_BYOL"
 	OperationTypesUpdateByol                               OperationTypesEnum = "UPDATE_BYOL"
 	OperationTypesDeleteByol                               OperationTypesEnum = "DELETE_BYOL"
@@ -98,6 +99,7 @@ var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"MANAGEMENT_APPLIANCE_ESXI_HOST_DELETION":     OperationTypesManagementApplianceEsxiHostDeletion,
 	"MANAGEMENT_APPLIANCE_DATASTORE_PROVISIONING": OperationTypesManagementApplianceDatastoreProvisioning,
 	"MANAGEMENT_APPLIANCE_DATASTORE_DELETE":       OperationTypesManagementApplianceDatastoreDelete,
+	"MANAGEMENT_APPLIANCE_RENAME_RESOURCE":        OperationTypesManagementApplianceRenameResource,
 	"CREATE_BYOL":                                 OperationTypesCreateByol,
 	"UPDATE_BYOL":                                 OperationTypesUpdateByol,
 	"DELETE_BYOL":                                 OperationTypesDeleteByol,
@@ -142,6 +144,7 @@ var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
 	"management_appliance_esxi_host_deletion":     OperationTypesManagementApplianceEsxiHostDeletion,
 	"management_appliance_datastore_provisioning": OperationTypesManagementApplianceDatastoreProvisioning,
 	"management_appliance_datastore_delete":       OperationTypesManagementApplianceDatastoreDelete,
+	"management_appliance_rename_resource":        OperationTypesManagementApplianceRenameResource,
 	"create_byol":                                 OperationTypesCreateByol,
 	"update_byol":                                 OperationTypesUpdateByol,
 	"delete_byol":                                 OperationTypesDeleteByol,
@@ -197,6 +200,7 @@ func GetOperationTypesEnumStringValues() []string {
 		"MANAGEMENT_APPLIANCE_ESXI_HOST_DELETION",
 		"MANAGEMENT_APPLIANCE_DATASTORE_PROVISIONING",
 		"MANAGEMENT_APPLIANCE_DATASTORE_DELETE",
+		"MANAGEMENT_APPLIANCE_RENAME_RESOURCE",
 		"CREATE_BYOL",
 		"UPDATE_BYOL",
 		"DELETE_BYOL",
