@@ -5,7 +5,7 @@
 
 set -e
 
-export GOTOOLCHAIN="${GOTOOLCHAIN:-go1.26.6+auto}"
+export GOTOOLCHAIN="${GOTOOLCHAIN:-go1.26.11+auto}"
 
 shopt -s expand_aliases
 #
