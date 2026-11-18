@@ -49,6 +49,7 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `image_shape_family` - (Optional) To what shape the image is meant for.
 * `image_type` - (Optional) The type of software image. Can be grid or database.
+* `is_older_version_acknowledged` - (Required when version is not the latest) Indicates whether the customer acknowledged the risk of selecting an older eligible database version for the software image. This value is used for downstream Database service APIs that requires older-version acknowledgement.
 * `ls_inventory` - (Optional) The output from the OPatch lsInventory command, which is passed as a string.
 * `patch_set` - (Optional) The PSU or PBP or Release Updates. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/DbVersionSummary/ListDbVersions) operation.
 * `source_db_home_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.

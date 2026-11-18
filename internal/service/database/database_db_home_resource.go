@@ -293,15 +293,15 @@ func DatabaseDbHomeResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
-									"google_cloud_provider_encryption_key_id": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
 									"hsm_password": {
 										Type:      schema.TypeString,
 										Optional:  true,
 										Sensitive: true,
+									},
+									"google_cloud_provider_encryption_key_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
 									},
 
 									// Computed
@@ -354,6 +354,10 @@ func DatabaseDbHomeResource() *schema.Resource {
 							Computed: true,
 							// ForceNew:  true,
 							Sensitive: true,
+						},
+						"sid_prefix": {
+							Type:     schema.TypeString,
+							Computed: true,
 						},
 						"storage_size_details": {
 							Type:     schema.TypeList,
@@ -444,17 +448,6 @@ func DatabaseDbHomeResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"one_off_patches": {
-							Type:     schema.TypeList,
-							Computed: true,
-							Elem: &schema.Schema{
-								Type: schema.TypeString,
-							},
-						},
-						"sid_prefix": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
 						"state": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -516,12 +509,13 @@ func DatabaseDbHomeResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-			"home_type": {
-				Type:     schema.TypeString,
+			"is_desupported_version": {
+				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
+				ForceNew: true,
 			},
-			"is_desupported_version": {
+			"is_older_version_acknowledged": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
@@ -576,6 +570,11 @@ func DatabaseDbHomeResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"home_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"last_patch_history_entry_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -583,6 +582,13 @@ func DatabaseDbHomeResource() *schema.Resource {
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"one_off_patches": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -1108,6 +1114,8 @@ func (s *DatabaseDbHomeResourceCrud) SetData() error {
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
+
+	s.D.Set("one_off_patches", s.Res.OneOffPatches)
 
 	s.D.Set("state", s.Res.LifecycleState)
 
@@ -1720,6 +1728,10 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 			tmp := isDesupportedVersion.(bool)
 			details.IsDesupportedVersion = &tmp
 		}
+		if isOlderVersionAcknowledged, ok := s.D.GetOkExists("is_older_version_acknowledged"); ok {
+			tmp := isOlderVersionAcknowledged.(bool)
+			details.IsOlderVersionAcknowledged = &tmp
+		}
 		if isUnifiedAuditingEnabled, ok := s.D.GetOkExists("is_unified_auditing_enabled"); ok {
 			tmp := isUnifiedAuditingEnabled.(bool)
 			details.IsUnifiedAuditingEnabled = &tmp
@@ -1760,6 +1772,10 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 		if isDesupportedVersion, ok := s.D.GetOkExists("is_desupported_version"); ok {
 			tmp := isDesupportedVersion.(bool)
 			details.IsDesupportedVersion = &tmp
+		}
+		if isOlderVersionAcknowledged, ok := s.D.GetOkExists("is_older_version_acknowledged"); ok {
+			tmp := isOlderVersionAcknowledged.(bool)
+			details.IsOlderVersionAcknowledged = &tmp
 		}
 		if isUnifiedAuditingEnabled, ok := s.D.GetOkExists("is_unified_auditing_enabled"); ok {
 			tmp := isUnifiedAuditingEnabled.(bool)
@@ -1824,6 +1840,10 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 			tmp := isDesupportedVersion.(bool)
 			details.IsDesupportedVersion = &tmp
 		}
+		if isOlderVersionAcknowledged, ok := s.D.GetOkExists("is_older_version_acknowledged"); ok {
+			tmp := isOlderVersionAcknowledged.(bool)
+			details.IsOlderVersionAcknowledged = &tmp
+		}
 		if isUnifiedAuditingEnabled, ok := s.D.GetOkExists("is_unified_auditing_enabled"); ok {
 			tmp := isUnifiedAuditingEnabled.(bool)
 			details.IsUnifiedAuditingEnabled = &tmp
@@ -1875,6 +1895,10 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 			tmp := isDesupportedVersion.(bool)
 			details.IsDesupportedVersion = &tmp
 		}
+		if isOlderVersionAcknowledged, ok := s.D.GetOkExists("is_older_version_acknowledged"); ok {
+			tmp := isOlderVersionAcknowledged.(bool)
+			details.IsOlderVersionAcknowledged = &tmp
+		}
 		if isUnifiedAuditingEnabled, ok := s.D.GetOkExists("is_unified_auditing_enabled"); ok {
 			tmp := isUnifiedAuditingEnabled.(bool)
 			details.IsUnifiedAuditingEnabled = &tmp
@@ -1925,6 +1949,10 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 		if isDesupportedVersion, ok := s.D.GetOkExists("is_desupported_version"); ok {
 			tmp := isDesupportedVersion.(bool)
 			details.IsDesupportedVersion = &tmp
+		}
+		if isOlderVersionAcknowledged, ok := s.D.GetOkExists("is_older_version_acknowledged"); ok {
+			tmp := isOlderVersionAcknowledged.(bool)
+			details.IsOlderVersionAcknowledged = &tmp
 		}
 		if isUnifiedAuditingEnabled, ok := s.D.GetOkExists("is_unified_auditing_enabled"); ok {
 			tmp := isUnifiedAuditingEnabled.(bool)
@@ -1980,6 +2008,10 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 		if isDesupportedVersion, ok := s.D.GetOkExists("is_desupported_version"); ok {
 			tmp := isDesupportedVersion.(bool)
 			details.IsDesupportedVersion = &tmp
+		}
+		if isOlderVersionAcknowledged, ok := s.D.GetOkExists("is_older_version_acknowledged"); ok {
+			tmp := isOlderVersionAcknowledged.(bool)
+			details.IsOlderVersionAcknowledged = &tmp
 		}
 		if isUnifiedAuditingEnabled, ok := s.D.GetOkExists("is_unified_auditing_enabled"); ok {
 			tmp := isUnifiedAuditingEnabled.(bool)
@@ -2167,10 +2199,6 @@ func (s *DatabaseDbHomeResourceCrud) DatabaseToMap(obj *oci_database.Database) m
 
 	if obj.DbUniqueName != nil {
 		result["db_unique_name"] = string(*obj.DbUniqueName)
-	}
-
-	if s.Res.OneOffPatches != nil {
-		result["one_off_patches"] = s.Res.OneOffPatches
 	}
 
 	if obj.DbWorkload != nil {

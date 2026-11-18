@@ -598,9 +598,9 @@ func (p *ociPluginProvider) _getConfigProviders() ([]oci_common.ConfigurationPro
 		}
 		configProviders = append(configProviders, resourcePrincipalAuthConfigProvider)
 	case strings.ToLower(globalvar.AuthOKEWorkloadIdentity):
-		okeWorkloadIdentityConfigProvider, err := oci_common_auth.OkeWorkloadIdentityConfigurationProvider()
+		okeWorkloadIdentityConfigProvider, err := newOKEWorkloadIdentityConfigurationProvider(p.region)
 		if err != nil {
-			return nil, fmt.Errorf("can not get oke workload indentity based auth config provider %v", err)
+			return nil, fmt.Errorf("can not get oke workload indentity based auth config provider: %w", err)
 		}
 		configProviders = append(configProviders, okeWorkloadIdentityConfigProvider)
 	case strings.ToLower(globalvar.AuthWorkloadIdentityFederation):

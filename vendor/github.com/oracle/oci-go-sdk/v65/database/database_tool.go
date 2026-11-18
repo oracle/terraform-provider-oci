@@ -29,6 +29,9 @@ type DatabaseTool struct {
 
 	// The max idle time, in minutes, after which the VM used by database tools will be terminated.
 	MaxIdleTimeInMinutes *int `mandatory:"false" json:"maxIdleTimeInMinutes"`
+
+	// Specifies the estimated number of concurrent user sessions (range 1–64 for Graph, 1–256 for OML, default 1). applies only to OML and Graph tools—not applicable to DLA, Data Transforms, or Spatial.
+	EstimatedConcurrentSessions *int `mandatory:"false" json:"estimatedConcurrentSessions"`
 }
 
 func (m DatabaseTool) String() string {
@@ -64,6 +67,8 @@ const (
 	DatabaseToolNameMongodbApi      DatabaseToolNameEnum = "MONGODB_API"
 	DatabaseToolNameSpatialStudio   DatabaseToolNameEnum = "SPATIAL_STUDIO"
 	DatabaseToolNameEssbase         DatabaseToolNameEnum = "ESSBASE"
+	DatabaseToolNameA2a             DatabaseToolNameEnum = "A2A"
+	DatabaseToolNameMcp             DatabaseToolNameEnum = "MCP"
 )
 
 var mappingDatabaseToolNameEnum = map[string]DatabaseToolNameEnum{
@@ -76,6 +81,8 @@ var mappingDatabaseToolNameEnum = map[string]DatabaseToolNameEnum{
 	"MONGODB_API":      DatabaseToolNameMongodbApi,
 	"SPATIAL_STUDIO":   DatabaseToolNameSpatialStudio,
 	"ESSBASE":          DatabaseToolNameEssbase,
+	"A2A":              DatabaseToolNameA2a,
+	"MCP":              DatabaseToolNameMcp,
 }
 
 var mappingDatabaseToolNameEnumLowerCase = map[string]DatabaseToolNameEnum{
@@ -88,6 +95,8 @@ var mappingDatabaseToolNameEnumLowerCase = map[string]DatabaseToolNameEnum{
 	"mongodb_api":      DatabaseToolNameMongodbApi,
 	"spatial_studio":   DatabaseToolNameSpatialStudio,
 	"essbase":          DatabaseToolNameEssbase,
+	"a2a":              DatabaseToolNameA2a,
+	"mcp":              DatabaseToolNameMcp,
 }
 
 // GetDatabaseToolNameEnumValues Enumerates the set of values for DatabaseToolNameEnum
@@ -111,6 +120,8 @@ func GetDatabaseToolNameEnumStringValues() []string {
 		"MONGODB_API",
 		"SPATIAL_STUDIO",
 		"ESSBASE",
+		"A2A",
+		"MCP",
 	}
 }
 

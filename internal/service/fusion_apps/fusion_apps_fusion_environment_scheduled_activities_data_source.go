@@ -74,6 +74,10 @@ func FusionAppsFusionEnvironmentScheduledActivitiesDataSource() *schema.Resource
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"application_type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"artifact": {
 													Type:     schema.TypeString,
 													Computed: true,
@@ -95,6 +99,18 @@ func FusionAppsFusionEnvironmentScheduledActivitiesDataSource() *schema.Resource
 													Computed: true,
 												},
 												"reference_key": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"source_environment_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"source_environment_name": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"source_environment_url": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -285,6 +301,34 @@ func (s *FusionAppsFusionEnvironmentScheduledActivitiesDataSourceCrud) SetData()
 func ActionToMap(obj oci_fusion_apps.Action) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (obj).(type) {
+	case oci_fusion_apps.ApplicationMigrationAction:
+		result["action_type"] = "APPLICATION_MIGRATION"
+
+		if v.ApplicationType != nil {
+			result["application_type"] = string(*v.ApplicationType)
+		}
+
+		if v.SourceEnvironmentId != nil {
+			result["source_environment_id"] = string(*v.SourceEnvironmentId)
+		}
+
+		if v.SourceEnvironmentName != nil {
+			result["source_environment_name"] = string(*v.SourceEnvironmentName)
+		}
+
+		if v.SourceEnvironmentUrl != nil {
+			result["source_environment_url"] = string(*v.SourceEnvironmentUrl)
+		}
+
+		if v.Description != nil {
+			result["description"] = string(*v.Description)
+		}
+
+		if v.ReferenceKey != nil {
+			result["reference_key"] = string(*v.ReferenceKey)
+		}
+
+		result["state"] = string(v.State)
 	case oci_fusion_apps.PatchAction:
 		result["action_type"] = "PATCH"
 

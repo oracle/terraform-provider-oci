@@ -368,6 +368,69 @@ var (
 		"is_enabled": acctest.Representation{RepType: acctest.Optional, Update: `true`},
 	}
 
+	DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDbToolsDla = map[string]interface{}{
+		"name":                     acctest.Representation{RepType: acctest.Required, Create: `DLA`, Update: `DLA`},
+		"is_enabled":               acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
+		"compute_count":            acctest.Representation{RepType: acctest.Optional, Create: `32.0`, Update: nil},
+		"max_idle_time_in_minutes": acctest.Representation{RepType: acctest.Optional, Create: `10.0`, Update: nil},
+	}
+
+	DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDbToolsApex = map[string]interface{}{
+		"name":       acctest.Representation{RepType: acctest.Required, Create: `APEX`, Update: `APEX`},
+		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
+	}
+
+	DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDbToolsDatabaseActions = map[string]interface{}{
+		"name":       acctest.Representation{RepType: acctest.Required, Create: `DATABASE_ACTIONS`, Update: `DATABASE_ACTIONS`},
+		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+	}
+
+	DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDbToolsDataTransform = map[string]interface{}{
+		"name":                     acctest.Representation{RepType: acctest.Required, Create: `DATA_TRANSFORMS`, Update: `DATA_TRANSFORMS`},
+		"is_enabled":               acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
+		"compute_count":            acctest.Representation{RepType: acctest.Optional, Create: `8.0`, Update: nil},
+		"max_idle_time_in_minutes": acctest.Representation{RepType: acctest.Optional, Create: `10.0`, Update: nil},
+	}
+
+	DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDbToolsGraphStudio = map[string]interface{}{
+		"name":                          acctest.Representation{RepType: acctest.Required, Create: `GRAPH_STUDIO`, Update: `GRAPH_STUDIO`},
+		"is_enabled":                    acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
+		"compute_count":                 acctest.Representation{RepType: acctest.Optional, Create: `8.0`, Update: nil},
+		"estimated_concurrent_sessions": acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: nil},
+		"max_idle_time_in_minutes":      acctest.Representation{RepType: acctest.Optional, Create: `240.0`, Update: nil},
+	}
+
+	DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDbToolsOml = map[string]interface{}{
+		"name":                          acctest.Representation{RepType: acctest.Required, Create: `OML`, Update: `OML`},
+		"is_enabled":                    acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
+		"compute_count":                 acctest.Representation{RepType: acctest.Optional, Create: `8.0`, Update: nil},
+		"estimated_concurrent_sessions": acctest.Representation{RepType: acctest.Optional, Create: `8`, Update: nil},
+		"max_idle_time_in_minutes":      acctest.Representation{RepType: acctest.Optional, Create: `60.0`, Update: nil},
+	}
+
+	DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDbToolsSpatialStudio = map[string]interface{}{
+		"name":                     acctest.Representation{RepType: acctest.Required, Create: `SPATIAL_STUDIO`, Update: `SPATIAL_STUDIO`},
+		"is_enabled":               acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
+		"compute_count":            acctest.Representation{RepType: acctest.Optional, Create: `8.0`, Update: nil},
+		"max_idle_time_in_minutes": acctest.Representation{RepType: acctest.Optional, Create: `60.0`, Update: nil},
+	}
+
+	DatabaseAutonomousDatabaseRepresentationDbToolsStable = acctest.RepresentationCopyWithNewProperties(
+		DatabaseAutonomousDatabaseRepresentationDbTools,
+		map[string]interface{}{
+			"db_tools_details": []acctest.RepresentationGroup{
+				{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDbToolsApex},
+				{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDbToolsDla},
+				{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDbToolsDataTransform},
+				{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDbToolsDatabaseActions},
+				{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDbToolsGraphStudio},
+				{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationMongodbApi},
+				{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDbToolsOml},
+				{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationOrds},
+				{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDbToolsSpatialStudio},
+			},
+		})
+
 	developerAutonomousDatabaseExaccRepresentation = acctest.RepresentationCopyWithNewProperties(
 		acctest.RepresentationCopyWithRemovedProperties(acctest.GetUpdatedRepresentationCopy("db_name", acctest.Representation{RepType: acctest.Required, Create: adbExaccName}, DatabaseAutonomousDatabaseRepresentation), []string{"db_tools_details", "cpu_core_count", "compute_model", "license_model", "defined_tags", "db_version", "is_auto_scaling_enabled", "operations_insights_status", "admin_password", "kms_key_id", "vault_id", "autonomous_maintenance_schedule_type", "customer_contacts", "scheduled_operations", "freeform_tags", "is_mtls_connection_required", "whitelisted_ips", "data_storage_size_in_tbs"}),
 		map[string]interface{}{
@@ -4993,69 +5056,7 @@ func TestDatabaseAutonomousDatabaseResource_dbTools(t *testing.T) {
 		//0. Verify Create
 		{
 			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, DatabaseAutonomousDatabaseRepresentationDbTools),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
-				// verify computed field db_workload to be defaulted to OLTP
-				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
-				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
-					"name":       "APEX",
-					"is_enabled": "true",
-				}, nil),
-				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
-					"name":                     "DATA_TRANSFORMS",
-					"is_enabled":               "true",
-					"compute_count":            "8",
-					"max_idle_time_in_minutes": "30",
-				}, nil),
-				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
-					"name":       "DATABASE_ACTIONS",
-					"is_enabled": "false",
-				}, nil),
-				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
-					"name":                     "GRAPH_STUDIO",
-					"is_enabled":               "true",
-					"compute_count":            "8",
-					"max_idle_time_in_minutes": "60",
-				}, nil),
-				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
-					"name":       "MONGODB_API",
-					"is_enabled": "false",
-				}, nil),
-				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
-					"name":                     "OML",
-					"is_enabled":               "true",
-					"compute_count":            "8",
-					"max_idle_time_in_minutes": "60",
-				}, nil),
-				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
-					"name":       "ORDS",
-					"is_enabled": "true",
-				}, nil),
-
-				func(s *terraform.State) (err error) {
-					_, err = acctest.FromInstanceState(s, resourceName, "id")
-					return err
-				},
-			),
-		},
-		//test to verify if the plan fails.
-		{
-			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousDatabaseRepresentationDbTools, []string{"scheduled_operations"}),
-						map[string]interface{}{
-							"db_tools_details": []acctest.RepresentationGroup{
-								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationApex},
-								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationEcpuGraphStudio},
-								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationMongodbApi},
-								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationEcpuOml},
-								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationEcpuDataTransform},
-								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDatabaseActions},
-								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationOrds}},
-						})),
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, DatabaseAutonomousDatabaseRepresentationDbToolsStable),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -5073,28 +5074,108 @@ func TestDatabaseAutonomousDatabaseResource_dbTools(t *testing.T) {
 					"max_idle_time_in_minutes": "10",
 				}, nil),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
+					"name":                     "DLA",
+					"is_enabled":               "true",
+					"compute_count":            "32",
+					"max_idle_time_in_minutes": "10",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
 					"name":       "DATABASE_ACTIONS",
 					"is_enabled": "false",
 				}, nil),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
-					"name":                     "GRAPH_STUDIO",
-					"is_enabled":               "true",
-					"compute_count":            "8",
-					"max_idle_time_in_minutes": "240",
+					"name":                          "GRAPH_STUDIO",
+					"is_enabled":                    "true",
+					"compute_count":                 "8",
+					"estimated_concurrent_sessions": "1",
+					"max_idle_time_in_minutes":      "240",
 				}, nil),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
 					"name":       "MONGODB_API",
 					"is_enabled": "false",
 				}, nil),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
-					"name":                     "OML",
-					"is_enabled":               "true",
-					"compute_count":            "8",
-					"max_idle_time_in_minutes": "60",
+					"name":                          "OML",
+					"is_enabled":                    "true",
+					"compute_count":                 "8",
+					"estimated_concurrent_sessions": "8",
+					"max_idle_time_in_minutes":      "60",
 				}, nil),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
 					"name":       "ORDS",
 					"is_enabled": "true",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
+					"name":                     "SPATIAL_STUDIO",
+					"is_enabled":               "true",
+					"compute_count":            "8",
+					"max_idle_time_in_minutes": "60",
+				}, nil),
+
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		//1. Verify stable read after re-apply
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+					DatabaseAutonomousDatabaseRepresentationDbToolsStable),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				// verify computed field db_workload to be defaulted to OLTP
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
+					"name":       "APEX",
+					"is_enabled": "true",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
+					"name":                     "DATA_TRANSFORMS",
+					"is_enabled":               "true",
+					"compute_count":            "8",
+					"max_idle_time_in_minutes": "10",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
+					"name":                     "DLA",
+					"is_enabled":               "true",
+					"compute_count":            "32",
+					"max_idle_time_in_minutes": "10",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
+					"name":       "DATABASE_ACTIONS",
+					"is_enabled": "false",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
+					"name":                          "GRAPH_STUDIO",
+					"is_enabled":                    "true",
+					"compute_count":                 "8",
+					"estimated_concurrent_sessions": "1",
+					"max_idle_time_in_minutes":      "240",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
+					"name":       "MONGODB_API",
+					"is_enabled": "false",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
+					"name":                          "OML",
+					"is_enabled":                    "true",
+					"compute_count":                 "8",
+					"estimated_concurrent_sessions": "8",
+					"max_idle_time_in_minutes":      "60",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
+					"name":       "ORDS",
+					"is_enabled": "true",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
+					"name":                     "SPATIAL_STUDIO",
+					"is_enabled":               "true",
+					"compute_count":            "8",
+					"max_idle_time_in_minutes": "60",
 				}, nil),
 
 				func(s *terraform.State) (err error) {

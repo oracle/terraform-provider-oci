@@ -263,6 +263,12 @@ func DatabaseDbSystemResource() *schema.Resource {
 										Computed: true,
 										ForceNew: true,
 									},
+									"is_older_version_acknowledged": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"key_store_id": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -501,6 +507,12 @@ func DatabaseDbSystemResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"cluster_placement_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"compute_count": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -515,12 +527,6 @@ func DatabaseDbSystemResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-			},
-			"cluster_placement_group_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
 			},
 			"data_collection_options": {
 				Type:     schema.TypeList,
@@ -633,6 +639,12 @@ func DatabaseDbSystemResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"is_older_version_acknowledged": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"kms_key_id": {
 				Type:     schema.TypeString,
@@ -787,17 +799,17 @@ func DatabaseDbSystemResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
-			"security_attributes": {
-				Type:     schema.TypeMap,
-				Optional: true,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
 			"private_ip_v6": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"source": {
 				Type:             schema.TypeString,
@@ -2024,6 +2036,10 @@ func (s *DatabaseDbSystemResourceCrud) mapToCreateDatabaseForStandbyDbSystemDeta
 		tmp := isActiveDataGuardEnabled.(bool)
 		result.IsActiveDataGuardEnabled = &tmp
 	}
+	if isOlderVersionAcknowledged, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_older_version_acknowledged")); ok {
+		tmp := isOlderVersionAcknowledged.(bool)
+		result.IsOlderVersionAcknowledged = &tmp
+	}
 
 	if protectionMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "protection_mode")); ok {
 		result.ProtectionMode = oci_database.CreateDatabaseForStandbyDbSystemDetailsProtectionModeEnum(protectionMode.(string))
@@ -2117,6 +2133,10 @@ func CreateDatabaseForStandbyDbSystemDetailsToMap(obj *oci_database.CreateDataba
 
 	if obj.IsActiveDataGuardEnabled != nil {
 		result["is_active_data_guard_enabled"] = bool(*obj.IsActiveDataGuardEnabled)
+	}
+
+	if obj.IsOlderVersionAcknowledged != nil {
+		result["is_older_version_acknowledged"] = bool(*obj.IsOlderVersionAcknowledged)
 	}
 
 	result["protection_mode"] = string(obj.ProtectionMode)
@@ -3088,6 +3108,10 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := hostname.(string)
 			details.Hostname = &tmp
 		}
+		if isOlderVersionAcknowledged, ok := s.D.GetOkExists("is_older_version_acknowledged"); ok {
+			tmp := isOlderVersionAcknowledged.(bool)
+			details.IsOlderVersionAcknowledged = &tmp
+		}
 		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 			tmp := kmsKeyId.(string)
 			details.KmsKeyId = &tmp
@@ -3284,6 +3308,10 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		if hostname, ok := s.D.GetOkExists("hostname"); ok {
 			tmp := hostname.(string)
 			details.Hostname = &tmp
+		}
+		if isOlderVersionAcknowledged, ok := s.D.GetOkExists("is_older_version_acknowledged"); ok {
+			tmp := isOlderVersionAcknowledged.(bool)
+			details.IsOlderVersionAcknowledged = &tmp
 		}
 		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 			tmp := kmsKeyId.(string)
@@ -3484,6 +3512,10 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := hostname.(string)
 			details.Hostname = &tmp
 		}
+		if isOlderVersionAcknowledged, ok := s.D.GetOkExists("is_older_version_acknowledged"); ok {
+			tmp := isOlderVersionAcknowledged.(bool)
+			details.IsOlderVersionAcknowledged = &tmp
+		}
 		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 			tmp := kmsKeyId.(string)
 			details.KmsKeyId = &tmp
@@ -3676,6 +3708,10 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		if hostname, ok := s.D.GetOkExists("hostname"); ok {
 			tmp := hostname.(string)
 			details.Hostname = &tmp
+		}
+		if isOlderVersionAcknowledged, ok := s.D.GetOkExists("is_older_version_acknowledged"); ok {
+			tmp := isOlderVersionAcknowledged.(bool)
+			details.IsOlderVersionAcknowledged = &tmp
 		}
 		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 			tmp := kmsKeyId.(string)
@@ -3875,6 +3911,10 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		if hostname, ok := s.D.GetOkExists("hostname"); ok {
 			tmp := hostname.(string)
 			details.Hostname = &tmp
+		}
+		if isOlderVersionAcknowledged, ok := s.D.GetOkExists("is_older_version_acknowledged"); ok {
+			tmp := isOlderVersionAcknowledged.(bool)
+			details.IsOlderVersionAcknowledged = &tmp
 		}
 		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 			tmp := kmsKeyId.(string)

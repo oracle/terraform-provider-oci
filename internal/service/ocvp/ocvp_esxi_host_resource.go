@@ -43,15 +43,6 @@ func OcvpEsxiHostResource() *schema.Resource {
 				ForceNew:      true,
 				ConflictsWith: []string{"sddc_id", "current_sku", "failed_esxi_host_id", "next_sku", "non_upgraded_esxi_host_id"},
 			},
-			"sddc_id": {
-				Type:          schema.TypeString,
-				Optional:      true,
-				ForceNew:      true,
-				ConflictsWith: []string{"cluster_id", "esxi_software_version"},
-				// sddc_id is being changed to compute only so need to suppress diff if sddc_id is removed from config
-				DiffSuppressFunc: suppressEsxiHostDeprecatedFieldRemoval,
-				Deprecated:       tfresource.FieldDeprecatedForAnother("sddc_id", "cluster_id"),
-			},
 			"billing_donor_host_id": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -71,6 +62,11 @@ func OcvpEsxiHostResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"current_commitment": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 			"current_sku": {
 				Type:     schema.TypeString,
@@ -94,12 +90,6 @@ func OcvpEsxiHostResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
-			"system_tags": {
-				Type:     schema.TypeMap,
-				Optional: true,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -110,14 +100,6 @@ func OcvpEsxiHostResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
-			},
-			"failed_esxi_host_id": {
-				Type:          schema.TypeString,
-				Optional:      true,
-				Computed:      true,
-				ForceNew:      true,
-				ConflictsWith: []string{"cluster_id", "esxi_software_version"},
-				Deprecated:    "This 'failed_esxi_host_id' argument has been deprecated and will be computed only.",
 			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
@@ -147,22 +129,17 @@ func OcvpEsxiHostResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"next_commitment": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"next_sku": {
 				Type:          schema.TypeString,
 				Optional:      true,
 				Computed:      true,
 				ConflictsWith: []string{"cluster_id", "esxi_software_version"},
 				Deprecated:    tfresource.FieldDeprecated("next_sku"),
-			},
-			"non_upgraded_esxi_host_id": {
-				Type:          schema.TypeString,
-				Optional:      true,
-				Computed:      true,
-				ForceNew:      true,
-				ConflictsWith: []string{"cluster_id", "esxi_software_version"},
-				// sddc_id is being changed to compute only so need to suppress diff if sddc_id is removed from config
-				DiffSuppressFunc: suppressEsxiHostDeprecatedFieldRemoval,
-				Deprecated:       "This 'non_upgraded_esxi_host_id' argument has been deprecated and will be computed only.",
 			},
 			"attach_datastore_cluster_ids": {
 				Type:     schema.TypeList,
@@ -241,10 +218,13 @@ func OcvpEsxiHostResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
-			"current_commitment": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
+			"failed_esxi_host_id": {
+				Type:          schema.TypeString,
+				Optional:      true,
+				Computed:      true,
+				ForceNew:      true,
+				ConflictsWith: []string{"cluster_id", "esxi_software_version"},
+				Deprecated:    "This 'failed_esxi_host_id' argument has been deprecated and will be computed only.",
 			},
 			"grace_period_end_date": {
 				Type:     schema.TypeString,
@@ -258,10 +238,15 @@ func OcvpEsxiHostResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
-			"next_commitment": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
+			"non_upgraded_esxi_host_id": {
+				Type:          schema.TypeString,
+				Optional:      true,
+				Computed:      true,
+				ForceNew:      true,
+				ConflictsWith: []string{"cluster_id", "esxi_software_version"},
+				// sddc_id is being changed to compute only so need to suppress diff if sddc_id is removed from config
+				DiffSuppressFunc: suppressEsxiHostDeprecatedFieldRemoval,
+				Deprecated:       "This 'non_upgraded_esxi_host_id' argument has been deprecated and will be computed only.",
 			},
 			"primary_vnic_mac_address": {
 				Type:     schema.TypeString,
@@ -271,6 +256,15 @@ func OcvpEsxiHostResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"sddc_id": {
+				Type:          schema.TypeString,
+				Optional:      true,
+				ForceNew:      true,
+				ConflictsWith: []string{"cluster_id", "esxi_software_version"},
+				// sddc_id is being changed to compute only so need to suppress diff if sddc_id is removed from config
+				DiffSuppressFunc: suppressEsxiHostDeprecatedFieldRemoval,
+				Deprecated:       tfresource.FieldDeprecatedForAnother("sddc_id", "cluster_id"),
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -278,6 +272,12 @@ func OcvpEsxiHostResource() *schema.Resource {
 			"swap_billing_host_id": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -722,6 +722,11 @@ func (s *OcvpEsxiHostResourceCrud) UpdateWithContext(ctx context.Context) error 
 	tmp := s.D.Id()
 	request.EsxiHostId = &tmp
 
+	if esxiSoftwareVersion, ok := s.D.GetOkExists("esxi_software_version"); ok {
+		tmp := esxiSoftwareVersion.(string)
+		request.EsxiSoftwareVersion = &tmp
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -742,6 +747,11 @@ func (s *OcvpEsxiHostResourceCrud) UpdateWithContext(ctx context.Context) error 
 	if vcfByolAllocationId, ok := s.D.GetOkExists("vcf_byol_allocation_id"); ok {
 		tmp := vcfByolAllocationId.(string)
 		request.VcfByolAllocationId = &tmp
+	}
+
+	if vmwareSoftwareVersion, ok := s.D.GetOkExists("vmware_software_version"); ok {
+		tmp := vmwareSoftwareVersion.(string)
+		request.VmwareSoftwareVersion = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
@@ -953,10 +963,21 @@ func (s *OcvpEsxiHostResourceCrud) InplaceUpgrade(ctx context.Context, nonUpgrad
 	upgradeHostRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 	upgradeHostRequest.EsxiHostId = &nonUpgradeEsxiHostId
 
+	upgradeHostDetails := oci_ocvp.InplaceUpgradeDetails{}
+	if capacityReservationId, ok := s.D.GetOkExists("capacity_reservation_id"); ok {
+		tmp := capacityReservationId.(string)
+		upgradeHostDetails.CapacityReservationId = &tmp
+	}
+
+	if initialFaultDomainHostDistribution, ok := s.D.GetOkExists("initial_fault_domain_host_distribution"); ok {
+		upgradeHostDetails.InitialFaultDomainHostDistribution = oci_ocvp.FaultDomainHostDistributionModesEnum(initialFaultDomainHostDistribution.(string))
+	}
+
 	if vcfAllocationId, ok := s.D.GetOkExists("vcf_byol_allocation_id"); ok {
 		tmp := vcfAllocationId.(string)
-		upgradeHostRequest.InplaceUpgradeDetails = oci_ocvp.InplaceUpgradeDetails{VcfByolAllocationId: &tmp}
+		upgradeHostDetails.VcfByolAllocationId = &tmp
 	}
+	upgradeHostRequest.InplaceUpgradeDetails = upgradeHostDetails
 
 	upgradeResponse, err := s.Client.InplaceUpgrade(ctx, upgradeHostRequest)
 	if err != nil {
@@ -992,6 +1013,10 @@ func (s *OcvpEsxiHostResourceCrud) ReplaceHost(ctx context.Context, failedEsxiHo
 	replaceHostRequest.EsxiHostId = &failedEsxiHostId
 
 	replaceHostDetails := oci_ocvp.ReplaceHostDetails{}
+	if capacityReservationId, ok := s.D.GetOkExists("capacity_reservation_id"); ok {
+		tmp := capacityReservationId.(string)
+		replaceHostDetails.CapacityReservationId = &tmp
+	}
 	if vcfAllocationId, ok := s.D.GetOkExists("vcf_byol_allocation_id"); ok {
 		tmp := vcfAllocationId.(string)
 		replaceHostDetails.VcfByolAllocationId = &tmp

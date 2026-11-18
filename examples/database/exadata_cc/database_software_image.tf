@@ -12,5 +12,5 @@ resource "oci_database_database_software_image" "test_database_software_image" {
 
   image_shape_family = "EXACC_SHAPE"
   image_type         = "DATABASE_IMAGE"
-  patch_set = "19.26.0.0"
+  patch_set = "19.32.0.0"
 }

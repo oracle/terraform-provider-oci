@@ -7,7 +7,6 @@ import (
 	"context"
 	"fmt"
 	"strconv"
-	"strings"
 	"time"
 
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
@@ -545,12 +544,20 @@ func (s *FileStorageMountTargetResourceCrud) Update() error {
 		if oldRaw != "" && newRaw != "" {
 			oldV := oldRaw.(string)
 			newV := newRaw.(string)
-			if strings.Compare(oldV, newV) < 0 {
+			oldThroughput, err := strconv.ParseInt(oldV, 10, 64)
+			if err != nil {
+				return fmt.Errorf("unable to convert old requested_throughput string: %s to an int64 and encountered error: %v", oldV, err)
+			}
+			newThroughput, err := strconv.ParseInt(newV, 10, 64)
+			if err != nil {
+				return fmt.Errorf("unable to convert new requested_throughput string: %s to an int64 and encountered error: %v", newV, err)
+			}
+			if oldThroughput < newThroughput {
 				err := s.UpgradeShapeMountTarget()
 				if err != nil {
 					return err
 				}
-			} else {
+			} else if oldThroughput > newThroughput {
 				err := s.ScheduleDowngradeShapeMountTarget()
 				if err != nil {
 					return err

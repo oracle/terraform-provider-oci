@@ -1128,3 +1128,37 @@ func DatabaseDbHomeSweepResponseFetchOperation(client *client.OracleClients, res
 	})
 	return err
 }
+
+func TestDatabaseDbHomeResourceOlderVersionAcknowledgement(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseDbHomeResourceOlderVersionAcknowledgement")
+	defer httpreplay.SaveScenario()
+	config := databaseAckCloudConfig(t, false)
+	name := "oci_database_db_home.ack_home"
+	configFor := func(ack bool) string {
+		return config + fmt.Sprintf(`
+resource "oci_database_db_home" "ack_home" {
+ vm_cluster_id = data.oci_database_cloud_vm_cluster.ack_parent_cluster.id
+ source = "VM_CLUSTER_NEW"
+ db_version = var.ack_test_db_home_version
+ display_name = "TERSI-5426-ack-home"
+ is_older_version_acknowledged = %t
+}
+`, ack)
+	}
+	var homeID string
+	acctest.ResourceTest(t, testAccCheckDatabaseDbHomeDestroy, []resource.TestStep{
+		{Config: configFor(true), Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+			resource.TestCheckResourceAttr(name, "is_older_version_acknowledged", "true"),
+			resource.TestCheckResourceAttr(name, "db_version", databaseAckRequiredInput(t, "ack_test_db_home_version")),
+			resource.TestCheckResourceAttr(name, "state", "AVAILABLE"),
+			databaseAckRequireReplacedID(name, &homeID),
+			databaseAcknowledgementScopedDiscoveryCheck(t, name),
+		)},
+		{Config: configFor(true), PlanOnly: true},
+		{Config: configFor(false), Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+			resource.TestCheckResourceAttr(name, "is_older_version_acknowledged", "false"),
+			resource.TestCheckResourceAttr(name, "state", "AVAILABLE"),
+			databaseAckRequireReplacedID(name, &homeID),
+		)},
+	})
+}

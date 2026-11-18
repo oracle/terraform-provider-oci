@@ -321,3 +321,150 @@ func TestDatabaseDatabaseUpgradeResource_basic(t *testing.T) {
 		},
 	})
 }
+
+// Both inputs execute a genuine PRECHECK against an owned BaseDB source DB.
+// ExaCS requires DB_HOME upgrade sources, which this resource does not expose.
+func TestDatabaseDatabaseUpgradeResourceOlderVersionAcknowledgement(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseDatabaseUpgradeResourceOlderVersionAcknowledgement")
+	defer httpreplay.SaveScenario()
+	databaseAckRequiredInput(t, "ssh_public_key")
+	databaseAckRequiredInput(t, "ack_test_admin_password")
+	sourceVersion := databaseAckRequiredInput(t, "ack_test_db_home_version")
+	target := databaseAckRequiredInput(t, "ack_test_upgrade_target_version")
+	shape := databaseAckRequiredInput(t, "ack_test_upgrade_db_shape")
+	if shape != "BM.DenseIO2.52" {
+		t.Fatal("the live PRECHECK baseline for this focused test validates BM.DenseIO2.52/ASM")
+	}
+	if sourceVersion == target {
+		t.Fatal("PRECHECK target must differ from the selected source version")
+	}
+	compartment := databaseAckRequiredInput(t, "compartment_ocid")
+	config := acctest.ProviderTestConfig() + fmt.Sprintf("variable \"compartment_id\" { default = %q }\n", compartment) + `
+variable "ack_test_db_home_version" { type = string }
+variable "ack_test_upgrade_target_version" { type = string }
+variable "ack_test_upgrade_db_shape" { type = string }
+variable "ack_test_admin_password" {
+ type = string
+ sensitive = true
+}
+resource "oci_core_vcn" "ack_upgrade_vcn" {
+ compartment_id = var.compartment_id
+ cidr_block = "10.253.0.0/16"
+ display_name = "TERSI-5426-ack-precheck-vcn"
+ dns_label = "ackupgvcn"
+}
+resource "oci_core_nat_gateway" "ack_upgrade_nat" {
+ compartment_id = var.compartment_id
+ vcn_id = oci_core_vcn.ack_upgrade_vcn.id
+ display_name = "TERSI-5426-ack-precheck-nat"
+}
+data "oci_identity_availability_domains" "ack_upgrade_ads" {
+ compartment_id = var.compartment_id
+}
+resource "oci_core_security_list" "ack_upgrade_security" {
+ compartment_id = var.compartment_id
+ vcn_id = oci_core_vcn.ack_upgrade_vcn.id
+ display_name = "TERSI-5426-ack-precheck-security"
+ ingress_security_rules {
+  source = oci_core_vcn.ack_upgrade_vcn.cidr_block
+  protocol = "all"
+ }
+ egress_security_rules {
+  destination = "0.0.0.0/0"
+  protocol = "all"
+ }
+}
+resource "oci_core_route_table" "ack_upgrade_routes" {
+ compartment_id = var.compartment_id
+ vcn_id = oci_core_vcn.ack_upgrade_vcn.id
+ route_rules {
+  destination = "0.0.0.0/0"
+  destination_type = "CIDR_BLOCK"
+  network_entity_id = oci_core_nat_gateway.ack_upgrade_nat.id
+ }
+}
+resource "oci_core_subnet" "ack_upgrade_subnet" {
+ compartment_id = var.compartment_id
+ vcn_id = oci_core_vcn.ack_upgrade_vcn.id
+ cidr_block = cidrsubnet(oci_core_vcn.ack_upgrade_vcn.cidr_block, 8, 72)
+ display_name = "TERSI-5426-ack-precheck-subnet"
+ dns_label = "ackupg72"
+ prohibit_public_ip_on_vnic = true
+ dhcp_options_id = oci_core_vcn.ack_upgrade_vcn.default_dhcp_options_id
+ route_table_id = oci_core_route_table.ack_upgrade_routes.id
+ security_list_ids = [oci_core_security_list.ack_upgrade_security.id]
+}
+resource "oci_database_db_system" "ack_upgrade_source" {
+ availability_domain = data.oci_identity_availability_domains.ack_upgrade_ads.availability_domains[0].name
+ compartment_id = var.compartment_id
+ database_edition = "ENTERPRISE_EDITION"
+ shape = var.ack_test_upgrade_db_shape
+ cpu_core_count = 2
+ data_storage_percentage = 80
+ disk_redundancy = "NORMAL"
+ license_model = "LICENSE_INCLUDED"
+ node_count = 1
+ hostname = "ackprecheck"
+ domain = oci_core_subnet.ack_upgrade_subnet.subnet_domain_name
+ display_name = "TERSI-5426-ack-precheck-system"
+ subnet_id = oci_core_subnet.ack_upgrade_subnet.id
+ ssh_public_keys = [var.ssh_public_key]
+ db_home {
+  db_version = var.ack_test_db_home_version
+  display_name = "TERSI-5426-ack-precheck-home"
+  database {
+   admin_password = var.ack_test_admin_password
+   db_name = "ACKUPG01"
+   db_backup_config { auto_backup_enabled = false }
+  }
+ }
+ lifecycle {
+  ignore_changes = [db_home[0].db_version]
+ }
+}
+data "oci_database_db_homes" "ack_upgrade_source_homes" {
+ compartment_id = var.compartment_id
+ db_system_id = oci_database_db_system.ack_upgrade_source.id
+}
+data "oci_database_databases" "ack_upgrade_source_databases" {
+ compartment_id = var.compartment_id
+ db_home_id = data.oci_database_db_homes.ack_upgrade_source_homes.db_homes[0].db_home_id
+}
+`
+	name := "oci_database_database_upgrade.ack_precheck"
+	historyName := "data.oci_database_database_upgrade_history_entries.ack_precheck_history"
+	configFor := func(ack bool) string {
+		return config + fmt.Sprintf(`
+resource "oci_database_database_upgrade" "ack_precheck" {
+ action = "PRECHECK"
+ database_id = data.oci_database_databases.ack_upgrade_source_databases.databases[0].id
+ database_upgrade_source_details {
+  source = "DB_VERSION"
+  db_version = var.ack_test_upgrade_target_version
+  is_older_version_acknowledged = %t
+ }
+}
+data "oci_database_database_upgrade_history_entries" "ack_precheck_history" {
+ database_id = data.oci_database_databases.ack_upgrade_source_databases.databases[0].id
+ upgrade_action = "PRECHECK"
+ state = "SUCCEEDED"
+ depends_on = [oci_database_database_upgrade.ack_precheck]
+}
+`, ack)
+	}
+	historyIDs := map[string]bool{}
+	databaseAcknowledgementResourceTest(t, databaseAckBaseDBDestroy, []resource.TestStep{
+		{Config: configFor(true), Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+			resource.TestCheckResourceAttr(name, "action", "PRECHECK"),
+			resource.TestCheckResourceAttr(name, "database_upgrade_source_details.0.is_older_version_acknowledged", "true"),
+			resource.TestCheckResourceAttr("oci_database_db_system.ack_upgrade_source", "state", "AVAILABLE"),
+			databaseAckRequireNewPrecheckHistory(historyName, target, historyIDs),
+		)},
+		{Config: configFor(true), PlanOnly: true},
+		{Config: configFor(false), Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+			resource.TestCheckResourceAttr(name, "database_upgrade_source_details.0.is_older_version_acknowledged", "false"),
+			resource.TestCheckResourceAttr("oci_database_db_system.ack_upgrade_source", "state", "AVAILABLE"),
+			databaseAckRequireNewPrecheckHistory(historyName, target, historyIDs),
+		)},
+	})
+}

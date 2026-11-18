@@ -18,8 +18,8 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ListDatastoreClusters.go.html to see an example of how to use ListDatastoreClustersRequest.
 type ListDatastoreClustersRequest struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment as optional parameter.
+	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return only resources that match the given display name exactly.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`

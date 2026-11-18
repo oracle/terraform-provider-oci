@@ -228,6 +228,7 @@ resource "oci_database_autonomous_database" "test_autonomous_database_db_tools" 
                 name = "GRAPH_STUDIO"
                 is_enabled = false
                 compute_count = 0
+                estimated_concurrent_sessions = 1
                 max_idle_time_in_minutes = 0
               }
               db_tools_details {
@@ -240,6 +241,7 @@ resource "oci_database_autonomous_database" "test_autonomous_database_db_tools" 
                 name = "OML"
                 is_enabled = true
                 compute_count = 0
+                estimated_concurrent_sessions = 1
                 max_idle_time_in_minutes = 0
               }
               db_tools_details {
@@ -497,6 +499,18 @@ resource "oci_database_autonomous_database" "test_autonomous_database_db_tools_e
                 is_enabled = true
                 compute_count = 12
                 max_idle_time_in_minutes = 120
+              }
+              db_tools_details {
+                name = "A2A"
+                is_enabled = false
+                compute_count = 0
+                max_idle_time_in_minutes = 0
+              }
+              db_tools_details {
+                name = "MCP"
+                is_enabled = true
+                compute_count = 0
+                max_idle_time_in_minutes = 0
               }
   }
 

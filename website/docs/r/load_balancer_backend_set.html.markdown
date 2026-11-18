@@ -29,7 +29,9 @@ resource "oci_load_balancer_backend_set" "test_backend_set" {
 		protocol = var.backend_set_health_checker_protocol
 
 		#Optional
+		default_weight = var.backend_set_health_checker_default_weight
 		interval_ms = var.backend_set_health_checker_interval_ms
+		is_dynamic_backend_weight_enabled = var.backend_set_health_checker_is_dynamic_backend_weight_enabled
 		is_force_plain_text = var.backend_set_health_checker_is_force_plain_text
 		port = var.backend_set_health_checker_port
 		response_body_regex = var.backend_set_health_checker_response_body_regex
@@ -106,7 +108,29 @@ The following arguments are supported:
 
 	Example: `300` 
 * `health_checker` - (Required) (Updatable) The health check policy's configuration details.
+	* `default_weight` - (Optional) (Updatable) You can configure this fallback backend weight when dynamic backend weights are enabled and the backend's HTTP health check response does not include a valid `X-Dynamic-Backend-Weight` header value.
+
+		This value must be an integer from `1` through `100`.
+
+		Setting `defaultWeight` does not enable dynamic backend weights. To enable dynamic backend weights, set `isDynamicBackendWeightEnabled` to `true`. If your request includes `defaultWeight`, you must also set `isDynamicBackendWeightEnabled` to `true`; otherwise, the request is rejected.
+
+		On create, if dynamic backend weights are enabled and this field is omitted or null, the service uses `1`.
+
+		For TCP health checks, this field is accepted and stored, but it has no runtime effect.
+
+		Example: `1`
 	* `interval_ms` - (Optional) (Updatable) The interval between health checks, in milliseconds.  Example: `10000` 
+	* `is_dynamic_backend_weight_enabled` - (Optional) (Updatable) You can enable dynamic backend weights for HTTP health checks.
+
+		When enabled, the load balancer reads the `X-Dynamic-Backend-Weight` header from each backend's HTTP health check response. The load balancer uses that value as the backend's effective weight when distributing traffic.
+
+		A valid header value is an integer from `0` through `100`.
+
+		If the backend response does not include this header, or includes an invalid value, the load balancer uses `defaultWeight`.
+
+		If omitted during create, the default is `false`.
+
+		For TCP health checks, this field is accepted and stored, but it has no runtime effect.
 	* `is_force_plain_text` - (Optional) (Updatable) Specifies if health checks should always be done using plain text instead of depending on whether or not the associated backend set is using SSL.
 
 		If "true", health checks will be done using plain text even if the associated backend set is configured to use SSL.
@@ -261,7 +285,23 @@ The following attributes are exported:
 	* `weight` - The load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives 3 times the number of new connections as a server weighted '1'. For more information on load balancing policies, see [How Load Balancing Policies Work](https://docs.cloud.oracle.com/iaas/Content/Balance/Reference/lbpolicies.htm).  Example: `3` 
 * `backend_max_connections` - The maximum number of simultaneous connections the load balancer can make to any backend in the backend set unless the backend has its own maxConnections setting. If this is not set or set to 0 then the number of simultaneous connections the load balancer can make to any backend in the backend set unless the backend has its own maxConnections setting is unlimited.  Example: `300` 
 * `health_checker` - The health check policy configuration. For more information, see [Editing Health Check Policies](https://docs.cloud.oracle.com/iaas/Content/Balance/Tasks/editinghealthcheck.htm). 
+	* `default_weight` - The fallback backend weight used when dynamic backend weights are enabled and the backend's HTTP health check response does not include a valid `X-Dynamic-Backend-Weight` header value.
+
+		This value is an integer from `1` through `100`.
+
+		For TCP health checks, this field is accepted and stored, but it has no runtime effect.
+
+		Example: `1`
 	* `interval_ms` - The interval between health checks, in milliseconds. The default is 10000 (10 seconds).  Example: `10000` 
+	* `is_dynamic_backend_weight_enabled` - Indicates whether dynamic backend weights are enabled for HTTP health checks.
+
+		When enabled, the load balancer reads the `X-Dynamic-Backend-Weight` header from each backend's HTTP health check response. The load balancer uses that value as the backend's effective weight when distributing traffic.
+
+		A valid header value is an integer from `0` through `100`.
+
+		If the backend response does not include this header, or includes an invalid value, the load balancer uses `defaultWeight`.
+
+		For TCP health checks, this field is accepted and stored, but it has no runtime effect.
 	* `is_force_plain_text` - Specifies if health checks should always be done using plain text instead of depending on whether or not the associated backend set is using SSL.
 
 		If "true", health checks will be done using plain text even if the associated backend set is configured to use SSL.
@@ -410,4 +450,3 @@ BackendSets can be imported using the `id`, e.g.
 ```
 $ terraform import oci_load_balancer_backend_set.test_backend_set "loadBalancers/{loadBalancerId}/backendSets/{backendSetName}" 
 ```
-

@@ -35,6 +35,10 @@ func FusionAppsFusionEnvironmentScheduledActivityDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"application_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"artifact": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -56,6 +60,18 @@ func FusionAppsFusionEnvironmentScheduledActivityDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"reference_key": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"source_environment_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"source_environment_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"source_environment_url": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},

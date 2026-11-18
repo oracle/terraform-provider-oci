@@ -1,3 +1,21 @@
+## 9.14.0 (November 17, 2026)
+
+### Added
+- Support older-version acknowledgement for database resource
+- Support for Rolling-upgrade feature enhancements
+- Support for Dynamic Weighted Load Balancing for LBaaS
+- Support for ADB-S: Support Agent-to-Agent (A2A) and MCP Server as Part of Built-in Tools
+- Support for CCCP API changes to support public APIs TerminateInstance, AttachVolume, DetachVolume
+- Support for Lustre File Service (LFS): Object Tiering - policy based data movement between storage tiers
+- Support for customer SSL decryption for ExaDB-C@C infrastructure management connections
+- S- Support for FA Platform: CPQ Migration
+- Support for ADB-S: Built-in Tools - Add Concurrent Sessions as an Input
+
+### Bug Fix
+- Honor provider region for OKE workload identity
+- Compare mount target throughput numerically
+- fixed vulnerability in golang.org/x/net package
+
 ## 9.13.0 (November 11, 2026)
 
 ### Added

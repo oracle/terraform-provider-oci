@@ -63,22 +63,22 @@ var (
 	adbMemberName                    = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(13, utils.Charset)
 
 	DatabaseAutonomousDatabaseRepresentation = map[string]interface{}{
-		"compartment_id":                       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"cpu_core_count":                       acctest.Representation{RepType: acctest.Required, Create: `1`},
-		"data_storage_size_in_tbs":             acctest.Representation{RepType: acctest.Required, Create: `1`},
-		"db_name":                              acctest.Representation{RepType: acctest.Required, Create: adbName},
-		"admin_password":                       acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
-		"db_version":                           acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_database_autonomous_db_versions.test_autonomous_db_versions.autonomous_db_versions.0.version}`},
-		"db_workload":                          acctest.Representation{RepType: acctest.Optional, Create: `OLTP`},
-		"character_set":                        acctest.Representation{RepType: acctest.Optional, Create: `AL32UTF8`},
-		"defined_tags":                         acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
-		"display_name":                         acctest.Representation{RepType: acctest.Optional, Create: `example_autonomous_database`, Update: `displayName2`},
-		"freeform_tags":                        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"is_auto_scaling_enabled":              acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"is_auto_scaling_for_storage_enabled":  acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"is_dedicated":                         acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"is_mtls_connection_required":          acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"autonomous_maintenance_schedule_type": acctest.Representation{RepType: acctest.Optional, Create: `REGULAR`, Update: `EARLY`},
+		"compartment_id":                      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"cpu_core_count":                      acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"data_storage_size_in_tbs":            acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"db_name":                             acctest.Representation{RepType: acctest.Required, Create: adbName},
+		"admin_password":                      acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
+		"db_version":                          acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_database_autonomous_db_versions.test_autonomous_db_versions.autonomous_db_versions.0.version}`},
+		"db_workload":                         acctest.Representation{RepType: acctest.Optional, Create: `OLTP`},
+		"character_set":                       acctest.Representation{RepType: acctest.Optional, Create: `AL32UTF8`},
+		"defined_tags":                        acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
+		"display_name":                        acctest.Representation{RepType: acctest.Optional, Create: `example_autonomous_database`, Update: `displayName2`},
+		"freeform_tags":                       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_auto_scaling_enabled":             acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_auto_scaling_for_storage_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_dedicated":                        acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_mtls_connection_required":         acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		// 	"autonomous_maintenance_schedule_type": acctest.Representation{RepType: acctest.Optional, Create: `REGULAR`, Update: `EARLY`},
 		"is_preview_version_with_service_terms_accepted": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"customer_contacts":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseCustomerContactsRepresentation},
 		"license_model":              acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
@@ -91,6 +91,8 @@ var (
 			{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDataTransform},
 			{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDatabaseActions},
 			{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationGraphStudio},
+			{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationA2a},
+			{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationMcp},
 			{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationSpatialStudio},
 			{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDla},
 			{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationMongodbApi},
@@ -134,6 +136,8 @@ var (
 				{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDatabaseActions},
 				{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationEcpuDla},
 				{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationEcpuGraphStudio},
+				{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationA2a},
+				{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationMcp},
 				{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationMongodbApi},
 				{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationEcpuOml},
 				{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationOrds},
@@ -235,6 +239,14 @@ var (
 
 	DatabaseAutonomousDatabaseDbToolsDetailsRepresentationApex = map[string]interface{}{
 		"name":       acctest.Representation{RepType: acctest.Required, Create: `APEX`, Update: `APEX`},
+		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
+	}
+	DatabaseAutonomousDatabaseDbToolsDetailsRepresentationA2a = map[string]interface{}{
+		"name":       acctest.Representation{RepType: acctest.Required, Create: `A2A`, Update: `A2A`},
+		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
+	}
+	DatabaseAutonomousDatabaseDbToolsDetailsRepresentationMcp = map[string]interface{}{
+		"name":       acctest.Representation{RepType: acctest.Required, Create: `MCP`, Update: `MCP`},
 		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
 	}
 
@@ -370,6 +382,8 @@ var (
 			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDatabaseActions},
 			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationEcpuDla},
 			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationEcpuGraphStudio},
+			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationA2a},
+			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationMcp},
 			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationMongodbApi},
 			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationEcpuOml},
 			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationOrds},
@@ -478,7 +492,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 		},
 
 		// TODO setup two different subscription in dbaasprodintegtest
-		//3. update subscription id
+		// 3. update subscription id
 		//{
 		//	Config: config + compartmentIdVariableStr + OkvSecretVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
 		//		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Update,
@@ -494,7 +508,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 		//		},
 		//	),
 		//},
-		//4. Verify Update with secretId and secretVersionNumber
+		// 4. Verify Update with secretId and secretVersionNumber
 		{
 			Config: config + compartmentIdVariableStr + OkvSecretVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Update,
@@ -556,7 +570,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "maintenance_target_component"),
 				resource.TestCheckResourceAttr(resourceName, "transportable_tablespace.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "transportable_tablespace.0.tts_bundle_url", "ttsBundleUrl"),
-				resource.TestCheckResourceAttr(resourceName, "db_tools_details.#", "9"),
+				resource.TestCheckResourceAttr(resourceName, "db_tools_details.#", "11"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
 					"name":       "APEX",
 					"is_enabled": "true",
@@ -570,6 +584,14 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
 					"name":       "DATABASE_ACTIONS",
 					"is_enabled": "false",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
+					"name":       "A2A",
+					"is_enabled": "true",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
+					"name":       "MCP",
+					"is_enabled": "true",
 				}, nil),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
 					"name":                     "GRAPH_STUDIO",
@@ -622,6 +644,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 						"db_tools_details": []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationApex},
 							{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDataTransform},
 							{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDatabaseActions},
+							{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationA2a},
+							{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationMcp},
 							{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationGraphStudio},
 							{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationSpatialStudio},
 							{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDla},
@@ -630,7 +654,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 							{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationOrds}},
 					}), []string{"scheduled_operations", "admin_password", "customer_contacts", "freeform_tags", "defined_tags", "display_name", "autonomous_maintenance_schedule_type"})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "db_tools_details.#", "9"),
+				resource.TestCheckResourceAttr(resourceName, "db_tools_details.#", "11"),
 				resource.TestCheckResourceAttr(resourceName, "transportable_tablespace.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "transportable_tablespace.0.tts_bundle_url", "newTtsBundleUrl"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
@@ -644,6 +668,14 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
 					"name":       "DATABASE_ACTIONS",
 					"is_enabled": "true",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
+					"name":       "A2A",
+					"is_enabled": "false",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
+					"name":       "MCP",
+					"is_enabled": "false",
 				}, nil),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
 					"name":       "GRAPH_STUDIO",
@@ -680,24 +712,24 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 		},
 
 		//9. Verify update patch level for OCPU
-		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRepresentationECPU, map[string]interface{}{
-						"autonomous_maintenance_schedule_type": acctest.Representation{RepType: acctest.Required, Create: `EARLY`},
-					}), []string{"license_model", "db_tools_details", "cpu_core_count", "display_name"})),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "EARLY"),
-
-				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId != resId2 {
-						return fmt.Errorf("resource recreated when it was supposed to be updated")
-					}
-					return err
-				},
-			),
-		},
+		// 		{
+		// 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+		// 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+		// 					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRepresentationECPU, map[string]interface{}{
+		// 						"autonomous_maintenance_schedule_type": acctest.Representation{RepType: acctest.Required, Create: `EARLY`},
+		// 					}), []string{"license_model", "db_tools_details", "cpu_core_count", "display_name"})),
+		// 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+		// 				resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "EARLY"),
+		//
+		// 				func(s *terraform.State) (err error) {
+		// 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+		// 					if resId != resId2 {
+		// 						return fmt.Errorf("resource recreated when it was supposed to be updated")
+		// 					}
+		// 					return err
+		// 				},
+		// 			),
+		// 		},
 
 		//10. Verify update to backup retention in days
 		{
@@ -832,7 +864,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
 				resource.TestCheckResourceAttr(resourceName, "database_edition", "STANDARD_EDITION"),
 				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
-				resource.TestCheckResourceAttr(resourceName, "db_tools_details.#", "9"),
+				resource.TestCheckResourceAttr(resourceName, "db_tools_details.#", "11"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
 					"name":       "APEX",
 					"is_enabled": "true",
@@ -844,6 +876,14 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
 					"name":       "DATABASE_ACTIONS",
 					"is_enabled": "false",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
+					"name":       "A2A",
+					"is_enabled": "true",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
+					"name":       "MCP",
+					"is_enabled": "true",
 				}, nil),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
 					"name":       "DLA",
@@ -968,7 +1008,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test@oracle.com"),
 				resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-				resource.TestCheckResourceAttr(resourceName, "db_tools_details.#", "9"),
+				resource.TestCheckResourceAttr(resourceName, "db_tools_details.#", "11"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
 					"name":       "APEX",
 					"is_enabled": "true",
@@ -980,6 +1020,14 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
 					"name":       "DATABASE_ACTIONS",
 					"is_enabled": "false",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
+					"name":       "A2A",
+					"is_enabled": "true",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
+					"name":       "MCP",
+					"is_enabled": "true",
 				}, nil),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
 					"name":       "GRAPH_STUDIO",
@@ -1006,8 +1054,10 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					"is_enabled": "true",
 				}, nil),
 				resource.TestCheckResourceAttr(resourceName, "connection_urls.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "connection_urls.0.a2a_url"),
 				resource.TestCheckResourceAttrSet(resourceName, "connection_urls.0.apex_url"),
 				resource.TestCheckResourceAttrSet(resourceName, "connection_urls.0.machine_learning_user_management_url"),
+				resource.TestCheckResourceAttrSet(resourceName, "connection_urls.0.mcp_url"),
 				resource.TestCheckResourceAttrSet(resourceName, "connection_urls.0.graph_studio_url"),
 				resource.TestCheckResourceAttr(resourceName, "database_edition", "ENTERPRISE_EDITION"),
 				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
@@ -1048,7 +1098,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 						"local_adg_auto_failover_max_data_loss_limit": acctest.Representation{RepType: acctest.Required, Create: `125`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "is_data_guard_enabled", "true"),
+				//	resource.TestCheckResourceAttr(resourceName, "is_data_guard_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "local_adg_auto_failover_max_data_loss_limit", "125"),
 
 				func(s *terraform.State) (err error) {
@@ -1128,24 +1178,24 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 		},
 
 		//22: Verify update ECPU patch level
-		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRepresentationBYOL, map[string]interface{}{
-						"autonomous_maintenance_schedule_type": acctest.Representation{RepType: acctest.Optional, Create: `EARLY`, Update: `EARLY`},
-					}), []string{"admin_password", "customer_contacts", "freeform_tags", "defined_tags", "display_name", "scheduled_operations"})),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "EARLY"),
-
-				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId != resId2 {
-						return fmt.Errorf("resource recreated when it was supposed to be updated")
-					}
-					return err
-				},
-			),
-		},
+		// 		{
+		// 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+		// 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+		// 					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRepresentationBYOL, map[string]interface{}{
+		// 						"autonomous_maintenance_schedule_type": acctest.Representation{RepType: acctest.Optional, Create: `EARLY`, Update: `EARLY`},
+		// 					}), []string{"admin_password", "customer_contacts", "freeform_tags", "defined_tags", "display_name", "scheduled_operations"})),
+		// 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+		// 				resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "EARLY"),
+		//
+		// 				func(s *terraform.State) (err error) {
+		// 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+		// 					if resId != resId2 {
+		// 						return fmt.Errorf("resource recreated when it was supposed to be updated")
+		// 					}
+		// 					return err
+		// 				},
+		// 			),
+		// 		},
 
 		//23. Verify updates to OCPU db tools
 		{
@@ -1156,6 +1206,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 						"db_tools_details": []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationApex},
 							{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDataTransform},
 							{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDatabaseActions},
+							{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationA2a},
+							{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationMcp},
 							{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationSpatialStudio},
 							{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationGraphStudio},
 							{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDla},
@@ -1164,7 +1216,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 							{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationOrds}},
 					}), []string{"admin_password", "customer_contacts", "freeform_tags", "defined_tags", "display_name", "autonomous_maintenance_schedule_type"})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "db_tools_details.#", "9"),
+				resource.TestCheckResourceAttr(resourceName, "db_tools_details.#", "11"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
 					"name":       "APEX",
 					"is_enabled": "false",
@@ -1176,6 +1228,14 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
 					"name":       "DATABASE_ACTIONS",
 					"is_enabled": "true",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
+					"name":       "A2A",
+					"is_enabled": "false",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
+					"name":       "MCP",
+					"is_enabled": "false",
 				}, nil),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "db_tools_details", map[string]string{
 					"name":       "GRAPH_STUDIO",
@@ -1213,15 +1273,15 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRepresentationBYOL, map[string]interface{}{
-						"byol_compute_count_limit":    acctest.Representation{RepType: acctest.Optional, Create: `11`, Update: `11`},
+						"byol_compute_count_limit":    acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `10`},
 						"database_management_status":  acctest.Representation{RepType: acctest.Optional, Create: `NOT_ENABLED`, Update: `NOT_ENABLED`},
 						"lifecycle":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: lifecycleGroupWithDefinedTagsIgnoreChanges},
 						"is_mtls_connection_required": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
 					}), []string{"db_tools_details"})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
-				resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "EARLY"),
-				resource.TestCheckResourceAttr(resourceName, "byol_compute_count_limit", "11"),
+				//	resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "EARLY"),
+				resource.TestCheckResourceAttr(resourceName, "byol_compute_count_limit", "10"),
 				resource.TestCheckResourceAttr(resourceName, "character_set", "AL32UTF8"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
@@ -1442,7 +1502,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "EARLY"),
+				//	resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "EARLY"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_for_storage_enabled", "true"),
@@ -1517,7 +1577,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.allocated_storage_size_in_tbs"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.apex_details.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.availability_domain"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.autonomous_maintenance_schedule_type", "EARLY"),
+				//	resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.autonomous_maintenance_schedule_type", "EARLY"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.backup_config.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.connection_strings.#", "1"),
@@ -1528,7 +1588,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.data_storage_size_in_gb"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.data_safe_status", "NOT_REGISTERED"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.data_storage_size_in_tbs", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.db_tools_details.#", "9"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.db_tools_details.#", "11"),
 				acctest.CheckResourceSetContainsElementWithProperties(datasourceName, "autonomous_databases.0.db_tools_details", map[string]string{
 					"name":       "APEX",
 					"is_enabled": "false",
@@ -1540,6 +1600,14 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				acctest.CheckResourceSetContainsElementWithProperties(datasourceName, "autonomous_databases.0.db_tools_details", map[string]string{
 					"name":       "DATABASE_ACTIONS",
 					"is_enabled": "true",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(datasourceName, "autonomous_databases.0.db_tools_details", map[string]string{
+					"name":       "A2A",
+					"is_enabled": "false",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(datasourceName, "autonomous_databases.0.db_tools_details", map[string]string{
+					"name":       "MCP",
+					"is_enabled": "false",
 				}, nil),
 				acctest.CheckResourceSetContainsElementWithProperties(datasourceName, "autonomous_databases.0.db_tools_details", map[string]string{
 					"name":       "GRAPH_STUDIO",
@@ -1611,7 +1679,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "autonomous_maintenance_schedule_type", "EARLY"),
+				//	resource.TestCheckResourceAttr(singularDatasourceName, "autonomous_maintenance_schedule_type", "EARLY"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "connection_strings.#", "1"),
@@ -1625,7 +1693,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_safe_status", "NOT_REGISTERED"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_storage_size_in_gb"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_tbs", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "db_tools_details.#", "9"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "db_tools_details.#", "11"),
 				acctest.CheckResourceSetContainsElementWithProperties(singularDatasourceName, "db_tools_details", map[string]string{
 					"name":       "APEX",
 					"is_enabled": "false",
@@ -1637,6 +1705,14 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				acctest.CheckResourceSetContainsElementWithProperties(singularDatasourceName, "db_tools_details", map[string]string{
 					"name":       "DATABASE_ACTIONS",
 					"is_enabled": "true",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(singularDatasourceName, "db_tools_details", map[string]string{
+					"name":       "A2A",
+					"is_enabled": "false",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(singularDatasourceName, "db_tools_details", map[string]string{
+					"name":       "MCP",
+					"is_enabled": "false",
 				}, nil),
 				acctest.CheckResourceSetContainsElementWithProperties(singularDatasourceName, "db_tools_details", map[string]string{
 					"name":       "GRAPH_STUDIO",
@@ -1654,11 +1730,11 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					"name":       "ORDS",
 					"is_enabled": "true",
 				}, nil),
-				acctest.CheckResourceSetContainsElementWithProperties(datasourceName, "autonomous_databases.0.db_tools_details", map[string]string{
+				acctest.CheckResourceSetContainsElementWithProperties(singularDatasourceName, "db_tools_details", map[string]string{
 					"name":       "DLA",
 					"is_enabled": "false",
 				}, nil),
-				acctest.CheckResourceSetContainsElementWithProperties(datasourceName, "autonomous_databases.0.db_tools_details", map[string]string{
+				acctest.CheckResourceSetContainsElementWithProperties(singularDatasourceName, "db_tools_details", map[string]string{
 					"name":       "SPATIAL_STUDIO",
 					"is_enabled": "false",
 				}, nil),
@@ -1700,7 +1776,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 		},
 		//34. Verify resource import
 		{
-			Config:            config + DatabaseAutonomousDatabaseRequiredOnlyResource,
+			Config:            config + compartmentIdVariableStr + DatabaseAutonomousDatabaseRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

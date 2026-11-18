@@ -6,6 +6,7 @@ package integrationtest
 import (
 	"context"
 	"fmt"
+	"regexp"
 	"strconv"
 	"testing"
 
@@ -43,7 +44,6 @@ var (
 		"session_persistence_configuration": acctest.RepresentationGroup{RepType: acctest.Optional, Group: backendSetSessionPersistenceConfigurationRepresentation},
 		"ssl_configuration":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: backendSetSslConfigurationRepresentationOciCerts},
 	}
-
 	backendSetRepresentation = map[string]interface{}{
 		"health_checker":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: backendSetHealthCheckerRepresentation},
 		"load_balancer_id":                  acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
@@ -55,7 +55,7 @@ var (
 	}
 
 	backendSetSslConfigurationRepresentationOciCerts = map[string]interface{}{
-		"cipher_suite_name":                 acctest.Representation{RepType: acctest.Optional, Create: `oci-compatible-ssl-cipher-suite-v1`, Update: `oci-wider-compatible-ssl-cipher-suite-v1`},
+		"cipher_suite_name":                 acctest.Representation{RepType: acctest.Optional, Create: `oci-compatible-ssl-cipher-suite-v1`, Update: `oci-compatible-ssl-cipher-suite-v1`},
 		"protocols":                         acctest.Representation{RepType: acctest.Optional, Create: []string{`TLSv1.2`}, Update: []string{`TLSv1.2`}},
 		"trusted_certificate_authority_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{trustedCertificateAuthorityIds}, Update: []string{trustedCertificateAuthorityIds2}},
 		"verify_depth":                      acctest.Representation{RepType: acctest.Optional, Create: `6`},
@@ -63,7 +63,7 @@ var (
 	}
 
 	backendSetSslConfigurationRepresentationLB = map[string]interface{}{
-		"cipher_suite_name":       acctest.Representation{RepType: acctest.Optional, Create: `oci-compatible-ssl-cipher-suite-v1`, Update: `oci-wider-compatible-ssl-cipher-suite-v1`},
+		"cipher_suite_name":       acctest.Representation{RepType: acctest.Optional, Create: `oci-compatible-ssl-cipher-suite-v1`, Update: `oci-compatible-ssl-cipher-suite-v1`},
 		"protocols":               acctest.Representation{RepType: acctest.Optional, Create: []string{`TLSv1.2`}, Update: []string{`TLSv1.2`}},
 		"certificate_name":        acctest.Representation{RepType: acctest.Optional, Create: "example_certificate_bundle"},
 		"verify_depth":            acctest.Representation{RepType: acctest.Optional, Create: `6`},
@@ -93,16 +93,34 @@ var (
 	})
 
 	backendSetHealthCheckerRepresentation = map[string]interface{}{
-		"protocol":            acctest.Representation{RepType: acctest.Required, Create: `HTTP`},
-		"interval_ms":         acctest.Representation{RepType: acctest.Optional, Create: `1000`, Update: `2000`},
-		"is_force_plain_text": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"port":                acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
-		"response_body_regex": acctest.Representation{RepType: acctest.Optional, Create: `.*`, Update: `responseBodyRegex2`},
-		"retries":             acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
-		"return_code":         acctest.Representation{RepType: acctest.Optional, Create: `200`, Update: `11`},
-		"timeout_in_millis":   acctest.Representation{RepType: acctest.Optional, Create: `10000`, Update: `11`},
-		"url_path":            acctest.Representation{RepType: acctest.Required, Create: `/healthcheck`, Update: `urlPath2`},
+		"protocol":                          acctest.Representation{RepType: acctest.Required, Create: `HTTP`},
+		"default_weight":                    acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"interval_ms":                       acctest.Representation{RepType: acctest.Optional, Create: `1000`, Update: `2000`},
+		"is_dynamic_backend_weight_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
+		"is_force_plain_text":               acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"port":                              acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"response_body_regex":               acctest.Representation{RepType: acctest.Optional, Create: `.*`, Update: `responseBodyRegex2`},
+		"retries":                           acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"return_code":                       acctest.Representation{RepType: acctest.Optional, Create: `200`, Update: `11`},
+		"timeout_in_millis":                 acctest.Representation{RepType: acctest.Optional, Create: `10000`, Update: `11`},
+		"url_path":                          acctest.Representation{RepType: acctest.Required, Create: `/healthcheck`, Update: `urlPath2`},
 	}
+	backendSetHealthCheckerDynamicBackendWeightDisabledRepresentation = acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(backendSetHealthCheckerRepresentation, []string{`default_weight`}), map[string]interface{}{
+		"is_dynamic_backend_weight_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+	})
+	backendSetLBDynamicBackendWeightDisabledRepresentation = acctest.RepresentationCopyWithNewProperties(backendSetLBRepresentation, map[string]interface{}{
+		"health_checker": acctest.RepresentationGroup{RepType: acctest.Required, Group: backendSetHealthCheckerDynamicBackendWeightDisabledRepresentation},
+	})
+	backendSetHealthCheckerInvalidDynamicBackendWeightDisabledRepresentation = acctest.RepresentationCopyWithNewProperties(backendSetHealthCheckerRepresentation, map[string]interface{}{
+		"is_dynamic_backend_weight_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+	})
+	backendSetLBInvalidDynamicBackendWeightDisabledRepresentation = acctest.RepresentationCopyWithNewProperties(backendSetLBRepresentation, map[string]interface{}{
+		"health_checker": acctest.RepresentationGroup{RepType: acctest.Required, Group: backendSetHealthCheckerInvalidDynamicBackendWeightDisabledRepresentation},
+	})
+	backendSetHealthCheckerInvalidDynamicBackendWeightOmittedRepresentation = acctest.RepresentationCopyWithRemovedProperties(backendSetHealthCheckerRepresentation, []string{`is_dynamic_backend_weight_enabled`})
+	backendSetLBInvalidDynamicBackendWeightOmittedRepresentation            = acctest.RepresentationCopyWithNewProperties(backendSetLBRepresentation, map[string]interface{}{
+		"health_checker": acctest.RepresentationGroup{RepType: acctest.Required, Group: backendSetHealthCheckerInvalidDynamicBackendWeightOmittedRepresentation},
+	})
 	backendSetLbCookieSessionPersistenceConfigurationRepresentation = map[string]interface{}{
 		"cookie_name":        acctest.Representation{RepType: acctest.Optional, Create: `example_cookie`, Update: `cookieName2`},
 		"disable_fallback":   acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
@@ -304,7 +322,7 @@ func TestLoadBalancerBackendSetResourceOciCerts_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config + BackendSetRequiredOnlyResource,
+				Config:            config + compartmentIdVariableStr + BackendSetRequiredOnlyResource,
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
@@ -444,7 +462,7 @@ func TestLoadBalancerBackendSetResourceOciCerts_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
 					resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.cipher_suite_name", "oci-wider-compatible-ssl-cipher-suite-v1"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.cipher_suite_name", "oci-compatible-ssl-cipher-suite-v1"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.protocols.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.trusted_certificate_authority_ids.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "6"),
@@ -510,7 +528,7 @@ func TestLoadBalancerBackendSetResourceOciCerts_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.name", "backendSet1"),
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.policy", "LEAST_CONNECTIONS"),
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.0.cipher_suite_name", "oci-wider-compatible-ssl-cipher-suite-v1"),
+					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.0.cipher_suite_name", "oci-compatible-ssl-cipher-suite-v1"),
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.0.protocols.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.0.trusted_certificate_authority_ids.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.0.verify_depth", "6"),
@@ -687,7 +705,7 @@ func TestLoadBalancerBackendSetResourceLB_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + BackendSetRequiredOnlyResource,
+			Config:            config + compartmentIdVariableStr + BackendSetRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -702,7 +720,9 @@ func TestLoadBalancerBackendSetResourceLB_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", acctest.Optional, acctest.Update, backendRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.default_weight", "10"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "1000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.is_dynamic_backend_weight_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.is_force_plain_text", "false"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "10"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTP"),
@@ -810,7 +830,9 @@ func TestLoadBalancerBackendSetResourceLB_basic(t *testing.T) {
 						"name",
 					}),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.default_weight", "11"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "2000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.is_dynamic_backend_weight_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.is_force_plain_text", "true"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "11"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTP"),
@@ -832,7 +854,7 @@ func TestLoadBalancerBackendSetResourceLB_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
 				resource.TestCheckResourceAttr(resourceName, "backend_max_connections", "350"),
 				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.cipher_suite_name", "oci-wider-compatible-ssl-cipher-suite-v1"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.cipher_suite_name", "oci-compatible-ssl-cipher-suite-v1"),
 				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.protocols.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "example_certificate_bundle"),
 				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "6"),
@@ -846,6 +868,42 @@ func TestLoadBalancerBackendSetResourceLB_basic(t *testing.T) {
 					return err
 				},
 			),
+		},
+		// verify dynamic backend weight can be disabled after it was enabled
+		{
+			Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", acctest.Optional, acctest.Update, backendSetLBDynamicBackendWeightDisabledRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", acctest.Optional, acctest.Update, backendRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.is_dynamic_backend_weight_enabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
+				resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
+				resource.TestCheckResourceAttr(resourceName, "backend_max_connections", "350"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify default_weight cannot be explicitly configured when dynamic backend weight is disabled
+		{
+			Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", acctest.Optional, acctest.Update, backendSetLBInvalidDynamicBackendWeightDisabledRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", acctest.Optional, acctest.Update, backendRepresentation),
+			ExpectError: regexp.MustCompile("default_weight can be set only when .*is_dynamic_backend_weight_enabled is true"),
+		},
+		// verify default_weight cannot be explicitly configured when dynamic backend weight is omitted
+		{
+			Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", acctest.Optional, acctest.Update, backendSetLBInvalidDynamicBackendWeightOmittedRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", acctest.Optional, acctest.Update, backendRepresentation),
+			ExpectError: regexp.MustCompile("default_weight can be set only when .*is_dynamic_backend_weight_enabled is true"),
 		},
 		// verify datasource
 		{
@@ -879,7 +937,9 @@ func TestLoadBalancerBackendSetResourceLB_basic(t *testing.T) {
 						"weight",
 					}),
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.default_weight", "11"),
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.interval_ms", "2000"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.is_dynamic_backend_weight_enabled", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.is_force_plain_text", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.port", "11"),
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.protocol", "HTTP"),
@@ -900,7 +960,7 @@ func TestLoadBalancerBackendSetResourceLB_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.policy", "LEAST_CONNECTIONS"),
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend_max_connections", "350"),
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.0.cipher_suite_name", "oci-wider-compatible-ssl-cipher-suite-v1"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.0.cipher_suite_name", "oci-compatible-ssl-cipher-suite-v1"),
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.0.protocols.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.0.certificate_name", "example_certificate_bundle"),
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.0.verify_depth", "6"),

@@ -64,6 +64,7 @@ var (
 		"kms_key_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"nsg_ids":                    acctest.Representation{RepType: acctest.Optional, Create: []string{`nsgIds`}, Update: []string{`nsgIds2`}},
 		"maintenance_window":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: LustreFileStorageLustreFileSystemMaintenanceWindowRepresentation},
+		"tiering_configuration":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: LustreFileStorageLustreFileSystemTieringConfigurationRepresentation},
 		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: IgnoreLfstSystemTagsChangesRep},
 	}
 
@@ -85,6 +86,19 @@ var (
 	LustreFileStorageLustreFileSystemDateTimeDetailsRepresentation = map[string]interface{}{
 		"date": acctest.Representation{RepType: acctest.Optional, Create: getFutureDate(16), Update: getFutureDate(16)},
 		"time": acctest.Representation{RepType: acctest.Optional, Create: `08:00`, Update: `00:00`},
+	}
+	LustreFileStorageLustreFileSystemTieringConfigurationRepresentation = map[string]interface{}{
+		"is_enabled":  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"policy_mode": acctest.Representation{RepType: acctest.Optional, Create: `DEFAULT`, Update: `CUSTOM`},
+		"rules":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: LustreFileStorageLustreFileSystemTieringConfigurationRulesRepresentation},
+	}
+
+	LustreFileStorageLustreFileSystemTieringConfigurationRulesRepresentation = map[string]interface{}{
+		"action":                               acctest.Representation{RepType: acctest.Required, Create: `ARCHIVE`, Update: `ARCHIVE`},
+		"path_prefixes":                        acctest.Representation{RepType: acctest.Required, Create: []string{`/archive`}, Update: []string{`/archive-updated`}},
+		"archive_after_days_since_last_access": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"min_size_in_bytes":                    acctest.Representation{RepType: acctest.Optional, Create: `1000000`, Update: `2000000`},
+		"release_after_days_since_last_access": acctest.Representation{RepType: acctest.Optional, Create: `20`, Update: `21`},
 	}
 
 	LustreFileStorageLustreFileSystemResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_cluster_placement_groups_cluster_placement_group", "test_cluster_placement_group", acctest.Required, acctest.Create, ClusterPlacementGroupsClusterPlacementGroupRepresentation) +
@@ -120,10 +134,17 @@ func TestLustreFileStorageLustreFileSystemResource_basic(t *testing.T) {
 	datasourceName := "data.oci_lustre_file_storage_lustre_file_systems.test_lustre_file_systems"
 	singularDatasourceName := "data.oci_lustre_file_storage_lustre_file_system.test_lustre_file_system"
 
+	// DEFAULT creates must omit explicit rules; updates keep the shared generated representation.
+	createRepresentation := acctest.RepresentationCopyWithNewProperties(LustreFileStorageLustreFileSystemRepresentation, map[string]interface{}{
+		"tiering_configuration": acctest.RepresentationGroup{RepType: acctest.Optional,
+			Group: acctest.RepresentationCopyWithRemovedProperties(LustreFileStorageLustreFileSystemTieringConfigurationRepresentation, []string{"rules"}),
+		},
+	})
+
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+LustreFileStorageLustreFileSystemResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_lustre_file_storage_lustre_file_system", "test_lustre_file_system", acctest.Optional, acctest.Create, LustreFileStorageLustreFileSystemRepresentation), "lustrefilestorage", "lustreFileSystem", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_lustre_file_storage_lustre_file_system", "test_lustre_file_system", acctest.Optional, acctest.Create, createRepresentation), "lustrefilestorage", "lustreFileSystem", t)
 
 	acctest.ResourceTest(t, testAccCheckLustreFileStorageLustreFileSystemDestroy, []resource.TestStep{
 		// verify Create
@@ -153,7 +174,7 @@ func TestLustreFileStorageLustreFileSystemResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + LustreFileStorageLustreFileSystemResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_lustre_file_storage_lustre_file_system", "test_lustre_file_system", acctest.Optional, acctest.Create, LustreFileStorageLustreFileSystemRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_lustre_file_storage_lustre_file_system", "test_lustre_file_system", acctest.Optional, acctest.Create, createRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "capacity_in_gbs", "31200"),
@@ -179,7 +200,12 @@ func TestLustreFileStorageLustreFileSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "root_squash_configuration.0.squash_uid", ""),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "system_tags"),
+				resource.TestCheckResourceAttrSet(resourceName, "system_tags.%"),
+				resource.TestCheckResourceAttr(resourceName, "tiering_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "tiering_configuration.0.is_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "tiering_configuration.0.policy_mode", "DEFAULT"),
+				resource.TestCheckResourceAttrSet(resourceName, "tiering_configuration.0.rule_count"),
+				resource.TestCheckResourceAttrPair(resourceName, "tiering_configuration.0.rule_count", resourceName, "tiering_configuration.0.rules.#"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
@@ -199,7 +225,7 @@ func TestLustreFileStorageLustreFileSystemResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + LustreFileStorageLustreFileSystemResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_lustre_file_storage_lustre_file_system", "test_lustre_file_system", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(LustreFileStorageLustreFileSystemRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(createRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -227,7 +253,12 @@ func TestLustreFileStorageLustreFileSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "root_squash_configuration.0.squash_uid", ""),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "system_tags"),
+				resource.TestCheckResourceAttrSet(resourceName, "system_tags.%"),
+				resource.TestCheckResourceAttr(resourceName, "tiering_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "tiering_configuration.0.is_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "tiering_configuration.0.policy_mode", "DEFAULT"),
+				resource.TestCheckResourceAttrSet(resourceName, "tiering_configuration.0.rule_count"),
+				resource.TestCheckResourceAttrPair(resourceName, "tiering_configuration.0.rule_count", resourceName, "tiering_configuration.0.rules.#"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
@@ -248,7 +279,7 @@ func TestLustreFileStorageLustreFileSystemResource_basic(t *testing.T) {
 				fmt.Println("Sleeping 10 minutes for maintenance metadata propagation...")
 				time.Sleep(10 * time.Minute)
 			},
-			Config: config + compartmentIdVariableStr +
+			Config: config + compartmentIdVariableStr + LustreFileStorageLustreFileSystemResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_lustre_file_storage_lustre_file_system", "test_lustre_file_system", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithNewProperties(LustreFileStorageLustreFileSystemRepresentation, map[string]interface{}{
 						"override_maintenance_trigger": acctest.Representation{RepType: acctest.Optional, Update: `1`},
@@ -279,7 +310,18 @@ func TestLustreFileStorageLustreFileSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "root_squash_configuration.0.squash_uid", ""),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "system_tags"),
+				resource.TestCheckResourceAttrSet(resourceName, "system_tags.%"),
+				resource.TestCheckResourceAttr(resourceName, "tiering_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "tiering_configuration.0.is_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "tiering_configuration.0.policy_mode", "CUSTOM"),
+				resource.TestCheckResourceAttr(resourceName, "tiering_configuration.0.rule_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "tiering_configuration.0.rules.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "tiering_configuration.0.rules.0.action", "ARCHIVE"),
+				resource.TestCheckResourceAttr(resourceName, "tiering_configuration.0.rules.0.archive_after_days_since_last_access", "11"),
+				resource.TestCheckResourceAttr(resourceName, "tiering_configuration.0.rules.0.min_size_in_bytes", "2000000"),
+				resource.TestCheckResourceAttr(resourceName, "tiering_configuration.0.rules.0.path_prefixes.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "tiering_configuration.0.rules.0.path_prefixes.0", "/archive-updated"),
+				resource.TestCheckResourceAttr(resourceName, "tiering_configuration.0.rules.0.release_after_days_since_last_access", "21"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
@@ -305,6 +347,11 @@ func TestLustreFileStorageLustreFileSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttr(datasourceName, "lustre_file_system_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "lustre_file_system_collection.0.items.#", "1"),
+				resource.TestCheckResourceAttrPair(datasourceName, "lustre_file_system_collection.0.items.0.id", resourceName, "id"),
+				resource.TestCheckResourceAttr(datasourceName, "lustre_file_system_collection.0.items.0.tiering_configuration.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "lustre_file_system_collection.0.items.0.tiering_configuration.0.is_enabled", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "lustre_file_system_collection.0.items.0.tiering_configuration.0.policy_mode", "CUSTOM"),
+				resource.TestCheckResourceAttr(datasourceName, "lustre_file_system_collection.0.items.0.tiering_configuration.0.rule_count", "1"),
 			),
 		},
 		// verify singular datasource
@@ -313,7 +360,7 @@ func TestLustreFileStorageLustreFileSystemResource_basic(t *testing.T) {
 				acctest.GenerateDataSourceFromRepresentationMap("oci_lustre_file_storage_lustre_file_system", "test_lustre_file_system", acctest.Required, acctest.Create, LustreFileStorageLustreFileSystemSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + LustreFileStorageLustreFileSystemResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "lustre_file_system_id"),
+				resource.TestCheckResourceAttrPair(singularDatasourceName, "lustre_file_system_id", resourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "capacity_in_gbs", "31200"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
@@ -335,14 +382,25 @@ func TestLustreFileStorageLustreFileSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "root_squash_configuration.0.squash_gid", ""),
 				resource.TestCheckResourceAttr(singularDatasourceName, "root_squash_configuration.0.squash_uid", ""),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_billing_cycle_end"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "tiering_configuration.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "tiering_configuration.0.is_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "tiering_configuration.0.policy_mode", "CUSTOM"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "tiering_configuration.0.rule_count", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "tiering_configuration.0.rules.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "tiering_configuration.0.rules.0.action", "ARCHIVE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "tiering_configuration.0.rules.0.archive_after_days_since_last_access", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "tiering_configuration.0.rules.0.min_size_in_bytes", "2000000"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "tiering_configuration.0.rules.0.path_prefixes.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "tiering_configuration.0.rules.0.path_prefixes.0", "/archive-updated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "tiering_configuration.0.rules.0.release_after_days_since_last_access", "21"),
+				resource.TestCheckResourceAttrPair(singularDatasourceName, "time_billing_cycle_end", resourceName, "time_billing_cycle_end"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
 		},
 		// verify resource import
 		{
-			Config:                  config + LustreFileStorageLustreFileSystemRequiredOnlyResource,
+			Config:                  config + compartmentIdVariableStr + LustreFileStorageLustreFileSystemRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{"date_time_details", "override_maintenance_trigger"},

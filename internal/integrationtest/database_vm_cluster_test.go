@@ -1017,3 +1017,140 @@ func DatabaseVmClusterSweepResponseFetchOperation(client *client.OracleClients, 
 	})
 	return err
 }
+
+// issue-routing-tag: database/ExaCC
+func TestDatabaseVmClusterResource_olderVersionAcknowledgement(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseVmClusterResource_olderVersionAcknowledgement")
+	defer httpreplay.SaveScenario()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	sshPublicKey := utils.GetEnvSettingWithBlankDefault("ssh_public_key")
+	infrastructureId := utils.GetEnvSettingWithBlankDefault("ack_test_exacc_infrastructure_id")
+	if compartmentId == "" || sshPublicKey == "" {
+		t.Fatal("TF_VAR_compartment_ocid and TF_VAR_ssh_public_key are required")
+	}
+	if !strings.HasPrefix(infrastructureId, "ocid1.exadatainfrastructure.") {
+		t.Fatal("TF_VAR_ack_test_exacc_infrastructure_id must explicitly identify the existing owned test ExaCC infrastructure")
+	}
+
+	resourceName := "oci_database_vm_cluster.test_vm_cluster"
+	infrastructureReference := `${data.oci_database_exadata_infrastructure.ack_existing_infrastructure.id}`
+	serverRepresentation := acctest.RepresentationCopyWithNewProperties(DatabaseDatabaseDbServerDataSourceRepresentation, map[string]interface{}{
+		"exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: infrastructureReference},
+	})
+	networkRepresentation := acctest.RepresentationCopyWithNewProperties(
+		acctest.RepresentationCopyWithRemovedProperties(vmClusterNetworkValidateRepresentation, []string{"defined_tags"}),
+		map[string]interface{}{
+			"display_name":              acctest.Representation{RepType: acctest.Required, Create: "vmClusterAckCompatibilityNetwork"},
+			"exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: infrastructureReference},
+		})
+	// Keep the explicitly selected infrastructure read-only. Only this test's
+	// VM cluster and validated VM-cluster network enter managed state.
+	baseConfig := acctest.ProviderTestConfig() +
+		fmt.Sprintf("variable \"compartment_id\" { default = %q }\n", compartmentId) +
+		fmt.Sprintf("data \"oci_database_exadata_infrastructure\" \"ack_existing_infrastructure\" { exadata_infrastructure_id = %q }\n", infrastructureId) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Required, acctest.Create, serverRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Optional, acctest.Update, networkRepresentation)
+	baseRepresentation := acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseVmClusterRepresentation, []string{"file_system_configuration_details"}), map[string]interface{}{
+		"display_name":              acctest.Representation{RepType: acctest.Required, Create: "vmClusterAckCompatibility"},
+		"exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: infrastructureReference},
+		"ssh_public_keys":           acctest.Representation{RepType: acctest.Required, Create: []string{sshPublicKey}},
+	})
+	configForAcknowledgement := func(value string) string {
+		representation := baseRepresentation
+		if value != "" {
+			representation = acctest.RepresentationCopyWithNewProperties(baseRepresentation, map[string]interface{}{
+				"is_older_version_acknowledged": acctest.Representation{RepType: acctest.Required, Create: value},
+			})
+		}
+		return baseConfig + acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Required, acctest.Create, representation)
+	}
+
+	omittedConfig := configForAcknowledgement("")
+	trueConfig := configForAcknowledgement("true")
+	falseConfig := configForAcknowledgement("false")
+	var omittedId, trueId, falseId string
+	captureId := func(destination *string, mustDifferFrom *string) resource.TestCheckFunc {
+		return func(s *terraform.State) error {
+			id, err := acctest.FromInstanceState(s, resourceName, "id")
+			if err != nil {
+				return err
+			}
+			if id == "" {
+				return fmt.Errorf("VM cluster ID is empty")
+			}
+			if mustDifferFrom != nil && id == *mustDifferFrom {
+				return fmt.Errorf("VM cluster was not recreated after changing the ForceNew acknowledgement input")
+			}
+			*destination = id
+			return nil
+		}
+	}
+	commonChecks := func() resource.TestCheckFunc {
+		return acctest.ComposeAggregateTestCheckFuncWrapper(
+			resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+			resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
+			resource.TestCheckResourceAttr(resourceName, "db_servers.#", "2"),
+			resource.TestCheckResourceAttr(resourceName, "exadata_infrastructure_id", infrastructureId),
+			resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_network_id"),
+		)
+	}
+	importStep := func(config string) resource.TestStep {
+		return resource.TestStep{
+			Config:            config,
+			ResourceName:      resourceName,
+			ImportState:       true,
+			ImportStateVerify: true,
+			// The service does not return this create-only acknowledgement input.
+			// cpu_core_count follows the existing ExaCC import exception.
+			ImportStateVerifyIgnore: []string{"cpu_core_count", "is_older_version_acknowledged"},
+		}
+	}
+
+	// ExaCC uses its own validated VM-cluster network; it creates no OCI VCN.
+	databaseAcknowledgementResourceTest(t, testAccCheckDatabaseVmClusterDestroy, []resource.TestStep{
+		{
+			Config: omittedConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				commonChecks(),
+				captureId(&omittedId, nil),
+			),
+		},
+		importStep(omittedConfig),
+		{
+			Config: trueConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				commonChecks(),
+				resource.TestCheckResourceAttr(resourceName, "is_older_version_acknowledged", "true"),
+				captureId(&trueId, &omittedId),
+				databaseAcknowledgementScopedDiscoveryCheck(t, resourceName),
+			),
+		},
+		importStep(trueConfig),
+		{
+			Config: falseConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				commonChecks(),
+				resource.TestCheckResourceAttr(resourceName, "is_older_version_acknowledged", "false"),
+				captureId(&falseId, &trueId),
+			),
+		},
+		importStep(falseConfig),
+		{
+			Config: omittedConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				commonChecks(),
+				func(s *terraform.State) error {
+					id, err := acctest.FromInstanceState(s, resourceName, "id")
+					if err != nil {
+						return err
+					}
+					if id != falseId {
+						return fmt.Errorf("omitting the optional acknowledgement recreated the VM cluster")
+					}
+					return nil
+				},
+			),
+		},
+	})
+}

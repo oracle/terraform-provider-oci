@@ -11,12 +11,14 @@ import (
 	"slices"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/hashicorp/go-cty/cty"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
@@ -91,6 +93,53 @@ func ConvertToDefaultDrgRouteTableSchema(resourceSchema *schema.Resource) *schem
 func ImportDefaultDrgRouteTableResource(d *schema.ResourceData, value interface{}) ([]*schema.ResourceData, error) {
 	err := d.Set("manage_default_resource_id", d.Id())
 	return []*schema.ResourceData{d}, err
+}
+
+func waitForCoreWorkRequestCompletion(ctx context.Context, workRequestClient coreWorkRequestClient, workRequestId string, timeout time.Duration, disableNotFoundRetries bool) error {
+	ctx, cancel := context.WithTimeout(ctx, timeout)
+	defer cancel()
+	retryPolicy := tfresource.GetRetryPolicy(disableNotFoundRetries, "work_request")
+	// Termination can return no resources, and attach/detach can list only a related instance.
+	// These operations already know their resource ID, so completion depends on status alone.
+	stateConf := &retry.StateChangeConf{
+		Pending: []string{
+			string(oci_work_requests.WorkRequestStatusAccepted),
+			string(oci_work_requests.WorkRequestStatusInProgress),
+			string(oci_work_requests.WorkRequestStatusCanceling),
+		},
+		Target:  []string{string(oci_work_requests.WorkRequestStatusSucceeded)},
+		Timeout: timeout,
+		Refresh: func() (interface{}, string, error) {
+			response, err := workRequestClient.GetWorkRequest(ctx, oci_work_requests.GetWorkRequestRequest{
+				WorkRequestId:   &workRequestId,
+				RequestMetadata: oci_common.RequestMetadata{RetryPolicy: retryPolicy},
+			})
+			if err != nil {
+				return nil, "", err
+			}
+			if response.Status == oci_work_requests.WorkRequestStatusFailed || response.Status == oci_work_requests.WorkRequestStatusCanceled {
+				errors, err := workRequestClient.ListWorkRequestErrors(ctx, oci_work_requests.ListWorkRequestErrorsRequest{
+					WorkRequestId:   &workRequestId,
+					RequestMetadata: oci_common.RequestMetadata{RetryPolicy: retryPolicy},
+				})
+				if err != nil {
+					return nil, "", fmt.Errorf("status = %s; could not retrieve work request errors: %w", response.Status, err)
+				}
+				var messages []string
+				for _, item := range errors.Items {
+					if item.Message != nil {
+						messages = append(messages, *item.Message)
+					}
+				}
+				return nil, "", fmt.Errorf("status = %s: %s", response.Status, strings.Join(messages, "\n"))
+			}
+			return &response.WorkRequest, string(response.Status), nil
+		},
+	}
+	if _, err := stateConf.WaitForStateContext(ctx); err != nil {
+		return fmt.Errorf("work request %s did not succeed: %w", workRequestId, err)
+	}
+	return nil
 }
 
 // validateCoreWorkRequestStatus is intentionally scoped to Core VCN/Subnet

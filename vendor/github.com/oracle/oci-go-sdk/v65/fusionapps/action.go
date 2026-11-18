@@ -73,6 +73,10 @@ func (m *action) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := UpgradeAction{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "APPLICATION_MIGRATION":
+		mm := ApplicationMigrationAction{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "VERTEX":
 		mm := VertexAction{}
 		err = json.Unmarshal(data, &mm)
@@ -176,21 +180,24 @@ type ActionActionTypeEnum string
 
 // Set of constants representing the allowable values for ActionActionTypeEnum
 const (
-	ActionActionTypeQuarterlyUpgrade ActionActionTypeEnum = "QUARTERLY_UPGRADE"
-	ActionActionTypePatch            ActionActionTypeEnum = "PATCH"
-	ActionActionTypeVertex           ActionActionTypeEnum = "VERTEX"
+	ActionActionTypeQuarterlyUpgrade     ActionActionTypeEnum = "QUARTERLY_UPGRADE"
+	ActionActionTypePatch                ActionActionTypeEnum = "PATCH"
+	ActionActionTypeVertex               ActionActionTypeEnum = "VERTEX"
+	ActionActionTypeApplicationMigration ActionActionTypeEnum = "APPLICATION_MIGRATION"
 )
 
 var mappingActionActionTypeEnum = map[string]ActionActionTypeEnum{
-	"QUARTERLY_UPGRADE": ActionActionTypeQuarterlyUpgrade,
-	"PATCH":             ActionActionTypePatch,
-	"VERTEX":            ActionActionTypeVertex,
+	"QUARTERLY_UPGRADE":     ActionActionTypeQuarterlyUpgrade,
+	"PATCH":                 ActionActionTypePatch,
+	"VERTEX":                ActionActionTypeVertex,
+	"APPLICATION_MIGRATION": ActionActionTypeApplicationMigration,
 }
 
 var mappingActionActionTypeEnumLowerCase = map[string]ActionActionTypeEnum{
-	"quarterly_upgrade": ActionActionTypeQuarterlyUpgrade,
-	"patch":             ActionActionTypePatch,
-	"vertex":            ActionActionTypeVertex,
+	"quarterly_upgrade":     ActionActionTypeQuarterlyUpgrade,
+	"patch":                 ActionActionTypePatch,
+	"vertex":                ActionActionTypeVertex,
+	"application_migration": ActionActionTypeApplicationMigration,
 }
 
 // GetActionActionTypeEnumValues Enumerates the set of values for ActionActionTypeEnum
@@ -208,6 +215,7 @@ func GetActionActionTypeEnumStringValues() []string {
 		"QUARTERLY_UPGRADE",
 		"PATCH",
 		"VERTEX",
+		"APPLICATION_MIGRATION",
 	}
 }
 

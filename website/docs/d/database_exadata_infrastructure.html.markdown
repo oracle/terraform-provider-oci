@@ -120,6 +120,9 @@ The following attributes are exported:
 * `ntp_server` - The list of NTP server IP addresses. Maximum of 3 allowed.
 * `rack_serial_number` - The serial number for the Exadata infrastructure.
 * `shape` - The shape of the Exadata infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance. 
+* `ssl_inspection_configuration` - SSL inspection configuration for the Exadata infrastructure.
+	* `certificate_authority_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the certificate authority.
+	* `is_enabled` - Indicates whether SSL inspection is enabled for the Exadata infrastructure.
 * `state` - The current lifecycle state of the Exadata infrastructure.
 * `storage_count` - The number of Exadata storage servers for the Exadata infrastructure.
 * `storage_server_type` - The storage server type of the Exadata infrastructure.

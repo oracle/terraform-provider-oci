@@ -224,6 +224,11 @@ func DatabaseExadbVmClusterResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_older_version_acknowledged": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"license_model": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -708,6 +713,11 @@ func (s *DatabaseExadbVmClusterResourceCrud) CreateWithContext(ctx context.Conte
 		request.Hostname = &tmp
 	}
 
+	if isOlderVersionAcknowledged, ok := s.D.GetOkExists("is_older_version_acknowledged"); ok {
+		tmp := isOlderVersionAcknowledged.(bool)
+		request.IsOlderVersionAcknowledged = &tmp
+	}
+
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 		request.LicenseModel = oci_database.CreateExadbVmClusterDetailsLicenseModelEnum(licenseModel.(string))
 	}
@@ -964,6 +974,12 @@ func (s *DatabaseExadbVmClusterResourceCrud) UpdateWithContext(ctx context.Conte
 		updateRequired = true
 		tmp := gridImageId.(string)
 		request.GridImageId = &tmp
+	}
+
+	if isOlderVersionAcknowledged, ok := s.D.GetOkExists("is_older_version_acknowledged"); ok && s.D.HasChange("is_older_version_acknowledged") {
+		updateRequired = true
+		tmp := isOlderVersionAcknowledged.(bool)
+		request.IsOlderVersionAcknowledged = &tmp
 	}
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok && s.D.HasChange("license_model") {

@@ -1797,8 +1797,20 @@ func (s *CoreInstanceResourceCrud) DeleteWithContext(ctx context.Context) error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	_, err := s.Client.TerminateInstance(ctx, request)
-	return err
+	response, err := s.Client.TerminateInstance(ctx, request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		err = waitForCoreWorkRequestCompletion(ctx, s.WorkRequestClient, *workId, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+		if err != nil {
+			return &tfresource.WorkRequestFailureError{Err: err}
+		}
+	}
+
+	return nil
 }
 
 func (s *CoreInstanceResourceCrud) SetData() error {

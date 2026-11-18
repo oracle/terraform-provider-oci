@@ -98,6 +98,8 @@ type LustreFileSystemSummary struct {
 
 	RootSquashConfiguration *RootSquashConfiguration `mandatory:"true" json:"rootSquashConfiguration"`
 
+	TieringConfiguration *TieringConfigurationSummary `mandatory:"true" json:"tieringConfiguration"`
+
 	// A message that describes the current state of the Lustre file system in more detail. For example,
 	// can be used to provide actionable information for a resource in the Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`

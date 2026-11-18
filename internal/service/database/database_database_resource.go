@@ -115,6 +115,10 @@ func DatabaseDatabaseResource() *schema.Resource {
 							Computed:         true,
 							DiffSuppressFunc: dbAdminPasswordDiffSuppress,
 						},
+						"database_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
 						"database_software_image_id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -405,17 +409,6 @@ func DatabaseDatabaseResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
-						"ncharacter_set": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-							ForceNew: true,
-						},
-						"vm_cluster_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-							Optional: true,
-						},
 						"managed_software_update_details": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -426,50 +419,6 @@ func DatabaseDatabaseResource() *schema.Resource {
 										Type:     schema.TypeBool,
 										Optional: true,
 										Computed: true,
-									},
-									"maintenance_details": {
-										Type:     schema.TypeList,
-										Computed: true,
-										Optional: true,
-										Elem: &schema.Resource{
-											Schema: map[string]*schema.Schema{
-												"time_of_last_readiness_check": {
-													Type:     schema.TypeString,
-													Computed: true,
-													Optional: true,
-												},
-												"time_of_status_update": {
-													Type:     schema.TypeString,
-													Computed: true,
-													Optional: true,
-												},
-												"time_scheduled": {
-													Type:     schema.TypeString,
-													Computed: true,
-													Optional: true,
-												},
-												"update_mode": {
-													Type:     schema.TypeString,
-													Computed: true,
-													Optional: true,
-												},
-												"update_readiness_status": {
-													Type:     schema.TypeString,
-													Computed: true,
-													Optional: true,
-												},
-												"update_readiness_status_details": {
-													Type:     schema.TypeString,
-													Computed: true,
-													Optional: true,
-												},
-												"version": {
-													Type:     schema.TypeString,
-													Computed: true,
-													Optional: true,
-												},
-											},
-										},
 									},
 									"preference_details": {
 										Type:     schema.TypeList,
@@ -516,14 +465,70 @@ func DatabaseDatabaseResource() *schema.Resource {
 																Computed: true,
 																Optional: true,
 															},
+															"is_older_version_acknowledged": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
 														},
 													},
 												},
 											},
 										},
 									},
+									"maintenance_details": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Optional: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"time_of_last_readiness_check": {
+													Type:     schema.TypeString,
+													Computed: true,
+													Optional: true,
+												},
+												"time_of_status_update": {
+													Type:     schema.TypeString,
+													Computed: true,
+													Optional: true,
+												},
+												"time_scheduled": {
+													Type:     schema.TypeString,
+													Computed: true,
+													Optional: true,
+												},
+												"update_mode": {
+													Type:     schema.TypeString,
+													Computed: true,
+													Optional: true,
+												},
+												"update_readiness_status": {
+													Type:     schema.TypeString,
+													Computed: true,
+													Optional: true,
+												},
+												"update_readiness_status_details": {
+													Type:     schema.TypeString,
+													Computed: true,
+													Optional: true,
+												},
+												"version": {
+													Type:     schema.TypeString,
+													Computed: true,
+													Optional: true,
+												},
+											},
+										},
+									},
 								},
 							},
+						},
+						"ncharacter_set": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
 						},
 						"pdb_name": {
 							Type:     schema.TypeString,
@@ -563,6 +568,13 @@ func DatabaseDatabaseResource() *schema.Resource {
 							Computed:  true,
 							ForceNew:  true,
 							Sensitive: true,
+						},
+						"source_database_id": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: sourceDbIdDiffSuppress,
 						},
 						"source_encryption_key_location_details": {
 							Type:     schema.TypeList,
@@ -619,13 +631,6 @@ func DatabaseDatabaseResource() *schema.Resource {
 									// Computed
 								},
 							},
-						},
-						"source_database_id": {
-							Type:             schema.TypeString,
-							Optional:         true,
-							Computed:         true,
-							ForceNew:         true,
-							DiffSuppressFunc: sourceDbIdDiffSuppress,
 						},
 						"source_snapshot_id": {
 							Type:     schema.TypeString,
@@ -686,10 +691,6 @@ func DatabaseDatabaseResource() *schema.Resource {
 							ForceNew:         true,
 							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 						},
-						"database_id": {
-							Type:     schema.TypeString,
-							Optional: true,
-						},
 						"transport_type": {
 							Type:             schema.TypeString,
 							Optional:         true,
@@ -701,15 +702,15 @@ func DatabaseDatabaseResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"vm_cluster_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+							Optional: true,
+						},
 
 						// Computed
 					},
 				},
-			},
-			"db_home_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
 			},
 			"source": {
 				Type:             schema.TypeString,
@@ -724,6 +725,12 @@ func DatabaseDatabaseResource() *schema.Resource {
 					"DB_SNAPSHOT",
 					"NONE",
 				}, true),
+			},
+
+			"db_home_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 
 			// Optional
@@ -1069,10 +1076,6 @@ func DatabaseDatabaseResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
-			"last_backup_duration_in_seconds": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
 			"key_store_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -1080,6 +1083,10 @@ func DatabaseDatabaseResource() *schema.Resource {
 			},
 			"key_store_wallet_name": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"last_backup_duration_in_seconds": {
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 			"last_backup_timestamp": {
@@ -1093,74 +1100,6 @@ func DatabaseDatabaseResource() *schema.Resource {
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
-			},
-			"ncharacter_set": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"patch_version": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"pdb_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"sid_prefix": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"source_database_point_in_time_recovery_timestamp": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"storage_size_details": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"data_storage_size_in_gb": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"reco_storage_size_in_gbs": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"redo_log_storage_size_in_gbs": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-					},
-				},
-			},
-			"system_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"vault_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"vm_cluster_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-				Optional: true,
 			},
 			"managed_software_update_details": {
 				Type:     schema.TypeList,
@@ -1247,6 +1186,10 @@ func DatabaseDatabaseResource() *schema.Resource {
 										Optional: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
+												"is_older_version_acknowledged": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
 												"major_version": {
 													Type:     schema.TypeString,
 													Computed: true,
@@ -1270,6 +1213,74 @@ func DatabaseDatabaseResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"ncharacter_set": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"patch_version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"pdb_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"sid_prefix": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"source_database_point_in_time_recovery_timestamp": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"storage_size_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"data_storage_size_in_gb": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"reco_storage_size_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"redo_log_storage_size_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
+			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"vault_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"vm_cluster_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+				Optional: true,
 			},
 		},
 	}
@@ -2359,6 +2370,10 @@ func (s *DatabaseDatabaseResourceCrud) mapToVersionSchemeDetails(fieldKeyFormat 
 	switch strings.ToLower(source) {
 	case strings.ToLower("VERSION_SERIES"):
 		details := oci_database.VersionSchemeFromVersionSeriesDetails{}
+		if isOlderVersionAcknowledged, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_older_version_acknowledged")); ok {
+			tmp := isOlderVersionAcknowledged.(bool)
+			details.IsOlderVersionAcknowledged = &tmp
+		}
 		if majorVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "major_version")); ok {
 			tmp := majorVersion.(string)
 			details.MajorVersion = &tmp
@@ -2457,6 +2472,12 @@ func (s *DatabaseDatabaseResourceCrud) mapToVersionSchemeUpdateDetails(fieldKeyF
 	switch strings.ToLower(source) {
 	case strings.ToLower("VERSION_SERIES"):
 		details := oci_database.VersionSchemeFromVersionSeriesDetails{}
+		if s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "is_older_version_acknowledged")) {
+			if isOlderVersionAcknowledged, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_older_version_acknowledged")); ok {
+				tmp := isOlderVersionAcknowledged.(bool)
+				details.IsOlderVersionAcknowledged = &tmp
+			}
+		}
 		if s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "major_version")) {
 			if majorVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "major_version")); ok {
 				tmp := majorVersion.(string)
@@ -3648,7 +3669,19 @@ func (s *DatabaseDatabaseResourceCrud) DatabaseToMap(obj *oci_database.Database)
 	}
 
 	if obj.ManagedSoftwareUpdateDetails != nil {
-		result["managed_software_update_details"] = []interface{}{ManagedSoftwareUpdateDetailsToMap(obj.ManagedSoftwareUpdateDetails)}
+		managedSoftwareUpdateDetails := *obj.ManagedSoftwareUpdateDetails
+		if preferences := managedSoftwareUpdateDetails.PreferenceDetails; preferences != nil {
+			if versionSeries, ok := preferences.VersionSchemeDetails.(oci_database.VersionSchemeFromVersionSeriesDetails); ok && versionSeries.IsOlderVersionAcknowledged == nil {
+				// GET may omit this request-only flag. Preserve its prior value, including false.
+				if acknowledged, exists := s.D.GetOkExists("database.0.managed_software_update_details.0.preference_details.0.version_scheme_details.0.is_older_version_acknowledged"); exists {
+					versionSeries.IsOlderVersionAcknowledged = oci_common.Bool(acknowledged.(bool))
+					preferencesCopy := *preferences
+					preferencesCopy.VersionSchemeDetails = versionSeries
+					managedSoftwareUpdateDetails.PreferenceDetails = &preferencesCopy
+				}
+			}
+		}
+		result["managed_software_update_details"] = []interface{}{ManagedSoftwareUpdateDetailsToMap(&managedSoftwareUpdateDetails)}
 	}
 
 	if obj.DataGuardGroup != nil && obj.DataGuardGroup.Members != nil && len(obj.DataGuardGroup.Members) > 0 {
@@ -4239,6 +4272,10 @@ func VersionSchemeDetailsToMap(obj *oci_database.VersionSchemeDetails) map[strin
 	switch v := (*obj).(type) {
 	case oci_database.VersionSchemeFromVersionSeriesDetails:
 		result["source"] = "VERSION_SERIES"
+
+		if v.IsOlderVersionAcknowledged != nil {
+			result["is_older_version_acknowledged"] = bool(*v.IsOlderVersionAcknowledged)
+		}
 
 		if v.MajorVersion != nil {
 			result["major_version"] = string(*v.MajorVersion)

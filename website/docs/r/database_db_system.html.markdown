@@ -362,6 +362,7 @@ The following arguments are supported:
 	The maximum length of the combined hostname and domain is 63 characters.
 
 	**Note:** The hostname must be unique within the subnet. If it is not unique, the DB system will fail to provision.
+* `is_older_version_acknowledged` - (Required when version is not the latest) Indicates whether the customer acknowledged the risk of selecting an older eligible database version for the DB System. This value is used for downstream Database service APIs that requires older-version acknowledgement.
 * `kms_key_id` - (Optional) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 * `kms_key_version_id` - (Optional) The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous AI Database Serverless does not use key versions, hence is not applicable for Autonomous AI Database Serverless instances.
 * `license_model` - (Optional) (Updatable) The Oracle license model that applies to all the databases on the DB system. The default is LICENSE_INCLUDED.
