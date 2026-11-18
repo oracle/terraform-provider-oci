@@ -2237,6 +2237,10 @@ func (s *DatabaseDbHomeResourceCrud) DatabaseToMap(obj *oci_database.Database) m
 		result["time_created"] = obj.TimeCreated.String()
 	}
 
+	if obj.VmClusterId != nil {
+		result["vm_cluster_id"] = string(*obj.VmClusterId)
+	}
+
 	if timeStampForPointInTimeRecovery, ok := s.D.GetOkExists(fmt.Sprintf("database.0.time_stamp_for_point_in_time_recovery")); ok {
 		result["time_stamp_for_point_in_time_recovery"] = timeStampForPointInTimeRecovery
 	}
