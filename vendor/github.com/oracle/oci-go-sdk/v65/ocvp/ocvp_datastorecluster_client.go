@@ -660,7 +660,8 @@ func (client DatastoreClusterClient) getDatastoreCluster(ctx context.Context, re
 }
 
 // ListDatastoreClusters List the Datastore Clusters in the specified compartment. The list can be filtered
-// by compartment, Datastore Cluster, Display name and Lifecycle state
+// by compartment, Datastore Cluster, Display name and Lifecycle state. Either
+// compartmentId or datastoreClusterId must be provided.
 //
 // # See also
 //

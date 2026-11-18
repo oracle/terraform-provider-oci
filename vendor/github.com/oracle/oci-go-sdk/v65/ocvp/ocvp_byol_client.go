@@ -266,7 +266,7 @@ func (client ByolClient) deleteByol(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/BYOL/DeleteByol"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/Byol/DeleteByol"
 		err = common.PostProcessServiceError(err, "Byol", "DeleteByol", apiReferenceLink)
 		return response, err
 	}

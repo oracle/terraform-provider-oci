@@ -11,18 +11,18 @@ description: |-
 This data source provides the list of Datastore Clusters in Oracle Cloud Infrastructure Oracle Cloud VMware Solution service.
 
 List the Datastore Clusters in the specified compartment. The list can be filtered
-by compartment, Datastore Cluster, Display name and Lifecycle state
+by compartment, Datastore Cluster, Display name and Lifecycle state. Either
+compartmentId or datastoreClusterId must be provided.
 
 
 ## Example Usage
 
 ```hcl
 data "oci_ocvp_datastore_clusters" "test_datastore_clusters" {
-	#Required
-	compartment_id = var.compartment_id
 
 	#Optional
 	cluster_id = oci_ocvp_cluster.test_cluster.id
+	compartment_id = var.compartment_id
 	datastore_cluster_id = oci_ocvp_datastore_cluster.test_datastore_cluster.id
 	display_name = var.datastore_cluster_display_name
 	state = var.datastore_cluster_state
@@ -34,7 +34,7 @@ data "oci_ocvp_datastore_clusters" "test_datastore_clusters" {
 The following arguments are supported:
 
 * `cluster_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the SDDC Cluster. 
-* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment as optional parameter.
 * `datastore_cluster_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Datastore Cluster. 
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly.
 * `state` - (Optional) The lifecycle state of the resource.

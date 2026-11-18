@@ -19,6 +19,9 @@ import (
 // InplaceUpgradeDetails The details for upgrading ESXi host.
 type InplaceUpgradeDetails struct {
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Capacity Reservation.
+	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
+
 	// Initial Fault Domain Host distribution mode for the ESXi host.
 	InitialFaultDomainHostDistribution FaultDomainHostDistributionModesEnum `mandatory:"false" json:"initialFaultDomainHostDistribution,omitempty"`
 

@@ -179,6 +179,78 @@ func LustreFileStorageLustreFileSystemResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"tiering_configuration": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"is_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"policy_mode": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"rules": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"action": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"path_prefixes": {
+										Type:     schema.TypeList,
+										Required: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+
+									// Optional
+									"archive_after_days_since_last_access": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"min_size_in_bytes": {
+										Type:             schema.TypeString,
+										Optional:         true,
+										Computed:         true,
+										ValidateFunc:     tfresource.ValidateInt64TypeString,
+										DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+									},
+									"release_after_days_since_last_access": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Computed
+						"rule_count": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"override_maintenance_trigger": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -499,6 +571,17 @@ func (s *LustreFileStorageLustreFileSystemResourceCrud) CreateWithContext(ctx co
 		request.SubnetId = &tmp
 	}
 
+	if tieringConfiguration, ok := s.D.GetOkExists("tiering_configuration"); ok {
+		if tmpList := tieringConfiguration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "tiering_configuration", 0)
+			tmp, err := s.mapToTieringConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.TieringConfiguration = &tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "lustre_file_storage")
 
 	response, err := s.Client.CreateLustreFileSystem(ctx, request)
@@ -750,6 +833,17 @@ func (s *LustreFileStorageLustreFileSystemResourceCrud) UpdateWithContext(ctx co
 		}
 	}
 
+	if tieringConfiguration, ok := s.D.GetOkExists("tiering_configuration"); ok {
+		if tmpList := tieringConfiguration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "tiering_configuration", 0)
+			tmp, err := s.mapToTieringConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.TieringConfiguration = &tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "lustre_file_storage")
 
 	response, err := s.Client.UpdateLustreFileSystem(ctx, request)
@@ -870,6 +964,12 @@ func (s *LustreFileStorageLustreFileSystemResourceCrud) SetData() error {
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
+	if s.Res.TieringConfiguration != nil {
+		s.D.Set("tiering_configuration", []interface{}{TieringConfigurationToMap(s.Res.TieringConfiguration)})
+	} else {
+		s.D.Set("tiering_configuration", nil)
 	}
 
 	if s.Res.TimeBillingCycleEnd != nil {
@@ -1034,6 +1134,10 @@ func LustreFileSystemSummaryToMap(obj oci_lustre_file_storage.LustreFileSystemSu
 		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
 	}
 
+	if obj.TieringConfiguration != nil {
+		result["tiering_configuration"] = []interface{}{TieringConfigurationSummaryToMap(obj.TieringConfiguration)}
+	}
+
 	if obj.TimeBillingCycleEnd != nil {
 		result["time_billing_cycle_end"] = obj.TimeBillingCycleEnd.String()
 	}
@@ -1152,6 +1256,140 @@ func RootSquashConfigurationToMap(obj *oci_lustre_file_storage.RootSquashConfigu
 
 	if obj.SquashUid != nil {
 		result["squash_uid"] = strconv.FormatInt(*obj.SquashUid, 10)
+	}
+
+	return result
+}
+
+func (s *LustreFileStorageLustreFileSystemResourceCrud) mapToTieringConfigurationDetails(fieldKeyFormat string) (oci_lustre_file_storage.TieringConfigurationDetails, error) {
+	result := oci_lustre_file_storage.TieringConfigurationDetails{}
+
+	if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
+		tmp := isEnabled.(bool)
+		result.IsEnabled = &tmp
+	}
+
+	if policyMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "policy_mode")); ok {
+		result.PolicyMode = oci_lustre_file_storage.TieringConfigurationDetailsPolicyModeEnum(policyMode.(string))
+	}
+
+	if rules, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "rules")); ok {
+		interfaces := rules.([]interface{})
+		tmp := make([]oci_lustre_file_storage.TieringPolicyRule, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "rules"), stateDataIndex)
+			converted, err := s.mapToTieringPolicyRule(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "rules")) {
+			result.Rules = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func TieringConfigurationToMap(obj *oci_lustre_file_storage.TieringConfiguration) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsEnabled != nil {
+		result["is_enabled"] = bool(*obj.IsEnabled)
+	}
+
+	result["policy_mode"] = string(obj.PolicyMode)
+
+	if obj.RuleCount != nil {
+		result["rule_count"] = int(*obj.RuleCount)
+	}
+
+	rules := []interface{}{}
+	for _, item := range obj.Rules {
+		rules = append(rules, TieringPolicyRuleToMap(item))
+	}
+	result["rules"] = rules
+
+	return result
+}
+
+func TieringConfigurationSummaryToMap(obj *oci_lustre_file_storage.TieringConfigurationSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsEnabled != nil {
+		result["is_enabled"] = bool(*obj.IsEnabled)
+	}
+
+	result["policy_mode"] = string(obj.PolicyMode)
+
+	if obj.RuleCount != nil {
+		result["rule_count"] = int(*obj.RuleCount)
+	}
+
+	return result
+}
+
+func (s *LustreFileStorageLustreFileSystemResourceCrud) mapToTieringPolicyRule(fieldKeyFormat string) (oci_lustre_file_storage.TieringPolicyRule, error) {
+	result := oci_lustre_file_storage.TieringPolicyRule{}
+
+	if action, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "action")); ok {
+		result.Action = oci_lustre_file_storage.TieringPolicyRuleActionEnum(action.(string))
+	}
+
+	if archiveAfterDaysSinceLastAccess, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "archive_after_days_since_last_access")); ok {
+		tmp := archiveAfterDaysSinceLastAccess.(int)
+		result.ArchiveAfterDaysSinceLastAccess = &tmp
+	}
+
+	if minSizeInBytes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "min_size_in_bytes")); ok {
+		tmp := minSizeInBytes.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return result, fmt.Errorf("unable to convert minSizeInBytes string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		result.MinSizeInBytes = &tmpInt64
+	}
+
+	if pathPrefixes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path_prefixes")); ok {
+		interfaces := pathPrefixes.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "path_prefixes")) {
+			result.PathPrefixes = tmp
+		}
+	}
+
+	if releaseAfterDaysSinceLastAccess, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "release_after_days_since_last_access")); ok {
+		tmp := releaseAfterDaysSinceLastAccess.(int)
+		result.ReleaseAfterDaysSinceLastAccess = &tmp
+	}
+
+	return result, nil
+}
+
+func TieringPolicyRuleToMap(obj oci_lustre_file_storage.TieringPolicyRule) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["action"] = string(obj.Action)
+
+	if obj.ArchiveAfterDaysSinceLastAccess != nil {
+		result["archive_after_days_since_last_access"] = int(*obj.ArchiveAfterDaysSinceLastAccess)
+	}
+
+	if obj.MinSizeInBytes != nil {
+		result["min_size_in_bytes"] = strconv.FormatInt(*obj.MinSizeInBytes, 10)
+	}
+
+	result["path_prefixes"] = obj.PathPrefixes
+
+	if obj.ReleaseAfterDaysSinceLastAccess != nil {
+		result["release_after_days_since_last_access"] = int(*obj.ReleaseAfterDaysSinceLastAccess)
 	}
 
 	return result

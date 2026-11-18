@@ -50,6 +50,22 @@ resource "oci_lustre_file_storage_lustre_file_system" "test_lustre_file_system" 
 		time_start = var.lustre_file_system_maintenance_window_time_start
 	}
 	nsg_ids = var.lustre_file_system_nsg_ids
+	tiering_configuration {
+
+		#Optional
+		is_enabled = var.lustre_file_system_tiering_configuration_is_enabled
+		policy_mode = var.lustre_file_system_tiering_configuration_policy_mode
+		rules {
+			#Required
+			action = var.lustre_file_system_tiering_configuration_rules_action
+			path_prefixes = var.lustre_file_system_tiering_configuration_rules_path_prefixes
+
+			#Optional
+			archive_after_days_since_last_access = var.lustre_file_system_tiering_configuration_rules_archive_after_days_since_last_access
+			min_size_in_bytes = var.lustre_file_system_tiering_configuration_rules_min_size_in_bytes
+			release_after_days_since_last_access = var.lustre_file_system_tiering_configuration_rules_release_after_days_since_last_access
+		}
+	}
 }
 ```
 
@@ -78,6 +94,15 @@ The following arguments are supported:
 	* `squash_gid` - (Optional) (Updatable) The GID value to remap to when squashing a client GID. See `identitySquash` for more details. If unspecified, defaults to `65534`. 
 	* `squash_uid` - (Optional) (Updatable) The UID value to remap to when squashing a client UID. See `identitySquash` for more details. If unspecified, defaults to `65534`. 
 * `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the Lustre file system is in.
+* `tiering_configuration` - (Optional) (Updatable) Tiering configuration details for a Lustre file system. Tiering archives eligible file data to Object Storage while keeping files visible at their original Lustre paths and restoring archived data transparently when accessed. When tiering is enabled and `policyMode` is `CUSTOM`, provide one or more policy rules. When tiering is disabled, custom policy rules are optional. If `policyMode` is `DEFAULT`, the service applies the built-in tiering policy rule, which archives files larger than 1 MB that have not been accessed for more than 30 days. 
+	* `is_enabled` - (Optional) (Updatable) Whether tiering is enabled for the Lustre file system. If unspecified, defaults to `false`.
+	* `policy_mode` - (Optional) (Updatable) Whether the service default policy rule or custom policy rules are used. If unspecified, defaults to `DEFAULT`. When set to `DEFAULT`, the service applies the built-in tiering policy rule, which archives files larger than 1 MB that have not been accessed for more than 30 days. When set to `CUSTOM`, the service uses the policy rules specified in `rules`. 
+	* `rules` - (Optional) (Updatable) Custom tiering policy rules. Specify this only when `policyMode` is `CUSTOM`. When `policyMode` is `DEFAULT`, omit this property; the service applies the built-in tiering policy rule instead. An enabled custom policy must contain 1 to 50 rules. When tiering is disabled, custom policy rules are optional. 
+		* `action` - (Required) (Updatable) The action to apply to files whose paths match this rule. `ARCHIVE` makes matching files eligible to be archived to Object Storage. `SKIP` excludes matching files from being archived.
+		* `archive_after_days_since_last_access` - (Optional) (Updatable) Required for ARCHIVE rules. Archive files that have not been accessed for this many days. Must not be specified for SKIP rules.
+		* `min_size_in_bytes` - (Optional) (Updatable) Optional minimum file size in bytes for an ARCHIVE rule to apply. Must not be specified for SKIP rules.
+		* `path_prefixes` - (Required) (Updatable) One or more absolute path prefixes in the Lustre file system to which this rule applies. The service preserves the order of path prefixes in responses. Each path prefix can contain up to 4096 characters. Each rule must contain at least one path prefix, and a tiering policy can contain up to 100 path prefixes total across all rules. 
+		* `release_after_days_since_last_access` - (Optional) (Updatable) Required for ARCHIVE rules. Release archived file data from files that have not been accessed for this many days. This value must be greater than `archiveAfterDaysSinceLastAccess`. Must not be specified for SKIP rules. 
 * `override_maintenance_trigger` - (Optional) (Updatable) An optional property when incremented triggers Override Maintenance. Could be set to any integer value.
 
 
@@ -124,6 +149,16 @@ The following attributes are exported:
 * `state` - The current state of the Lustre file system.
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the Lustre file system is in.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+* `tiering_configuration` - Tiering configuration for a Lustre file system. Tiering archives eligible file data to Object Storage while keeping files visible at their original Lustre paths, and restores archived data transparently when accessed. When `policyMode` is `CUSTOM`, this object includes the custom policy rules configured for the file system. When `policyMode` is `DEFAULT`, the service applies the built-in tiering policy rule, which archives files larger than 1 MB that have not been accessed for more than 30 days. 
+	* `is_enabled` - Whether tiering is enabled for the Lustre file system.
+	* `policy_mode` - Whether the service default policy rule or custom policy rules are used. When set to `DEFAULT`, the service applies the built-in tiering policy rule, which archives files larger than 1 MB that have not been accessed for more than 30 days. When set to `CUSTOM`, the service uses the policy rules configured in `rules`. 
+	* `rule_count` - Service-computed number of custom tiering policy rules.
+	* `rules` - Custom tiering policy rules configured for the Lustre file system. This property is only applicable when `policyMode` is `CUSTOM`. When `policyMode` is `DEFAULT`, the service applies the built-in tiering policy rule instead. An enabled custom policy contains 1 to 50 rules. When tiering is disabled, custom policy rules are optional. 
+		* `action` - The action to apply to files whose paths match this rule. `ARCHIVE` makes matching files eligible to be archived to Object Storage. `SKIP` excludes matching files from being archived.
+		* `archive_after_days_since_last_access` - Required for ARCHIVE rules. Archive files that have not been accessed for this many days. Must not be specified for SKIP rules.
+		* `min_size_in_bytes` - Optional minimum file size in bytes for an ARCHIVE rule to apply. Must not be specified for SKIP rules.
+		* `path_prefixes` - One or more absolute path prefixes in the Lustre file system to which this rule applies. The service preserves the order of path prefixes in responses. Each path prefix can contain up to 4096 characters. Each rule must contain at least one path prefix, and a tiering policy can contain up to 100 path prefixes total across all rules. 
+		* `release_after_days_since_last_access` - Required for ARCHIVE rules. Release archived file data from files that have not been accessed for this many days. This value must be greater than `archiveAfterDaysSinceLastAccess`. Must not be specified for SKIP rules. 
 * `time_billing_cycle_end` - The date and time that the current billing cycle for the file system will end, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format. After the current cycle ends, this date is updated automatically to the next timestamp, which is 30 days later. File systems deleted earlier than this time will still incur charges until the billing cycle ends.  Example: `2016-08-25T21:10:29.600Z` 
 * `time_created` - The date and time the Lustre file system was created, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2024-04-25T21:10:29.600Z` 
 * `time_updated` - The date and time the Lustre file system was updated, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339).  Example: `2024-04-25T21:10:29.600Z` 

@@ -87,6 +87,13 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
 		client_network_bonding_mode = var.exadata_infrastructure_network_bonding_mode_details_client_network_bonding_mode
 		dr_network_bonding_mode = var.exadata_infrastructure_network_bonding_mode_details_dr_network_bonding_mode
 	}
+	ssl_inspection_configuration {
+		#Required
+		is_enabled = var.exadata_infrastructure_ssl_inspection_configuration_is_enabled
+
+		#Optional
+		certificate_authority_id = oci_certificates_management_certificate_authority.test_certificate_authority.id
+	}
 	storage_count = var.exadata_infrastructure_storage_count
 	storage_server_type = var.exadata_infrastructure_storage_server_type
 }
@@ -145,6 +152,9 @@ The following arguments are supported:
 	* `dr_network_bonding_mode` - (Optional) (Updatable) The network bonding mode for the Exadata infrastructure.
 * `ntp_server` - (Required) (Updatable) The list of NTP server IP addresses. Maximum of 3 allowed.
 * `shape` - (Required) The shape of the Exadata infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance. 
+* `ssl_inspection_configuration` - (Optional) SSL inspection configuration for the Exadata infrastructure.
+	* `certificate_authority_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the certificate authority.
+	* `is_enabled` - (Required) Indicates whether SSL inspection is enabled for the Exadata infrastructure.
 * `storage_count` - (Optional) The number of storage servers for the Exadata infrastructure.
 * `storage_server_type` - (Optional) The storage server type of the Exadata infrastructure.
 * `time_zone` - (Required) (Updatable) The time zone of the Exadata infrastructure. For details, see [Exadata Infrastructure Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm). 
@@ -239,6 +249,9 @@ The following attributes are exported:
 * `ntp_server` - The list of NTP server IP addresses. Maximum of 3 allowed.
 * `rack_serial_number` - The serial number for the Exadata infrastructure.
 * `shape` - The shape of the Exadata infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance. 
+* `ssl_inspection_configuration` - SSL inspection configuration for the Exadata infrastructure.
+	* `certificate_authority_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the certificate authority.
+	* `is_enabled` - Indicates whether SSL inspection is enabled for the Exadata infrastructure.
 * `state` - The current lifecycle state of the Exadata infrastructure.
 * `storage_count` - The number of Exadata storage servers for the Exadata infrastructure.
 * `storage_server_type` - The storage server type of the Exadata infrastructure.

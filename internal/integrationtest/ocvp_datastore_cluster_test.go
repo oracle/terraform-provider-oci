@@ -37,7 +37,7 @@ var (
 	}
 
 	OcvpDatastoreClusterDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"compartment_id":       acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"datastore_cluster_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_ocvp_datastore_cluster.test_datastore_cluster.id}`},
 		"display_name":         acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":                acctest.Representation{RepType: acctest.Optional, Create: `Active`},
@@ -62,9 +62,10 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_ocvp_datastore", "test_datastore_1", acctest.Required, acctest.Create,
 			OcvpDatastoreRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_ocvp_datastore", "test_datastore_2", acctest.Required, acctest.Create,
-			acctest.GetUpdatedRepresentationCopy("block_volume_ids", acctest.Representation{
-				RepType: acctest.Required, Create: []string{`${oci_core_volume.test_volumes[0].id}`, `${oci_core_volume.test_volumes[1].id}`},
-			}, OcvpDatastoreRepresentation))
+			acctest.RepresentationCopyWithNewProperties(OcvpDatastoreRepresentation, map[string]interface{}{
+				"block_volume_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_volume.test_volumes[1].id}`}},
+				"display_name":     acctest.Representation{RepType: acctest.Required, Create: "secondaryDatastore"},
+			}))
 	/*
 		acctest.GenerateResourceFromRepresentationMap("oci_ocvp_datastore_cluster", "test_datastore_cluster", acctest.Required, acctest.Create, OcvpDatastoreClusterRepresentation)
 	*/

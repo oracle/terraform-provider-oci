@@ -80,6 +80,12 @@ func DatabaseDatabaseSoftwareImageResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"is_older_version_acknowledged": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"ls_inventory": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -225,6 +231,11 @@ func (s *DatabaseDatabaseSoftwareImageResourceCrud) Create() error {
 		if len(tmp) != 0 || s.D.HasChange("database_software_image_one_off_patches") {
 			request.DatabaseSoftwareImageOneOffPatches = tmp
 		}
+	}
+
+	if isOlderVersionAcknowledged, ok := s.D.GetOkExists("is_older_version_acknowledged"); ok {
+		tmp := isOlderVersionAcknowledged.(bool)
+		request.IsOlderVersionAcknowledged = &tmp
 	}
 
 	if databaseVersion, ok := s.D.GetOkExists("database_version"); ok {

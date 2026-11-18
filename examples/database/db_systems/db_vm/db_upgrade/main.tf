@@ -16,60 +16,63 @@
 #    MODIFIED   MM/DD/YY
 #    escabrer   12/13/2024 - Created
 
-
-
 resource "oci_database_db_system" "test_db_system_for_upgrade" {
-  availability_domain = data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name
-  compartment_id = var.compartment_id
+  availability_domain     = data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name
+  compartment_id          = var.compartment_id
   data_storage_size_in_gb = "256"
-  database_edition = "ENTERPRISE_EDITION"
+  database_edition        = "ENTERPRISE_EDITION"
+  disk_redundancy         = "NORMAL"
+  display_name            = "tfDbSystemForUpgradeExample"
+  domain                  = oci_core_subnet.test_subnet.subnet_domain_name
+  fault_domains           = ["FAULT-DOMAIN-1"]
+  hostname                = "tf-db-host"
+  license_model           = "LICENSE_INCLUDED"
+  node_count              = "1"
+  nsg_ids                 = [oci_core_network_security_group.test_nsg.id]
+  shape                   = "VM.Standard2.2"
+  ssh_public_keys         = [var.ssh_public_key]
+  subnet_id               = oci_core_subnet.test_subnet.id
+
   db_home {
+    db_version   = "19.33.0.0"
+    display_name = "tfDbHome"
+
     database {
       admin_password = var.admin_password
-      character_set = "AL32UTF8"
-      db_name = "tfDb"
-      db_workload = "OLTP"
+      character_set  = "AL32UTF8"
+      db_name        = "tfDb"
+      db_workload    = "OLTP"
       ncharacter_set = "AL16UTF16"
-      pdb_name = "tfPdb"
+      pdb_name       = "tfPdb"
     }
-    db_version = "12.2.0.1"
-    display_name = "tfDbHome"
   }
+
   db_system_options {
-    storage_management = "LVM"
+    storage_management = "ASM"
   }
-  disk_redundancy = "NORMAL"
-  display_name = "tfDbSystemForUpgradeExample"
-  domain = oci_core_subnet.test_subnet.subnet_domain_name
-  fault_domains = ["FAULT-DOMAIN-1"]
-  hostname = "tf-db-host"
-  license_model = "LICENSE_INCLUDED"
+
+  # The database upgrade changes the DB Home version out of band.
   lifecycle {
-    ignore_changes = [db_home[0].db_version, defined_tags]
+    ignore_changes = [db_home[0].db_version]
   }
-  node_count = "1"
-  nsg_ids = [oci_core_network_security_group.test_nsg.id]
-  shape = "VM.Standard2.2"
-  ssh_public_keys = [var.ssh_public_key]
-  subnet_id = oci_core_subnet.test_subnet.id
 }
 
 resource "oci_database_database_upgrade" "test_database_precheck" {
-  action = "PRECHECK"
+  action      = "PRECHECK"
   database_id = data.oci_database_databases.test_db_system_for_upgrade.databases.0.id
   database_upgrade_source_details {
-    db_version = "19.25.0.0"
-    source = "DB_VERSION"
+    db_version = "23.27.1.0.270100"
+    source     = "DB_VERSION"
   }
 }
 
 resource "oci_database_database_upgrade" "test_database_upgrade" {
-  action = "UPGRADE"
+  action      = "UPGRADE"
   database_id = data.oci_database_databases.test_db_system_for_upgrade.databases.0.id
   database_upgrade_source_details {
-    db_version = "19.25.0.0"
-    options = "-upgradeTimezone false -keepEvents"
-    source = "DB_VERSION"
+    db_version = "23.27.1.0.270100"
+    options    = "-upgradeTimezone false -keepEvents"
+    source     = "DB_VERSION"
   }
   depends_on = [oci_database_database_upgrade.test_database_precheck]
 }

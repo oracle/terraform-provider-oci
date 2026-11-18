@@ -27,6 +27,20 @@ resource "oci_lustre_file_storage_lustre_file_system" "test_lustre_file_system" 
   freeform_tags = {
     "Department" = "Finance"
   }
+
+  # Explicit rules require CUSTOM. To use DEFAULT, omit the rules block.
+  tiering_configuration {
+    is_enabled  = var.lustre_file_system_tiering_configuration_is_enabled
+    policy_mode = var.lustre_file_system_tiering_configuration_policy_mode
+
+    rules {
+      action                               = var.lustre_file_system_tiering_configuration_rules_action
+      path_prefixes                        = var.lustre_file_system_tiering_configuration_rules_path_prefixes
+      archive_after_days_since_last_access = var.lustre_file_system_tiering_configuration_rules_archive_after_days_since_last_access
+      min_size_in_bytes                    = var.lustre_file_system_tiering_configuration_rules_min_size_in_bytes
+      release_after_days_since_last_access = var.lustre_file_system_tiering_configuration_rules_release_after_days_since_last_access
+    }
+  }
 }
 
 data "oci_lustre_file_storage_lustre_file_system" "lustre_file_system" {

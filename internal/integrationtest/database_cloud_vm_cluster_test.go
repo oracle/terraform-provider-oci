@@ -55,7 +55,7 @@ var (
 		"cloud_exadata_infrastructure_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id}`},
 		"display_name":                    acctest.Representation{RepType: acctest.Optional, Create: `cloudVmCluster`, Update: `displayName2`},
 		"state":                           acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
-		"vm_cluster_type":                 acctest.Representation{RepType: acctest.Optional, Create: `DEVELOPER`},
+		"vm_cluster_type":                 acctest.Representation{RepType: acctest.Optional, Create: `REGULAR`},
 		"filter":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseCloudVmClusterDataSourceFilterRepresentation}}
 	DatabaseCloudVmClusterDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
@@ -557,11 +557,14 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 	resourceName := "oci_database_cloud_vm_cluster.test_cloud_vm_cluster"
 	datasourceName := "data.oci_database_cloud_vm_clusters.test_cloud_vm_clusters"
 	singularDatasourceName := "data.oci_database_cloud_vm_cluster.test_cloud_vm_cluster"
+	acknowledgedRepresentation := acctest.RepresentationCopyWithNewProperties(DatabaseCloudVmClusterRepresentation, map[string]interface{}{
+		"is_older_version_acknowledged": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
+	})
 
 	var resId, resId2 string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseCloudVmClusterResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create, DatabaseCloudVmClusterRepresentation), "database", "cloudVmCluster", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create, acknowledgedRepresentation), "database", "cloudVmCluster", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseCloudVmClusterDestroy, []resource.TestStep{
 
@@ -602,7 +605,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 			},
 			Config: config + compartmentIdVariableStr + DatabaseDatabaseCloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Optional, acctest.Create, CoreCoreVcnDnsResolverAssociationRepresentation) + acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Optional, acctest.Create, ResolverRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseCloudVmClusterRepresentation, []string{"domain"}), map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(acknowledgedRepresentation, []string{"domain"}), map[string]interface{}{
 						"domain": acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_zone.test_zone.name}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -631,6 +634,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "reco_storage_percentage", "50"),
 				resource.TestCheckResourceAttr(resourceName, "sparse_storage_percentage", "0"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "cloudVmCluster"),
+				resource.TestCheckResourceAttr(resourceName, "is_older_version_acknowledged", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "domain"),
 				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.#", "9"),
 				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.file_system_size_gb", "15"),
@@ -654,17 +658,9 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckNoResourceAttr(resourceName, "subscription_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "private_zone_id"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
-				resource.TestCheckResourceAttr(resourceName, "vm_cluster_type", "DEVELOPER"),
+				resource.TestCheckResourceAttr(resourceName, "vm_cluster_type", "REGULAR"),
 
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-							return errExport
-						}
-					}
-					return err
-				},
+				databaseAcknowledgementScopedDiscoveryCheck(t, resourceName),
 			),
 		},
 
@@ -672,7 +668,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseDatabaseCloudVmClusterResourceDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseCloudVmClusterRepresentation, []string{"db_servers"}), map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(acknowledgedRepresentation, []string{"db_servers"}), map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 						"domain":         acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_zone.test_zone.name}`},
 					})),
@@ -724,7 +720,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckNoResourceAttr(resourceName, "subscription_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "private_zone_id"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
-				resource.TestCheckResourceAttr(resourceName, "vm_cluster_type", "DEVELOPER"),
+				resource.TestCheckResourceAttr(resourceName, "vm_cluster_type", "REGULAR"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -739,7 +735,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + CloudVmClusterCloudVmClusterResourceUpdateDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Update,
-					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseCloudVmClusterRepresentation, []string{"db_servers"}), map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(acknowledgedRepresentation, []string{"db_servers"}), map[string]interface{}{
 						"domain": acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_zone.test_zone.name}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -767,6 +763,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "reco_storage_percentage", "50"),
 				resource.TestCheckResourceAttr(resourceName, "sparse_storage_percentage", "0"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "is_older_version_acknowledged", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "domain"),
 				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.#", "9"),
 				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.file_system_size_gb", "20"),
@@ -790,7 +787,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckNoResourceAttr(resourceName, "subscription_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "private_zone_id"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
-				resource.TestCheckResourceAttr(resourceName, "vm_cluster_type", "DEVELOPER"),
+				resource.TestCheckResourceAttr(resourceName, "vm_cluster_type", "REGULAR"),
 				resource.TestCheckResourceAttr("oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure", "compute_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "node_count", "2"),
 
@@ -810,7 +807,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_cloud_vm_clusters", "test_cloud_vm_clusters", acctest.Optional, acctest.Update, DatabaseDatabaseCloudVmClusterDataSourceRepresentation) +
 				compartmentIdVariableStr + CloudVmClusterCloudVmClusterResourceUpdateDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Required, acctest.Update,
-					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseCloudVmClusterRepresentation, []string{"db_servers"}), map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(acknowledgedRepresentation, []string{"db_servers"}), map[string]interface{}{
 						"domain": acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_zone.test_zone.name}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -818,7 +815,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
-				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_type", "DEVELOPER"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_type", "REGULAR"),
 
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.availability_domain"),
@@ -872,7 +869,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.time_zone", "US/Pacific"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.vip_ids.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.vipv6ids.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.vm_cluster_type", "DEVELOPER"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.vm_cluster_type", "REGULAR"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.zone_id"),
 			),
 		},
@@ -882,7 +879,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Required, acctest.Create, DatabaseDatabaseCloudVmClusterSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DefinedTagsDependencies + AvailabilityDomainConfig + CloudVmClusterCloudVmClusterResourceUpdateDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Update,
-					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseCloudVmClusterRepresentation, []string{"db_servers"}), map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(acknowledgedRepresentation, []string{"db_servers"}), map[string]interface{}{
 						"domain": acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_zone.test_zone.name}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -939,7 +936,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "time_zone", "US/Pacific"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "vip_ids.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "vipv6ids.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "vm_cluster_type", "DEVELOPER"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "vm_cluster_type", "REGULAR"),
 				resource.TestCheckNoResourceAttr(singularDatasourceName, "subscription_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "zone_id"),
 			),
@@ -1112,12 +1109,16 @@ func TestDatabaseExascaleCloudVmClusterResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	acknowledgedRepresentation := acctest.RepresentationCopyWithNewProperties(DatabaseExascaleCloudVmClusterRepresentation, map[string]interface{}{
+		"is_older_version_acknowledged": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
+	})
+
 	resourceName := "oci_database_cloud_vm_cluster.test_cloud_vm_cluster"
 	var _ string
 	var resId, resId2 string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseExascaleCloudVmClusterResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create, DatabaseExascaleCloudVmClusterRepresentation), "database", "cloudVmCluster", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create, acknowledgedRepresentation), "database", "cloudVmCluster", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseCloudVmClusterDestroy, []resource.TestStep{
 
@@ -1154,7 +1155,7 @@ func TestDatabaseExascaleCloudVmClusterResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + DatabaseExascaleCloudVmClusterResourceDependenciesOptional +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create,
-					DatabaseExascaleCloudVmClusterRepresentation),
+					acknowledgedRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "backup_subnet_id"),
@@ -1188,6 +1189,7 @@ func TestDatabaseExascaleCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "hostname"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_local_backup_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_older_version_acknowledged", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_sparse_diskgroup_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(resourceName, "scan_listener_port_tcp", "1521"),
@@ -1217,7 +1219,7 @@ func TestDatabaseExascaleCloudVmClusterResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + DatabaseExascaleCloudVmClusterResourceDependenciesOptional +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Update,
-					DatabaseExascaleCloudVmClusterRepresentation),
+					acknowledgedRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttrSet(resourceName, "backup_subnet_id"),
@@ -1241,6 +1243,7 @@ func TestDatabaseExascaleCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "6"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_percentage", "40"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "is_older_version_acknowledged", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "domain"),
 				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.#", "9"),
 				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.file_system_size_gb", "20"),
@@ -1471,6 +1474,105 @@ func TestDatabaseCloudVmClusterUpdate(t *testing.T) {
 					return err
 				},
 			),
+		},
+	})
+}
+
+// issue-routing-tag: database/ExaCS
+func TestDatabaseCloudVmClusterResource_olderVersionAcknowledgement(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseCloudVmClusterResource_olderVersionAcknowledgement")
+	defer httpreplay.SaveScenario()
+
+	resourceName := "oci_database_cloud_vm_cluster.test_cloud_vm_cluster"
+	compartmentID := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	baseConfig := acctest.ProviderTestConfig() + fmt.Sprintf("variable \"compartment_id\" { default = %q }\n", compartmentID) +
+		AvailabilityDomainConfig + databaseAcknowledgementNetwork +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Required, acctest.Create, DatabaseCloudExadataInfrastructureRepresentation)
+	// Required-only ASM storage isolates the acknowledgement from optional
+	// developer-cluster, private-DNS, and Exascale-management scenarios. Those
+	// scenarios remain covered by their existing acceptance tests above.
+	baseRepresentation := acctest.RepresentationCopyWithNewProperties(
+		acctest.RepresentationCopyWithRemovedProperties(DatabaseCloudVmClusterRepresentation, []string{"depends_on", "file_system_configuration_details"}),
+		map[string]interface{}{
+			"subnet_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.ack_client.id}`},
+			"backup_subnet_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.ack_backup.id}`},
+			"domain":           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.ack_client.subnet_domain_name}`},
+			"ssh_public_keys":  acctest.Representation{RepType: acctest.Required, Create: []string{`${var.ssh_public_key}`}},
+		})
+	configFor := func(acknowledgement string, withDataSources bool) string {
+		representation := baseRepresentation
+		if acknowledgement != "" {
+			representation = acctest.RepresentationCopyWithNewProperties(representation, map[string]interface{}{
+				"is_older_version_acknowledged": acctest.Representation{RepType: acctest.Required, Create: acknowledgement},
+			})
+		}
+		config := baseConfig + acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Required, acctest.Create, representation)
+		if withDataSources {
+			config += `
+data "oci_database_cloud_vm_cluster" "ack_cluster" {
+  cloud_vm_cluster_id = oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id
+}
+data "oci_database_cloud_vm_clusters" "ack_clusters" {
+  compartment_id = var.compartment_id
+  filter {
+    name = "id"
+    values = [oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id]
+  }
+}
+`
+		}
+		return config
+	}
+	var clusterID string
+	databaseAcknowledgementResourceTest(t, testAccCheckDatabaseCloudVmClusterDestroy, []resource.TestStep{
+		{
+			Config: configFor("true", false),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "is_older_version_acknowledged", "true"),
+				resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
+				databaseAcknowledgementIDCheck(resourceName, &clusterID, false),
+			),
+		},
+		{
+			// Optional/computed acknowledgement must remain true when omitted
+			// from an existing configuration, without replacing the cluster.
+			Config: configFor("", false),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "is_older_version_acknowledged", "true"),
+				databaseAcknowledgementIDCheck(resourceName, &clusterID, false),
+			),
+		},
+		{
+			Config: configFor("true", true),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrPair("data.oci_database_cloud_vm_cluster.ack_cluster", "id", resourceName, "id"),
+				resource.TestCheckResourceAttr("data.oci_database_cloud_vm_clusters.ack_clusters", "cloud_vm_clusters.#", "1"),
+				resource.TestCheckResourceAttrPair("data.oci_database_cloud_vm_clusters.ack_clusters", "cloud_vm_clusters.0.id", resourceName, "id"),
+				databaseAcknowledgementIDCheck(resourceName, &clusterID, false),
+				databaseAcknowledgementScopedDiscoveryCheck(t, resourceName),
+			),
+		},
+		{
+			// This launch-only argument is ForceNew for Cloud VM Cluster.
+			Config: configFor("false", false),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "is_older_version_acknowledged", "false"),
+				resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
+				databaseAcknowledgementIDCheck(resourceName, &clusterID, true),
+			),
+		},
+		{
+			Config:            configFor("false", false),
+			ResourceName:      resourceName,
+			ImportState:       true,
+			ImportStateVerify: true,
+			// The service does not return this request-only field on GET. Its
+			// configured true/false and replacement behavior are checked above.
+			ImportStateVerifyIgnore: []string{"is_older_version_acknowledged", "create_async"},
+		},
+		{
+			Config:   configFor("", false),
+			PlanOnly: true,
 		},
 	})
 }

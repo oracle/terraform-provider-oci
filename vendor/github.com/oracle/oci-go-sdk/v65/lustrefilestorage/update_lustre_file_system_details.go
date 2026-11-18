@@ -52,6 +52,8 @@ type UpdateLustreFileSystemDetails struct {
 	RootSquashConfiguration *RootSquashConfiguration `mandatory:"false" json:"rootSquashConfiguration"`
 
 	MaintenanceWindow *MaintenanceWindow `mandatory:"false" json:"maintenanceWindow"`
+
+	TieringConfiguration *TieringConfigurationDetails `mandatory:"false" json:"tieringConfiguration"`
 }
 
 func (m UpdateLustreFileSystemDetails) String() string {

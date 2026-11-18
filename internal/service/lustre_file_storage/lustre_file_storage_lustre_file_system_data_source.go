@@ -152,6 +152,12 @@ func (s *LustreFileStorageLustreFileSystemDataSourceCrud) SetData() error {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
+	if s.Res.TieringConfiguration != nil {
+		s.D.Set("tiering_configuration", []interface{}{TieringConfigurationToMap(s.Res.TieringConfiguration)})
+	} else {
+		s.D.Set("tiering_configuration", nil)
+	}
+
 	if s.Res.TimeBillingCycleEnd != nil {
 		s.D.Set("time_billing_cycle_end", s.Res.TimeBillingCycleEnd.String())
 	}

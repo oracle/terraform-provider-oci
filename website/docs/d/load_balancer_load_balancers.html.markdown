@@ -62,16 +62,19 @@ The following attributes are exported:
 		If "true", the IP address is public and accessible from the internet.
 
 		If "false", the IP address is private and accessible only from within the associated VCN. 
-	* `reserved_ip` - 
-        * `id` - Ocid of the Reserved IP/Public Ip created with VCN.
+	* `reserved_ip` -
+		* `id` - Ocid of the Reserved IP (Public IP or Private IP) created with VCN.
 
-            Reserved IPs are IPs which already registered using VCN API.
+			Reserved IPs are IPs which already registered using VCN API.
 
-            Create a reserved Public IP and then while creating the load balancer pass the ocid of the reserved IP in this field reservedIp to attach the Ip to Load balancer. Load balancer will be configured to listen to traffic on this IP.
+			For public load balancers, create a reserved Public IP and pass the OCID in this field.
+			For private load balancers, create a reserved Private IP and pass the OCID in this field.
+			Load balancer will be configured to listen to traffic on this IP.
 
-            Reserved IPs will not be deleted when the Load balancer is deleted. They will be unattached from the Load balancer.
+			Reserved IPs will not be deleted when the Load balancer is deleted. They will be unattached from the Load balancer.
 
-            Example: "ocid1.publicip.oc1.phx.unique_ID" 
+			Public IP Example: "ocid1.publicip.oc1.phx.unique_ID"
+			Private IP Example: "ocid1.privateip.oc1.phx.unique_ID"
 * `ip_addresses` - An array of IP addresses. Deprecated: use ip_address_details instead.
 
 * `is_delete_protection_enabled` - Whether or not the load balancer has delete protection enabled.
@@ -186,4 +189,3 @@ The following attributes are exported:
 * `subnet_ids` - An array of subnet [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). System tags can be viewed by users, but can only be created by the system.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time the load balancer was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
-

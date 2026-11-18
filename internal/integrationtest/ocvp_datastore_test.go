@@ -38,7 +38,7 @@ var (
 	}
 
 	OcvpDatastoreDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"datastore_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_ocvp_datastore.test_datastore.id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `Active`},

@@ -399,6 +399,69 @@ func (client ClusterClient) listClusters(ctx context.Context, request common.OCI
 	return response, err
 }
 
+// RetrieveClusterOperationStatus Retrieves status of the operation performed on the Cluster. For each type of operation, only status of the latest operation is returned.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/RetrieveClusterOperationStatus.go.html to see an example of how to use RetrieveClusterOperationStatus API.
+// A default retry strategy applies to this operation RetrieveClusterOperationStatus()
+func (client ClusterClient) RetrieveClusterOperationStatus(ctx context.Context, request RetrieveClusterOperationStatusRequest) (response RetrieveClusterOperationStatusResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.retrieveClusterOperationStatus, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RetrieveClusterOperationStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RetrieveClusterOperationStatusResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RetrieveClusterOperationStatusResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RetrieveClusterOperationStatusResponse")
+	}
+	return
+}
+
+// retrieveClusterOperationStatus implements the OCIOperation interface (enables retrying operations)
+func (client ClusterClient) retrieveClusterOperationStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/clusters/{clusterId}/actions/retrieveOperationStatus/{operationName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RetrieveClusterOperationStatusResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cluster", "RetrieveClusterOperationStatus")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/Cluster/RetrieveClusterOperationStatus"
+		err = common.PostProcessServiceError(err, "Cluster", "RetrieveClusterOperationStatus", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateCluster Updates the specified Cluster.
 // **Important:** Updating a Cluster affects only certain attributes in the `Cluster`
 // object and does not affect the VMware environment currently running in

@@ -25,7 +25,7 @@ func OcvpDatastoresDataSource() *schema.Resource {
 			},
 			"compartment_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"datastore_id": {
 				Type:     schema.TypeString,

@@ -54,6 +54,32 @@ type HealthCheckerDetails struct {
 	// Example: `^((?!false).|\s)*$`
 	ResponseBodyRegex *string `mandatory:"false" json:"responseBodyRegex"`
 
+	// You can enable dynamic backend weights for HTTP health checks.
+	// When enabled, the load balancer reads the `X-Dynamic-Backend-Weight`
+	// header from each backend's HTTP health check response.
+	// The load balancer uses that value as the backend's effective weight
+	// when distributing traffic.
+	// A valid header value is an integer from `0` through `100`.
+	// If the backend response does not include this header, or includes an invalid
+	// value, the load balancer uses `defaultWeight`.
+	// If omitted during create, the default is `false`.
+	// For TCP health checks, this field is accepted and stored, but it has no runtime effect.
+	IsDynamicBackendWeightEnabled *bool `mandatory:"false" json:"isDynamicBackendWeightEnabled"`
+
+	// You can configure this fallback backend weight when dynamic backend weights
+	// are enabled and the backend's HTTP health check response does not include a valid
+	// `X-Dynamic-Backend-Weight` header value.
+	// This value must be an integer from `1` through `100`.
+	// Setting `defaultWeight` does not enable dynamic backend weights. To enable
+	// dynamic backend weights, set `isDynamicBackendWeightEnabled` to `true`.
+	// If your request includes `defaultWeight`, you must also set
+	// `isDynamicBackendWeightEnabled` to `true`; otherwise, the request is rejected.
+	// On create, if dynamic backend weights are enabled and this field is omitted or
+	// null, the service uses `1`.
+	// For TCP health checks, this field is accepted and stored, but it has no runtime effect.
+	// Example: `1`
+	DefaultWeight *int `mandatory:"false" json:"defaultWeight"`
+
 	// Specifies if health checks should always be done using plain text instead of depending on
 	// whether or not the associated backend set is using SSL.
 	// If "true", health checks will be done using plain text even if the associated backend set is configured

@@ -8,14 +8,16 @@ import (
 	"fmt"
 	"log"
 	"strings"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
+	oci_core "github.com/oracle/oci-go-sdk/v65/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
+
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
-	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 )
 
 func CoreVolumeAttachmentResource() *schema.Resource {
@@ -196,6 +198,7 @@ func createCoreVolumeAttachment(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVolumeAttachmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
+	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -213,6 +216,7 @@ func deleteCoreVolumeAttachment(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 	sync.DisableNotFoundRetries = true
+	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
 	return tfresource.DeleteResource(d, sync)
 }
@@ -222,6 +226,7 @@ type CoreVolumeAttachmentResourceCrud struct {
 	Client                 *oci_core.ComputeClient
 	Res                    *oci_core.VolumeAttachment
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *CoreVolumeAttachmentResourceCrud) ID() string {
@@ -267,7 +272,18 @@ func (s *CoreVolumeAttachmentResourceCrud) Create() error {
 		return err
 	}
 
+	workId := response.OpcWorkRequestId
 	s.Res = &response.VolumeAttachment
+
+	if workId != nil {
+		if identifier := response.GetId(); identifier != nil {
+			s.D.SetId(*identifier)
+		}
+		if err = s.waitForWorkRequestCompletion(*workId, s.D.Timeout(schema.TimeoutCreate)); err != nil {
+			return err
+		}
+	}
+	// CreateResource initializes the ID from s.Res before refreshing the attachment.
 	return nil
 }
 
@@ -296,8 +312,24 @@ func (s *CoreVolumeAttachmentResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	_, err := s.Client.DetachVolume(context.Background(), request)
-	return err
+	response, err := s.Client.DetachVolume(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		err = s.waitForWorkRequestCompletion(*workId, s.D.Timeout(schema.TimeoutDelete))
+		if err != nil {
+			return &tfresource.WorkRequestFailureError{Err: err}
+		}
+	}
+
+	return nil
+}
+
+func (s *CoreVolumeAttachmentResourceCrud) waitForWorkRequestCompletion(workRequestId string, timeout time.Duration) error {
+	return waitForCoreWorkRequestCompletion(context.Background(), s.WorkRequestClient, workRequestId, timeout, s.DisableNotFoundRetries)
 }
 
 func (s *CoreVolumeAttachmentResourceCrud) SetData() error {

@@ -326,6 +326,7 @@ func TestOcvpEsxiHostResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "billing_contract_end_date"),
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
+				resource.TestCheckResourceAttr(resourceName, "current_commitment", "HOUR"),
 				resource.TestCheckResourceAttr(resourceName, "esxi_software_version", "esxi7u3k-21313628-1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),

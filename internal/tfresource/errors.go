@@ -5,6 +5,7 @@ package tfresource
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -22,6 +23,16 @@ import (
 )
 
 type errorTypeEnum string
+
+// WorkRequestFailureError distinguishes operation polling failures from errors
+// establishing that the managed resource itself no longer exists.
+type WorkRequestFailureError struct {
+	Err error
+}
+
+func (e *WorkRequestFailureError) Error() string { return e.Err.Error() }
+
+func (e *WorkRequestFailureError) Unwrap() error { return e.Err }
 
 var serviceErrorCheck = func(err error) (failure oci_common.ServiceErrorLocalizationMessage, ok bool) {
 	return oci_common.IsServiceErrorLocalizationMessage(err)
@@ -184,6 +195,12 @@ func (tfE customError) Error() error {
 }
 
 func handleMissingResourceError(sync ResourceVoider, err *error, readResource ...error) {
+	// A missing work request or a failure message mentioning "not found" does
+	// not establish resource deletion and must not clear Terraform state.
+	var workRequestFailure *WorkRequestFailureError
+	if errors.As(*err, &workRequestFailure) {
+		return
+	}
 
 	if isCircuitBreakerOpen(*err) {
 		log.Printf("[DEBUG] the circuit breaker is in the open state, error triggering the circuit breaker is \n %s\n", *err)

@@ -896,6 +896,69 @@ func (client SddcClient) retrievePassword(ctx context.Context, request common.OC
 	return response, err
 }
 
+// RetrieveSddcOperationStatus Retrieves status of the operation performed on the SDDC. For each type of operation, only status of the latest operation is returned.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/RetrieveSddcOperationStatus.go.html to see an example of how to use RetrieveSddcOperationStatus API.
+// A default retry strategy applies to this operation RetrieveSddcOperationStatus()
+func (client SddcClient) RetrieveSddcOperationStatus(ctx context.Context, request RetrieveSddcOperationStatusRequest) (response RetrieveSddcOperationStatusResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.retrieveSddcOperationStatus, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RetrieveSddcOperationStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RetrieveSddcOperationStatusResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RetrieveSddcOperationStatusResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RetrieveSddcOperationStatusResponse")
+	}
+	return
+}
+
+// retrieveSddcOperationStatus implements the OCIOperation interface (enables retrying operations)
+func (client SddcClient) retrieveSddcOperationStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sddcs/{sddcId}/actions/retrieveOperationStatus/{operationName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RetrieveSddcOperationStatusResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "sddc", "RetrieveSddcOperationStatus")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/Sddc/RetrieveSddcOperationStatus"
+		err = common.PostProcessServiceError(err, "Sddc", "RetrieveSddcOperationStatus", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RetrieveVmwareBinaries Retrieve the list of available VMware binaries for the SDDC.
 //
 // # See also

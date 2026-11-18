@@ -38,5 +38,6 @@ variable "ssh_public_key" {
 }
 
 variable "admin_password" {
-  type = string
+  type      = string
+  sensitive = true
 }

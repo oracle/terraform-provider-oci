@@ -78,6 +78,35 @@ variable "lustre_file_system_state" {
   default = "AVAILABLE"
 }
 
+variable "lustre_file_system_tiering_configuration_is_enabled" {
+  default = true
+}
+
+variable "lustre_file_system_tiering_configuration_policy_mode" {
+  # DEFAULT requires removing the explicit rules block from the resource.
+  default = "CUSTOM"
+}
+
+variable "lustre_file_system_tiering_configuration_rules_action" {
+  default = "ARCHIVE"
+}
+
+variable "lustre_file_system_tiering_configuration_rules_archive_after_days_since_last_access" {
+  default = 10
+}
+
+variable "lustre_file_system_tiering_configuration_rules_min_size_in_bytes" {
+  default = 1000000
+}
+
+variable "lustre_file_system_tiering_configuration_rules_path_prefixes" {
+  default = ["/archive"]
+}
+
+variable "lustre_file_system_tiering_configuration_rules_release_after_days_since_last_access" {
+  default = 20
+}
+
 variable "cluster_placement_group_id" {
   default = null
 }

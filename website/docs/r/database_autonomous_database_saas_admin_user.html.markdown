@@ -102,6 +102,8 @@ The following attributes are exported:
 		* `tls_authentication` - Specifies whether the TLS handshake is using one-way (`SERVER`) or mutual (`MUTUAL`) authentication.
 		* `value` - Connection string value.
 * `connection_urls` - The URLs for accessing Oracle Application Express (APEX) and SQL Developer Web with a browser from a Compute instance within your VCN or that has a direct connection to your VCN. Note that these URLs are provided by the console only for databases on [dedicated Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).  Example: `{"sqlDevWebUrl": "https://<hostname>/ords...", "apexUrl", "https://<hostname>/ords..."}` 
+	* `a2a_url` - The URL of the Agent-to-Agent (A2A) server for the Autonomous AI Database. Applicable to Autonomous AI Database Serverless only.
+	* `mcp_url` - The URL of the Model Context Protocol (MCP) server for the Autonomous AI Database. Applicable to Autonomous AI Database Serverless only.
 	* `apex_url` - Oracle Application Express (APEX) URL.
 	* `database_transforms_url` - The URL of the Database Transforms for the Autonomous AI Database.
 	* `graph_studio_url` - The URL of the Graph Studio for the Autonomous AI Database.
@@ -133,6 +135,7 @@ The following attributes are exported:
 
 	This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, isLocalDataGuardEnabled, or isFreeTier. 
 	* `compute_count` - Compute used by database tools.
+	* `estimated_concurrent_sessions` - Specifies the estimated number of concurrent user sessions (range 1–64 for Graph, 1–256 for OML, default 1). applies only to OML and Graph tools—not applicable to DLA, Data Transforms, or Spatial.
 	* `is_enabled` - Indicates whether tool is enabled.
 	* `max_idle_time_in_minutes` - The max idle time, in minutes, after which the VM used by database tools will be terminated.
 	* `name` - Name of database tool.
@@ -298,6 +301,8 @@ The following attributes are exported:
 	This setting cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, dbWorkload, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isFreeTier. 
 * `provisionable_cpus` - An array of CPU values that an Autonomous AI Database can be scaled to.
 * `public_connection_urls` - The Public URLs of Private Endpoint database for accessing Oracle Application Express (APEX) and SQL Developer Web with a browser from a Compute instance within your VCN or that has a direct connection to your VCN.
+	* `a2a_url` - The URL of the Agent-to-Agent (A2A) server for the Autonomous AI Database. Applicable to Autonomous AI Database Serverless only.
+	* `mcp_url` - The URL of the Model Context Protocol (MCP) server for the Autonomous AI Database. Applicable to Autonomous AI Database Serverless only.
 	* `apex_url` - Oracle Application Express (APEX) URL.
 	* `database_transforms_url` - The URL of the Database Transforms for the Autonomous AI Database.
 	* `graph_studio_url` - The URL of the Graph Studio for the Autonomous AI Database.

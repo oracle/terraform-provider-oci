@@ -34,6 +34,17 @@ type UpdateEsxiHostDetails struct {
 	// any update request fails with the error “Next SKU can’t be NULL or Hourly.”
 	BillingDonorHostId *string `mandatory:"false" json:"billingDonorHostId"`
 
+	// The version of VMware software that Oracle Cloud VMware Solution installed on the ESXi host. To get a list of the available versions, use
+	// ListSupportedVmwareSoftwareVersions.
+	// **Note:** This API will not perform VMware software version upgrade. Make sure the version provided is the actual version installed on the ESXi host.
+	VmwareSoftwareVersion *string `mandatory:"false" json:"vmwareSoftwareVersion"`
+
+	// The version of ESXi software that Oracle Cloud VMware Solution installed on the ESXi host.
+	// To get a list of the available versions, use
+	// ListSupportedVmwareSoftwareVersions.
+	// **Note:** This API will not perform ESXi software version upgrade. Make sure the version provided is the actual version installed on the ESXi host.
+	EsxiSoftwareVersion *string `mandatory:"false" json:"esxiSoftwareVersion"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Byol Allocation for VCF (VMware Cloud Foundation) deployment.
 	VcfByolAllocationId *string `mandatory:"false" json:"vcfByolAllocationId"`
 

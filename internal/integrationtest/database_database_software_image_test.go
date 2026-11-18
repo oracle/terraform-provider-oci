@@ -603,3 +603,39 @@ func DatabaseDatabaseSoftwareImageSweepResponseFetchOperation(client *client.Ora
 	})
 	return err
 }
+
+// This test isolates the create-only acknowledgment from optional image patches,
+// tag migration, resource discovery, and unrelated API operations.
+func TestDatabaseDatabaseSoftwareImageResourceOlderVersionAcknowledgement(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseDatabaseSoftwareImageResourceOlderVersionAcknowledgement")
+	defer httpreplay.SaveScenario()
+	compartment := databaseAckRequiredInput(t, "compartment_ocid")
+	dbVersion := databaseAckRequiredInput(t, "ack_test_image_database_version")
+	patchSet := databaseAckRequiredInput(t, "ack_test_image_patch_set")
+	name := "oci_database_database_software_image.ack_image"
+	configFor := func(ack bool) string {
+		return acctest.ProviderTestConfig() + fmt.Sprintf(`
+resource "oci_database_database_software_image" "ack_image" {
+ compartment_id = %q
+ database_version = %q
+ patch_set = %q
+ display_name = "TERSI-5426-ack-image"
+ image_shape_family = "VM_BM_SHAPE"
+ image_type = "DATABASE_IMAGE"
+ is_older_version_acknowledged = %t
+}
+`, compartment, dbVersion, patchSet, ack)
+	}
+	var imageID string
+	acctest.ResourceTest(t, testAccCheckDatabaseDatabaseSoftwareImageDestroy, []resource.TestStep{
+		{Config: configFor(true), Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+			resource.TestCheckResourceAttr(name, "is_older_version_acknowledged", "true"),
+			resource.TestCheckResourceAttr(name, "database_version", dbVersion),
+			resource.TestCheckResourceAttr(name, "patch_set", patchSet),
+			resource.TestCheckResourceAttr(name, "state", "AVAILABLE"),
+			databaseAckRequireReplacedID(name, &imageID),
+			databaseAcknowledgementScopedDiscoveryCheck(t, name),
+		)},
+		{Config: configFor(true), PlanOnly: true},
+	})
+}
