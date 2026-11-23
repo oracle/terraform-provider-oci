@@ -6,6 +6,7 @@ package database
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -333,6 +334,35 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 			"hostname": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"key_management_system_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"is_exclusive": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"key_management_system": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"key_store_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"thales_hsm_port": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"last_maintenance_run_id": {
 				Type:     schema.TypeString,
@@ -1187,6 +1217,16 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) SetData() error {
 		s.D.Set("is_mtls_enabled_vm_cluster", *s.Res.IsMtlsEnabledVmCluster)
 	}
 
+	if s.Res.KeyManagementSystemDetails != nil {
+		keyManagementSystemDetailsArray := []interface{}{}
+		if keyManagementSystemDetailsMap := KeyManagementSystemDetailsToMap(&s.Res.KeyManagementSystemDetails); keyManagementSystemDetailsMap != nil {
+			keyManagementSystemDetailsArray = append(keyManagementSystemDetailsArray, keyManagementSystemDetailsMap)
+		}
+		s.D.Set("key_management_system_details", keyManagementSystemDetailsArray)
+	} else {
+		s.D.Set("key_management_system_details", nil)
+	}
+
 	if s.Res.LastMaintenanceRunId != nil {
 		s.D.Set("last_maintenance_run_id", *s.Res.LastMaintenanceRunId)
 	}
@@ -1439,6 +1479,49 @@ func AdbdIdentityConnectorDetailsToMap(obj oci_database.IdentityConnectorDetails
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	return result
+}
+
+func (s *DatabaseCloudAutonomousVmClusterResourceCrud) KeyManagementSystemDetailsToMap(obj *oci_database.KeyManagementSystemDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_database.OciVaultKeyManagementSystemDetails:
+		result["key_management_system"] = "OCI_VAULT"
+
+		if v.IsExclusive != nil {
+			result["is_exclusive"] = bool(*v.IsExclusive)
+		}
+	case oci_database.OracleKeyVaultKeyManagementSystemDetails:
+		result["key_management_system"] = "ORACLE_KEY_VAULT"
+
+		if v.IsExclusive != nil {
+			result["is_exclusive"] = bool(*v.IsExclusive)
+		}
+	case oci_database.OracleManagedKeyManagementSystemDetails:
+		result["key_management_system"] = "ORACLE_MANAGED_KEYS"
+
+		if v.IsExclusive != nil {
+			result["is_exclusive"] = bool(*v.IsExclusive)
+		}
+	case oci_database.ThalesKeyManagementSystemDetails:
+		result["key_management_system"] = "THALES"
+
+		if v.KeyStoreId != nil {
+			result["key_store_id"] = string(*v.KeyStoreId)
+		}
+
+		if v.ThalesHsmPort != nil {
+			result["thales_hsm_port"] = int(*v.ThalesHsmPort)
+		}
+
+		if v.IsExclusive != nil {
+			result["is_exclusive"] = bool(*v.IsExclusive)
+		}
+	default:
+		log.Printf("[WARN] Received 'key_management_system' of unknown type %v", *obj)
+		return nil
 	}
 
 	return result

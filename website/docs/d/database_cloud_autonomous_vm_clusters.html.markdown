@@ -24,6 +24,7 @@ data "oci_database_cloud_autonomous_vm_clusters" "test_cloud_autonomous_vm_clust
 	availability_domain = var.cloud_autonomous_vm_cluster_availability_domain
 	cloud_exadata_infrastructure_id = oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id
 	display_name = var.cloud_autonomous_vm_cluster_display_name
+	kms_type = var.cloud_autonomous_vm_cluster_kms_type
 	state = var.cloud_autonomous_vm_cluster_state
 }
 ```
@@ -36,6 +37,7 @@ The following arguments are supported:
 * `cloud_exadata_infrastructure_id` - (Optional) If provided, filters the results for the specified cloud Exadata infrastructure.
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
+* `kms_type` - (Optional) A filter to return only resources that match the given kms exactly.
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
 
 
@@ -76,6 +78,11 @@ The following attributes are exported:
 * `hostname` - The hostname for the cloud Autonomous VM cluster.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Cloud Autonomous VM cluster.
 * `is_mtls_enabled_vm_cluster` - Enable mutual TLS(mTLS) authentication for database at time of provisioning a VMCluster. This is applicable to database TLS Certificates only. Default is TLS
+* `key_management_system_details` - Autonomous VM Cluster Key Management System details.
+	* `is_exclusive` - If true, ACDs within this Cluster cannot use a different key management system than what is configured in AVM Cluster.
+	* `key_management_system` - The type of key management system used.
+	* `key_store_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
+	* `thales_hsm_port` - Thales HSM Port. Default is 9000. 
 * `last_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last maintenance run.
 * `last_update_history_entry_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last maintenance update history. This value is updated when a maintenance update starts.
 * `license_model` - The Oracle license model that applies to the Oracle Autonomous AI Database. Bring your own license (BYOL) allows you to apply your current on-premises Oracle software licenses to equivalent, highly automated Oracle services in the cloud. License Included allows you to subscribe to new Oracle AI Database software licenses and the Oracle AI Database service. Note that when provisioning an [Autonomous AI Database on dedicated Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), this attribute must be null. It is already set at the Autonomous Exadata Infrastructure level. When provisioning an [Autonomous AI Database Serverless] (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html) database, if a value is not specified, the system defaults the value to `BRING_YOUR_OWN_LICENSE`. Bring your own license (BYOL) also allows you to select the DB edition using the optional parameter.

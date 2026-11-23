@@ -32,6 +32,10 @@ func DatabaseAutonomousVmClustersDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"kms_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -79,6 +83,10 @@ func (s *DatabaseAutonomousVmClustersDataSourceCrud) GetWithContext(ctx context.
 	if exadataInfrastructureId, ok := s.D.GetOkExists("exadata_infrastructure_id"); ok {
 		tmp := exadataInfrastructureId.(string)
 		request.ExadataInfrastructureId = &tmp
+	}
+
+	if kmsType, ok := s.D.GetOkExists("kms_type"); ok {
+		request.KmsType = oci_database.ListAutonomousVmClustersKmsTypeEnum(kmsType.(string))
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
@@ -207,6 +215,16 @@ func (s *DatabaseAutonomousVmClustersDataSourceCrud) SetData() error {
 
 		if r.IsMtlsEnabled != nil {
 			autonomousVmCluster["is_mtls_enabled"] = *r.IsMtlsEnabled
+		}
+
+		if r.KeyManagementSystemDetails != nil {
+			keyManagementSystemDetailsArray := []interface{}{}
+			if keyManagementSystemDetailsMap := KeyManagementSystemDetailsToMap(&r.KeyManagementSystemDetails); keyManagementSystemDetailsMap != nil {
+				keyManagementSystemDetailsArray = append(keyManagementSystemDetailsArray, keyManagementSystemDetailsMap)
+			}
+			autonomousVmCluster["key_management_system_details"] = keyManagementSystemDetailsArray
+		} else {
+			autonomousVmCluster["key_management_system_details"] = nil
 		}
 
 		if r.LastMaintenanceRunId != nil {
