@@ -73,9 +73,10 @@ func CoreSecurityListResource() *schema.Resource {
 
 						// Optional
 						"description": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							DiffSuppressFunc: suppressEmptyComputedSetAttrDiff,
 						},
 						"destination_type": {
 							Type:     schema.TypeString,
@@ -240,9 +241,10 @@ func CoreSecurityListResource() *schema.Resource {
 
 						// Optional
 						"description": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							DiffSuppressFunc: suppressEmptyComputedSetAttrDiff,
 						},
 						"icmp_options": {
 							Type:     schema.TypeList,
