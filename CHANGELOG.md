@@ -1,3 +1,19 @@
+## 9.15.0 (November 25, 2026)
+
+### Added
+- Support for Thales HSM support for ADBD and ADB-CC
+- Support for OCI GoldenGate deployment type: Oracle AI Data Catalog
+- Support for Strengthening control-plane security, automation, scalability, and observability
+- Support for standalone instance pool maintenance policy
+- Support for OCI Batch Service capacity reservations
+
+### Bug Fix
+- DataSafe Audit profile management resource update and retention fix
+- Correct Terraform compartment-name uniqueness documentation
+- Preserve zero TTL values in DNS RRSets, stop sending the deprecated compartmentId request parameter, and improve DNS resolver and RRSet documentation
+- upgrade Go to 1.26.11
+
+
 ## 9.14.0 (November 17, 2026)
 
 ### Added
