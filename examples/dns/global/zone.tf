@@ -65,6 +65,14 @@ resource "oci_dns_zone_stage_dnssec_key_version" "stage_dnssec_key_version" {
 }
 
 data "oci_dns_zones" "zs" {
+  # Wait for the example zones and zone4's DNSSEC setup.
+  depends_on = [
+    oci_dns_zone.zone1,
+    oci_dns_zone.zone2,
+    oci_dns_zone.zone3,
+    oci_dns_zone_stage_dnssec_key_version.stage_dnssec_key_version,
+  ]
+
   compartment_id = var.compartment_ocid
   name_contains  = "example"
   state          = "ACTIVE"
@@ -78,5 +86,10 @@ data "oci_identity_tenancy" "tenancy" {
 }
 
 output "zones" {
-  value = data.oci_dns_zones.zs.zones
+  value = [
+    for zone in data.oci_dns_zones.zs.zones : {
+      name = zone.name
+      id   = zone.id
+    }
+  ]
 }

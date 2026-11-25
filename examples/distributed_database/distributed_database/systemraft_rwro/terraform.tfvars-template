@@ -1,0 +1,172 @@
+# Defaults to the [DEFAULT] SecurityToken profile from ~/.oci/config.
+
+auth                = "SecurityToken"
+config_file_profile = "DEFAULT"
+
+region = "<region>"
+
+compartment_id = "ocid1.compartment.oc1..<compartment>"
+
+# Set create_private_endpoint = false when reusing existing private endpoints.
+# In that mode, additional_private_endpoint_ids is the complete private endpoint list.
+create_private_endpoint = true
+private_endpoint = {
+  display_name = "<ddb-private-endpoint-name>"
+  vcn_id       = "ocid1.vcn.oc1.<region>.<vcn>"
+  subnet_id    = "ocid1.subnet.oc1.<region>.<private-endpoint-subnet>"
+  description  = "System RAFT RW/RO demo private endpoint"
+  nsg_ids      = []
+  freeform_tags = {
+    environment = "<environment>"
+    purpose     = "systemraft-rwro-demo"
+  }
+}
+additional_private_endpoint_ids = []
+
+display_name = "<display-name>"
+prefix       = "<prefix>"
+
+database_version = "26ai"
+character_set    = "AL32UTF8"
+ncharacter_set   = "AL16UTF16"
+
+listener_port      = 33324
+ons_port_local     = 33325
+ons_port_remote    = 33326
+scan_listener_port = 8424
+
+system_chunk_count                 = 120
+system_raft_replication_unit_count = 6
+
+
+vault_id   = "ocid1.vault.oc1.<region>.<vault>"
+kms_key_id = "ocid1.key.oc1.<region>.<key>"
+
+# Included during creation; edit this block for a later backup configuration update.
+db_backup_config = {
+  is_auto_backup_enabled        = true
+  auto_backup_window            = "SLOT_FIVE"
+  auto_full_backup_day          = "SUNDAY"
+  auto_full_backup_window       = "SLOT_FIVE"
+  backup_deletion_policy        = "DELETE_IMMEDIATELY"
+  recovery_window_in_days       = 30
+  can_run_immediate_full_backup = true
+  backup_destination_details = [{
+    type = "OBJECT_STORE"
+  }]
+}
+
+system_raft_clusters = [
+  {
+    name               = "<read-write-shard-group-name>"
+    replication_factor = 2
+    witness_count      = 0
+    ru_mode            = "READ_WRITE"
+    databases = [
+      {
+        admin_password_secret_id             = "<shard-admin-password-secret-ocid>"
+        admin_password_secret_version_number = null
+        source                               = "XS_EXISTING_CLUSTER"
+        vm_cluster_id                        = "ocid1.exadbvmcluster.oc1.<region>.<read-write-vm-cluster-1>"
+        vault_id                             = "ocid1.vault.oc1.<region>.<vault>"
+        kms_key_id                           = "ocid1.key.oc1.<region>.<key>"
+      },
+      {
+        admin_password_secret_id             = "<shard-admin-password-secret-ocid>"
+        admin_password_secret_version_number = null
+        source                               = "XS_EXISTING_CLUSTER"
+        vm_cluster_id                        = "ocid1.exadbvmcluster.oc1.<region>.<read-write-vm-cluster-2>"
+        vault_id                             = "ocid1.vault.oc1.<region>.<vault>"
+        kms_key_id                           = "ocid1.key.oc1.<region>.<key>"
+      },
+      {
+        admin_password_secret_id             = "<shard-admin-password-secret-ocid>"
+        admin_password_secret_version_number = null
+        source                               = "XS_EXISTING_CLUSTER"
+        vm_cluster_id                        = "ocid1.exadbvmcluster.oc1.<region>.<read-write-witness-vm-cluster>"
+        vault_id                             = "ocid1.vault.oc1.<region>.<vault>"
+        kms_key_id                           = "ocid1.key.oc1.<region>.<key>"
+      }
+    ]
+  },
+  {
+    name               = "<read-only-shard-group-name>"
+    replication_factor = 2
+    witness_count      = 0
+    ru_mode            = "READ_ONLY"
+    databases = [
+      {
+        admin_password_secret_id             = "<shard-admin-password-secret-ocid>"
+        admin_password_secret_version_number = null
+        source                               = "XS_EXISTING_CLUSTER"
+        vm_cluster_id                        = "ocid1.exadbvmcluster.oc1.<region>.<read-only-vm-cluster-1>"
+        vault_id                             = "ocid1.vault.oc1.<region>.<vault>"
+        kms_key_id                           = "ocid1.key.oc1.<region>.<key>"
+      },
+      {
+        admin_password_secret_id             = "<shard-admin-password-secret-ocid>"
+        admin_password_secret_version_number = null
+        source                               = "XS_EXISTING_CLUSTER"
+        vm_cluster_id                        = "ocid1.exadbvmcluster.oc1.<region>.<read-only-vm-cluster-2>"
+        vault_id                             = "ocid1.vault.oc1.<region>.<vault>"
+        kms_key_id                           = "ocid1.key.oc1.<region>.<key>"
+      },
+      {
+        admin_password_secret_id             = "<shard-admin-password-secret-ocid>"
+        admin_password_secret_version_number = null
+        source                               = "XS_EXISTING_CLUSTER"
+        vm_cluster_id                        = "ocid1.exadbvmcluster.oc1.<region>.<read-only-witness-vm-cluster>"
+        vault_id                             = "ocid1.vault.oc1.<region>.<vault>"
+        kms_key_id                           = "ocid1.key.oc1.<region>.<key>"
+      }
+    ]
+  }
+]
+
+catalog_details = [
+  {
+    original_replica = {
+      name = "<catalog-name>"
+      database = {
+        admin_password_secret_id             = "<catalog-admin-password-secret-ocid>"
+        admin_password_secret_version_number = null
+        source                               = "XS_EXISTING_CLUSTER"
+        vm_cluster_id                        = "ocid1.exadbvmcluster.oc1.<region>.<catalog-vm-cluster>"
+        vault_id                             = "ocid1.vault.oc1.<region>.<vault>"
+        kms_key_id                           = "ocid1.key.oc1.<region>.<key>"
+      }
+    }
+  }
+]
+
+freeform_tags = {
+  environment = "<environment>"
+  region      = "<region-code>"
+  topology    = "system_raft_rf2_rw_ro"
+}
+
+configure_sharding_enabled               = true
+configure_sharding_is_rebalance_required = true
+
+# Optional post-create actions can be added in a later apply.
+gds_control_nodes = [
+  {
+    public_ssh_key = "ssh-rsa <public-key-for-gdsctl-node>"
+    subnet_id      = "ocid1.subnet.oc1.<region>.<gdsctl-node-subnet>"
+  }
+]
+# Add/remove databases and Data Guard replicas in the topology above.
+# Configure Sharding is a separate explicit operation when required.
+# See ../../ACTIONS.md.
+
+validate_network_trigger        = null
+# Set operational_state to AVAILABLE or STOPPED only after database creation.
+# operational_state = "AVAILABLE"
+
+# Keep successful action lists unchanged. Add another instance for additional operations.
+actions = {
+  insert    = []
+  insert_dg = []
+  remove_dg = []
+  remove    = []
+}

@@ -38,6 +38,13 @@ resource "oci_batch_batch_context" "test_batch_context" {
 			disk_size_in_gbs = var.batch_context_fleets_shape_disk_size_in_gbs
 		}
 		type = var.batch_context_fleets_type
+
+		#Optional
+		reservation {
+			#Required
+			capacity_reservation_ids = var.batch_context_fleets_reservation_capacity_reservation_ids
+			type = var.batch_context_fleets_reservation_type
+		}
 	}
 	network {
 		#Required
@@ -84,6 +91,9 @@ The following arguments are supported:
 * `fleets` - (Required) List of fleet configurations related to the batch context.
 	* `max_concurrent_tasks` - (Required) Maximum number of concurrent tasks for the service managed fleet.
 	* `name` - (Required) Name of the service managed fleet.
+	* `reservation` - (Optional) Reservation selection for initial provisioning of a fleet.
+		* `capacity_reservation_ids` - (Required) Compute capacity reservation OCIDs used for initial fleet provisioning.
+		* `type` - (Required) Type of reservation. Discriminator for reservation subtypes.
 	* `shape` - (Required) Shape of the fleet. For `SERVICE_MANAGED_FLEET`, provide the CPU fleet shape fields. For `SERVICE_MANAGED_GPU_FLEET`, provide the GPU fleet shape fields.
 		* `disk_size_in_gbs` - (Applicable when `fleets.type=SERVICE_MANAGED_GPU_FLEET` and `type=FIXED_GPU_FLEET_SHAPE`) Amount of disk space in GBs required for the shape.
 		* `memory_in_gbs` - (Required) Amount of memory in GBs required for the shape.
@@ -124,6 +134,9 @@ The following attributes are exported:
 	* `details` - A message that describes the current state of the service managed fleet configuration in more detail.
 	* `max_concurrent_tasks` - Maximum number of concurrent tasks for the service managed fleet.
 	* `name` - Name of the service managed fleet.
+	* `reservation` - Reservation selection used for initial fleet provisioning.
+		* `capacity_reservation_ids` - Compute capacity reservation OCIDs used for initial fleet provisioning.
+		* `type` - Type of reservation. Discriminator for reservation subtypes.
 	* `shape` - Shape of the fleet. Describes hardware resources of each node in the fleet.
 		* `disk_size_in_gbs` - Amount of disk space in GBs required for the shape.
 		* `memory_in_gbs` - Amount of memory in GBs required for the shape.

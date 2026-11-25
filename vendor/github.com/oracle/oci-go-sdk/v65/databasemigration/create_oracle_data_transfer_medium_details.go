@@ -54,8 +54,16 @@ func (m *createoracledatatransfermediumdetails) UnmarshalPolymorphicJSON(data []
 		mm := CreateOracleDbLinkDataTransferMediumDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "GCS":
+		mm := CreateOracleGcsDataTransferMediumDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "NFS":
 		mm := CreateOracleNfsDataTransferMediumDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AZURE_BLOB":
+		mm := CreateOracleAzureBlobDataTransferMediumDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "OBJECT_STORAGE":
@@ -96,6 +104,8 @@ const (
 	CreateOracleDataTransferMediumDetailsTypeDblink        CreateOracleDataTransferMediumDetailsTypeEnum = "DBLINK"
 	CreateOracleDataTransferMediumDetailsTypeObjectStorage CreateOracleDataTransferMediumDetailsTypeEnum = "OBJECT_STORAGE"
 	CreateOracleDataTransferMediumDetailsTypeAwsS3         CreateOracleDataTransferMediumDetailsTypeEnum = "AWS_S3"
+	CreateOracleDataTransferMediumDetailsTypeAzureBlob     CreateOracleDataTransferMediumDetailsTypeEnum = "AZURE_BLOB"
+	CreateOracleDataTransferMediumDetailsTypeGcs           CreateOracleDataTransferMediumDetailsTypeEnum = "GCS"
 	CreateOracleDataTransferMediumDetailsTypeNfs           CreateOracleDataTransferMediumDetailsTypeEnum = "NFS"
 )
 
@@ -103,6 +113,8 @@ var mappingCreateOracleDataTransferMediumDetailsTypeEnum = map[string]CreateOrac
 	"DBLINK":         CreateOracleDataTransferMediumDetailsTypeDblink,
 	"OBJECT_STORAGE": CreateOracleDataTransferMediumDetailsTypeObjectStorage,
 	"AWS_S3":         CreateOracleDataTransferMediumDetailsTypeAwsS3,
+	"AZURE_BLOB":     CreateOracleDataTransferMediumDetailsTypeAzureBlob,
+	"GCS":            CreateOracleDataTransferMediumDetailsTypeGcs,
 	"NFS":            CreateOracleDataTransferMediumDetailsTypeNfs,
 }
 
@@ -110,6 +122,8 @@ var mappingCreateOracleDataTransferMediumDetailsTypeEnumLowerCase = map[string]C
 	"dblink":         CreateOracleDataTransferMediumDetailsTypeDblink,
 	"object_storage": CreateOracleDataTransferMediumDetailsTypeObjectStorage,
 	"aws_s3":         CreateOracleDataTransferMediumDetailsTypeAwsS3,
+	"azure_blob":     CreateOracleDataTransferMediumDetailsTypeAzureBlob,
+	"gcs":            CreateOracleDataTransferMediumDetailsTypeGcs,
 	"nfs":            CreateOracleDataTransferMediumDetailsTypeNfs,
 }
 
@@ -128,6 +142,8 @@ func GetCreateOracleDataTransferMediumDetailsTypeEnumStringValues() []string {
 		"DBLINK",
 		"OBJECT_STORAGE",
 		"AWS_S3",
+		"AZURE_BLOB",
+		"GCS",
 		"NFS",
 	}
 }

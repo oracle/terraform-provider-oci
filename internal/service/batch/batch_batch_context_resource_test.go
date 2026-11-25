@@ -1,6 +1,9 @@
 package batch
 
 import (
+	"encoding/json"
+	"fmt"
+	"reflect"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -88,6 +91,67 @@ func assertDoesNotContain(t *testing.T, values []string, unexpected string) {
 	for _, value := range values {
 		if value == unexpected {
 			t.Fatalf("expected %#v not to contain %q", values, unexpected)
+		}
+	}
+}
+
+func TestFleetToMapPreservesReservations(t *testing.T) {
+	for _, includeReservation := range []bool{false, true} {
+		for _, fleetType := range []string{"SERVICE_MANAGED_FLEET", "SERVICE_MANAGED_GPU_FLEET"} {
+			for _, response := range []bool{false, true} {
+				t.Run(fmt.Sprintf("%s/response=%t/reservation=%t", fleetType, response, includeReservation), func(t *testing.T) {
+					var fleet oci_batch.Fleet
+					switch {
+					case fleetType == "SERVICE_MANAGED_FLEET" && response:
+						fleet = &oci_batch.ServiceManagedFleet{}
+					case fleetType == "SERVICE_MANAGED_FLEET":
+						fleet = &oci_batch.CreateServiceManagedFleetDetails{}
+					case response:
+						fleet = &oci_batch.ServiceManagedGpuFleet{}
+					default:
+						fleet = &oci_batch.CreateServiceManagedGpuFleetDetails{}
+					}
+					payload := map[string]interface{}{
+						"name": "test-fleet", "maxConcurrentTasks": 10,
+						"state": "ACTIVE", "details": "ready",
+					}
+					if includeReservation {
+						payload["reservation"] = map[string]interface{}{
+							"type":                   "COMPUTE_CAPACITY_RESERVATION",
+							"capacityReservationIds": []string{"ocid1.capacityreservation.test"},
+						}
+					}
+					data, err := json.Marshal(payload)
+					if err != nil {
+						t.Fatal(err)
+					}
+					if err := json.Unmarshal(data, fleet); err != nil {
+						t.Fatal(err)
+					}
+					// SDK decoding supplies value models to FleetToMap.
+					fleet = reflect.ValueOf(fleet).Elem().Interface().(oci_batch.Fleet)
+					got := FleetToMap(fleet)
+					if got["type"] != fleetType || got["name"] != "test-fleet" || got["max_concurrent_tasks"] != 10 {
+						t.Fatalf("fleet fields lost: %#v", got)
+					}
+					if response && (got["state"] != "ACTIVE" || got["details"] != "ready") {
+						t.Fatalf("response state/details lost: %#v", got)
+					}
+					if !includeReservation {
+						if _, exists := got["reservation"]; exists {
+							t.Fatalf("unexpected reservation: %#v", got)
+						}
+						return
+					}
+					want := []interface{}{map[string]interface{}{
+						"type":                     "COMPUTE_CAPACITY_RESERVATION",
+						"capacity_reservation_ids": []string{"ocid1.capacityreservation.test"},
+					}}
+					if !reflect.DeepEqual(got["reservation"], want) {
+						t.Fatalf("reservation = %#v; want %#v", got["reservation"], want)
+					}
+				})
+			}
 		}
 	}
 }

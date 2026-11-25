@@ -158,6 +158,20 @@ func (s *DatabaseCloudAutonomousVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("hostname", *s.Res.Hostname)
 	}
 
+	if s.Res.IsMtlsEnabledVmCluster != nil {
+		s.D.Set("is_mtls_enabled_vm_cluster", *s.Res.IsMtlsEnabledVmCluster)
+	}
+
+	if s.Res.KeyManagementSystemDetails != nil {
+		keyManagementSystemDetailsArray := []interface{}{}
+		if keyManagementSystemDetailsMap := KeyManagementSystemDetailsToMap(&s.Res.KeyManagementSystemDetails); keyManagementSystemDetailsMap != nil {
+			keyManagementSystemDetailsArray = append(keyManagementSystemDetailsArray, keyManagementSystemDetailsMap)
+		}
+		s.D.Set("key_management_system_details", keyManagementSystemDetailsArray)
+	} else {
+		s.D.Set("key_management_system_details", nil)
+	}
+
 	if s.Res.LastMaintenanceRunId != nil {
 		s.D.Set("last_maintenance_run_id", *s.Res.LastMaintenanceRunId)
 	}

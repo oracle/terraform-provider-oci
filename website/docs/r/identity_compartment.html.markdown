@@ -20,7 +20,7 @@ Creates a new compartment in the specified compartment.
 * For backwards compatibility, an existing compartment (not including root compartment) with the same name will be automatically imported into the state. Properties of the existing compartment will be updated to what is defined in the new configuration. This can cause a problem if multiple Terraform configurations are using the same compartment, but, for example, specify a different compartment description.
 
 Specify the parent compartment's OCID as the compartment ID in the request object. Remember that the tenancy
-is simply the root compartment. For information about OCIDs, see
+is simply its parent compartment. For information about OCIDs, see
 [Resource Identifiers](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
 You must also specify a *name* for the compartment, which must be unique across all compartments in
@@ -92,4 +92,3 @@ Compartments can be imported using the `id`, e.g.
 ```
 $ terraform import oci_identity_compartment.test_compartment "id"
 ```
-

@@ -20,35 +20,6 @@ import (
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type SslConfigurationDetails struct {
 
-	// The maximum depth for peer certificate chain verification.
-	// Example: `3`
-	VerifyDepth *int `mandatory:"false" json:"verifyDepth"`
-
-	// Whether the load balancer listener should verify peer certificates.
-	// Example: `true`
-	VerifyPeerCertificate *bool `mandatory:"false" json:"verifyPeerCertificate"`
-
-	// Whether the load balancer listener should resume an encrypted session by reusing the cryptographic parameters of a previous TLS session, without having to perform a full handshake again.
-	// If "true", the service resumes the previous TLS encrypted session.
-	// If "false", the service starts a new TLS encrypted session.
-	// Enabling session resumption improves performance but provides a lower level of security. Disabling session resumption improves security but reduces performance.
-	// Example: `true`
-	HasSessionResumption *bool `mandatory:"false" json:"hasSessionResumption"`
-
-	// Ids for OCI certificates service CA or CA bundles for the load balancer to trust.
-	// Example: `[ocid1.cabundle.oc1.us-ashburn-1.amaaaaaaav3bgsaagl4zzyqdop5i2vuwoqewdvauuw34llqa74otq2jdsfyq]`
-	TrustedCertificateAuthorityIds []string `mandatory:"false" json:"trustedCertificateAuthorityIds"`
-
-	// Ids for OCI certificates service certificates. Currently only a single Id may be passed.
-	// Example: `[ocid1.certificate.oc1.us-ashburn-1.amaaaaaaav3bgsaa5o2q7rh5nfmkkukfkogasqhk6af2opufhjlqg7m6jqzq]`
-	CertificateIds []string `mandatory:"false" json:"certificateIds"`
-
-	// A friendly name for the certificate bundle. It must be unique and it cannot be changed.
-	// Valid certificate bundle names include only alphanumeric characters, dashes, and underscores.
-	// Certificate bundle names cannot contain spaces. Avoid entering confidential information.
-	// Example: `example_certificate_bundle`
-	CertificateName *string `mandatory:"false" json:"certificateName"`
-
 	// A list of SSL protocols the load balancer must support for HTTPS or SSL connections.
 	// The load balancer uses SSL protocols to establish a secure connection between a client and a server. A secure
 	// connection ensures that all data passed between the client and the server is private.
@@ -96,6 +67,35 @@ type SslConfigurationDetails struct {
 	// **Note:** This configuration is applicable only when the load balancer is acting as an SSL/HTTPS server. This
 	//           field is ignored when the `SSLConfiguration` object is associated with a backend set.
 	ServerOrderPreference SslConfigurationDetailsServerOrderPreferenceEnum `mandatory:"false" json:"serverOrderPreference,omitempty"`
+
+	// A friendly name for the certificate bundle. It must be unique and it cannot be changed.
+	// Valid certificate bundle names include only alphanumeric characters, dashes, and underscores.
+	// Certificate bundle names cannot contain spaces. Avoid entering confidential information.
+	// Example: `example_certificate_bundle`
+	CertificateName *string `mandatory:"false" json:"certificateName"`
+
+	// Ids for OCI certificates service certificates. Currently only a single Id may be passed.
+	// Example: `[ocid1.certificate.oc1.us-ashburn-1.amaaaaaaav3bgsaa5o2q7rh5nfmkkukfkogasqhk6af2opufhjlqg7m6jqzq]`
+	CertificateIds []string `mandatory:"false" json:"certificateIds"`
+
+	// Ids for OCI certificates service CA or CA bundles for the load balancer to trust.
+	// Example: `[ocid1.cabundle.oc1.us-ashburn-1.amaaaaaaav3bgsaagl4zzyqdop5i2vuwoqewdvauuw34llqa74otq2jdsfyq]`
+	TrustedCertificateAuthorityIds []string `mandatory:"false" json:"trustedCertificateAuthorityIds"`
+
+	// Whether the load balancer listener should resume an encrypted session by reusing the cryptographic parameters of a previous TLS session, without having to perform a full handshake again.
+	// If "true", the service resumes the previous TLS encrypted session.
+	// If "false", the service starts a new TLS encrypted session.
+	// Enabling session resumption improves performance but provides a lower level of security. Disabling session resumption improves security but reduces performance.
+	// Example: `true`
+	HasSessionResumption *bool `mandatory:"false" json:"hasSessionResumption"`
+
+	// Whether the load balancer listener should verify peer certificates.
+	// Example: `true`
+	VerifyPeerCertificate *bool `mandatory:"false" json:"verifyPeerCertificate"`
+
+	// The maximum depth for peer certificate chain verification.
+	// Example: `3`
+	VerifyDepth *int `mandatory:"false" json:"verifyDepth"`
 }
 
 func (m SslConfigurationDetails) String() string {

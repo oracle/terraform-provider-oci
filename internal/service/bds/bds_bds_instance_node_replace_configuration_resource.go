@@ -14,6 +14,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -29,11 +30,11 @@ func BdsBdsInstanceNodeReplaceConfigurationResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createBdsBdsInstanceNodeReplaceConfiguration,
-		Read:     readBdsBdsInstanceNodeReplaceConfiguration,
-		Update:   updateBdsBdsInstanceNodeReplaceConfiguration,
-		Delete:   deleteBdsBdsInstanceNodeReplaceConfiguration,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createBdsBdsInstanceNodeReplaceConfigurationWithContext,
+		ReadContext:   readBdsBdsInstanceNodeReplaceConfigurationWithContext,
+		UpdateContext: updateBdsBdsInstanceNodeReplaceConfigurationWithContext,
+		DeleteContext: deleteBdsBdsInstanceNodeReplaceConfigurationWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"bds_instance_id": {
@@ -127,13 +128,13 @@ func BdsBdsInstanceNodeReplaceConfigurationResource() *schema.Resource {
 	}
 }
 
-func createBdsBdsInstanceNodeReplaceConfiguration(d *schema.ResourceData, m interface{}) error {
+func createBdsBdsInstanceNodeReplaceConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceNodeReplaceConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 
-	//if e := tfresource.CreateResource(d, sync); e != nil {
+	//if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
 	//	return e
 	//}
 
@@ -147,19 +148,19 @@ func createBdsBdsInstanceNodeReplaceConfiguration(d *schema.ResourceData, m inte
 
 }
 
-func readBdsBdsInstanceNodeReplaceConfiguration(d *schema.ResourceData, m interface{}) error {
+func readBdsBdsInstanceNodeReplaceConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceNodeReplaceConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateBdsBdsInstanceNodeReplaceConfiguration(d *schema.ResourceData, m interface{}) error {
+func updateBdsBdsInstanceNodeReplaceConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceNodeReplaceConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 
 	//	if _, ok := sync.D.GetOkExists("remove_trigger"); ok && sync.D.HasChange("remove_trigger") {
 	//		oldRaw, newRaw := sync.D.GetChange("remove_trigger")
@@ -177,20 +178,20 @@ func updateBdsBdsInstanceNodeReplaceConfiguration(d *schema.ResourceData, m inte
 	//		}
 	//	}
 
-	//	if err := tfresource.UpdateResource(d, sync); err != nil {
+	//	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
 	//		return err
 	//	}
 	//
 	//	return nil
 }
 
-func deleteBdsBdsInstanceNodeReplaceConfiguration(d *schema.ResourceData, m interface{}) error {
+func deleteBdsBdsInstanceNodeReplaceConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceNodeReplaceConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type BdsBdsInstanceNodeReplaceConfigurationResourceCrud struct {
@@ -228,7 +229,7 @@ func (s *BdsBdsInstanceNodeReplaceConfigurationResourceCrud) DeletedTarget() []s
 	}
 }
 
-func (s *BdsBdsInstanceNodeReplaceConfigurationResourceCrud) Create() error {
+func (s *BdsBdsInstanceNodeReplaceConfigurationResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_bds.CreateNodeReplaceConfigurationRequest{}
 
 	if bdsInstanceId, ok := s.D.GetOkExists("bds_instance_id"); ok {
@@ -273,20 +274,20 @@ func (s *BdsBdsInstanceNodeReplaceConfigurationResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.CreateNodeReplaceConfiguration(context.Background(), request)
+	response, err := s.Client.CreateNodeReplaceConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceNodeReplaceConfigurationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getBdsInstanceNodeReplaceConfigurationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *BdsBdsInstanceNodeReplaceConfigurationResourceCrud) getBdsInstanceNodeReplaceConfigurationFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *BdsBdsInstanceNodeReplaceConfigurationResourceCrud) getBdsInstanceNodeReplaceConfigurationFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_bds.ActionTypesEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	bdsInstanceNodeReplaceConfigurationId, err := bdsInstanceNodeReplaceConfigurationWaitForWorkRequest(workId, "nodeReplaceConfig",
+	bdsInstanceNodeReplaceConfigurationId, err := bdsInstanceNodeReplaceConfigurationWaitForWorkRequest(ctx, workId, "nodeReplaceConfig",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -294,7 +295,7 @@ func (s *BdsBdsInstanceNodeReplaceConfigurationResourceCrud) getBdsInstanceNodeR
 	}
 	s.D.SetId(*bdsInstanceNodeReplaceConfigurationId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func bdsInstanceNodeReplaceConfigurationWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -320,7 +321,7 @@ func bdsInstanceNodeReplaceConfigurationWorkRequestShouldRetryFunc(timeout time.
 	}
 }
 
-func bdsInstanceNodeReplaceConfigurationWaitForWorkRequest(wId *string, entityType string, action oci_bds.ActionTypesEnum,
+func bdsInstanceNodeReplaceConfigurationWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_bds.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_bds.BdsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "bds")
 	retryPolicy.ShouldRetryOperation = bdsInstanceNodeReplaceConfigurationWorkRequestShouldRetryFunc(timeout)
@@ -339,7 +340,7 @@ func bdsInstanceNodeReplaceConfigurationWaitForWorkRequest(wId *string, entityTy
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_bds.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -351,7 +352,7 @@ func bdsInstanceNodeReplaceConfigurationWaitForWorkRequest(wId *string, entityTy
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -368,14 +369,14 @@ func bdsInstanceNodeReplaceConfigurationWaitForWorkRequest(wId *string, entityTy
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_bds.OperationStatusFailed || response.Status == oci_bds.OperationStatusCanceled {
-		return nil, getErrorFromBdsBdsInstanceNodeReplaceConfigurationWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromBdsBdsInstanceNodeReplaceConfigurationWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromBdsBdsInstanceNodeReplaceConfigurationWorkRequest(client *oci_bds.BdsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_bds.ActionTypesEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromBdsBdsInstanceNodeReplaceConfigurationWorkRequest(ctx context.Context, client *oci_bds.BdsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_bds.ActionTypesEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_bds.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -397,7 +398,7 @@ func getErrorFromBdsBdsInstanceNodeReplaceConfigurationWorkRequest(client *oci_b
 	return workRequestErr
 }
 
-func (s *BdsBdsInstanceNodeReplaceConfigurationResourceCrud) Get() error {
+func (s *BdsBdsInstanceNodeReplaceConfigurationResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_bds.GetNodeReplaceConfigurationRequest{}
 
 	tmp := s.D.Id()
@@ -418,7 +419,7 @@ func (s *BdsBdsInstanceNodeReplaceConfigurationResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.GetNodeReplaceConfiguration(context.Background(), request)
+	response, err := s.Client.GetNodeReplaceConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -427,7 +428,7 @@ func (s *BdsBdsInstanceNodeReplaceConfigurationResourceCrud) Get() error {
 	return nil
 }
 
-func (s *BdsBdsInstanceNodeReplaceConfigurationResourceCrud) Update() error {
+func (s *BdsBdsInstanceNodeReplaceConfigurationResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_bds.UpdateNodeReplaceConfigurationRequest{}
 
 	if bdsInstanceId, ok := s.D.GetOkExists("bds_instance_id"); ok {
@@ -465,13 +466,13 @@ func (s *BdsBdsInstanceNodeReplaceConfigurationResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.UpdateNodeReplaceConfiguration(context.Background(), request)
+	response, err := s.Client.UpdateNodeReplaceConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceNodeReplaceConfigurationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBdsInstanceNodeReplaceConfigurationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *BdsBdsInstanceNodeReplaceConfigurationResourceCrud) SetData() error {
@@ -545,7 +546,7 @@ func parseBdsInstanceNodeReplaceConfigurationCompositeId(compositeId string) (bd
 	return
 }
 
-func (s *BdsBdsInstanceNodeReplaceConfigurationResourceCrud) Delete() error {
+func (s *BdsBdsInstanceNodeReplaceConfigurationResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_bds.RemoveNodeReplaceConfigurationRequest{}
 
 	if bdsInstanceId, ok := s.D.GetOkExists("bds_instance_id"); ok {
@@ -568,17 +569,17 @@ func (s *BdsBdsInstanceNodeReplaceConfigurationResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.RemoveNodeReplaceConfiguration(context.Background(), request)
+	response, err := s.Client.RemoveNodeReplaceConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceNodeReplaceConfigurationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesDeleted, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBdsInstanceNodeReplaceConfigurationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesDeleted, s.D.Timeout(schema.TimeoutUpdate))
 
 }
 

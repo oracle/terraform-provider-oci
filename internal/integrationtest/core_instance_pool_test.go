@@ -47,16 +47,17 @@ var (
 	}
 
 	CoreInstancePoolRepresentation = map[string]interface{}{
-		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"instance_configuration_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance_configuration.test_instance_configuration.id}`},
-		"placement_configurations":  acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolPlacementConfigurationsRepresentation},
-		"size":                      acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
-		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `Running`},
-		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
-		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `backend-servers-pool`, Update: `displayName2`},
-		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle_management":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolLifecycleManagementRepresentation},
-		"load_balancers":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolLoadBalancersRepresentation},
+		"compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"instance_configuration_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance_configuration.test_instance_configuration.id}`},
+		"placement_configurations":    acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolPlacementConfigurationsRepresentation},
+		"size":                        acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
+		"state":                       acctest.Representation{RepType: acctest.Optional, Create: `Running`},
+		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
+		"display_name":                acctest.Representation{RepType: acctest.Optional, Create: `backend-servers-pool`, Update: `displayName2`},
+		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"instance_maintenance_policy": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolInstanceMaintenancePolicyRepresentation},
+		"lifecycle_management":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolLifecycleManagementRepresentation},
+		"load_balancers":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolLoadBalancersRepresentation},
 
 		"override_policy": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolOverridePolicyRepresentation},
 
@@ -130,6 +131,10 @@ var (
 		"secondary_vnic_subnets": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolPlacementConfigurationsSecondaryVnicSubnetsRepresentation},
 	}
 
+	CoreInstancePoolInstanceMaintenancePolicyRepresentation = map[string]interface{}{
+		"launch_before_terminating": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolInstanceMaintenancePolicyLaunchBeforeTerminatingRepresentation},
+	}
+
 	CoreInstancePoolLifecycleManagementRepresentation = map[string]interface{}{
 		"lifecycle_actions": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolLifecycleManagementLifecycleActionsRepresentation},
 	}
@@ -185,6 +190,11 @@ var (
 		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer2.id}`},
 		"port":             acctest.Representation{RepType: acctest.Required, Create: `10`},
 		"vnic_selection":   acctest.Representation{RepType: acctest.Required, Create: `PrimaryVnic`},
+	}
+
+	CoreInstancePoolInstanceMaintenancePolicyLaunchBeforeTerminatingRepresentation = map[string]interface{}{
+		"is_full_refresh":     acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
+		"max_healthy_percent": acctest.Representation{RepType: acctest.Required, Create: `110`, Update: `120`},
 	}
 
 	CoreInstancePoolLoadBalancers3Representation = map[string]interface{}{
@@ -267,6 +277,7 @@ var (
 	}
 
 	CoreInstancePoolInstanceConfigurationInstanceDetailsLaunchDetailsPoolRepresentation = map[string]interface{}{
+		"instance_options":                    coreInstancePoolInstanceOptions,
 		"compartment_id":                      acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"create_vnic_details":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePoolInstanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsPoolRepresentation},
 		"defined_tags":                        acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
@@ -302,6 +313,16 @@ var (
 		"is_ipv6enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 	}
 
+	coreInstancePoolInstanceOptions = acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
+		"are_legacy_imds_endpoints_disabled": acctest.Representation{RepType: acctest.Required, Create: `true`},
+	}}
+	coreInstancePoolLoadBalancerOverrides = map[string]interface{}{
+		"shape": acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithDefault("instance_pool_load_balancer_shape", "100Mbps")},
+	}
+	coreInstancePoolThirdLoadBalancerOverrides = map[string]interface{}{
+		"shape": acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithDefault("instance_pool_third_load_balancer_shape", "100Mbps")},
+	}
+
 	CoreInstancePoolResourceDependenciesWithoutSecondaryVnic = CoreSubnetResourceConfig + utils.OciImageIdsVariable + `
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"
@@ -312,7 +333,7 @@ var (
 	CoreInstancePoolResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_compute_cluster", "test_compute_cluster", acctest.Required, acctest.Create, CoreComputeClusterRepresentation) +
 		utils.OciImageIdsVariable +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, acctest.GetUpdatedRepresentationCopy("instance_details.launch_details.launch_options", instanceLaunchOptionsRepresentationForInstanceConfiguration, CoreInstancePoolConfigurationPoolRepresentation)) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, acctest.GetUpdatedRepresentationCopy("instance_options", coreInstancePoolInstanceOptions, CoreInstanceRepresentation)) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, CoreVcnRepresentation) +
 		AvailabilityDomainConfig +
@@ -322,14 +343,14 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set3", acctest.Required, acctest.Create, backendSet3Representation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set4", acctest.Required, acctest.Create, backendSetOnPrimaryLbRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", acctest.Required, acctest.Create, certificateRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", acctest.Required, acctest.Create, loadBalancerRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer2", acctest.Required, acctest.Create, loadBalancer2Representation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer3", acctest.Required, acctest.Create, loadBalancer3Representation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(loadBalancerRepresentation, coreInstancePoolLoadBalancerOverrides)) +
+		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer2", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(loadBalancer2Representation, coreInstancePoolLoadBalancerOverrides)) +
+		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer3", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(loadBalancer3Representation, coreInstancePoolThirdLoadBalancerOverrides)) +
 		LoadBalancerSubnetDependencies
 
 	CoreInstancePoolResourceDependenciesIpv6 = utils.OciImageIdsVariable +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, acctest.GetUpdatedRepresentationCopy("instance_details.launch_details.launch_options", instanceLaunchOptionsRepresentationForInstanceConfiguration, CoreInstancePoolConfigurationPoolRepresentation)) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, acctest.GetUpdatedRepresentationCopy("instance_options", coreInstancePoolInstanceOptions, CoreInstanceRepresentation)) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, CoreSubnetRepresentationIpv6) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet2", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentationIpv6, map[string]interface{}{
 			"cidr_block":      acctest.Representation{RepType: acctest.Required, Create: `10.0.10.0/24`, Update: "10.0.10.0/16"},
@@ -341,8 +362,8 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", acctest.Required, acctest.Create, backendSetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set2", acctest.Required, acctest.Create, backendSet2Representation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", acctest.Required, acctest.Create, certificateRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", acctest.Required, acctest.Create, loadBalancerRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer2", acctest.Required, acctest.Create, loadBalancer2Representation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(loadBalancerRepresentation, coreInstancePoolLoadBalancerOverrides)) +
+		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer2", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(loadBalancer2Representation, coreInstancePoolLoadBalancerOverrides)) +
 		LoadBalancerSubnetDependencies
 )
 
@@ -402,6 +423,10 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_maintenance_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_maintenance_policy.0.launch_before_terminating.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_maintenance_policy.0.launch_before_terminating.0.is_full_refresh", "false"),
+				resource.TestCheckResourceAttr(resourceName, "instance_maintenance_policy.0.launch_before_terminating.0.max_healthy_percent", "110"),
 				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.0.lifecycle_actions.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.#", "1"),
@@ -474,6 +499,10 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_maintenance_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_maintenance_policy.0.launch_before_terminating.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_maintenance_policy.0.launch_before_terminating.0.is_full_refresh", "false"),
+				resource.TestCheckResourceAttr(resourceName, "instance_maintenance_policy.0.launch_before_terminating.0.max_healthy_percent", "110"),
 				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.0.lifecycle_actions.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.#", "1"),
@@ -524,6 +553,10 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_maintenance_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_maintenance_policy.0.launch_before_terminating.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_maintenance_policy.0.launch_before_terminating.0.is_full_refresh", "true"),
+				resource.TestCheckResourceAttr(resourceName, "instance_maintenance_policy.0.launch_before_terminating.0.max_healthy_percent", "120"),
 				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.0.lifecycle_actions.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.#", "1"),
@@ -960,6 +993,10 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "instance_pools.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "instance_pools.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "instance_pools.0.instance_configuration_id"),
+				resource.TestCheckResourceAttr(datasourceName, "instance_pools.0.instance_maintenance_policy.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "instance_pools.0.instance_maintenance_policy.0.launch_before_terminating.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "instance_pools.0.instance_maintenance_policy.0.launch_before_terminating.0.is_full_refresh", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "instance_pools.0.instance_maintenance_policy.0.launch_before_terminating.0.max_healthy_percent", "120"),
 				resource.TestCheckResourceAttr(datasourceName, "instance_pools.0.size", "3"),
 				resource.TestCheckResourceAttrSet(datasourceName, "instance_pools.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "instance_pools.0.time_created"),
@@ -979,6 +1016,10 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_maintenance_policy.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_maintenance_policy.0.launch_before_terminating.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_maintenance_policy.0.launch_before_terminating.0.is_full_refresh", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_maintenance_policy.0.launch_before_terminating.0.max_healthy_percent", "120"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "lifecycle_management.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "lifecycle_management.0.lifecycle_actions.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "lifecycle_management.0.lifecycle_actions.0.pre_termination.#", "1"),

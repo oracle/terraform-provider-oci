@@ -69,6 +69,7 @@ func DatabaseKeyStoreResource() *schema.Resource {
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"ORACLE_KEY_VAULT",
+								"THALES",
 							}, true),
 						},
 						"vault_id": {
@@ -103,6 +104,48 @@ func DatabaseKeyStoreResource() *schema.Resource {
 			},
 
 			// Computed
+			"associated_autonomous_vm_clusters": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"display_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"associated_cloud_autonomous_vm_clusters": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"display_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"associated_databases": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -385,6 +428,18 @@ func (s *DatabaseKeyStoreResourceCrud) Delete() error {
 }
 
 func (s *DatabaseKeyStoreResourceCrud) SetData() error {
+	associatedAutonomousVmClusters := []interface{}{}
+	for _, item := range s.Res.AssociatedAutonomousVmClusters {
+		associatedAutonomousVmClusters = append(associatedAutonomousVmClusters, KeyStoreAssociatedAutonomousVmClusterDetailsToMap(item))
+	}
+	s.D.Set("associated_autonomous_vm_clusters", associatedAutonomousVmClusters)
+
+	associatedCloudAutonomousVmClusters := []interface{}{}
+	for _, item := range s.Res.AssociatedCloudAutonomousVmClusters {
+		associatedCloudAutonomousVmClusters = append(associatedCloudAutonomousVmClusters, KeyStoreAssociatedCloudAutonomousVmClusterDetailsToMap(item))
+	}
+	s.D.Set("associated_cloud_autonomous_vm_clusters", associatedCloudAutonomousVmClusters)
+
 	associatedDatabases := []interface{}{}
 	for _, item := range s.Res.AssociatedDatabases {
 		associatedDatabases = append(associatedDatabases, KeyStoreAssociatedDatabaseDetailsToMap(item))
@@ -462,6 +517,48 @@ func (s *DatabaseKeyStoreResourceCrud) ConfirmKeyStoreDetailsAreCorrect() error 
 	return nil
 }
 
+func (s *DatabaseKeyStoreResourceCrud) AssociatedLongTermBackupToMap(obj oci_database.AssociatedLongTermBackup) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	return result
+}
+
+func KeyStoreAssociatedAutonomousVmClusterDetailsToMap(obj oci_database.KeyStoreAssociatedAutonomousVmClusterDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	return result
+}
+
+func KeyStoreAssociatedCloudAutonomousVmClusterDetailsToMap(obj oci_database.KeyStoreAssociatedCloudAutonomousVmClusterDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	return result
+}
+
 func KeyStoreAssociatedDatabaseDetailsToMap(obj oci_database.KeyStoreAssociatedDatabaseDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -519,6 +616,34 @@ func (s *DatabaseKeyStoreResourceCrud) mapToKeyStoreTypeDetails(fieldKeyFormat s
 			details.VaultId = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("THALES"):
+		details := oci_database.KeyStoreTypeFromThalesDetails{}
+		if adminUsername, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admin_username")); ok {
+			tmp := adminUsername.(string)
+			details.AdminUsername = &tmp
+		}
+		if connectionIps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connection_ips")); ok {
+			set := connectionIps.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "connection_ips")) {
+				details.ConnectionIps = tmp
+			}
+		}
+		if secretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_id")); ok {
+			tmp := secretId.(string)
+			details.SecretId = &tmp
+		}
+		if vaultId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vault_id")); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
 	}
@@ -530,6 +655,22 @@ func KeyStoreTypeDetailsToMap(obj *oci_database.KeyStoreTypeDetails, datasource 
 	switch v := (*obj).(type) {
 	case oci_database.KeyStoreTypeFromOracleKeyVaultDetails:
 		result["type"] = "ORACLE_KEY_VAULT"
+
+		if v.AdminUsername != nil {
+			result["admin_username"] = string(*v.AdminUsername)
+		}
+
+		result["connection_ips"] = v.ConnectionIps
+
+		if v.SecretId != nil {
+			result["secret_id"] = string(*v.SecretId)
+		}
+
+		if v.VaultId != nil {
+			result["vault_id"] = string(*v.VaultId)
+		}
+	case oci_database.KeyStoreTypeFromThalesDetails:
+		result["type"] = "THALES"
 
 		if v.AdminUsername != nil {
 			result["admin_username"] = string(*v.AdminUsername)

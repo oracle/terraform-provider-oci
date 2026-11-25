@@ -84,7 +84,7 @@ resource "oci_data_safe_audit_profile_management" "test_audit_profile_management
   target_id                      = var.target_id
   target_type                    = var.target_type
   // Optional
-  display_name                   = var.displayName
+  display_name                   = var.display_name
   description                    = var.description
   freeform_tags                  = var.freeform_tags
   is_override_global_paid_usage  = var.is_override_global_paid_usage

@@ -9,13 +9,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_opsi "github.com/oracle/oci-go-sdk/v65/opsi"
 )
 
 func OpsiOperationsInsightsWarehousesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readOpsiOperationsInsightsWarehouses,
+		ReadContext: readOpsiOperationsInsightsWarehousesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -55,12 +56,12 @@ func OpsiOperationsInsightsWarehousesDataSource() *schema.Resource {
 	}
 }
 
-func readOpsiOperationsInsightsWarehouses(d *schema.ResourceData, m interface{}) error {
+func readOpsiOperationsInsightsWarehousesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiOperationsInsightsWarehousesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OpsiOperationsInsightsWarehousesDataSourceCrud struct {
@@ -73,7 +74,7 @@ func (s *OpsiOperationsInsightsWarehousesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OpsiOperationsInsightsWarehousesDataSourceCrud) Get() error {
+func (s *OpsiOperationsInsightsWarehousesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_opsi.ListOperationsInsightsWarehousesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -107,7 +108,7 @@ func (s *OpsiOperationsInsightsWarehousesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "opsi")
 
-	response, err := s.Client.ListOperationsInsightsWarehouses(context.Background(), request)
+	response, err := s.Client.ListOperationsInsightsWarehouses(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -116,7 +117,7 @@ func (s *OpsiOperationsInsightsWarehousesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListOperationsInsightsWarehouses(context.Background(), request)
+		listResponse, err := s.Client.ListOperationsInsightsWarehouses(ctx, request)
 		if err != nil {
 			return err
 		}

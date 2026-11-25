@@ -6,6 +6,7 @@ package generative_ai
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_generative_ai "github.com/oracle/oci-go-sdk/v65/generativeai"
 
@@ -19,15 +20,15 @@ func GenerativeAiDedicatedAiClusterDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(GenerativeAiDedicatedAiClusterResource(), fieldMap, readSingularGenerativeAiDedicatedAiCluster)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(GenerativeAiDedicatedAiClusterResource(), fieldMap, readSingularGenerativeAiDedicatedAiClusterWithContext)
 }
 
-func readSingularGenerativeAiDedicatedAiCluster(d *schema.ResourceData, m interface{}) error {
+func readSingularGenerativeAiDedicatedAiClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiDedicatedAiClusterDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type GenerativeAiDedicatedAiClusterDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *GenerativeAiDedicatedAiClusterDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GenerativeAiDedicatedAiClusterDataSourceCrud) Get() error {
+func (s *GenerativeAiDedicatedAiClusterDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_generative_ai.GetDedicatedAiClusterRequest{}
 
 	if dedicatedAiClusterId, ok := s.D.GetOkExists("dedicated_ai_cluster_id"); ok {
@@ -50,7 +51,7 @@ func (s *GenerativeAiDedicatedAiClusterDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "generative_ai")
 
-	response, err := s.Client.GetDedicatedAiCluster(context.Background(), request)
+	response, err := s.Client.GetDedicatedAiCluster(ctx, request)
 	if err != nil {
 		return err
 	}

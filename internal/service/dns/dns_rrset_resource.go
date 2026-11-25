@@ -51,6 +51,11 @@ func DnsRrsetResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
+			"compartment_id": {
+				Type:       schema.TypeString,
+				Optional:   true,
+				Deprecated: "Deprecated; compartment is inferred from the zone and this argument is ignored. Will be removed in a future release.",
+			},
 			"items": {
 				Type:     schema.TypeSet,
 				Optional: true,
@@ -98,11 +103,6 @@ func DnsRrsetResource() *schema.Resource {
 						},
 					},
 				},
-			},
-			"compartment_id": {
-				Type:       schema.TypeString,
-				Optional:   true,
-				Deprecated: "Deprecated; compartment is inferred from the zone and this argument is ignored. Will be removed in a future release.",
 			},
 			"scope": {
 				Type:       schema.TypeString,
@@ -164,6 +164,7 @@ func (s *DnsRrsetResourceCrud) ID() string {
 	return getRrsetCompositeId(s.D.Get("domain").(string), s.D.Get("rtype").(string), s.D.Get("zone_name_or_id").(string))
 }
 
+// Create adds records only if the RRSet is empty.
 func (s *DnsRrsetResourceCrud) Create() error {
 	request := oci_dns.PatchRRSetRequest{}
 
@@ -220,7 +221,7 @@ func (s *DnsRrsetResourceCrud) Create() error {
 			if rd, ok := m["rdata"].(string); ok && rd != "" {
 				add.Rdata = &rd
 			}
-			if ttl, ok := m["ttl"].(int); ok && ttl != 0 {
+			if ttl, ok := m["ttl"].(int); ok {
 				add.Ttl = &ttl
 			}
 			ops = append(ops, add)
@@ -244,13 +245,9 @@ func (s *DnsRrsetResourceCrud) Create() error {
 	return nil
 }
 
+// Get reads the RRSet using its zone and optional private view.
 func (s *DnsRrsetResourceCrud) Get() error {
 	request := oci_dns.GetRRSetRequest{}
-
-	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
-		tmp := compartmentId.(string)
-		request.CompartmentId = &tmp
-	}
 
 	if domain, ok := s.D.GetOkExists("domain"); ok {
 		tmp := domain.(string)
@@ -302,13 +299,9 @@ func (s *DnsRrsetResourceCrud) Get() error {
 	return nil
 }
 
+// Update replaces the records in the RRSet.
 func (s *DnsRrsetResourceCrud) Update() error {
 	request := oci_dns.UpdateRRSetRequest{}
-
-	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
-		tmp := compartmentId.(string)
-		request.CompartmentId = &tmp
-	}
 
 	if domain, ok := s.D.GetOkExists("domain"); ok {
 		tmp := domain.(string)
@@ -368,6 +361,7 @@ func (s *DnsRrsetResourceCrud) Update() error {
 	return nil
 }
 
+// Delete removes unprotected records and leaves protected records intact.
 func (s *DnsRrsetResourceCrud) Delete() error {
 	// To ensure terraform does not attempt to delete protected records, which
 	// will fail, determine whether all records in the rrset are protected,
@@ -408,11 +402,6 @@ func (s *DnsRrsetResourceCrud) Delete() error {
 		// There are no protected records in the rrset. Delete the rrset.
 		request := oci_dns.DeleteRRSetRequest{}
 
-		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
-			tmp := compartmentId.(string)
-			request.CompartmentId = &tmp
-		}
-
 		if domain, ok := s.D.GetOkExists("domain"); ok {
 			tmp := domain.(string)
 			request.Domain = &tmp
@@ -447,11 +436,6 @@ func (s *DnsRrsetResourceCrud) Delete() error {
 	// rrset. Send an UpdateRRSet request to delete the non-protected records.
 	log.Printf("[WARN] Only deleting non-protected records in RRSet: %s", s.D.Id())
 	request := oci_dns.UpdateRRSetRequest{}
-
-	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
-		tmp := compartmentId.(string)
-		request.CompartmentId = &tmp
-	}
 
 	if domain, ok := s.D.GetOkExists("domain"); ok {
 		tmp := domain.(string)

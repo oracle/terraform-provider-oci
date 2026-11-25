@@ -6,6 +6,7 @@ package resource_analytics
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_resource_analytics "github.com/oracle/oci-go-sdk/v65/resourceanalytics"
 
@@ -15,7 +16,7 @@ import (
 
 func ResourceAnalyticsMonitoredRegionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readResourceAnalyticsMonitoredRegions,
+		ReadContext: readResourceAnalyticsMonitoredRegionsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"id": {
@@ -48,12 +49,12 @@ func ResourceAnalyticsMonitoredRegionsDataSource() *schema.Resource {
 	}
 }
 
-func readResourceAnalyticsMonitoredRegions(d *schema.ResourceData, m interface{}) error {
+func readResourceAnalyticsMonitoredRegionsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ResourceAnalyticsMonitoredRegionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).MonitoredRegionClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ResourceAnalyticsMonitoredRegionsDataSourceCrud struct {
@@ -66,7 +67,7 @@ func (s *ResourceAnalyticsMonitoredRegionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ResourceAnalyticsMonitoredRegionsDataSourceCrud) Get() error {
+func (s *ResourceAnalyticsMonitoredRegionsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_resource_analytics.ListMonitoredRegionsRequest{}
 
 	if id, ok := s.D.GetOkExists("id"); ok {
@@ -85,7 +86,7 @@ func (s *ResourceAnalyticsMonitoredRegionsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "resource_analytics")
 
-	response, err := s.Client.ListMonitoredRegions(context.Background(), request)
+	response, err := s.Client.ListMonitoredRegions(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -94,7 +95,7 @@ func (s *ResourceAnalyticsMonitoredRegionsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListMonitoredRegions(context.Background(), request)
+		listResponse, err := s.Client.ListMonitoredRegions(ctx, request)
 		if err != nil {
 			return err
 		}

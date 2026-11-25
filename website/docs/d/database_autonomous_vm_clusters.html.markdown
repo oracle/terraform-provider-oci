@@ -23,6 +23,7 @@ data "oci_database_autonomous_vm_clusters" "test_autonomous_vm_clusters" {
 	#Optional
 	display_name = var.autonomous_vm_cluster_display_name
 	exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
+	kms_type = var.autonomous_vm_cluster_kms_type
 	state = var.autonomous_vm_cluster_state
 }
 ```
@@ -34,6 +35,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
 * `exadata_infrastructure_id` - (Optional) If provided, filters the results for the given Exadata Infrastructure.
+* `kms_type` - (Optional) A filter to return only resources that match the given kms exactly.
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
 
 
@@ -70,6 +72,11 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous VM cluster.
 * `is_local_backup_enabled` - If true, database backup on local Exadata storage is configured for the Autonomous VM cluster. If false, database backup on local Exadata storage is not available in the Autonomous VM cluster. 
 * `is_mtls_enabled` - Enable mutual TLS(mTLS) authentication for database while provisioning a VMCluster. Default is TLS.
+* `key_management_system_details` - Autonomous VM Cluster Key Management System details.
+	* `is_exclusive` - If true, ACDs within this Cluster cannot use a different key management system than what is configured in AVM Cluster.
+	* `key_management_system` - The type of key management system used.
+	* `key_store_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
+	* `thales_hsm_port` - Thales HSM Port. Default is 9000. 
 * `last_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last maintenance run.
 * `license_model` - The Oracle license model that applies to the Autonomous VM cluster. The default is LICENSE_INCLUDED. 
 * `lifecycle_details` - Additional information about the current lifecycle state.

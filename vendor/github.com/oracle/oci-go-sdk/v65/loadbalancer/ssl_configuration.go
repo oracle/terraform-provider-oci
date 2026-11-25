@@ -21,40 +21,32 @@ import (
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type SslConfiguration struct {
 
-	// The maximum depth for peer certificate chain verification.
-	// Example: `3`
-	VerifyDepth *int `mandatory:"true" json:"verifyDepth"`
-
 	// Whether the load balancer listener should verify peer certificates.
 	// Example: `true`
 	VerifyPeerCertificate *bool `mandatory:"true" json:"verifyPeerCertificate"`
 
-	// Whether the load balancer listener should resume an encrypted session by reusing the cryptographic parameters of a previous TLS session, without having to perform a full handshake again.
-	// If "true", the service resumes the previous TLS encrypted session.
-	// If "false", the service starts a new TLS encrypted session.
-	// Enabling session resumption improves performance but provides a lower level of security. Disabling session resumption improves security but reduces performance.
-	// Example: `true`
-	HasSessionResumption *bool `mandatory:"false" json:"hasSessionResumption"`
+	// The maximum depth for peer certificate chain verification.
+	// Example: `3`
+	VerifyDepth *int `mandatory:"true" json:"verifyDepth"`
 
-	// Ids for OCI certificates service CA or CA bundles for the load balancer to trust.
-	// Example: `[ocid1.cabundle.oc1.us-ashburn-1.amaaaaaaav3bgsaagl4zzyqdop5i2vuwoqewdvauuw34llqa74otq2jdsfyq]`
-	TrustedCertificateAuthorityIds []string `mandatory:"false" json:"trustedCertificateAuthorityIds"`
-
-	// Ids for OCI certificates service certificates. Currently only a single Id may be passed.
-	// Example: `[ocid1.certificate.oc1.us-ashburn-1.amaaaaaaav3bgsaa5o2q7rh5nfmkkukfkogasqhk6af2opufhjlqg7m6jqzq]`
-	CertificateIds []string `mandatory:"false" json:"certificateIds"`
-
-	// A friendly name for the certificate bundle. It must be unique and it cannot be changed.
-	// Valid certificate bundle names include only alphanumeric characters, dashes, and underscores.
-	// Certificate bundle names cannot contain spaces. Avoid entering confidential information.
-	// Example: `example_certificate_bundle`
-	CertificateName *string `mandatory:"false" json:"certificateName"`
-
-	// When this attribute is set to ENABLED, the system gives preference to the server ciphers over the client
-	// ciphers.
-	// **Note:** This configuration is applicable only when the load balancer is acting as an SSL/HTTPS server. This
-	//           field is ignored when the `SSLConfiguration` object is associated with a backend set.
-	ServerOrderPreference SslConfigurationServerOrderPreferenceEnum `mandatory:"false" json:"serverOrderPreference,omitempty"`
+	// A list of SSL protocols the load balancer must support for HTTPS or SSL connections.
+	// The load balancer uses SSL protocols to establish a secure connection between a client and a server. A secure
+	// connection ensures that all data passed between the client and the server is private.
+	// The Load Balancing service supports the following protocols:
+	// *  TLSv1
+	// *  TLSv1.1
+	// *  TLSv1.2
+	// *  TLSv1.3
+	// If this field is not specified, TLSv1.2 is the default.
+	// **Warning:** All SSL listeners created on a given port must use the same set of SSL protocols.
+	// **Notes:**
+	// *  The handshake to establish an SSL connection fails if the client supports none of the specified protocols.
+	// *  You must ensure compatibility between the specified SSL protocols and the ciphers configured in the cipher
+	//    suite.
+	// *  For all existing load balancer listeners and backend sets that predate this feature, the `GET` operation
+	//    displays a list of SSL protocols currently used by those resources.
+	// example: `["TLSv1.1", "TLSv1.2"]`
+	Protocols []string `mandatory:"false" json:"protocols"`
 
 	// The name of the cipher suite to use for HTTPS or SSL connections.
 	// If this field is not specified, the default is `oci-default-ssl-cipher-suite-v1`.
@@ -79,24 +71,32 @@ type SslConfiguration struct {
 	// example: `example_cipher_suite`
 	CipherSuiteName *string `mandatory:"false" json:"cipherSuiteName"`
 
-	// A list of SSL protocols the load balancer must support for HTTPS or SSL connections.
-	// The load balancer uses SSL protocols to establish a secure connection between a client and a server. A secure
-	// connection ensures that all data passed between the client and the server is private.
-	// The Load Balancing service supports the following protocols:
-	// *  TLSv1
-	// *  TLSv1.1
-	// *  TLSv1.2
-	// *  TLSv1.3
-	// If this field is not specified, TLSv1.2 is the default.
-	// **Warning:** All SSL listeners created on a given port must use the same set of SSL protocols.
-	// **Notes:**
-	// *  The handshake to establish an SSL connection fails if the client supports none of the specified protocols.
-	// *  You must ensure compatibility between the specified SSL protocols and the ciphers configured in the cipher
-	//    suite.
-	// *  For all existing load balancer listeners and backend sets that predate this feature, the `GET` operation
-	//    displays a list of SSL protocols currently used by those resources.
-	// example: `["TLSv1.1", "TLSv1.2"]`
-	Protocols []string `mandatory:"false" json:"protocols"`
+	// When this attribute is set to ENABLED, the system gives preference to the server ciphers over the client
+	// ciphers.
+	// **Note:** This configuration is applicable only when the load balancer is acting as an SSL/HTTPS server. This
+	//           field is ignored when the `SSLConfiguration` object is associated with a backend set.
+	ServerOrderPreference SslConfigurationServerOrderPreferenceEnum `mandatory:"false" json:"serverOrderPreference,omitempty"`
+
+	// A friendly name for the certificate bundle. It must be unique and it cannot be changed.
+	// Valid certificate bundle names include only alphanumeric characters, dashes, and underscores.
+	// Certificate bundle names cannot contain spaces. Avoid entering confidential information.
+	// Example: `example_certificate_bundle`
+	CertificateName *string `mandatory:"false" json:"certificateName"`
+
+	// Ids for OCI certificates service certificates. Currently only a single Id may be passed.
+	// Example: `[ocid1.certificate.oc1.us-ashburn-1.amaaaaaaav3bgsaa5o2q7rh5nfmkkukfkogasqhk6af2opufhjlqg7m6jqzq]`
+	CertificateIds []string `mandatory:"false" json:"certificateIds"`
+
+	// Ids for OCI certificates service CA or CA bundles for the load balancer to trust.
+	// Example: `[ocid1.cabundle.oc1.us-ashburn-1.amaaaaaaav3bgsaagl4zzyqdop5i2vuwoqewdvauuw34llqa74otq2jdsfyq]`
+	TrustedCertificateAuthorityIds []string `mandatory:"false" json:"trustedCertificateAuthorityIds"`
+
+	// Whether the load balancer listener should resume an encrypted session by reusing the cryptographic parameters of a previous TLS session, without having to perform a full handshake again.
+	// If "true", the service resumes the previous TLS encrypted session.
+	// If "false", the service starts a new TLS encrypted session.
+	// Enabling session resumption improves performance but provides a lower level of security. Disabling session resumption improves security but reduces performance.
+	// Example: `true`
+	HasSessionResumption *bool `mandatory:"false" json:"hasSessionResumption"`
 }
 
 func (m SslConfiguration) String() string {

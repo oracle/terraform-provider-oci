@@ -15,6 +15,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -28,11 +29,11 @@ func BdsAutoScalingConfigurationResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createBdsAutoScalingConfiguration,
-		Read:     readBdsAutoScalingConfiguration,
-		Update:   updateBdsAutoScalingConfiguration,
-		Delete:   deleteBdsAutoScalingConfiguration,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createBdsAutoScalingConfigurationWithContext,
+		ReadContext:   readBdsAutoScalingConfigurationWithContext,
+		UpdateContext: updateBdsAutoScalingConfigurationWithContext,
+		DeleteContext: deleteBdsAutoScalingConfigurationWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"bds_instance_id": {
@@ -622,36 +623,36 @@ func BdsAutoScalingConfigurationResource() *schema.Resource {
 	}
 }
 
-func createBdsAutoScalingConfiguration(d *schema.ResourceData, m interface{}) error {
+func createBdsAutoScalingConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsAutoScalingConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readBdsAutoScalingConfiguration(d *schema.ResourceData, m interface{}) error {
+func readBdsAutoScalingConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsAutoScalingConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateBdsAutoScalingConfiguration(d *schema.ResourceData, m interface{}) error {
+func updateBdsAutoScalingConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsAutoScalingConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteBdsAutoScalingConfiguration(d *schema.ResourceData, m interface{}) error {
+func deleteBdsAutoScalingConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsAutoScalingConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type BdsAutoScalingConfigurationResourceCrud struct {
@@ -689,7 +690,7 @@ func (s *BdsAutoScalingConfigurationResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *BdsAutoScalingConfigurationResourceCrud) Create() error {
+func (s *BdsAutoScalingConfigurationResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_bds.AddAutoScalingConfigurationRequest{}
 
 	if bdsInstanceId, ok := s.D.GetOkExists("bds_instance_id"); ok {
@@ -745,20 +746,20 @@ func (s *BdsAutoScalingConfigurationResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.AddAutoScalingConfiguration(context.Background(), request)
+	response, err := s.Client.AddAutoScalingConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAutoScalingConfigurationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getAutoScalingConfigurationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *BdsAutoScalingConfigurationResourceCrud) getAutoScalingConfigurationFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *BdsAutoScalingConfigurationResourceCrud) getAutoScalingConfigurationFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_bds.ActionTypesEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	compartmentId, err := autoScalingConfigurationWaitForWorkRequest(workId, "bds",
+	compartmentId, err := autoScalingConfigurationWaitForWorkRequest(ctx, workId, "bds",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -766,7 +767,7 @@ func (s *BdsAutoScalingConfigurationResourceCrud) getAutoScalingConfigurationFro
 	}
 
 	// Temporary manual change required since autoscaling configuration ID is not present in the work request
-	autoScalingConfigurationId, err := s.List(compartmentId)
+	autoScalingConfigurationId, err := s.List(ctx, compartmentId)
 
 	if err != nil {
 		return err
@@ -782,7 +783,7 @@ func (s *BdsAutoScalingConfigurationResourceCrud) getAutoScalingConfigurationFro
 
 	s.D.SetId(compositeId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func autoScalingConfigurationWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -808,7 +809,7 @@ func autoScalingConfigurationWorkRequestShouldRetryFunc(timeout time.Duration) f
 	}
 }
 
-func autoScalingConfigurationWaitForWorkRequest(wId *string, entityType string, action oci_bds.ActionTypesEnum,
+func autoScalingConfigurationWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_bds.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_bds.BdsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "bds")
 	retryPolicy.ShouldRetryOperation = autoScalingConfigurationWorkRequestShouldRetryFunc(timeout)
@@ -827,7 +828,7 @@ func autoScalingConfigurationWaitForWorkRequest(wId *string, entityType string, 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_bds.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -839,7 +840,7 @@ func autoScalingConfigurationWaitForWorkRequest(wId *string, entityType string, 
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -850,14 +851,14 @@ func autoScalingConfigurationWaitForWorkRequest(wId *string, entityType string, 
 
 	// The workrequest didn't do all its intended tasks, if the errors is set; so we should check for it
 	if compartmentId == nil {
-		return nil, getErrorFromBdsAutoScalingConfigurationWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromBdsAutoScalingConfigurationWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return compartmentId, nil
 }
 
-func getErrorFromBdsAutoScalingConfigurationWorkRequest(client *oci_bds.BdsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_bds.ActionTypesEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromBdsAutoScalingConfigurationWorkRequest(ctx context.Context, client *oci_bds.BdsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_bds.ActionTypesEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_bds.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -879,7 +880,7 @@ func getErrorFromBdsAutoScalingConfigurationWorkRequest(client *oci_bds.BdsClien
 	return workRequestErr
 }
 
-func (s *BdsAutoScalingConfigurationResourceCrud) List(compartmentId *string) (*string, error) {
+func (s *BdsAutoScalingConfigurationResourceCrud) List(ctx context.Context, compartmentId *string) (*string, error) {
 	request := oci_bds.ListAutoScalingConfigurationsRequest{}
 
 	request.CompartmentId = compartmentId
@@ -898,7 +899,7 @@ func (s *BdsAutoScalingConfigurationResourceCrud) List(compartmentId *string) (*
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "bds")
 
-	response, err := s.Client.ListAutoScalingConfigurations(context.Background(), request)
+	response, err := s.Client.ListAutoScalingConfigurations(ctx, request)
 	if err != nil {
 		return nil, err
 	}
@@ -908,7 +909,7 @@ func (s *BdsAutoScalingConfigurationResourceCrud) List(compartmentId *string) (*
 	return identifier, nil
 }
 
-func (s *BdsAutoScalingConfigurationResourceCrud) Get() error {
+func (s *BdsAutoScalingConfigurationResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_bds.GetAutoScalingConfigurationRequest{}
 
 	tmp := s.D.Id()
@@ -929,7 +930,7 @@ func (s *BdsAutoScalingConfigurationResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.GetAutoScalingConfiguration(context.Background(), request)
+	response, err := s.Client.GetAutoScalingConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -938,7 +939,7 @@ func (s *BdsAutoScalingConfigurationResourceCrud) Get() error {
 	return nil
 }
 
-func (s *BdsAutoScalingConfigurationResourceCrud) Update() error {
+func (s *BdsAutoScalingConfigurationResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_bds.UpdateAutoScalingConfigurationRequest{}
 
 	tmp := s.D.Id()
@@ -993,16 +994,16 @@ func (s *BdsAutoScalingConfigurationResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.UpdateAutoScalingConfiguration(context.Background(), request)
+	response, err := s.Client.UpdateAutoScalingConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAutoScalingConfigurationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAutoScalingConfigurationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *BdsAutoScalingConfigurationResourceCrud) Delete() error {
+func (s *BdsAutoScalingConfigurationResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_bds.RemoveAutoScalingConfigurationRequest{}
 
 	tmp := s.D.Id()
@@ -1025,7 +1026,7 @@ func (s *BdsAutoScalingConfigurationResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	_, err := s.Client.RemoveAutoScalingConfiguration(context.Background(), request)
+	_, err := s.Client.RemoveAutoScalingConfiguration(ctx, request)
 	return err
 }
 

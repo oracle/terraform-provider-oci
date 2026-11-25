@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -29,10 +30,10 @@ func GenerativeAiEndpointResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("20m"),
 			Delete: tfresource.GetTimeoutDuration("20m"),
 		},
-		Create: createGenerativeAiEndpoint,
-		Read:   readGenerativeAiEndpoint,
-		Update: updateGenerativeAiEndpoint,
-		Delete: deleteGenerativeAiEndpoint,
+		CreateContext: createGenerativeAiEndpointWithContext,
+		ReadContext:   readGenerativeAiEndpointWithContext,
+		UpdateContext: updateGenerativeAiEndpointWithContext,
+		DeleteContext: deleteGenerativeAiEndpointWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -136,37 +137,37 @@ func GenerativeAiEndpointResource() *schema.Resource {
 	}
 }
 
-func createGenerativeAiEndpoint(d *schema.ResourceData, m interface{}) error {
+func createGenerativeAiEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readGenerativeAiEndpoint(d *schema.ResourceData, m interface{}) error {
+func readGenerativeAiEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateGenerativeAiEndpoint(d *schema.ResourceData, m interface{}) error {
+func updateGenerativeAiEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteGenerativeAiEndpoint(d *schema.ResourceData, m interface{}) error {
+func deleteGenerativeAiEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type GenerativeAiEndpointResourceCrud struct {
@@ -204,7 +205,7 @@ func (s *GenerativeAiEndpointResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *GenerativeAiEndpointResourceCrud) Create() error {
+func (s *GenerativeAiEndpointResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_generative_ai.CreateEndpointRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -262,7 +263,7 @@ func (s *GenerativeAiEndpointResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai")
 
-	response, err := s.Client.CreateEndpoint(context.Background(), request)
+	response, err := s.Client.CreateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -273,14 +274,14 @@ func (s *GenerativeAiEndpointResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai"), oci_generative_ai.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getEndpointFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai"), oci_generative_ai.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *GenerativeAiEndpointResourceCrud) getEndpointFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *GenerativeAiEndpointResourceCrud) getEndpointFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_generative_ai.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	endpointId, err := endpointWaitForWorkRequest(workId, "endpoint",
+	endpointId, err := endpointWaitForWorkRequest(ctx, workId, "endpoint",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -288,7 +289,7 @@ func (s *GenerativeAiEndpointResourceCrud) getEndpointFromWorkRequest(workId *st
 	}
 	s.D.SetId(*endpointId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func endpointWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -314,7 +315,7 @@ func endpointWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci
 	}
 }
 
-func endpointWaitForWorkRequest(wId *string, entityType string, action oci_generative_ai.ActionTypeEnum,
+func endpointWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_generative_ai.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_generative_ai.GenerativeAiClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "generative_ai")
 	retryPolicy.ShouldRetryOperation = endpointWorkRequestShouldRetryFunc(timeout)
@@ -333,7 +334,7 @@ func endpointWaitForWorkRequest(wId *string, entityType string, action oci_gener
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_generative_ai.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -345,7 +346,7 @@ func endpointWaitForWorkRequest(wId *string, entityType string, action oci_gener
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -362,14 +363,14 @@ func endpointWaitForWorkRequest(wId *string, entityType string, action oci_gener
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_generative_ai.OperationStatusFailed || response.Status == oci_generative_ai.OperationStatusCanceled {
-		return nil, getErrorFromGenerativeAiEndpointWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromGenerativeAiEndpointWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromGenerativeAiEndpointWorkRequest(client *oci_generative_ai.GenerativeAiClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_generative_ai.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromGenerativeAiEndpointWorkRequest(ctx context.Context, client *oci_generative_ai.GenerativeAiClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_generative_ai.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_generative_ai.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -391,7 +392,7 @@ func getErrorFromGenerativeAiEndpointWorkRequest(client *oci_generative_ai.Gener
 	return workRequestErr
 }
 
-func (s *GenerativeAiEndpointResourceCrud) Get() error {
+func (s *GenerativeAiEndpointResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_generative_ai.GetEndpointRequest{}
 
 	tmp := s.D.Id()
@@ -399,7 +400,7 @@ func (s *GenerativeAiEndpointResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai")
 
-	response, err := s.Client.GetEndpoint(context.Background(), request)
+	response, err := s.Client.GetEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -408,11 +409,11 @@ func (s *GenerativeAiEndpointResourceCrud) Get() error {
 	return nil
 }
 
-func (s *GenerativeAiEndpointResourceCrud) Update() error {
+func (s *GenerativeAiEndpointResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -463,16 +464,16 @@ func (s *GenerativeAiEndpointResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai")
 
-	response, err := s.Client.UpdateEndpoint(context.Background(), request)
+	response, err := s.Client.UpdateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai"), oci_generative_ai.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getEndpointFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai"), oci_generative_ai.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *GenerativeAiEndpointResourceCrud) Delete() error {
+func (s *GenerativeAiEndpointResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_generative_ai.DeleteEndpointRequest{}
 
 	tmp := s.D.Id()
@@ -480,14 +481,14 @@ func (s *GenerativeAiEndpointResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai")
 
-	response, err := s.Client.DeleteEndpoint(context.Background(), request)
+	response, err := s.Client.DeleteEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := endpointWaitForWorkRequest(workId, "endpoint",
+	_, delWorkRequestErr := endpointWaitForWorkRequest(ctx, workId, "endpoint",
 		oci_generative_ai.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -648,7 +649,7 @@ func EndpointSummaryToMap(obj oci_generative_ai.EndpointSummary) map[string]inte
 	return result
 }
 
-func (s *GenerativeAiEndpointResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *GenerativeAiEndpointResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_generative_ai.ChangeEndpointCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -659,12 +660,12 @@ func (s *GenerativeAiEndpointResourceCrud) updateCompartment(compartment interfa
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai")
 
-	_, err := s.Client.ChangeEndpointCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeEndpointCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

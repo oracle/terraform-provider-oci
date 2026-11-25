@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_bds "github.com/oracle/oci-go-sdk/v65/bds"
 )
@@ -23,15 +24,15 @@ func BdsBdsInstanceApiKeyDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(BdsBdsInstanceApiKeyResource(), fieldMap, readSingularBdsBdsInstanceApiKey)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(BdsBdsInstanceApiKeyResource(), fieldMap, readSingularBdsBdsInstanceApiKeyWithContext)
 }
 
-func readSingularBdsBdsInstanceApiKey(d *schema.ResourceData, m interface{}) error {
+func readSingularBdsBdsInstanceApiKeyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceApiKeyDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type BdsBdsInstanceApiKeyDataSourceCrud struct {
@@ -44,7 +45,7 @@ func (s *BdsBdsInstanceApiKeyDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BdsBdsInstanceApiKeyDataSourceCrud) Get() error {
+func (s *BdsBdsInstanceApiKeyDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_bds.GetBdsApiKeyRequest{}
 
 	if apiKeyId, ok := s.D.GetOkExists("api_key_id"); ok {
@@ -59,7 +60,7 @@ func (s *BdsBdsInstanceApiKeyDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "bds")
 
-	response, err := s.Client.GetBdsApiKey(context.Background(), request)
+	response, err := s.Client.GetBdsApiKey(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -22,6 +22,10 @@ func DatabaseKeyStoresDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"key_store_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"key_stores": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -55,6 +59,10 @@ func (s *DatabaseKeyStoresDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if keyStoreType, ok := s.D.GetOkExists("key_store_type"); ok {
+		request.KeyStoreType = oci_database.ListKeyStoresKeyStoreTypeEnum(keyStoreType.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
@@ -92,6 +100,18 @@ func (s *DatabaseKeyStoresDataSourceCrud) SetData() error {
 		keyStore := map[string]interface{}{
 			"compartment_id": *r.CompartmentId,
 		}
+
+		associatedAutonomousVmClusters := []interface{}{}
+		for _, item := range r.AssociatedAutonomousVmClusters {
+			associatedAutonomousVmClusters = append(associatedAutonomousVmClusters, KeyStoreAssociatedAutonomousVmClusterDetailsToMap(item))
+		}
+		keyStore["associated_autonomous_vm_clusters"] = associatedAutonomousVmClusters
+
+		associatedCloudAutonomousVmClusters := []interface{}{}
+		for _, item := range r.AssociatedCloudAutonomousVmClusters {
+			associatedCloudAutonomousVmClusters = append(associatedCloudAutonomousVmClusters, KeyStoreAssociatedCloudAutonomousVmClusterDetailsToMap(item))
+		}
+		keyStore["associated_cloud_autonomous_vm_clusters"] = associatedCloudAutonomousVmClusters
 
 		associatedDatabases := []interface{}{}
 		for _, item := range r.AssociatedDatabases {

@@ -37,6 +37,7 @@ var (
 
 	DatabaseDatabaseKeyStoreDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"key_store_type": acctest.Representation{RepType: acctest.Optional, Create: `ORACLE_KEY_VAULT`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseKeyStoreDataSourceFilterRepresentation}}
 	DatabaseKeyStoreDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
@@ -50,6 +51,16 @@ var (
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${tomap({ "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value" })}`, Update: `${tomap({ "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue" })}`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
+
+	DatabaseThalesKeyStoreRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `Key Store1`},
+		"type_details":   acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseThalesKeyStoreTypeDetailsRepresentation},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${tomap({ "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value" })}`, Update: `${tomap({ "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue" })}`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseIgnoreDefinedTagsRepresentation},
+	}
+
 	DatabaseKeyStoreTypeDetailsRepresentation = map[string]interface{}{
 		"admin_username": acctest.Representation{RepType: acctest.Required, Create: `username1`, Update: `adminUsername2`},
 		"connection_ips": acctest.Representation{RepType: acctest.Required, Create: []string{`192.1.1.1`}, Update: []string{`192.1.1.1`, `192.1.1.2`}},
@@ -58,10 +69,19 @@ var (
 		"vault_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.kms_vault_id}`},
 	}
 
+	DatabaseThalesKeyStoreTypeDetailsRepresentation = map[string]interface{}{
+		"admin_username": acctest.Representation{RepType: acctest.Required, Create: `username1`, Update: `adminUsername2`},
+		"connection_ips": acctest.Representation{RepType: acctest.Required, Create: []string{`192.1.1.1`}, Update: []string{`192.1.1.1`, `192.1.1.2`}},
+		"secret_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.okv_secret}`},
+		"type":           acctest.Representation{RepType: acctest.Required, Create: `THALES`},
+		"vault_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.kms_vault_id}`},
+	}
+
 	okvSecret            = utils.GetEnvSettingWithBlankDefault("okv_secret")
 	OkvSecretVariableStr = fmt.Sprintf("variable \"okv_secret\" { default = \"%s\" }\n", okvSecret)
 
-	DatabaseKeyStoreResourceDependencies = DefinedTagsDependencies + KmsVaultIdVariableStr + OkvSecretVariableStr
+	DatabaseKeyStoreResourceDependencies            = DefinedTagsDependencies + KmsVaultIdVariableStr + OkvSecretVariableStr
+	DatabaseKeyStoreWithoutTagsResourceDependencies = KmsVaultIdVariableStr + OkvSecretVariableStr
 )
 
 // issue-routing-tag: database/ExaCC
@@ -87,6 +107,31 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 		acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Optional, acctest.Create, DatabaseKeyStoreRepresentation), "database", "keyStore", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseKeyStoreDestroy, []resource.TestStep{
+		// verify Create Thales
+		{
+			Config: config + compartmentIdVariableStr + DatabaseKeyStoreResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Required, acctest.Create, DatabaseThalesKeyStoreRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Key Store1"),
+				resource.TestCheckResourceAttr(resourceName, "type_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "type_details.0.admin_username", "username1"),
+				resource.TestCheckResourceAttrSet(resourceName, "type_details.0.secret_id"),
+				resource.TestCheckResourceAttr(resourceName, "type_details.0.type", "THALES"),
+				resource.TestCheckResourceAttrSet(resourceName, "type_details.0.vault_id"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseKeyStoreResourceDependencies,
+		},
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DatabaseKeyStoreResourceDependencies +
@@ -203,8 +248,11 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Optional, acctest.Update, DatabaseKeyStoreRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "key_store_type", "ORACLE_KEY_VAULT"),
 
 				resource.TestCheckResourceAttr(datasourceName, "key_stores.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "key_stores.0.associated_autonomous_vm_clusters.#", "0"),
+				resource.TestCheckResourceAttr(datasourceName, "key_stores.0.associated_cloud_autonomous_vm_clusters.#", "0"),
 				resource.TestCheckResourceAttr(datasourceName, "key_stores.0.associated_databases.#", "0"),
 				resource.TestCheckResourceAttrSet(datasourceName, "key_stores.0.associated_long_term_backup_count"),
 				resource.TestCheckResourceAttr(datasourceName, "key_stores.0.associated_long_term_backups.#", "0"),
@@ -230,6 +278,8 @@ func TestDatabaseKeyStoreResource_basic(t *testing.T) {
 				compartmentIdVariableStr + DatabaseKeyStoreResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "key_store_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "associated_autonomous_vm_clusters.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "associated_cloud_autonomous_vm_clusters.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "associated_databases.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "associated_long_term_backups.#", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "associated_long_term_backup_count"),

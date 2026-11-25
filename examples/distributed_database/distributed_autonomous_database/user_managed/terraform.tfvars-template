@@ -1,0 +1,130 @@
+auth                = "SecurityToken"
+config_file_profile = "DEFAULT"
+region              = "<region>"
+compartment_id      = "<compartment-ocid>"
+
+create_private_endpoint         = false
+additional_private_endpoint_ids = ["<private-endpoint-ocid>"]
+private_endpoint = {
+  display_name = "autonomous-user-managed-pe"
+  subnet_id    = "<subnet-ocid>"
+  vcn_id       = "<vcn-ocid>"
+  nsg_ids      = []
+}
+
+display_name      = "tf-autonomous-user-managed"
+prefix            = "aum1"
+database_version  = "26ai"
+db_workload_type  = "OLTP"
+character_set     = "AL32UTF8"
+ncharacter_set    = "AL16UTF16"
+listener_port     = 37042
+listener_port_tls = 13970
+ons_port_local    = 15103
+ons_port_remote   = 34782
+
+catalog_details = [{
+  original_replica = {
+    name = "catalog"
+    database = {
+      source                               = "ADBD_EXISTING_CLUSTER"
+      cloud_autonomous_vm_cluster_id       = "<catalog-cloud-autonomous-vm-cluster-ocid>"
+      compute_count                        = 4
+      data_storage_size_in_gbs             = 256
+      is_auto_scaling_enabled              = false
+      vault_id                             = "<vault-ocid>"
+      kms_key_id                           = "<key-ocid>"
+      admin_password_secret_id             = "<catalog-admin-password-secret-ocid>"
+      admin_password_secret_version_number = null
+    }
+  }
+}]
+
+user_shard_spaces = [
+  {
+    name = "shardspace1"
+    original_replica = {
+      name = "primary1"
+      database = {
+        source                               = "ADBD_EXISTING_CLUSTER"
+        shard_space_name                     = "shardspace1"
+        cloud_autonomous_vm_cluster_id       = "<shard-1-primary-cloud-autonomous-vm-cluster-ocid>"
+        compute_count                        = 4
+        data_storage_size_in_gbs             = 256
+        is_auto_scaling_enabled              = false
+        vault_id                             = "<vault-ocid>"
+        kms_key_id                           = "<key-ocid>"
+        admin_password_secret_id             = "<shard-admin-password-secret-ocid>"
+        admin_password_secret_version_number = null
+      }
+    }
+    data_guard_replicas = [{
+      name = "standby1"
+      database = {
+        admin_password_secret_id             = "<standby-admin-password-secret-ocid>"
+        admin_password_secret_version_number = null
+        source                               = "ADBD_EXISTING_CLUSTER"
+        shard_space_name                     = "shardspace1"
+        cloud_autonomous_vm_cluster_id       = "<shard-1-standby-cloud-autonomous-vm-cluster-ocid>"
+        compute_count                        = 4
+        data_storage_size_in_gbs             = 256
+        is_auto_scaling_enabled              = false
+        protection_mode                      = "MAXIMUM_AVAILABILITY"
+        vault_id                             = "<vault-ocid>"
+        kms_key_id                           = "<key-ocid>"
+      }
+    }]
+  },
+  {
+    name = "shardspace2"
+    original_replica = {
+      name = "primary2"
+      database = {
+        source                               = "ADBD_EXISTING_CLUSTER"
+        shard_space_name                     = "shardspace2"
+        cloud_autonomous_vm_cluster_id       = "<shard-2-primary-cloud-autonomous-vm-cluster-ocid>"
+        compute_count                        = 4
+        data_storage_size_in_gbs             = 256
+        is_auto_scaling_enabled              = false
+        vault_id                             = "<vault-ocid>"
+        kms_key_id                           = "<key-ocid>"
+        admin_password_secret_id             = "<shard-admin-password-secret-ocid>"
+        admin_password_secret_version_number = null
+      }
+    }
+    data_guard_replicas = []
+  }
+]
+
+configure_sharding_enabled               = true
+configure_sharding_is_rebalance_required = true
+certificate_id                           = "<certificate-ocid>"
+ca_bundle_id                             = "<ca-bundle-ocid>"
+# Optional post-create actions can be added in a later apply.
+gds_control_nodes = [{
+  public_ssh_key = "ssh-rsa <public-key-for-gdsctl-node>"
+  subnet_id      = "ocid1.subnet.oc1.<region>.<gdsctl-node-subnet>"
+}]
+# Add/remove databases and Data Guard replicas in the topology above.
+# Configure Sharding is a separate explicit operation when required.
+# See ../../ACTIONS.md.
+# Included during creation; edit this block for a later backup configuration update.
+db_backup_config = {
+  recovery_window_in_days = 30
+  backup_destination_details = [{
+    type      = "OBJECT_STORE"
+    is_remote = false
+  }]
+}
+validate_network_trigger        = null
+freeform_tags                   = { topology = "autonomous_user_managed" }
+# Set operational_state to AVAILABLE or STOPPED only after database creation.
+# operational_state = "AVAILABLE"
+
+# Keep successful action lists unchanged. Add another instance for additional operations.
+actions = {
+  insert    = []
+  insert_dg = []
+  remove_dg = []
+  remove    = []
+}

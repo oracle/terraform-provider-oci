@@ -50,6 +50,10 @@ func (m *updateoracledatatransfermediumdetails) UnmarshalPolymorphicJSON(data []
 
 	var err error
 	switch m.Type {
+	case "GCS":
+		mm := UpdateOracleGcsDataTransferMediumDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AWS_S3":
 		mm := UpdateOracleAwsS3DataTransferMediumDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -60,6 +64,10 @@ func (m *updateoracledatatransfermediumdetails) UnmarshalPolymorphicJSON(data []
 		return mm, err
 	case "OBJECT_STORAGE":
 		mm := UpdateOracleObjectStorageDataTransferMediumDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AZURE_BLOB":
+		mm := UpdateOracleAzureBlobDataTransferMediumDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "DBLINK":
@@ -96,6 +104,8 @@ const (
 	UpdateOracleDataTransferMediumDetailsTypeDblink        UpdateOracleDataTransferMediumDetailsTypeEnum = "DBLINK"
 	UpdateOracleDataTransferMediumDetailsTypeObjectStorage UpdateOracleDataTransferMediumDetailsTypeEnum = "OBJECT_STORAGE"
 	UpdateOracleDataTransferMediumDetailsTypeAwsS3         UpdateOracleDataTransferMediumDetailsTypeEnum = "AWS_S3"
+	UpdateOracleDataTransferMediumDetailsTypeAzureBlob     UpdateOracleDataTransferMediumDetailsTypeEnum = "AZURE_BLOB"
+	UpdateOracleDataTransferMediumDetailsTypeGcs           UpdateOracleDataTransferMediumDetailsTypeEnum = "GCS"
 	UpdateOracleDataTransferMediumDetailsTypeNfs           UpdateOracleDataTransferMediumDetailsTypeEnum = "NFS"
 )
 
@@ -103,6 +113,8 @@ var mappingUpdateOracleDataTransferMediumDetailsTypeEnum = map[string]UpdateOrac
 	"DBLINK":         UpdateOracleDataTransferMediumDetailsTypeDblink,
 	"OBJECT_STORAGE": UpdateOracleDataTransferMediumDetailsTypeObjectStorage,
 	"AWS_S3":         UpdateOracleDataTransferMediumDetailsTypeAwsS3,
+	"AZURE_BLOB":     UpdateOracleDataTransferMediumDetailsTypeAzureBlob,
+	"GCS":            UpdateOracleDataTransferMediumDetailsTypeGcs,
 	"NFS":            UpdateOracleDataTransferMediumDetailsTypeNfs,
 }
 
@@ -110,6 +122,8 @@ var mappingUpdateOracleDataTransferMediumDetailsTypeEnumLowerCase = map[string]U
 	"dblink":         UpdateOracleDataTransferMediumDetailsTypeDblink,
 	"object_storage": UpdateOracleDataTransferMediumDetailsTypeObjectStorage,
 	"aws_s3":         UpdateOracleDataTransferMediumDetailsTypeAwsS3,
+	"azure_blob":     UpdateOracleDataTransferMediumDetailsTypeAzureBlob,
+	"gcs":            UpdateOracleDataTransferMediumDetailsTypeGcs,
 	"nfs":            UpdateOracleDataTransferMediumDetailsTypeNfs,
 }
 
@@ -128,6 +142,8 @@ func GetUpdateOracleDataTransferMediumDetailsTypeEnumStringValues() []string {
 		"DBLINK",
 		"OBJECT_STORAGE",
 		"AWS_S3",
+		"AZURE_BLOB",
+		"GCS",
 		"NFS",
 	}
 }

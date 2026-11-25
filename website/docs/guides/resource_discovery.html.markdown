@@ -190,6 +190,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `devops` - Discovers devops resources within the specified compartment
     * `dif` - Discovers dif resources within the specified compartment
     * `disaster_recovery` - Discovers disaster_recovery resources within the specified compartment
+    * `distributed_database` - Discovers distributed_database resources within the specified compartment
     * `dns` - Discovers dns resources (except record) within the specified compartment
     * `email` - Discovers email_sender resources within the specified compartment
     * `events` - Discovers events resources within the specified compartment
@@ -896,6 +897,12 @@ disaster_recovery
 * oci\_disaster\_recovery\_dr\_protection\_group
 * oci\_disaster\_recovery\_dr\_plan\_execution
 * oci\_disaster\_recovery\_dr\_plan
+
+distributed_database
+    
+* oci\_distributed\_database\_distributed\_database
+* oci\_distributed\_database\_distributed\_database\_private\_endpoint
+* oci\_distributed\_database\_distributed\_autonomous\_database
 
 dns
 

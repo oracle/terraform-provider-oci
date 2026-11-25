@@ -266,6 +266,10 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := AzureSynapseConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ORACLE_AI_DATA_CATALOG_STORAGE":
+		mm := OracleAiDataCatalogStorageConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "MICROSOFT_FABRIC":
 		mm := MicrosoftFabricConnection{}
 		err = json.Unmarshal(data, &mm)

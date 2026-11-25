@@ -12,6 +12,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,10 +25,10 @@ func OpsiOperationsInsightsWarehouseRotateWarehouseWalletResource() *schema.Reso
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOpsiOperationsInsightsWarehouseRotateWarehouseWallet,
-		Read:     readOpsiOperationsInsightsWarehouseRotateWarehouseWallet,
-		Delete:   deleteOpsiOperationsInsightsWarehouseRotateWarehouseWallet,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOpsiOperationsInsightsWarehouseRotateWarehouseWalletWithContext,
+		ReadContext:   readOpsiOperationsInsightsWarehouseRotateWarehouseWalletWithContext,
+		DeleteContext: deleteOpsiOperationsInsightsWarehouseRotateWarehouseWalletWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"operations_insights_warehouse_id": {
@@ -43,19 +44,19 @@ func OpsiOperationsInsightsWarehouseRotateWarehouseWalletResource() *schema.Reso
 	}
 }
 
-func createOpsiOperationsInsightsWarehouseRotateWarehouseWallet(d *schema.ResourceData, m interface{}) error {
+func createOpsiOperationsInsightsWarehouseRotateWarehouseWalletWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiOperationsInsightsWarehouseRotateWarehouseWalletResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOpsiOperationsInsightsWarehouseRotateWarehouseWallet(d *schema.ResourceData, m interface{}) error {
+func readOpsiOperationsInsightsWarehouseRotateWarehouseWalletWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteOpsiOperationsInsightsWarehouseRotateWarehouseWallet(d *schema.ResourceData, m interface{}) error {
+func deleteOpsiOperationsInsightsWarehouseRotateWarehouseWalletWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -70,7 +71,7 @@ func (s *OpsiOperationsInsightsWarehouseRotateWarehouseWalletResourceCrud) ID() 
 	return tfresource.GenerateDataSourceHashID("OpsiOperationsInsightsWarehouseRotateWarehouseWalletResource-", OpsiOperationsInsightsWarehouseRotateWarehouseWalletResource(), s.D)
 }
 
-func (s *OpsiOperationsInsightsWarehouseRotateWarehouseWalletResourceCrud) Create() error {
+func (s *OpsiOperationsInsightsWarehouseRotateWarehouseWalletResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_opsi.RotateOperationsInsightsWarehouseWalletRequest{}
 
 	if operationsInsightsWarehouseId, ok := s.D.GetOkExists("operations_insights_warehouse_id"); ok {
@@ -80,13 +81,13 @@ func (s *OpsiOperationsInsightsWarehouseRotateWarehouseWalletResourceCrud) Creat
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.RotateOperationsInsightsWarehouseWallet(context.Background(), request)
+	response, err := s.Client.RotateOperationsInsightsWarehouseWallet(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getOperationsInsightsWarehouseRotateWarehouseWalletFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeRelated, s.D.Timeout(schema.TimeoutCreate))
+	err = s.getOperationsInsightsWarehouseRotateWarehouseWalletFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeRelated, s.D.Timeout(schema.TimeoutCreate))
 	if err != nil {
 		return err
 	}
@@ -97,11 +98,11 @@ func (s *OpsiOperationsInsightsWarehouseRotateWarehouseWalletResourceCrud) Creat
 	return nil
 }
 
-func (s *OpsiOperationsInsightsWarehouseRotateWarehouseWalletResourceCrud) getOperationsInsightsWarehouseRotateWarehouseWalletFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OpsiOperationsInsightsWarehouseRotateWarehouseWalletResourceCrud) getOperationsInsightsWarehouseRotateWarehouseWalletFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_opsi.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	operationsInsightsWarehouseRotateWarehouseWalletId, err := operationsInsightsWarehouseRotateWarehouseWalletWaitForWorkRequest(workId, "opsi",
+	operationsInsightsWarehouseRotateWarehouseWalletId, err := operationsInsightsWarehouseRotateWarehouseWalletWaitForWorkRequest(ctx, workId, "opsi",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -135,7 +136,7 @@ func operationsInsightsWarehouseRotateWarehouseWalletWorkRequestShouldRetryFunc(
 	}
 }
 
-func operationsInsightsWarehouseRotateWarehouseWalletWaitForWorkRequest(wId *string, entityType string, action oci_opsi.ActionTypeEnum,
+func operationsInsightsWarehouseRotateWarehouseWalletWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_opsi.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_opsi.OperationsInsightsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "opsi")
 	retryPolicy.ShouldRetryOperation = operationsInsightsWarehouseRotateWarehouseWalletWorkRequestShouldRetryFunc(timeout)
@@ -154,7 +155,7 @@ func operationsInsightsWarehouseRotateWarehouseWalletWaitForWorkRequest(wId *str
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_opsi.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -166,7 +167,7 @@ func operationsInsightsWarehouseRotateWarehouseWalletWaitForWorkRequest(wId *str
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -183,14 +184,14 @@ func operationsInsightsWarehouseRotateWarehouseWalletWaitForWorkRequest(wId *str
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_opsi.OperationStatusFailed || response.Status == oci_opsi.OperationStatusCanceled {
-		return nil, getErrorFromOpsiOperationsInsightsWarehouseRotateWarehouseWalletWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOpsiOperationsInsightsWarehouseRotateWarehouseWalletWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOpsiOperationsInsightsWarehouseRotateWarehouseWalletWorkRequest(client *oci_opsi.OperationsInsightsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opsi.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOpsiOperationsInsightsWarehouseRotateWarehouseWalletWorkRequest(ctx context.Context, client *oci_opsi.OperationsInsightsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opsi.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_opsi.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

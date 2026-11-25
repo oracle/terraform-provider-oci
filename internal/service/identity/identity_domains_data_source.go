@@ -6,6 +6,7 @@ package identity
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v65/identity"
 
@@ -15,7 +16,7 @@ import (
 
 func IdentityDomainsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readIdentityDomains,
+		ReadContext: readIdentityDomainsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -63,12 +64,12 @@ func IdentityDomainsDataSource() *schema.Resource {
 	}
 }
 
-func readIdentityDomains(d *schema.ResourceData, m interface{}) error {
+func readIdentityDomainsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &IdentityDomainsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).IdentityClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type IdentityDomainsDataSourceCrud struct {
@@ -81,7 +82,7 @@ func (s *IdentityDomainsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *IdentityDomainsDataSourceCrud) Get() error {
+func (s *IdentityDomainsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_identity.ListDomainsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -130,7 +131,7 @@ func (s *IdentityDomainsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "identity")
 
-	response, err := s.Client.ListDomains(context.Background(), request)
+	response, err := s.Client.ListDomains(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -139,7 +140,7 @@ func (s *IdentityDomainsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDomains(context.Background(), request)
+		listResponse, err := s.Client.ListDomains(ctx, request)
 		if err != nil {
 			return err
 		}

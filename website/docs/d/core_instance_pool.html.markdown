@@ -41,6 +41,10 @@ The following attributes are exported:
 * `instance_configuration_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance configuration associated with the instance pool. 
 * `instance_display_name_formatter` - A user-friendly formatter for the instance pool's instances. Instance displaynames follow the format. The formatter does not retroactively change instance's displaynames, only instance displaynames in the future follow the format 
 * `instance_hostname_formatter` - A user-friendly formatter for the instance pool's instances. Instance hostnames follow the format. The formatter does not retroactively change instance's hostnames, only instance hostnames in the future follow the format 
+* `instance_maintenance_policy` - Optional maintenance policy settings for an instance pool.
+	* `launch_before_terminating` - Default launch-before-termination settings for instance pool refreshes.
+		* `is_full_refresh` - Whether to refresh eligible instances that already use the target instance configuration.
+		* `max_healthy_percent` - The maximum percentage of instances that can be in the pool during a refresh. The service uses this value to calculate launch-before-terminate surge capacity.
 * `lifecycle_management` - The lifecycle management options for the instance pool. 
 	* `lifecycle_actions` - The lifecycle actions for the instance pool. 
 		* `pre_termination` - The data for pre-termination action for an instance pool 
@@ -128,4 +132,3 @@ The following attributes are exported:
 * `size` - The number of actual instances in the instance pool on the cloud. This attribute will be different when instance pool is used along with autoScaling Configuration.
 * `state` - The current state of the instance pool.
 * `time_created` - The date and time the instance pool was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Example: `2016-08-25T21:10:29.600Z` 
-

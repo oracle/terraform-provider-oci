@@ -37,6 +37,7 @@ var (
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `autonomousVmCluster`},
 		"exadata_infrastructure_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
+		"kms_type":                  acctest.Representation{RepType: acctest.Optional, Create: `ORACLE_KEY_VAULT`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousVmClusterDataSourceFilterRepresentation}}
 	DatabaseAutonomousVmClusterDataSourceFilterRepresentation = map[string]interface{}{
@@ -487,6 +488,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "autonomousVmCluster"),
 					resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructure_id"),
+					resource.TestCheckResourceAttr(datasourceName, "kms_type", "ORACLE_KEY_VAULT"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.#", "1"),
@@ -506,6 +508,9 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_clusters.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.is_local_backup_enabled", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.distribution_algorithm", "DISTRIBUTION_OPTIMIZED"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.is_mtls_enabled", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.key_management_system_details.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.maintenance_window.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_clusters.0.max_acds_lowest_scaled_value"),
@@ -516,7 +521,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_clusters.0.time_created"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.time_zone", "UTC"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_clusters.0.vm_cluster_network_id"),
-					resource.TestCheckResourceAttr(resourceName, "autonomous_vm_clusters.0.system_tags.%", "0"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_vm_clusters.0.system_tags.%", "0"),
 				),
 			},
 			// verify singular datasource
@@ -543,6 +548,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "is_local_backup_enabled", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "key_management_system_details.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "is_mtls_enabled", "true"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.#", "1"),

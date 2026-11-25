@@ -6,6 +6,7 @@ package generative_ai
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_generative_ai "github.com/oracle/oci-go-sdk/v65/generativeai"
 
@@ -15,7 +16,7 @@ import (
 
 func GenerativeAiModelsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readGenerativeAiModels,
+		ReadContext: readGenerativeAiModelsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"capability": {
@@ -63,12 +64,12 @@ func GenerativeAiModelsDataSource() *schema.Resource {
 	}
 }
 
-func readGenerativeAiModels(d *schema.ResourceData, m interface{}) error {
+func readGenerativeAiModelsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiModelsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type GenerativeAiModelsDataSourceCrud struct {
@@ -81,7 +82,7 @@ func (s *GenerativeAiModelsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GenerativeAiModelsDataSourceCrud) Get() error {
+func (s *GenerativeAiModelsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_generative_ai.ListModelsRequest{}
 
 	if capability, ok := s.D.GetOkExists("capability"); ok {
@@ -123,7 +124,7 @@ func (s *GenerativeAiModelsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "generative_ai")
 
-	response, err := s.Client.ListModels(context.Background(), request)
+	response, err := s.Client.ListModels(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -132,7 +133,7 @@ func (s *GenerativeAiModelsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListModels(context.Background(), request)
+		listResponse, err := s.Client.ListModels(ctx, request)
 		if err != nil {
 			return err
 		}

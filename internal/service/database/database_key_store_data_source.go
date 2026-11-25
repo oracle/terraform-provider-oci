@@ -66,6 +66,18 @@ func (s *DatabaseKeyStoreDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	associatedAutonomousVmClusters := []interface{}{}
+	for _, item := range s.Res.AssociatedAutonomousVmClusters {
+		associatedAutonomousVmClusters = append(associatedAutonomousVmClusters, KeyStoreAssociatedAutonomousVmClusterDetailsToMap(item))
+	}
+	s.D.Set("associated_autonomous_vm_clusters", associatedAutonomousVmClusters)
+
+	associatedCloudAutonomousVmClusters := []interface{}{}
+	for _, item := range s.Res.AssociatedCloudAutonomousVmClusters {
+		associatedCloudAutonomousVmClusters = append(associatedCloudAutonomousVmClusters, KeyStoreAssociatedCloudAutonomousVmClusterDetailsToMap(item))
+	}
+	s.D.Set("associated_cloud_autonomous_vm_clusters", associatedCloudAutonomousVmClusters)
+
 	associatedDatabases := []interface{}{}
 	for _, item := range s.Res.AssociatedDatabases {
 		associatedDatabases = append(associatedDatabases, KeyStoreAssociatedDatabaseDetailsToMap(item))

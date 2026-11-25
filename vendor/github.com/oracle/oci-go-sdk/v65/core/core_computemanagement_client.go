@@ -11,6 +11,9 @@
 // Block Volume (https://docs.oracle.com/iaas/Content/Block/Concepts/overview.htm) services.
 // The required permissions are documented in the
 // Details for the Core Services (https://docs.oracle.com/iaas/Content/Identity/Reference/corepolicyreference.htm) article.
+// The Core Services API provides both IPv4-only and dual-stack (IPv4 and IPv6) endpoints. By default, OCI-published SDKs and the CLI use IPv4-only endpoints.
+// Use a dual-stack endpoint to connect over IPv6 while retaining IPv4 compatibility.
+// Dual-stack endpoints use the following format: https://{service}.{region}.ds.oci.{secondLevelDomain}.
 //
 
 package core
@@ -236,6 +239,78 @@ func (client ComputeManagementClient) attachLoadBalancer(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstancePool/AttachLoadBalancer"
 		err = common.PostProcessServiceError(err, "ComputeManagement", "AttachLoadBalancer", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CancelInstancePoolRefresh Cancels the specified instance pool refresh.
+// Cancellation stops new batch planning and new launch submissions. Submitted launch and terminate
+// operations continue until they settle.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CancelInstancePoolRefresh.go.html to see an example of how to use CancelInstancePoolRefresh API.
+// A default retry strategy applies to this operation CancelInstancePoolRefresh()
+func (client ComputeManagementClient) CancelInstancePoolRefresh(ctx context.Context, request CancelInstancePoolRefreshRequest) (response CancelInstancePoolRefreshResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.cancelInstancePoolRefresh, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CancelInstancePoolRefreshResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CancelInstancePoolRefreshResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CancelInstancePoolRefreshResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CancelInstancePoolRefreshResponse")
+	}
+	return
+}
+
+// cancelInstancePoolRefresh implements the OCIOperation interface (enables retrying operations)
+func (client ComputeManagementClient) cancelInstancePoolRefresh(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools/{instancePoolId}/refreshes/{refreshId}/actions/cancel", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response CancelInstancePoolRefreshResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "CancelInstancePoolRefresh")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstancePoolRefresh/CancelInstancePoolRefresh"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "CancelInstancePoolRefresh", apiReferenceLink)
 		return response, err
 	}
 
@@ -1215,6 +1290,71 @@ func (client ComputeManagementClient) getInstancePoolLoadBalancerAttachment(ctx 
 	return response, err
 }
 
+// GetInstancePoolRefresh Gets the specified instance pool refresh.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetInstancePoolRefresh.go.html to see an example of how to use GetInstancePoolRefresh API.
+// A default retry strategy applies to this operation GetInstancePoolRefresh()
+func (client ComputeManagementClient) GetInstancePoolRefresh(ctx context.Context, request GetInstancePoolRefreshRequest) (response GetInstancePoolRefreshResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getInstancePoolRefresh, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetInstancePoolRefreshResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetInstancePoolRefreshResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetInstancePoolRefreshResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetInstancePoolRefreshResponse")
+	}
+	return
+}
+
+// getInstancePoolRefresh implements the OCIOperation interface (enables retrying operations)
+func (client ComputeManagementClient) getInstancePoolRefresh(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instancePools/{instancePoolId}/refreshes/{refreshId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response GetInstancePoolRefreshResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "GetInstancePoolRefresh")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstancePoolRefresh/GetInstancePoolRefresh"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "GetInstancePoolRefresh", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // LaunchInstanceConfiguration Creates an instance from an instance configuration.
 // If the instance configuration does not include all of the parameters that are
 // required to create an instance, such as the availability domain and subnet ID, you must
@@ -1549,6 +1689,71 @@ func (client ComputeManagementClient) listInstancePoolInstances(ctx context.Cont
 	return response, err
 }
 
+// ListInstancePoolRefreshes Lists the instance pool refreshes for the specified instance pool.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListInstancePoolRefreshes.go.html to see an example of how to use ListInstancePoolRefreshes API.
+// A default retry strategy applies to this operation ListInstancePoolRefreshes()
+func (client ComputeManagementClient) ListInstancePoolRefreshes(ctx context.Context, request ListInstancePoolRefreshesRequest) (response ListInstancePoolRefreshesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listInstancePoolRefreshes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListInstancePoolRefreshesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListInstancePoolRefreshesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListInstancePoolRefreshesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListInstancePoolRefreshesResponse")
+	}
+	return
+}
+
+// listInstancePoolRefreshes implements the OCIOperation interface (enables retrying operations)
+func (client ComputeManagementClient) listInstancePoolRefreshes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instancePools/{instancePoolId}/refreshes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ListInstancePoolRefreshesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "ListInstancePoolRefreshes")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstancePoolRefreshCollection/ListInstancePoolRefreshes"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "ListInstancePoolRefreshes", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListInstancePools Lists the instance pools in the specified compartment.
 //
 // # See also
@@ -1606,6 +1811,76 @@ func (client ComputeManagementClient) listInstancePools(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstancePoolSummary/ListInstancePools"
 		err = common.PostProcessServiceError(err, "ComputeManagement", "ListInstancePools", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RefreshInstancePool Starts an instance refresh for the specified instance pool.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/RefreshInstancePool.go.html to see an example of how to use RefreshInstancePool API.
+// A default retry strategy applies to this operation RefreshInstancePool()
+func (client ComputeManagementClient) RefreshInstancePool(ctx context.Context, request RefreshInstancePoolRequest) (response RefreshInstancePoolResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.refreshInstancePool, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RefreshInstancePoolResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RefreshInstancePoolResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RefreshInstancePoolResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RefreshInstancePoolResponse")
+	}
+	return
+}
+
+// refreshInstancePool implements the OCIOperation interface (enables retrying operations)
+func (client ComputeManagementClient) refreshInstancePool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools/{instancePoolId}/actions/refresh", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response RefreshInstancePoolResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeManagement", "RefreshInstancePool")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstancePoolRefresh/RefreshInstancePool"
+		err = common.PostProcessServiceError(err, "ComputeManagement", "RefreshInstancePool", apiReferenceLink)
 		return response, err
 	}
 

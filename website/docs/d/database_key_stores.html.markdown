@@ -19,6 +19,9 @@ Gets a list of key stores in the specified compartment.
 data "oci_database_key_stores" "test_key_stores" {
 	#Required
 	compartment_id = var.compartment_id
+
+	#Optional
+	key_store_type = var.key_store_key_store_type
 }
 ```
 
@@ -27,6 +30,7 @@ data "oci_database_key_stores" "test_key_stores" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `key_store_type` - (Optional) A filter to return only resources that match the key store type given. The match is not case sensitive.
 
 
 ## Attributes Reference
@@ -39,6 +43,12 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `associated_autonomous_vm_clusters` - List of Autonomous VM Clusters associated with the key store.
+	* `display_name` - The display name of the Autonomous VM Cluster associated with the key store.
+	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous VM Cluster.
+* `associated_cloud_autonomous_vm_clusters` - List of Cloud Autonomous VM Clusters associated with the key store.
+	* `display_name` - The display name of the Cloud Autonomous VM Cluster associated with the key store.
+	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Cloud Autonomous VM Cluster.
 * `associated_databases` - List of databases associated with the key store.
 	* `db_name` - The name of the database that is associated with the key store.
 	* `db_unique_name` - The unique name of the database that is associated with the key store.

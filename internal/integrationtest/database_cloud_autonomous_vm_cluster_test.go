@@ -40,6 +40,7 @@ var (
 	DatabaseDatabaseCloudAutonomousVmClusterDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"cloud_exadata_infrastructure_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id}`},
+		"kms_type":                        acctest.Representation{RepType: acctest.Optional, Create: `ORACLE_KEY_VAULT`},
 		"display_name":                    acctest.Representation{RepType: acctest.Optional, Create: `displayName1`, Update: `displayName2`},
 		"state":                           acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 		"filter":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseCloudAutonomousVmClusterDataSourceFilterRepresentation}}
@@ -72,7 +73,7 @@ var (
 		"autonomous_data_storage_size_in_tbs":   acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `4`},
 	}
 	AdbStorageInTbsIgnoreChangesRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Optional, Create: []string{`autonomous_data_storage_size_in_tbs`, `cpu_core_count_per_node`}},
+		"ignore_changes": acctest.Representation{RepType: acctest.Optional, Create: []string{`autonomous_data_storage_size_in_tbs`, `cpu_core_count_per_node`, `defined_tags`}},
 	}
 	DatabaseCloudAutonomousVmClusterMaintenanceWindowDetailsRepresentation = map[string]interface{}{
 		"preference":                       acctest.Representation{RepType: acctest.Optional, Create: `NO_PREFERENCE`, Update: `NO_PREFERENCE`},
@@ -116,6 +117,7 @@ var (
 	}
 
 	DatabaseCloudAutonomousVmClusterResourceDependencies = DefinedTagsDependencies + AvailabilityDomainConfig +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, DatabaseCloudAutonomousNetworkSecurityGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", acctest.Required, acctest.Create, DatabaseCloudAutonomousNetworkSecurityGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Required, acctest.Create, DatabaseCloudExadataInfrastructureRepresentation) +
@@ -293,7 +295,6 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					},
 				),
 			},
-
 			// verify Update to the compartment (the compartment will be switched back in the next step)
 			{
 				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseCloudAutonomousVmClusterResourceDependencies +
@@ -373,6 +374,7 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "distribution_algorithm", "DISTRIBUTION_OPTIMIZED"),
 					resource.TestCheckResourceAttr(resourceName, "sga_percentage", "40"),
 					resource.TestCheckResourceAttr(resourceName, "is_mtls_enabled_vm_cluster", "true"),
+					resource.TestCheckResourceAttr(resourceName, "key_management_system_details.#", "0"),
 					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttr(resourceName, "scan_listener_port_non_tls", "2303"),
 					resource.TestCheckResourceAttr(resourceName, "scan_listener_port_tls", "2710"),
@@ -422,6 +424,7 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.hostname"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "cloud_autonomous_vm_clusters.0.is_mtls_enabled_vm_cluster", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "cloud_autonomous_vm_clusters.0.key_management_system_details.#", "0"),
 					resource.TestCheckResourceAttr(datasourceName, "cloud_autonomous_vm_clusters.0.license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.memory_size_in_gbs"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.node_count"),
@@ -448,7 +451,7 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.reclaimable_cpus"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cloud_autonomous_vm_clusters.0.reserved_cpus"),
 					resource.TestCheckResourceAttr(datasourceName, "cloud_autonomous_vm_clusters.0.subscription_id", ""),
-					resource.TestCheckResourceAttr(resourceName, "cloud_autonomous_vm_clusters.0.system_tags.%", "0"),
+					resource.TestCheckResourceAttr(datasourceName, "cloud_autonomous_vm_clusters.0.system_tags.%", "0"),
 				),
 			},
 			// verify singular datasource
@@ -490,7 +493,7 @@ func TestDatabaseCloudAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "provisioned_cpus"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "reclaimable_cpus"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "reserved_cpus"),
-					resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "0"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "security_attributes.%", "0"),
 					resource.TestCheckNoResourceAttr(singularDatasourceName, "subscription_id"),
 				),
 			},

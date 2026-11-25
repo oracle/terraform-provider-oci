@@ -17,8 +17,6 @@ import (
 )
 
 // CreateOracleMigrationDetails Create Migration resource parameters.
-// Deprecated: The parent-level Oracle migration configuration properties on this model are deprecated.
-// Use `migrationSettings` instead.
 type CreateOracleMigrationDetails struct {
 
 	// The OCID of the resource being referenced.
@@ -48,8 +46,6 @@ type CreateOracleMigrationDetails struct {
 
 	// The OCID of the resource being referenced.
 	AssessmentId *string `mandatory:"false" json:"assessmentId"`
-
-	MigrationSettings CreateOracleMigrationSettings `mandatory:"false" json:"migrationSettings"`
 
 	DataTransferMediumDetails CreateOracleDataTransferMediumDetails `mandatory:"false" json:"dataTransferMediumDetails"`
 
@@ -174,7 +170,6 @@ func (m *CreateOracleMigrationDetails) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags                        map[string]string                     `json:"freeformTags"`
 		DefinedTags                         map[string]map[string]interface{}     `json:"definedTags"`
 		AssessmentId                        *string                               `json:"assessmentId"`
-		MigrationSettings                   createoraclemigrationsettings         `json:"migrationSettings"`
 		DataTransferMediumDetails           createoracledatatransfermediumdetails `json:"dataTransferMediumDetails"`
 		InitialLoadSettings                 *CreateOracleInitialLoadSettings      `json:"initialLoadSettings"`
 		AdvisorSettings                     *CreateOracleAdvisorSettings          `json:"advisorSettings"`
@@ -208,16 +203,6 @@ func (m *CreateOracleMigrationDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.AssessmentId = model.AssessmentId
-
-	nn, e = model.MigrationSettings.UnmarshalPolymorphicJSON(model.MigrationSettings.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.MigrationSettings = nn.(CreateOracleMigrationSettings)
-	} else {
-		m.MigrationSettings = nil
-	}
 
 	nn, e = model.DataTransferMediumDetails.UnmarshalPolymorphicJSON(model.DataTransferMediumDetails.JsonData)
 	if e != nil {

@@ -3110,6 +3110,108 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.VaultId != nil {
 			s.D.Set("vault_id", *v.VaultId)
 		}
+	case oci_golden_gate.OracleAiDataCatalogStorageConnection:
+		s.D.Set("connection_type", "ORACLE_AI_DATA_CATALOG_STORAGE")
+
+		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.WarehouseName != nil {
+			s.D.Set("warehouse_name", *v.WarehouseName)
+		}
+
+		if v.WarehouseStorage != nil {
+			warehouseStorageArray := []interface{}{}
+			if warehouseStorageMap := WarehouseStorageToMap(&v.WarehouseStorage); warehouseStorageMap != nil {
+				warehouseStorageArray = append(warehouseStorageArray, warehouseStorageMap)
+			}
+			s.D.Set("warehouse_storage", warehouseStorageArray)
+		} else {
+			s.D.Set("warehouse_storage", nil)
+		}
+
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
+		if v.KeyId != nil {
+			s.D.Set("key_id", *v.KeyId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.VaultId != nil {
+			s.D.Set("vault_id", *v.VaultId)
+		}
 	case oci_golden_gate.OracleAiDataPlatformConnection:
 		s.D.Set("connection_type", "ORACLE_AI_DATA_PLATFORM")
 
@@ -3553,6 +3655,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 		if v.SecurityAttributes != nil {
 			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		} else {
+			s.D.Set("security_attributes", map[string]interface{}{})
 		}
 
 		s.D.Set("state", v.LifecycleState)
@@ -3927,18 +4031,14 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 		s.D.Set("locks", locks)
 
-		nsgIds := []interface{}{}
-		for _, item := range v.NsgIds {
-			nsgIds = append(nsgIds, item)
-		}
-		s.D.Set("nsg_ids", nsgIds)
+		s.D.Set("nsg_ids", v.NsgIds)
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
 		if v.SecurityAttributes != nil {
 			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
 		} else {
-			s.D.Set("security_attributes", map[string]interface{}{})
+			s.D.Set("security_attributes", nil)
 		}
 
 		s.D.Set("state", v.LifecycleState)

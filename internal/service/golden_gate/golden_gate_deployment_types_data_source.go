@@ -86,6 +86,13 @@ func GoldenGateDeploymentTypesDataSource() *schema.Resource {
 											Type: schema.TypeString,
 										},
 									},
+									"supported_credential_stores": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"supported_license_types": {
 										Type:     schema.TypeList,
 										Computed: true,
@@ -229,6 +236,8 @@ func DeploymentTypeSummaryToMap(obj oci_golden_gate.DeploymentTypeSummary) map[s
 	result["source_technologies"] = obj.SourceTechnologies
 
 	result["supported_capabilities"] = obj.SupportedCapabilities
+
+	result["supported_credential_stores"] = obj.SupportedCredentialStores
 
 	result["supported_license_types"] = obj.SupportedLicenseTypes
 
