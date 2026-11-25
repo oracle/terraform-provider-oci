@@ -21,6 +21,7 @@ func init() {
 	exportDatabaseAutonomousDatabaseHints.RequireResourceRefresh = true
 	exportDatabaseAutonomousDatabaseHints.ProcessDiscoveredResourcesFn = processAutonomousDatabaseSource
 	exportDatabaseAutonomousExadataInfrastructureHints.RequireResourceRefresh = true
+	exportDatabaseAutonomousExadataInfrastructureHints.ProcessDiscoveredResourcesFn = filterCloudAutonomousVmClustersFromAutonomousExadataInfrastructure
 	exportDatabaseDbSystemHints.RequireResourceRefresh = true
 	exportDatabaseDbSystemHints.ProcessDiscoveredResourcesFn = processDbSystems
 	exportDatabaseDbHomeHints.ProcessDiscoveredResourcesFn = filterPrimaryDbHomes
@@ -32,7 +33,28 @@ func init() {
 	}
 	exportDatabaseDatabaseHints.ProcessDiscoveredResourcesFn = processDatabases
 	exportDatabaseExadataInfrastructureHints.ProcessDiscoveredResourcesFn = processDatabaseExadataInfrastructures
+	exportDatabaseCloudAutonomousVmClusterHints.GetHCLStringOverrideFn = getDatabaseCloudAutonomousVmClusterHCLString
 	tf_export.RegisterCompartmentGraphs("database", databaseResourceGraph)
+}
+
+// tde_key_store_type is optional and the CAVM read API returns it as an empty
+// string when PKCS is not configured. Do not render an empty optional value in
+// exported HCL: it is not a valid configuration value for this resource.
+func getDatabaseCloudAutonomousVmClusterHCLString(builder *strings.Builder, ociRes *tf_export.OCIResource, interpolationMap map[string]string) error {
+	if tdeKeyStoreType, ok := ociRes.SourceAttributes["tde_key_store_type"].(string); !ok || tdeKeyStoreType != "" {
+		return tf_export.GetHclStringFromGenericMap(builder, ociRes, interpolationMap)
+	}
+
+	sourceAttributes := make(map[string]interface{}, len(ociRes.SourceAttributes)-1)
+	for attribute, value := range ociRes.SourceAttributes {
+		if attribute != "tde_key_store_type" {
+			sourceAttributes[attribute] = value
+		}
+	}
+
+	resource := *ociRes
+	resource.SourceAttributes = sourceAttributes
+	return tf_export.GetHclStringFromGenericMap(builder, &resource, interpolationMap)
 }
 
 // Minimal override for oci_database_pluggable_database resource discovery:
@@ -85,6 +107,20 @@ func processDatabaseExadataInfrastructures(ctx *tf_export.ResourceDiscoveryConte
 		}
 	}
 	return resources, nil
+}
+
+// The legacy Autonomous Exadata Infrastructure list API can return Cloud
+// Autonomous VM Clusters. Those IDs cannot be refreshed through the legacy
+// resource API and are exported separately as cloud_autonomous_vm_cluster resources.
+func filterCloudAutonomousVmClustersFromAutonomousExadataInfrastructure(_ *tf_export.ResourceDiscoveryContext, resources []*tf_export.OCIResource) ([]*tf_export.OCIResource, error) {
+	results := make([]*tf_export.OCIResource, 0, len(resources))
+	for _, resource := range resources {
+		if strings.HasPrefix(resource.Id, "ocid1.cloudautonomousvmcluster.") {
+			continue
+		}
+		results = append(results, resource)
+	}
+	return results, nil
 }
 
 func processDatabases(ctx *tf_export.ResourceDiscoveryContext, resources []*tf_export.OCIResource) ([]*tf_export.OCIResource, error) {
@@ -707,12 +743,12 @@ var exportDatabaseDatabaseSnapshotHints = &tf_export.TerraformResourceHints{
 
 var databaseResourceGraph = tf_export.TerraformResourceGraph{
 	// DO NOT attempt to export these from compartment scope (would trigger export with missing parent ID and raise 400 errors)
-	// See: https://docs.oracle.com/iaas/api/#/en/database/20160918/ExecutionAction/ListExecutionActions etc.
+	// See: https://docs.oracle.com/iaas/api/#/en/database/20160918/ExecutionAction/ListExecutionActions etc. Although executionWindowId is optional in documentation, it is required parameter.
 	// "oci_database_execution_action"
 	// "oci_database_execution_window"
 	// "oci_database_scheduling_plan"
 	// "oci_database_scheduled_action"
-	//
+	// "oci_database_advanced_cluster_file_system"
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDatabaseAutonomousContainerDatabaseHints},
 		{TerraformResourceHints: exportDatabaseAutonomousContainerDatabaseHints,
@@ -741,11 +777,7 @@ var databaseResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportDatabaseExascaleDbStorageVaultHints},
 		{TerraformResourceHints: exportDatabaseExadbVmClusterHints},
 		{TerraformResourceHints: exportDatabaseDbNodeSnapshotHints},
-		{TerraformResourceHints: exportDatabaseExecutionWindowHints},
-		{TerraformResourceHints: exportDatabaseSchedulingPlanHints},
 		{TerraformResourceHints: exportDatabaseSchedulingPolicyHints},
-		{TerraformResourceHints: exportDatabaseExecutionActionHints},
-		{TerraformResourceHints: exportDatabaseScheduledActionHints},
 		{TerraformResourceHints: exportDatabasePluggableDatabaseSnapshotHints},
 		{TerraformResourceHints: exportDatabaseAdvancedClusterFileSystemHints},
 		{TerraformResourceHints: exportDatabaseDatabaseSnapshotHints},

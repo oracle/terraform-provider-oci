@@ -1,9 +1,8 @@
 // Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-/*
- * Provider config for dns sample
- */
+# Configure OCI authentication and the target region.
+# See README.md for setup and the RRSet walkthrough.
 
 variable "tenancy_ocid" {
 }

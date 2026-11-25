@@ -212,6 +212,42 @@ func CoreInstancePoolResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"instance_maintenance_policy": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"launch_before_terminating": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"is_full_refresh": {
+										Type:     schema.TypeBool,
+										Required: true,
+									},
+									"max_healthy_percent": {
+										Type:     schema.TypeInt,
+										Required: true,
+									},
+								},
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
 			"lifecycle_management": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -589,6 +625,17 @@ func (s *CoreInstancePoolResourceCrud) Create() error {
 		request.InstanceHostnameFormatter = &tmp
 	}
 
+	if instanceMaintenancePolicy, ok := s.D.GetOkExists("instance_maintenance_policy"); ok {
+		if tmpList := instanceMaintenancePolicy.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "instance_maintenance_policy", 0)
+			tmp, err := s.mapToInstancePoolMaintenancePolicyDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.InstanceMaintenancePolicy = &tmp
+		}
+	}
+
 	if lifecycleManagement, ok := s.D.GetOkExists("lifecycle_management"); ok {
 		if tmpList := lifecycleManagement.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "lifecycle_management", 0)
@@ -761,6 +808,17 @@ func (s *CoreInstancePoolResourceCrud) Update() error {
 		request.InstanceHostnameFormatter = &tmp
 	}
 
+	if instanceMaintenancePolicy, ok := s.D.GetOkExists("instance_maintenance_policy"); ok {
+		if tmpList := instanceMaintenancePolicy.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "instance_maintenance_policy", 0)
+			tmp, err := s.mapToInstancePoolMaintenancePolicyDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.InstanceMaintenancePolicy = &tmp
+		}
+	}
+
 	tmp := s.D.Id()
 	request.InstancePoolId = &tmp
 
@@ -882,6 +940,12 @@ func (s *CoreInstancePoolResourceCrud) SetData() error {
 
 	if s.Res.InstanceHostnameFormatter != nil {
 		s.D.Set("instance_hostname_formatter", *s.Res.InstanceHostnameFormatter)
+	}
+
+	if s.Res.InstanceMaintenancePolicy != nil {
+		s.D.Set("instance_maintenance_policy", []interface{}{InstancePoolMaintenancePolicyDetailsToMap(s.Res.InstanceMaintenancePolicy)})
+	} else {
+		s.D.Set("instance_maintenance_policy", nil)
 	}
 
 	if s.Res.LifecycleManagement != nil {
@@ -1307,6 +1371,36 @@ func InstancePoolLaunchOverrideDetailsToMap(obj *oci_core.InstancePoolLaunchOver
 	return result
 }
 
+func (s *CoreInstancePoolResourceCrud) mapToInstancePoolLaunchBeforeTerminatingDetails(fieldKeyFormat string) (oci_core.InstancePoolLaunchBeforeTerminatingDetails, error) {
+	result := oci_core.InstancePoolLaunchBeforeTerminatingDetails{}
+
+	if isFullRefresh, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_full_refresh")); ok {
+		tmp := isFullRefresh.(bool)
+		result.IsFullRefresh = &tmp
+	}
+
+	if maxHealthyPercent, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_healthy_percent")); ok {
+		tmp := maxHealthyPercent.(int)
+		result.MaxHealthyPercent = &tmp
+	}
+
+	return result, nil
+}
+
+func InstancePoolLaunchBeforeTerminatingDetailsToMap(obj *oci_core.InstancePoolLaunchBeforeTerminatingDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsFullRefresh != nil {
+		result["is_full_refresh"] = bool(*obj.IsFullRefresh)
+	}
+
+	if obj.MaxHealthyPercent != nil {
+		result["max_healthy_percent"] = int(*obj.MaxHealthyPercent)
+	}
+
+	return result
+}
+
 func (s *CoreInstancePoolResourceCrud) mapToInstancePoolLifecycleActionsDetails(fieldKeyFormat string) (oci_core.InstancePoolLifecycleActionsDetails, error) {
 	result := oci_core.InstancePoolLifecycleActionsDetails{}
 
@@ -1356,6 +1450,33 @@ func InstancePoolLifecycleManagementDetailsToMap(obj *oci_core.InstancePoolLifec
 
 	if obj.LifecycleActions != nil {
 		result["lifecycle_actions"] = []interface{}{InstancePoolLifecycleActionsDetailsToMap(obj.LifecycleActions)}
+	}
+
+	return result
+}
+
+func (s *CoreInstancePoolResourceCrud) mapToInstancePoolMaintenancePolicyDetails(fieldKeyFormat string) (oci_core.InstancePoolMaintenancePolicyDetails, error) {
+	result := oci_core.InstancePoolMaintenancePolicyDetails{}
+
+	if launchBeforeTerminating, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "launch_before_terminating")); ok {
+		if tmpList := launchBeforeTerminating.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "launch_before_terminating"), 0)
+			tmp, err := s.mapToInstancePoolLaunchBeforeTerminatingDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert launch_before_terminating, encountered error: %v", err)
+			}
+			result.LaunchBeforeTerminating = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+func InstancePoolMaintenancePolicyDetailsToMap(obj *oci_core.InstancePoolMaintenancePolicyDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.LaunchBeforeTerminating != nil {
+		result["launch_before_terminating"] = []interface{}{InstancePoolLaunchBeforeTerminatingDetailsToMap(obj.LaunchBeforeTerminating)}
 	}
 
 	return result

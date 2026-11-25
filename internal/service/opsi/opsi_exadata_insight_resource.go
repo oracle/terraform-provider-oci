@@ -13,6 +13,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -26,11 +27,11 @@ func OpsiExadataInsightResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOpsiExadataInsight,
-		Read:     readOpsiExadataInsight,
-		Update:   updateOpsiExadataInsight,
-		Delete:   deleteOpsiExadataInsight,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOpsiExadataInsightWithContext,
+		ReadContext:   readOpsiExadataInsightWithContext,
+		UpdateContext: updateOpsiExadataInsightWithContext,
+		DeleteContext: deleteOpsiExadataInsightWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -774,37 +775,37 @@ func OpsiExadataInsightResource() *schema.Resource {
 	}
 }
 
-func createOpsiExadataInsight(d *schema.ResourceData, m interface{}) error {
+func createOpsiExadataInsightWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiExadataInsightResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOpsiExadataInsight(d *schema.ResourceData, m interface{}) error {
+func readOpsiExadataInsightWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiExadataInsightResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateOpsiExadataInsight(d *schema.ResourceData, m interface{}) error {
+func updateOpsiExadataInsightWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiExadataInsightResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteOpsiExadataInsight(d *schema.ResourceData, m interface{}) error {
+func deleteOpsiExadataInsightWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiExadataInsightResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type OpsiExadataInsightResourceCrud struct {
@@ -843,7 +844,7 @@ func (s *OpsiExadataInsightResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *OpsiExadataInsightResourceCrud) Create() error {
+func (s *OpsiExadataInsightResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_opsi.CreateExadataInsightRequest{}
 	err := s.populateTopLevelPolymorphicCreateExadataInsightRequest(&request)
 	if err != nil {
@@ -852,7 +853,7 @@ func (s *OpsiExadataInsightResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.CreateExadataInsight(context.Background(), request)
+	response, err := s.Client.CreateExadataInsight(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -865,7 +866,7 @@ func (s *OpsiExadataInsightResourceCrud) Create() error {
 	}
 
 	// Wait until it finishes
-	exadataInsightId, err := exadataInsightWaitForWorkRequest(workId, "opsi",
+	exadataInsightId, err := exadataInsightWaitForWorkRequest(ctx, workId, "opsi",
 		oci_opsi.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -880,7 +881,7 @@ func (s *OpsiExadataInsightResourceCrud) Create() error {
 			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 			tmp := s.D.Id()
 			request.ExadataInsightId = &tmp
-			response, err := s.Client.DisableExadataInsight(context.Background(), request)
+			response, err := s.Client.DisableExadataInsight(ctx, request)
 			if err != nil {
 				return err
 			}
@@ -888,7 +889,7 @@ func (s *OpsiExadataInsightResourceCrud) Create() error {
 			workId := response.OpcWorkRequestId
 
 			// Wait until it finishes
-			exadataInsightId, err := exadataInsightWaitForWorkRequest(workId, "opsi",
+			exadataInsightId, err := exadataInsightWaitForWorkRequest(ctx, workId, "opsi",
 				oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 			if err != nil {
 				return err
@@ -897,14 +898,14 @@ func (s *OpsiExadataInsightResourceCrud) Create() error {
 		}
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *OpsiExadataInsightResourceCrud) getExadataInsightFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OpsiExadataInsightResourceCrud) getExadataInsightFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_opsi.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	exadataInsightId, err := exadataInsightWaitForWorkRequest(workId, "opsi",
+	exadataInsightId, err := exadataInsightWaitForWorkRequest(ctx, workId, "opsi",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -912,7 +913,7 @@ func (s *OpsiExadataInsightResourceCrud) getExadataInsightFromWorkRequest(workId
 	}
 	s.D.SetId(*exadataInsightId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func exadataInsightWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -938,7 +939,7 @@ func exadataInsightWorkRequestShouldRetryFunc(timeout time.Duration) func(respon
 	}
 }
 
-func exadataInsightWaitForWorkRequest(wId *string, entityType string, action oci_opsi.ActionTypeEnum,
+func exadataInsightWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_opsi.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_opsi.OperationsInsightsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "opsi")
 	retryPolicy.ShouldRetryOperation = exadataInsightWorkRequestShouldRetryFunc(timeout)
@@ -957,7 +958,7 @@ func exadataInsightWaitForWorkRequest(wId *string, entityType string, action oci
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_opsi.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -969,7 +970,7 @@ func exadataInsightWaitForWorkRequest(wId *string, entityType string, action oci
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -986,14 +987,14 @@ func exadataInsightWaitForWorkRequest(wId *string, entityType string, action oci
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_opsi.OperationStatusFailed || response.Status == oci_opsi.OperationStatusCanceled {
-		return nil, getErrorFromOpsiExadataInsightWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOpsiExadataInsightWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOpsiExadataInsightWorkRequest(client *oci_opsi.OperationsInsightsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opsi.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOpsiExadataInsightWorkRequest(ctx context.Context, client *oci_opsi.OperationsInsightsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opsi.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_opsi.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -1015,7 +1016,7 @@ func getErrorFromOpsiExadataInsightWorkRequest(client *oci_opsi.OperationsInsigh
 	return workRequestErr
 }
 
-func (s *OpsiExadataInsightResourceCrud) Get() error {
+func (s *OpsiExadataInsightResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_opsi.GetExadataInsightRequest{}
 
 	tmp := s.D.Id()
@@ -1023,7 +1024,7 @@ func (s *OpsiExadataInsightResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.GetExadataInsight(context.Background(), request)
+	response, err := s.Client.GetExadataInsight(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1032,11 +1033,11 @@ func (s *OpsiExadataInsightResourceCrud) Get() error {
 	return nil
 }
 
-func (s *OpsiExadataInsightResourceCrud) Update() error {
+func (s *OpsiExadataInsightResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -1050,14 +1051,14 @@ func (s *OpsiExadataInsightResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.UpdateExadataInsight(context.Background(), request)
+	response, err := s.Client.UpdateExadataInsight(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	exadataInsightId, err := exadataInsightWaitForWorkRequest(workId, "opsi",
+	exadataInsightId, err := exadataInsightWaitForWorkRequest(ctx, workId, "opsi",
 		oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -1081,7 +1082,7 @@ func (s *OpsiExadataInsightResourceCrud) Update() error {
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 		tmp := s.D.Id()
 		request.ExadataInsightId = &tmp
-		response, err := s.Client.DisableExadataInsight(context.Background(), request)
+		response, err := s.Client.DisableExadataInsight(ctx, request)
 		if err != nil {
 			return err
 		}
@@ -1089,7 +1090,7 @@ func (s *OpsiExadataInsightResourceCrud) Update() error {
 		workId := response.OpcWorkRequestId
 
 		// Wait until it finishes
-		exadataInsightId, err := exadataInsightWaitForWorkRequest(workId, "opsi",
+		exadataInsightId, err := exadataInsightWaitForWorkRequest(ctx, workId, "opsi",
 			oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 		if err != nil {
 			return err
@@ -1107,7 +1108,7 @@ func (s *OpsiExadataInsightResourceCrud) Update() error {
 			return err
 		}
 
-		response, err := s.Client.EnableExadataInsight(context.Background(), request)
+		response, err := s.Client.EnableExadataInsight(ctx, request)
 		if err != nil {
 			return err
 		}
@@ -1115,7 +1116,7 @@ func (s *OpsiExadataInsightResourceCrud) Update() error {
 		workId := response.OpcWorkRequestId
 
 		// Wait until it finishes
-		exadataInsightId, err := exadataInsightWaitForWorkRequest(workId, "opsi",
+		exadataInsightId, err := exadataInsightWaitForWorkRequest(ctx, workId, "opsi",
 			oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 		if err != nil {
 			return err
@@ -1123,17 +1124,17 @@ func (s *OpsiExadataInsightResourceCrud) Update() error {
 		s.D.SetId(*exadataInsightId)
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *OpsiExadataInsightResourceCrud) Delete() error {
+func (s *OpsiExadataInsightResourceCrud) DeleteWithContext(ctx context.Context) error {
 	status, ok := s.D.GetOkExists("status")
 	if ok && oci_opsi.ResourceStatusEnabled == oci_opsi.ResourceStatusEnum(strings.ToUpper(status.(string))) {
 		request := oci_opsi.DisableExadataInsightRequest{}
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 		tmp := s.D.Id()
 		request.ExadataInsightId = &tmp
-		response, err := s.Client.DisableExadataInsight(context.Background(), request)
+		response, err := s.Client.DisableExadataInsight(ctx, request)
 		if err != nil {
 			return err
 		}
@@ -1141,7 +1142,7 @@ func (s *OpsiExadataInsightResourceCrud) Delete() error {
 		workId := response.OpcWorkRequestId
 
 		// Wait until it finishes
-		_, disableWorkRequestErr := exadataInsightWaitForWorkRequest(workId, "opsi",
+		_, disableWorkRequestErr := exadataInsightWaitForWorkRequest(ctx, workId, "opsi",
 			oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 		if disableWorkRequestErr != nil {
 			return disableWorkRequestErr
@@ -1155,14 +1156,14 @@ func (s *OpsiExadataInsightResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.DeleteExadataInsight(context.Background(), request)
+	response, err := s.Client.DeleteExadataInsight(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := exadataInsightWaitForWorkRequest(workId, "opsi",
+	_, delWorkRequestErr := exadataInsightWaitForWorkRequest(ctx, workId, "opsi",
 		oci_opsi.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -2568,7 +2569,7 @@ func (s *OpsiExadataInsightResourceCrud) populateTopLevelPolymorphicEnableExadat
 	return nil
 }
 
-func (s *OpsiExadataInsightResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *OpsiExadataInsightResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_opsi.ChangeExadataInsightCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -2579,11 +2580,11 @@ func (s *OpsiExadataInsightResourceCrud) updateCompartment(compartment interface
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.ChangeExadataInsightCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeExadataInsightCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getExadataInsightFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getExadataInsightFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

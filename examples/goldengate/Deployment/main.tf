@@ -30,8 +30,6 @@ variable "deployment_display_name" {
   	default = "TERRAFORM_backward_compatibility_test"
 }
 
-variable "deployment_fqdn" {
-}
 
 variable "deployment_freeform_tags" {
   	default = { "bar-key" = "value" }
@@ -69,11 +67,7 @@ variable "deployment_ogg_data_credential_store" {
 	default = "GOLDENGATE"
 }
 
-variable "deployment_ogg_data_certificate" {
-}
 
-variable "deployment_ogg_data_key" {
-}
 
 variable "deployment_state" {
   	default = "ACTIVE"
@@ -268,4 +262,9 @@ data "oci_golden_gate_deployment_disaster_recovery_precheck_report" "test_deploy
 	availability_domain = var.deployment_disaster_recovery_precheck_report_availability_domain
 	deployment_id       = oci_golden_gate_deployment.test_deployment.id
 	fault_domain        = var.deployment_disaster_recovery_precheck_report_fault_domain
+}
+
+# List the available GoldenGate deployment types.
+data "oci_golden_gate_deployment_types" "test_deployment_types" {
+  compartment_id = var.compartment_id
 }

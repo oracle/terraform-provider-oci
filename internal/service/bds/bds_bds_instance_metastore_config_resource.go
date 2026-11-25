@@ -12,6 +12,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -27,11 +28,11 @@ func BdsBdsInstanceMetastoreConfigResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createBdsBdsInstanceMetastoreConfig,
-		Read:     readBdsBdsInstanceMetastoreConfig,
-		Update:   updateBdsBdsInstanceMetastoreConfig,
-		Delete:   deleteBdsBdsInstanceMetastoreConfig,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createBdsBdsInstanceMetastoreConfigWithContext,
+		ReadContext:   readBdsBdsInstanceMetastoreConfigWithContext,
+		UpdateContext: updateBdsBdsInstanceMetastoreConfigWithContext,
+		DeleteContext: deleteBdsBdsInstanceMetastoreConfigWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"bds_api_key_id": {
@@ -93,37 +94,37 @@ func BdsBdsInstanceMetastoreConfigResource() *schema.Resource {
 	}
 }
 
-func createBdsBdsInstanceMetastoreConfig(d *schema.ResourceData, m interface{}) error {
+func createBdsBdsInstanceMetastoreConfigWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceMetastoreConfigResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readBdsBdsInstanceMetastoreConfig(d *schema.ResourceData, m interface{}) error {
+func readBdsBdsInstanceMetastoreConfigWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceMetastoreConfigResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateBdsBdsInstanceMetastoreConfig(d *schema.ResourceData, m interface{}) error {
+func updateBdsBdsInstanceMetastoreConfigWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceMetastoreConfigResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteBdsBdsInstanceMetastoreConfig(d *schema.ResourceData, m interface{}) error {
+func deleteBdsBdsInstanceMetastoreConfigWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceMetastoreConfigResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type BdsBdsInstanceMetastoreConfigResourceCrud struct {
@@ -162,7 +163,7 @@ func (s *BdsBdsInstanceMetastoreConfigResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *BdsBdsInstanceMetastoreConfigResourceCrud) Create() error {
+func (s *BdsBdsInstanceMetastoreConfigResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_bds.CreateBdsMetastoreConfigurationRequest{}
 
 	if bdsApiKeyId, ok := s.D.GetOkExists("bds_api_key_id"); ok {
@@ -197,22 +198,22 @@ func (s *BdsBdsInstanceMetastoreConfigResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.CreateBdsMetastoreConfiguration(context.Background(), request)
+	response, err := s.Client.CreateBdsMetastoreConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	s.setIdFromWorkRequest(workId)
-	return s.getBdsInstanceMetastoreConfigFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	s.setIdFromWorkRequest(ctx, workId)
+	return s.getBdsInstanceMetastoreConfigFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *BdsBdsInstanceMetastoreConfigResourceCrud) setIdFromWorkRequest(workId *string) {
+func (s *BdsBdsInstanceMetastoreConfigResourceCrud) setIdFromWorkRequest(ctx context.Context, workId *string) {
 	var identifier_str string
 	var identifier *string
 	var err error
 	workRequestResponse := oci_bds.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_bds.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -239,11 +240,11 @@ func (s *BdsBdsInstanceMetastoreConfigResourceCrud) setIdFromWorkRequest(workId 
 	}
 }
 
-func (s *BdsBdsInstanceMetastoreConfigResourceCrud) getBdsInstanceMetastoreConfigFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *BdsBdsInstanceMetastoreConfigResourceCrud) getBdsInstanceMetastoreConfigFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_bds.ActionTypesEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	bdsInstanceMetastoreConfigId, err := bdsInstanceMetastoreConfigWaitForWorkRequest(workId, "bds",
+	bdsInstanceMetastoreConfigId, err := bdsInstanceMetastoreConfigWaitForWorkRequest(ctx, workId, "bds",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -251,7 +252,7 @@ func (s *BdsBdsInstanceMetastoreConfigResourceCrud) getBdsInstanceMetastoreConfi
 	}
 	s.D.SetId(*bdsInstanceMetastoreConfigId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func bdsInstanceMetastoreConfigWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -277,7 +278,7 @@ func bdsInstanceMetastoreConfigWorkRequestShouldRetryFunc(timeout time.Duration)
 	}
 }
 
-func bdsInstanceMetastoreConfigWaitForWorkRequest(wId *string, entityType string, action oci_bds.ActionTypesEnum,
+func bdsInstanceMetastoreConfigWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_bds.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_bds.BdsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "bds")
 	retryPolicy.ShouldRetryOperation = bdsInstanceMetastoreConfigWorkRequestShouldRetryFunc(timeout)
@@ -296,7 +297,7 @@ func bdsInstanceMetastoreConfigWaitForWorkRequest(wId *string, entityType string
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_bds.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -308,7 +309,7 @@ func bdsInstanceMetastoreConfigWaitForWorkRequest(wId *string, entityType string
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -329,14 +330,14 @@ func bdsInstanceMetastoreConfigWaitForWorkRequest(wId *string, entityType string
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_bds.OperationStatusFailed || response.Status == oci_bds.OperationStatusCanceled {
-		return nil, getErrorFromBdsBdsInstanceMetastoreConfigWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromBdsBdsInstanceMetastoreConfigWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromBdsBdsInstanceMetastoreConfigWorkRequest(client *oci_bds.BdsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_bds.ActionTypesEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromBdsBdsInstanceMetastoreConfigWorkRequest(ctx context.Context, client *oci_bds.BdsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_bds.ActionTypesEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_bds.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -358,7 +359,7 @@ func getErrorFromBdsBdsInstanceMetastoreConfigWorkRequest(client *oci_bds.BdsCli
 	return workRequestErr
 }
 
-func (s *BdsBdsInstanceMetastoreConfigResourceCrud) Get() error {
+func (s *BdsBdsInstanceMetastoreConfigResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_bds.GetBdsMetastoreConfigurationRequest{}
 
 	tmp := s.D.Id()
@@ -379,7 +380,7 @@ func (s *BdsBdsInstanceMetastoreConfigResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.GetBdsMetastoreConfiguration(context.Background(), request)
+	response, err := s.Client.GetBdsMetastoreConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -388,10 +389,10 @@ func (s *BdsBdsInstanceMetastoreConfigResourceCrud) Get() error {
 	return nil
 }
 
-func (s *BdsBdsInstanceMetastoreConfigResourceCrud) Update() error {
+func (s *BdsBdsInstanceMetastoreConfigResourceCrud) UpdateWithContext(ctx context.Context) error {
 
 	if _, ok := s.D.GetOkExists("activate_trigger"); ok && s.D.HasChange("activate_trigger") {
-		err := s.activateBdsInstanceMetastoreConfig()
+		err := s.activateBdsInstanceMetastoreConfig(ctx)
 		if err != nil {
 			return err
 		}
@@ -429,16 +430,16 @@ func (s *BdsBdsInstanceMetastoreConfigResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.UpdateBdsMetastoreConfiguration(context.Background(), request)
+	response, err := s.Client.UpdateBdsMetastoreConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceMetastoreConfigFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBdsInstanceMetastoreConfigFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *BdsBdsInstanceMetastoreConfigResourceCrud) Delete() error {
+func (s *BdsBdsInstanceMetastoreConfigResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_bds.DeleteBdsMetastoreConfigurationRequest{}
 
 	tmp := s.D.Id()
@@ -451,14 +452,14 @@ func (s *BdsBdsInstanceMetastoreConfigResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.DeleteBdsMetastoreConfiguration(context.Background(), request)
+	response, err := s.Client.DeleteBdsMetastoreConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := bdsInstanceMetastoreConfigWaitForWorkRequest(workId, "bds",
+	_, delWorkRequestErr := bdsInstanceMetastoreConfigWaitForWorkRequest(ctx, workId, "bds",
 		oci_bds.ActionTypesDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -520,7 +521,7 @@ func parseBdsInstanceMetastoreConfigCompositeId(compositeId string) (bdsInstance
 	return
 }
 
-func (s *BdsBdsInstanceMetastoreConfigResourceCrud) activateBdsInstanceMetastoreConfig() error {
+func (s *BdsBdsInstanceMetastoreConfigResourceCrud) activateBdsInstanceMetastoreConfig(ctx context.Context) error {
 
 	request := oci_bds.ActivateBdsMetastoreConfigurationRequest{}
 
@@ -547,13 +548,13 @@ func (s *BdsBdsInstanceMetastoreConfigResourceCrud) activateBdsInstanceMetastore
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.ActivateBdsMetastoreConfiguration(context.Background(), request)
+	response, err := s.Client.ActivateBdsMetastoreConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	_, updateWorkRequestErr := bdsInstanceMetastoreConfigWaitForWorkRequest(workId, "bds",
+	_, updateWorkRequestErr := bdsInstanceMetastoreConfigWaitForWorkRequest(ctx, workId, "bds",
 		oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 	if updateWorkRequestErr != nil {
 		return updateWorkRequestErr

@@ -54,6 +54,9 @@ The following attributes are exported:
 	* `details` - A message that describes the current state of the service managed fleet configuration in more detail.
 	* `max_concurrent_tasks` - Maximum number of concurrent tasks for the service managed fleet.
 	* `name` - Name of the service managed fleet.
+	* `reservation` - Reservation selection used for initial fleet provisioning.
+		* `capacity_reservation_ids` - Compute capacity reservation OCIDs used for initial fleet provisioning.
+		* `type` - Type of reservation. Discriminator for reservation subtypes.
 	* `shape` - Shape of the fleet. Describes hardware resources of each node in the fleet.
 		* `disk_size_in_gbs` - Amount of disk space in GBs required for the shape.
 		* `memory_in_gbs` - Amount of memory in GBs required for the shape.

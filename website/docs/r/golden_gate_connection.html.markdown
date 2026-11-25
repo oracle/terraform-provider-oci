@@ -100,6 +100,18 @@ resource "oci_golden_gate_connection" "test_connection" {
 		port = var.connection_bootstrap_servers_port
 	}
 	catalog {
+		catalog_config {
+			#Required
+			catalog_config_type = var.connection_catalog_catalog_config_catalog_config_type
+
+			#Optional
+			database_id = oci_database_database.test_database.id
+			database_type = var.connection_catalog_catalog_config_database_type
+			deployment_id = oci_golden_gate_deployment.test_deployment.id
+			password = var.connection_catalog_catalog_config_password
+			password_secret_id = oci_vault_secret.test_secret.id
+			username = var.connection_catalog_catalog_config_username
+		}
 		#Required
 		catalog_type = var.connection_catalog_catalog_type
 
@@ -248,6 +260,24 @@ resource "oci_golden_gate_connection" "test_connection" {
 	wallet = var.connection_wallet
 	wallet_secret_id = oci_vault_secret.test_secret.id
 	workspace_url = var.connection_workspace_url
+	warehouse_name = var.connection_warehouse_name
+	warehouse_storage {
+		#Required
+		storage_type = var.connection_warehouse_storage_storage_type
+
+		#Optional
+		access_key_id = oci_kms_key.test_key.id
+		account_key = var.connection_warehouse_storage_account_key
+		account_key_secret_id = oci_vault_secret.test_secret.id
+		account_name = var.connection_warehouse_storage_account_name
+		endpoint_url = var.connection_warehouse_storage_endpoint_url
+		namespace = var.connection_warehouse_storage_namespace
+		region = var.connection_warehouse_storage_region
+		secret_access_key = var.connection_warehouse_storage_secret_access_key
+		secret_access_key_secret_id = oci_vault_secret.test_secret.id
+		trust_store = var.connection_warehouse_storage_trust_store
+		trust_store_secret_id = oci_vault_secret.test_secret.id
+	}
 }
 ```
 
@@ -348,6 +378,14 @@ The following arguments are supported:
 	* `properties` - (Applicable when catalog_type=REST) (Updatable) The base64 encoded content of the configuration file containing additional properties for the REST catalog. 
 	* `properties_secret_id` - (Applicable when catalog_type=REST) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the content of the configuration file containing additional properties for the REST catalog. See documentation: https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm 
 	* `uri` - (Required when catalog_type=NESSIE | POLARIS | REST) (Updatable) The URL endpoint for the Polaris API. e.g.: 'https://<your-snowflake-account>.snowflakecomputing.com/polaris/api/catalog' 
+	* `catalog_config` - (Required when catalog_type=OADC) (Updatable) The information about a new Oracle AI Data Catalog configuration of given type used in an Iceberg connection.
+		* `catalog_config_type` - (Required) (Updatable) The Oracle AI Data Catalog configuration type.
+		* `database_id` - (Required when catalog_config_type=DB_CREDENTIALS) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database being referenced.
+		* `database_type` - (Required when catalog_config_type=DB_CREDENTIALS) (Updatable) The database type where Oracle AI Data Catalog is configured.
+		* `deployment_id` - (Required when catalog_config_type=OCI_GOLDENGATE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment being referenced.
+		* `password` - (Applicable when catalog_config_type=DB_CREDENTIALS) (Updatable) The password Oracle GoldenGate uses to connect the associated system of the given technology. It must conform to the specific security requirements including length, case sensitivity, and so on. Deprecated: This field is deprecated and replaced by "passwordSecretId". This change follows the GoldenGate "Plain Text Fields in Connections" deprecation: https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
+		* `password_secret_id` - (Applicable when catalog_config_type=DB_CREDENTIALS) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored. The password Oracle GoldenGate uses to connect the associated system of the given technology. It must conform to the specific security requirements including length, case sensitivity, and so on. If secretId is used plaintext field must not be provided. Note: When provided, 'password' field must not be provided.
+		* `username` - (Required when catalog_config_type=DB_CREDENTIALS) (Updatable) The username Oracle GoldenGate uses to connect the associated system of the given technology. This username must already exist and be available by the system/application to be connected to and must conform to the case sensitivty requirments defined in it.
 * `client_id` - (Required when connection_type=AZURE_DATA_LAKE_STORAGE | DATABRICKS | DATABRICKS_ENGINE | MICROSOFT_FABRIC) (Updatable)
 	* AZURE_DATA_LAKE_STORAGE: Azure application client ID, required for AZURE_ACTIVE_DIRECTORY authentication.
 	* DATABRICKS, DATABRICKS_ENGINE: OAuth client ID, applicable to OAUTH_M2M authentication.
@@ -509,17 +547,17 @@ The following arguments are supported:
 	* `access_key_id` - (Required when storage_type=AMAZON_S3 | OCI_OBJECT_STORAGE_S3_API) (Updatable) Access Key ID from the Oracle Cloud Infrastructure IAM user's Customer Secret Key pair used to authenticate to Oracle Cloud Infrastructure Object Storage via the S3 Compatibility API.
 
 		Note: Despite the "Id" suffix, this value is not an Oracle Cloud Infrastructure OCID. 
-	* `account_key` - (Applicable when storage_type=AZURE_DATA_LAKE_STORAGE) (Updatable) Azure storage account key. This property is required when 'authenticationType' is set to 'SHARED_KEY'. e.g.: pa3WbhVATzj56xD4DH1VjOUhApRGEGHvOo58eQJVWIzX+j8j4CUVFcTjpIqDSRaSa1Wo2LbWY5at+AStEgLOIQ== Deprecated: This field is deprecated and replaced by "accountKeySecretId". This change follows the GoldenGate "Plain Text Fields in Connections" deprecation: https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate 
-	* `account_key_secret_id` - (Applicable when storage_type=AZURE_DATA_LAKE_STORAGE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the account key is stored. 
-	* `account_name` - (Required when storage_type=AZURE_DATA_LAKE_STORAGE) (Updatable) Sets the Azure storage account name. 
+	* `account_key` - (Applicable when storage_type=AZURE_DATA_LAKE_STORAGE) (Updatable) Azure storage account key. This property is required when 'authenticationType' is set to 'SHARED_KEY'. e.g.: pa3WbhVATzj56xD4DH1VjOUhApRGEGHvOo58eQJVWIzX+j8j4CUVFcTjpIqDSRaSa1Wo2LbWY5at+AStEgLOIQ== Deprecated: This field is deprecated and replaced by "accountKeySecretId". This change follows the GoldenGate "Plain Text Fields in Connections" deprecation: https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
+	* `account_key_secret_id` - (Applicable when storage_type=AZURE_DATA_LAKE_STORAGE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the account key is stored.
+	* `account_name` - (Required when storage_type=AZURE_DATA_LAKE_STORAGE) (Updatable) Sets the Azure storage account name.
 	* `bucket` - (Required when storage_type=AMAZON_S3 | GOOGLE_CLOUD_STORAGE | OCI_OBJECT_STORAGE_S3_API) (Updatable) Target Oracle Cloud Infrastructure Object Storage bucket name where Iceberg stores table metadata and data files. 
 	* `container` - (Required when storage_type=AZURE_DATA_LAKE_STORAGE) (Updatable) The Azure Blob Storage container where Iceberg tables are stored.
 	* `endpoint` - (Required when storage_type=AMAZON_S3 | AZURE_DATA_LAKE_STORAGE | GOOGLE_CLOUD_STORAGE | OCI_OBJECT_STORAGE_S3_API) (Updatable) Oracle Cloud Infrastructure Object Storage S3 Compatibility API endpoint URL. Format: "https://<namespace>.compat.objectstorage.<region>.<domain>" Example: "https://mynamespace.compat.objectstorage.us-ashburn-1.oraclecloud.com" 
 	* `project_id` - (Required when storage_type=GOOGLE_CLOUD_STORAGE) (Updatable) The Google Cloud Project where the bucket exists.
 	* `region` - (Required when storage_type=AMAZON_S3) (Updatable) The AMAZON region where the S3 bucket is hosted. e.g.: 'us-east-2' 
 	* `scheme_type` - (Required when storage_type=AMAZON_S3) (Updatable) The scheme of the storage. 
-	* `secret_access_key` - (Applicable when storage_type=AMAZON_S3 | OCI_OBJECT_STORAGE_S3_API) (Updatable) Secret Access Key from the Oracle Cloud Infrastructure IAM user's Customer Secret Key pair used to authenticate to Oracle Cloud Infrastructure Object Storage via the S3 Compatibility API. Deprecated: This field is deprecated and replaced by "secretAccessKeySecretId". This change follows the GoldenGate "Plain Text Fields in Connections" deprecation: https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate 
-	* `secret_access_key_secret_id` - (Applicable when storage_type=AMAZON_S3 | OCI_OBJECT_STORAGE_S3_API) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the Secret Access Key used for Oracle Cloud Infrastructure Object Storage S3 Compatibility authentication. 
+	* `secret_access_key` - (Applicable when storage_type=AMAZON_S3 | OCI_OBJECT_STORAGE_S3_API) (Updatable) Secret Access Key from the Oracle Cloud Infrastructure IAM user's Customer Secret Key pair used to authenticate to Oracle Cloud Infrastructure Object Storage via the S3 Compatibility API. Deprecated: This field is deprecated and replaced by "secretAccessKeySecretId". This change follows the GoldenGate "Plain Text Fields in Connections" deprecation: https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
+	* `secret_access_key_secret_id` - (Applicable when storage_type=AMAZON_S3 | OCI_OBJECT_STORAGE_S3_API) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the Secret Access Key used for Oracle Cloud Infrastructure Object Storage S3 Compatibility authentication.
 	* `service_account_key_file` - (Applicable when storage_type=GOOGLE_CLOUD_STORAGE) (Updatable) The base64 encoded content of the service account key file containing the credentials required to use Google Cloud Storage. Deprecated: This field is deprecated and replaced by "serviceAccountKeyFileSecretId". This change follows the GoldenGate "Plain Text Fields in Connections" deprecation: https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate 
 	* `service_account_key_file_secret_id` - (Applicable when storage_type=GOOGLE_CLOUD_STORAGE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the content of the service account key file is stored, which contains the credentials required to use Google Cloud Storage. 
 	* `storage_type` - (Required) (Updatable) The storage type used in the Iceberg connection. Supported storage types by catalog type:
@@ -527,7 +565,12 @@ The following arguments are supported:
 		* HADOOP: AMAZON_S3, GOOGLE_CLOUD_STORAGE, AZURE_DATA_LAKE_STORAGE, or OCI_OBJECT_STORAGE_S3_API.
 		* NESSIE: AMAZON_S3, GOOGLE_CLOUD_STORAGE, or AZURE_DATA_LAKE_STORAGE.
 		* POLARIS: AMAZON_S3, GOOGLE_CLOUD_STORAGE, or AZURE_DATA_LAKE_STORAGE.
-		* REST: AMAZON_S3, GOOGLE_CLOUD_STORAGE, AZURE_DATA_LAKE_STORAGE, or NONE. 
+		* OADC: OCI_OBJECT_STORAGE_ACCESS_KEY, AZURE_STORAGE, or ZFS.
+		* REST: AMAZON_S3, GOOGLE_CLOUD_STORAGE, AZURE_DATA_LAKE_STORAGE, or NONE.
+	* `properties` - (Applicable when storage_type=AZURE_STORAGE | OCI_OBJECT_STORAGE_ACCESS_KEY | ZFS) (Updatable) The base64 encoded content of the configuration file containing additional properties for the REST catalog.
+	* `properties_secret_id` - (Applicable when storage_type=AZURE_STORAGE | OCI_OBJECT_STORAGE_ACCESS_KEY | ZFS) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the content of the configuration file containing additional properties for the REST catalog. See documentation: https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm
+	* `trust_store` - (Applicable when storage_type=ZFS) (Updatable) The base64 encoded content of the ZFS storage TrustStore file. Deprecated: This field is deprecated and replaced by "trustStoreSecretId". This change follows the GoldenGate "Plain Text Fields in Connections" deprecation: https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
+	* `trust_store_secret_id` - (Applicable when storage_type=ZFS) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the ZFS storage trust store. Note: When provided, 'trustStore' field must not be provided.
 * `storage_credential_name` - (Applicable when connection_type=DATABRICKS) (Updatable) Optional. External storage credential name to access files on object storage such as ADLS Gen2, S3 or GCS. 
 * `stream_pool_id` - (Applicable when connection_type=KAFKA) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream pool being referenced. 
 * `submit_mode` - (Required when connection_type=SPARK) (Updatable) Selects the submission channel. SUBMIT uses the Spark master RPC endpoint. REST uses the Spark standalone REST submission gateway. 
@@ -573,6 +616,20 @@ The following arguments are supported:
 	This field is applicable only when `doesUseSecretIds` is set to `false`. If `vaultId` is provided, `keyId` must also be provided. 
 * `wallet` - (Applicable when connection_type=ORACLE) (Updatable) The wallet contents Oracle GoldenGate uses to make connections to a database. This attribute is expected to be base64 encoded. Deprecated: This field is deprecated and replaced by "walletSecretId". This change follows the GoldenGate "Plain Text Fields in Connections" deprecation: https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate 
 * `wallet_secret_id` - (Applicable when connection_type=ORACLE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the wallet file is stored.  The wallet contents Oracle GoldenGate uses to make connections to a database. Note: When provided, 'wallet' field must not be provided. 
+* `warehouse_name` - (Required when connection_type=ORACLE_AI_DATA_CATALOG_STORAGE) (Updatable) The name of the warehouse configured in the Oracle AI Data Catalog deployment. This value corresponds to the target bucket or container name.
+* `warehouse_storage` - (Required when connection_type=ORACLE_AI_DATA_CATALOG_STORAGE) (Updatable) The information about a new warehouse storage of given type used in an Oracle AI Data Catalog Storage connection.
+	* `access_key_id` - (Required when storage_type=OCI_OBJECT_STORAGE_ACCESS_KEY | ZFS) (Updatable) The access key ID used to access the Oracle Cloud Infrastructure Object Storage bucket.
+	* `account_key` - (Applicable when storage_type=AZURE_STORAGE) (Updatable) The Azure Storage account key.
+	* `account_key_secret_id` - (Applicable when storage_type=AZURE_STORAGE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the Azure Storage account key.
+	* `account_name` - (Required when storage_type=AZURE_STORAGE) (Updatable) The Azure Storage account name.
+	* `endpoint_url` - (Required when storage_type=ZFS) (Updatable) The endpoint URL of the ZFS storage service.
+	* `namespace` - (Required when storage_type=OCI_OBJECT_STORAGE_ACCESS_KEY) (Updatable) Name of namespace that serves as a container for all of your buckets
+	* `region` - (Applicable when storage_type=OCI_OBJECT_STORAGE_ACCESS_KEY) (Updatable) The name of the region. e.g.: us-ashburn-1 If the region is not provided, backend will default to the current region.
+	* `secret_access_key` - (Applicable when storage_type=OCI_OBJECT_STORAGE_ACCESS_KEY | ZFS) (Updatable) The secret access key used to access the warehouse storage.
+	* `secret_access_key_secret_id` - (Applicable when storage_type=OCI_OBJECT_STORAGE_ACCESS_KEY | ZFS) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the Oracle Cloud Infrastructure Object Storage secret access key.
+	* `storage_type` - (Required) (Updatable) The warehouse storage type used in the Oracle AI Data Catalog Storage connection.
+	* `trust_store` - (Applicable when storage_type=ZFS) (Updatable) The base64 encoded content of the ZFS storage TrustStore file. Deprecated: This field is deprecated and replaced by "trustStoreSecretId". This change follows the GoldenGate "Plain Text Fields in Connections" deprecation: https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
+	* `trust_store_secret_id` - (Applicable when storage_type=ZFS) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the ZFS storage trust store. Note: When provided, 'trustStore' field must not be provided.
 * `workspace_url` - (Required when connection_type=DATABRICKS_ENGINE | ORACLE_AI_DATA_PLATFORM_ENGINE) (Updatable)
 	* DATABRICKS_ENGINE: Databricks workspace base URL for the REST API, for example `https://<workspace>.cloud.databricks.com/api/2.0/`.
 	* ORACLE_AI_DATA_PLATFORM_ENGINE: Oracle AI Data Platform workspace URL.
@@ -661,6 +718,13 @@ The following attributes are exported:
 	* `principal_role` - The Snowflake role used to access Polaris.
 	* `properties_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the content of the configuration file containing additional properties for the REST catalog. See documentation: https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm 
 	* `uri` - The URL endpoint for the Polaris API. e.g.: 'https://<your-snowflake-account>.snowflakecomputing.com/polaris/api/catalog' 
+	* `catalog_config` - Represents the Oracle AI Data Catalog configuration of given type used in an Iceberg connection.
+		* `catalog_config_type` - The Oracle AI Data Catalog configuration type.
+		* `database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database being referenced.
+		* `database_type` - The database type where Oracle AI Data Catalog is configured.
+		* `deployment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment being referenced.
+		* `password_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored. The password Oracle GoldenGate uses to connect the associated system of the given technology. It must conform to the specific security requirements including length, case sensitivity, and so on. If secretId is used plaintext field must not be provided. Note: When provided, 'password' field must not be provided.
+		* `username` - The username Oracle GoldenGate uses to connect the associated system of the given technology. This username must already exist and be available by the system/application to be connected to and must conform to the case sensitivty requirments defined in it.
 * `client_id`
 	* AZURE_DATA_LAKE_STORAGE: Azure application client ID, required for AZURE_ACTIVE_DIRECTORY authentication.
 	* DATABRICKS, DATABRICKS_ENGINE: OAuth client ID, applicable to OAUTH_M2M authentication.
@@ -807,7 +871,7 @@ The following attributes are exported:
 	* `access_key_id` - Access Key ID from the Oracle Cloud Infrastructure IAM user's Customer Secret Key pair used to authenticate to Oracle Cloud Infrastructure Object Storage via the S3 Compatibility API.
 
 		Note: Despite the "Id" suffix, this value is not an Oracle Cloud Infrastructure OCID. 
-	* `account_key_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the account key is stored. 
+	* `account_key_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the account key is stored.
 	* `account_name` - Sets the Azure storage account name. 
 	* `bucket` - Target Oracle Cloud Infrastructure Object Storage bucket name where Iceberg stores table metadata and data files. 
 	* `container` - The Azure Blob Storage container where Iceberg tables are stored.
@@ -822,7 +886,10 @@ The following attributes are exported:
 		* HADOOP: AMAZON_S3, GOOGLE_CLOUD_STORAGE, AZURE_DATA_LAKE_STORAGE, or OCI_OBJECT_STORAGE_S3_API.
 		* NESSIE: AMAZON_S3, GOOGLE_CLOUD_STORAGE, or AZURE_DATA_LAKE_STORAGE.
 		* POLARIS: AMAZON_S3, GOOGLE_CLOUD_STORAGE, or AZURE_DATA_LAKE_STORAGE.
-		* REST: AMAZON_S3, GOOGLE_CLOUD_STORAGE, AZURE_DATA_LAKE_STORAGE, or NONE. 
+		* OADC: OCI_OBJECT_STORAGE_ACCESS_KEY, AZURE_STORAGE, or ZFS.
+		* REST: AMAZON_S3, GOOGLE_CLOUD_STORAGE, AZURE_DATA_LAKE_STORAGE, or NONE.
+	* `properties_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the content of the configuration file containing additional properties for the REST catalog. See documentation: https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm
+	* `trust_store_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the ZFS storage trust store. Note: When provided, 'trustStore' field must not be provided.
 * `storage_credential_name` - Optional. External storage credential name to access files on object storage such as ADLS Gen2, S3 or GCS. 
 * `stream_pool_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream pool being referenced. 
 * `submit_mode` - Submission channel used to connect to Spark. 
@@ -868,6 +935,17 @@ The following attributes are exported:
 
 	This field is applicable only when `doesUseSecretIds` is set to `false`. If `vaultId` is provided, `keyId` must also be provided. 
 * `wallet_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the wallet file is stored.  The wallet contents Oracle GoldenGate uses to make connections to a database. Note: When provided, 'wallet' field must not be provided. 
+* `warehouse_name` - The name of the warehouse configured in the Oracle AI Data Catalog deployment. This value corresponds to the target bucket or container name.
+* `warehouse_storage` - Represents the warehouse storage of given type used in an Oracle AI Data Catalog Storage connection.
+	* `access_key_id` - The access key ID used to access the Oracle Cloud Infrastructure Object Storage bucket.
+	* `account_key_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the Azure Storage account key.
+	* `account_name` - The Azure Storage account name.
+	* `endpoint_url` - The endpoint URL of the ZFS storage service.
+	* `namespace` - Name of namespace that serves as a container for all of your buckets
+	* `region` - The name of the region. e.g.: us-ashburn-1 If the region is not provided, backend will default to the current region.
+	* `secret_access_key_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the Oracle Cloud Infrastructure Object Storage secret access key.
+	* `storage_type` - The warehouse storage type used in the Oracle AI Data Catalog Storage connection.
+	* `trust_store_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the ZFS storage trust store. Note: When provided, 'trustStore' field must not be provided.
 * `workspace_url`
 	* DATABRICKS_ENGINE: Databricks workspace base URL for the REST API, for example `https://<workspace>.cloud.databricks.com/api/2.0/`.
 	* ORACLE_AI_DATA_PLATFORM_ENGINE: Oracle AI Data Platform workspace URL.

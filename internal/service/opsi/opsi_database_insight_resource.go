@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -26,11 +27,11 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOpsiDatabaseInsight,
-		Read:     readOpsiDatabaseInsight,
-		Update:   updateOpsiDatabaseInsight,
-		Delete:   deleteOpsiDatabaseInsight,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOpsiDatabaseInsightWithContext,
+		ReadContext:   readOpsiDatabaseInsightWithContext,
+		UpdateContext: updateOpsiDatabaseInsightWithContext,
+		DeleteContext: deleteOpsiDatabaseInsightWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -398,37 +399,37 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 	}
 }
 
-func createOpsiDatabaseInsight(d *schema.ResourceData, m interface{}) error {
+func createOpsiDatabaseInsightWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiDatabaseInsightResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOpsiDatabaseInsight(d *schema.ResourceData, m interface{}) error {
+func readOpsiDatabaseInsightWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiDatabaseInsightResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateOpsiDatabaseInsight(d *schema.ResourceData, m interface{}) error {
+func updateOpsiDatabaseInsightWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiDatabaseInsightResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteOpsiDatabaseInsight(d *schema.ResourceData, m interface{}) error {
+func deleteOpsiDatabaseInsightWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiDatabaseInsightResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type OpsiDatabaseInsightResourceCrud struct {
@@ -467,7 +468,7 @@ func (s *OpsiDatabaseInsightResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) Create() error {
+func (s *OpsiDatabaseInsightResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_opsi.CreateDatabaseInsightRequest{}
 	err := s.populateTopLevelPolymorphicCreateDatabaseInsightRequest(&request)
 	if err != nil {
@@ -476,7 +477,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.CreateDatabaseInsight(context.Background(), request)
+	response, err := s.Client.CreateDatabaseInsight(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -490,7 +491,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Create() error {
 
 	// Wait until it finishes
 	// This is our special logic to disable resource first then to be deleted.
-	databaseInsightId, err := databaseInsightWaitForWorkRequest(workId, "opsi",
+	databaseInsightId, err := databaseInsightWaitForWorkRequest(ctx, workId, "opsi",
 		oci_opsi.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -506,7 +507,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Create() error {
 			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 			tmp := s.D.Id()
 			request.DatabaseInsightId = &tmp
-			response, err := s.Client.DisableDatabaseInsight(context.Background(), request)
+			response, err := s.Client.DisableDatabaseInsight(ctx, request)
 			if err != nil {
 				return err
 			}
@@ -514,7 +515,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Create() error {
 			workId := response.OpcWorkRequestId
 
 			// Wait until it finishes
-			databaseInsightId, err := databaseInsightWaitForWorkRequest(workId, "opsi",
+			databaseInsightId, err := databaseInsightWaitForWorkRequest(ctx, workId, "opsi",
 				oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 			if err != nil {
 				return err
@@ -523,14 +524,14 @@ func (s *OpsiDatabaseInsightResourceCrud) Create() error {
 		}
 	}
 
-	return s.getDatabaseInsightFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDatabaseInsightFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) getDatabaseInsightFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OpsiDatabaseInsightResourceCrud) getDatabaseInsightFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_opsi.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	databaseInsightId, err := databaseInsightWaitForWorkRequest(workId, "opsi",
+	databaseInsightId, err := databaseInsightWaitForWorkRequest(ctx, workId, "opsi",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -538,7 +539,7 @@ func (s *OpsiDatabaseInsightResourceCrud) getDatabaseInsightFromWorkRequest(work
 	}
 	s.D.SetId(*databaseInsightId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func databaseInsightWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -564,7 +565,7 @@ func databaseInsightWorkRequestShouldRetryFunc(timeout time.Duration) func(respo
 	}
 }
 
-func databaseInsightWaitForWorkRequest(wId *string, entityType string, action oci_opsi.ActionTypeEnum,
+func databaseInsightWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_opsi.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_opsi.OperationsInsightsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "opsi")
 	retryPolicy.ShouldRetryOperation = databaseInsightWorkRequestShouldRetryFunc(timeout)
@@ -583,7 +584,7 @@ func databaseInsightWaitForWorkRequest(wId *string, entityType string, action oc
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_opsi.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -595,7 +596,7 @@ func databaseInsightWaitForWorkRequest(wId *string, entityType string, action oc
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -612,14 +613,14 @@ func databaseInsightWaitForWorkRequest(wId *string, entityType string, action oc
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_opsi.OperationStatusFailed || response.Status == oci_opsi.OperationStatusCanceled {
-		return nil, getErrorFromOpsiDatabaseInsightWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOpsiDatabaseInsightWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOpsiDatabaseInsightWorkRequest(client *oci_opsi.OperationsInsightsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opsi.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOpsiDatabaseInsightWorkRequest(ctx context.Context, client *oci_opsi.OperationsInsightsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opsi.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_opsi.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -641,7 +642,7 @@ func getErrorFromOpsiDatabaseInsightWorkRequest(client *oci_opsi.OperationsInsig
 	return workRequestErr
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) Get() error {
+func (s *OpsiDatabaseInsightResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_opsi.GetDatabaseInsightRequest{}
 
 	tmp := s.D.Id()
@@ -649,7 +650,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.GetDatabaseInsight(context.Background(), request)
+	response, err := s.Client.GetDatabaseInsight(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -658,11 +659,11 @@ func (s *OpsiDatabaseInsightResourceCrud) Get() error {
 	return nil
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) Update() error {
+func (s *OpsiDatabaseInsightResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -683,7 +684,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Update() error {
 		updateRequest := oci_opsi.ChangePeComanagedDatabaseInsightRequest{}
 		hasChanged := s.populateChangePeComanagedDatabaseInsightRequest(&updateRequest)
 		if hasChanged {
-			err := s.updatePecomanagedDetails(&updateRequest)
+			err := s.updatePecomanagedDetails(ctx, &updateRequest)
 			if err != nil {
 				return err
 			}
@@ -695,7 +696,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Update() error {
 		changeConnRequest := oci_opsi.ChangeMacsManagedCloudDatabaseInsightConnectionRequest{}
 		hasChanged := s.populateChangeMacsCloudConnectionDetailsRequest(&changeConnRequest)
 		if hasChanged {
-			err := s.updateConnectionDetails(&changeConnRequest)
+			err := s.updateConnectionDetails(ctx, &changeConnRequest)
 			if err != nil {
 				return err
 			}
@@ -707,7 +708,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Update() error {
 		changeAdbConnRequest := oci_opsi.ChangeMacsManagedAutonomousDatabaseInsightConnectionRequest{}
 		hasChanged := s.populateChangeMacsAdbConnectionDetailsRequest(&changeAdbConnRequest)
 		if hasChanged {
-			err := s.updateMacsAdbConnectionDetails(&changeAdbConnRequest)
+			err := s.updateMacsAdbConnectionDetails(ctx, &changeAdbConnRequest)
 			if err != nil {
 				return err
 			}
@@ -720,7 +721,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Update() error {
 		updateFullFeature := s.populateUpdateAdbFullFeatureRequest(&updateAdbFullFeatureRequest)
 		log.Printf("[DEBUG] Running Update after change adb (%t)", updateFullFeature)
 		if updateFullFeature {
-			err := s.updateAdbFullFeatures(&updateAdbFullFeatureRequest)
+			err := s.updateAdbFullFeatures(ctx, &updateAdbFullFeatureRequest)
 			if err != nil {
 				return err
 			}
@@ -733,7 +734,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Update() error {
 		hasChanged := s.populateChangeExternalMysqlDatabaseInsightConnectionRequest(&updateRequest)
 		log.Printf("Running Update after change EXTERNAL_MYSQL_DATABASE_SYSTEM (%t)", hasChanged)
 		if hasChanged {
-			err := s.ChangeExternalMysqlDatabaseInsightConnection(&updateRequest)
+			err := s.ChangeExternalMysqlDatabaseInsightConnection(ctx, &updateRequest)
 			if err != nil {
 				return err
 			}
@@ -747,7 +748,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.UpdateDatabaseInsight(context.Background(), request)
+	response, err := s.Client.UpdateDatabaseInsight(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -755,7 +756,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Update() error {
 	workId := response.OpcWorkRequestId
 
 	// speical logic to disable resource
-	databaseInsightId, err := databaseInsightWaitForWorkRequest(workId, "opsi",
+	databaseInsightId, err := databaseInsightWaitForWorkRequest(ctx, workId, "opsi",
 		oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -781,7 +782,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Update() error {
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 		tmp := s.D.Id()
 		request.DatabaseInsightId = &tmp
-		response, err := s.Client.DisableDatabaseInsight(context.Background(), request)
+		response, err := s.Client.DisableDatabaseInsight(ctx, request)
 		if err != nil {
 			return err
 		}
@@ -789,7 +790,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Update() error {
 		workId := response.OpcWorkRequestId
 
 		// Wait until it finishes
-		databaseInsightId, err := databaseInsightWaitForWorkRequest(workId, "opsi",
+		databaseInsightId, err := databaseInsightWaitForWorkRequest(ctx, workId, "opsi",
 			oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 		if err != nil {
 			return err
@@ -807,7 +808,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Update() error {
 			return err
 		}
 
-		response, err := s.Client.EnableDatabaseInsight(context.Background(), request)
+		response, err := s.Client.EnableDatabaseInsight(ctx, request)
 		if err != nil {
 			return err
 		}
@@ -815,7 +816,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Update() error {
 		workId := response.OpcWorkRequestId
 
 		// Wait until it finishes
-		databaseInsightId, err := databaseInsightWaitForWorkRequest(workId, "opsi",
+		databaseInsightId, err := databaseInsightWaitForWorkRequest(ctx, workId, "opsi",
 			oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 		if err != nil {
 			return err
@@ -823,18 +824,18 @@ func (s *OpsiDatabaseInsightResourceCrud) Update() error {
 		s.D.SetId(*databaseInsightId)
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) Delete() error {
+func (s *OpsiDatabaseInsightResourceCrud) DeleteWithContext(ctx context.Context) error {
 	status, ok := s.D.GetOkExists("status")
 	if ok && oci_opsi.ResourceStatusEnabled == oci_opsi.ResourceStatusEnum(strings.ToUpper(status.(string))) {
 		request := oci_opsi.DisableDatabaseInsightRequest{}
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 		tmp := s.D.Id()
 		request.DatabaseInsightId = &tmp
-		response, err := s.Client.DisableDatabaseInsight(context.Background(), request)
+		response, err := s.Client.DisableDatabaseInsight(ctx, request)
 		if err != nil {
 			return err
 		}
@@ -842,7 +843,7 @@ func (s *OpsiDatabaseInsightResourceCrud) Delete() error {
 		workId := response.OpcWorkRequestId
 
 		// Wait until it finishes
-		_, disableWorkRequestErr := databaseInsightWaitForWorkRequest(workId, "opsi",
+		_, disableWorkRequestErr := databaseInsightWaitForWorkRequest(ctx, workId, "opsi",
 			oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 		if disableWorkRequestErr != nil {
 			return disableWorkRequestErr
@@ -856,14 +857,14 @@ func (s *OpsiDatabaseInsightResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.DeleteDatabaseInsight(context.Background(), request)
+	response, err := s.Client.DeleteDatabaseInsight(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := databaseInsightWaitForWorkRequest(workId, "opsi",
+	_, delWorkRequestErr := databaseInsightWaitForWorkRequest(ctx, workId, "opsi",
 		oci_opsi.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -1553,20 +1554,20 @@ func (s *OpsiDatabaseInsightResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) ChangeExternalMysqlDatabaseInsightConnection(updateRequest *oci_opsi.ChangeExternalMysqlDatabaseInsightConnectionRequest) error {
+func (s *OpsiDatabaseInsightResourceCrud) ChangeExternalMysqlDatabaseInsightConnection(ctx context.Context, updateRequest *oci_opsi.ChangeExternalMysqlDatabaseInsightConnectionRequest) error {
 	idTmp := s.D.Id()
 	updateRequest.DatabaseInsightId = &idTmp
 
 	updateRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.ChangeExternalMysqlDatabaseInsightConnection(context.Background(), *updateRequest)
+	response, err := s.Client.ChangeExternalMysqlDatabaseInsightConnection(ctx, *updateRequest)
 	log.Printf("Running Update after change EXTERNAL_MYSQL_DATABASE_SYSTEM")
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDatabaseInsightFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDatabaseInsightFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *OpsiDatabaseInsightResourceCrud) mapToConnectionDetails(fieldKeyFormat string) (oci_opsi.ConnectionDetails, error) {
@@ -2783,7 +2784,7 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicEnableDatab
 	return nil
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *OpsiDatabaseInsightResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_opsi.ChangeDatabaseInsightCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -2794,62 +2795,62 @@ func (s *OpsiDatabaseInsightResourceCrud) updateCompartment(compartment interfac
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.ChangeDatabaseInsightCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeDatabaseInsightCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDatabaseInsightFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDatabaseInsightFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) updatePecomanagedDetails(updateRequest *oci_opsi.ChangePeComanagedDatabaseInsightRequest) error {
+func (s *OpsiDatabaseInsightResourceCrud) updatePecomanagedDetails(ctx context.Context, updateRequest *oci_opsi.ChangePeComanagedDatabaseInsightRequest) error {
 	idTmp := s.D.Id()
 	updateRequest.DatabaseInsightId = &idTmp
 
 	updateRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.ChangePeComanagedDatabaseInsight(context.Background(), *updateRequest)
+	response, err := s.Client.ChangePeComanagedDatabaseInsight(ctx, *updateRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDatabaseInsightFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDatabaseInsightFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) updateConnectionDetails(changeConnectionRequest *oci_opsi.ChangeMacsManagedCloudDatabaseInsightConnectionRequest) error {
+func (s *OpsiDatabaseInsightResourceCrud) updateConnectionDetails(ctx context.Context, changeConnectionRequest *oci_opsi.ChangeMacsManagedCloudDatabaseInsightConnectionRequest) error {
 	idTmp := s.D.Id()
 	changeConnectionRequest.DatabaseInsightId = &idTmp
 	changeConnectionRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
-	response, err := s.Client.ChangeMacsManagedCloudDatabaseInsightConnection(context.Background(), *changeConnectionRequest)
+	response, err := s.Client.ChangeMacsManagedCloudDatabaseInsightConnection(ctx, *changeConnectionRequest)
 	if err != nil {
 		return err
 	}
 	workId := response.OpcWorkRequestId
-	return s.getDatabaseInsightFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDatabaseInsightFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) updateMacsAdbConnectionDetails(changeAdbConnectionRequest *oci_opsi.ChangeMacsManagedAutonomousDatabaseInsightConnectionRequest) error {
+func (s *OpsiDatabaseInsightResourceCrud) updateMacsAdbConnectionDetails(ctx context.Context, changeAdbConnectionRequest *oci_opsi.ChangeMacsManagedAutonomousDatabaseInsightConnectionRequest) error {
 	idTmp := s.D.Id()
 	changeAdbConnectionRequest.DatabaseInsightId = &idTmp
 	changeAdbConnectionRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
-	response, err := s.Client.ChangeMacsManagedAutonomousDatabaseInsightConnection(context.Background(), *changeAdbConnectionRequest)
+	response, err := s.Client.ChangeMacsManagedAutonomousDatabaseInsightConnection(ctx, *changeAdbConnectionRequest)
 	if err != nil {
 		return err
 	}
 	workId := response.OpcWorkRequestId
-	return s.getDatabaseInsightFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDatabaseInsightFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *OpsiDatabaseInsightResourceCrud) updateAdbFullFeatures(changeRequest *oci_opsi.ChangeAutonomousDatabaseInsightAdvancedFeaturesRequest) error {
+func (s *OpsiDatabaseInsightResourceCrud) updateAdbFullFeatures(ctx context.Context, changeRequest *oci_opsi.ChangeAutonomousDatabaseInsightAdvancedFeaturesRequest) error {
 	idTmp := s.D.Id()
 	changeRequest.DatabaseInsightId = &idTmp
 	changeRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
-	response, err := s.Client.ChangeAutonomousDatabaseInsightAdvancedFeatures(context.Background(), *changeRequest)
+	response, err := s.Client.ChangeAutonomousDatabaseInsightAdvancedFeatures(ctx, *changeRequest)
 	if err != nil {
 		return err
 	}
 	workId := response.OpcWorkRequestId
-	return s.getDatabaseInsightFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDatabaseInsightFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

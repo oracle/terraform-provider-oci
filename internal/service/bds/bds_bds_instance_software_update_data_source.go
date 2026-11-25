@@ -8,6 +8,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_bds "github.com/oracle/oci-go-sdk/v65/bds"
 
@@ -17,7 +18,7 @@ import (
 
 func BdsBdsInstanceSoftwareUpdateDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularBdsBdsInstanceSoftwareUpdate,
+		ReadContext: readSingularBdsBdsInstanceSoftwareUpdateWithContext,
 		Schema: map[string]*schema.Schema{
 			"bds_instance_id": {
 				Type:     schema.TypeString,
@@ -52,12 +53,12 @@ func BdsBdsInstanceSoftwareUpdateDataSource() *schema.Resource {
 	}
 }
 
-func readSingularBdsBdsInstanceSoftwareUpdate(d *schema.ResourceData, m interface{}) error {
+func readSingularBdsBdsInstanceSoftwareUpdateWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceSoftwareUpdateDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type BdsBdsInstanceSoftwareUpdateDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *BdsBdsInstanceSoftwareUpdateDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BdsBdsInstanceSoftwareUpdateDataSourceCrud) Get() error {
+func (s *BdsBdsInstanceSoftwareUpdateDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_bds.GetSoftwareUpdateRequest{}
 
 	if bdsInstanceId, ok := s.D.GetOkExists("bds_instance_id"); ok {
@@ -85,7 +86,7 @@ func (s *BdsBdsInstanceSoftwareUpdateDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "bds")
 
-	response, err := s.Client.GetSoftwareUpdate(context.Background(), request)
+	response, err := s.Client.GetSoftwareUpdate(ctx, request)
 	if err != nil {
 		return err
 	}

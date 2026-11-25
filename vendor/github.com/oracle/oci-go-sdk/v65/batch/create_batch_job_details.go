@@ -27,7 +27,6 @@ type CreateBatchJobDetails struct {
 	BatchJobPoolId *string `mandatory:"true" json:"batchJobPoolId"`
 
 	// A list of tasks to be executed within this job.
-	// Maximum number of tasks a job can have in total, across all nested levels, is 1000.
 	Tasks []CreateBatchTaskDetails `mandatory:"true" json:"tasks"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.

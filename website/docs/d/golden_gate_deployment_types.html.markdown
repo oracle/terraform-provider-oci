@@ -48,7 +48,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `items` - Array of DeploymentTypeSummary 
-	* `category` - The deployment category defines the broad separation of the deployment type into four categories. Currently the separation is 'DATA_REPLICATION', 'STREAM_ANALYTICS', 'DATA_TRANSFORMS' and 'DATA_VERIFICATION'. 
+	* `category` - The deployment category defines the broad separation of the deployment type into five categories. Currently the separation is 'DATA_REPLICATION', 'STREAM_ANALYTICS', 'DATA_TRANSFORMS', 'DATA_VERIFICATION' and 'DATA_CATALOG'.
 	* `connection_types` - An array of connectionTypes. 
 	* `default_username` - The default admin username used by deployment. 
 	* `deployment_type` - The type of deployment, which can be any one of the Allowed values.  NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.  Its use is discouraged in favor of 'DATABASE_ORACLE'. 
@@ -60,3 +60,4 @@ The following attributes are exported:
 	* `supported_technologies_url` - The URL to the webpage listing the supported technologies. 
 	* `target_technologies` - List of the supported technologies generally.  The value is a freeform text string generally consisting of a description of the technology and optionally the speific version(s) support.  For example, [ "Oracle Database 19c", "Oracle Exadata", "OCI Streaming" ] 
 
+	* `supported_credential_stores` - The list of credential stores supported by the deployment type.

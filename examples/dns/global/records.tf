@@ -23,7 +23,7 @@ resource "oci_dns_record" "record-aaaa" {
 
 resource "oci_dns_record" "record-cname" {
   zone_name_or_id = oci_dns_zone.zone1.name
-  domain          = "el.${oci_dns_zone.zone1.name}"
+  domain          = "sub.${oci_dns_zone.zone1.name}"
   rtype           = "CNAME"
   rdata           = oci_dns_zone.zone1.name
   ttl             = 86400
@@ -41,11 +41,12 @@ resource "oci_dns_record" "record-alias" {
 }
 */
 
+# Delegate a child name to this nameserver.
 resource "oci_dns_record" "record-ns" {
   zone_name_or_id = oci_dns_zone.zone1.name
   rtype           = "NS"
   rdata           = "ns5.p68.dns.oraclecloud.net"
-  domain          = oci_dns_zone.zone1.name
+  domain          = "delegated.${oci_dns_zone.zone1.name}"
   ttl             = 86400
 }
 
@@ -74,16 +75,25 @@ resource "oci_dns_record" "record-txt" {
 }
 
 data "oci_dns_records" "rs" {
+  # Read the TXT record after the example creates it.
   zone_name_or_id = oci_dns_zone.zone1.name
 
   # optional
   compartment_id = var.compartment_ocid
-  domain         = oci_dns_zone.zone1.name
+  domain         = oci_dns_record.record-txt.domain
+  rtype          = "TXT"
   sort_by        = "rtype" # domain|rtype|ttl
   sort_order     = "DESC"  # ASC|DESC
 }
 
 output "records" {
-  value = data.oci_dns_records.rs.records
+  value = [
+    for record in data.oci_dns_records.rs.records : {
+      domain = record.domain
+      rtype  = record.rtype
+      rdata  = record.rdata
+      ttl    = record.ttl
+    }
+  ]
 }
 

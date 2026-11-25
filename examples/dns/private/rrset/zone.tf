@@ -1,9 +1,8 @@
 // Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-/*
- * This file demonstrates dns private zone management
- */
+# Create private zones in the example view.
+# See README.md for setup and the RRSet walkthrough.
 
 resource "random_string" "random_prefix" {
   length  = 4
@@ -35,6 +34,12 @@ resource "oci_dns_tsig_key" "test_tsig_key" {
 }
 
 data "oci_dns_zones" "zs" {
+  # Read the zones after the example creates them.
+  depends_on = [
+    oci_dns_zone.zone1,
+    oci_dns_zone.zone3,
+  ]
+
   compartment_id = var.compartment_ocid
   name_contains  = "example"
   state          = "ACTIVE"
@@ -50,6 +55,11 @@ data "oci_identity_tenancy" "tenancy" {
 }
 
 output "zones" {
-  value = data.oci_dns_zones.zs.zones
+  value = [
+    for zone in data.oci_dns_zones.zs.zones : {
+      name = zone.name
+      id   = zone.id
+    }
+  ]
 }
 

@@ -8,6 +8,15 @@ data "oci_database_autonomous_vm_clusters" "test_autonomous_vm_clusters" {
   state                     = "AVAILABLE"
 }
 
+data "oci_database_key_store" "selected" {
+  key_store_id = oci_database_key_store.test_key_store.id
+}
+
+# List key stores in a compartment
+data "oci_database_key_stores" "all" {
+  compartment_id = var.compartment_ocid
+}
+
 data "oci_database_exadata_infrastructures" "test_exadata_infrastructures" {
   #Required
   compartment_id = var.compartment_ocid

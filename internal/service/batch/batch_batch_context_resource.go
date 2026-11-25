@@ -117,6 +117,35 @@ func BatchBatchContextResource() *schema.Resource {
 								"SERVICE_MANAGED_GPU_FLEET",
 							}, true),
 						},
+						"reservation": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"capacity_reservation_ids": {
+										Type:     schema.TypeList,
+										Required: true,
+										ForceNew: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										ForceNew:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"COMPUTE_CAPACITY_RESERVATION",
+										}, true),
+									},
+								},
+							},
+						},
 
 						// Optional
 
@@ -1198,6 +1227,16 @@ func (s *BatchBatchContextResourceCrud) mapToCreateFleetDetails(fieldKeyFormat s
 			tmp := name.(string)
 			details.Name = &tmp
 		}
+		if reservation, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "reservation")); ok {
+			if tmpList := reservation.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "reservation"), 0)
+				tmp, err := s.mapToCreateReservationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert reservation, encountered error: %v", err)
+				}
+				details.Reservation = tmp
+			}
+		}
 		if shape, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape")); ok {
 			if tmpList := shape.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "shape"), 0)
@@ -1218,6 +1257,16 @@ func (s *BatchBatchContextResourceCrud) mapToCreateFleetDetails(fieldKeyFormat s
 		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
 			tmp := name.(string)
 			details.Name = &tmp
+		}
+		if reservation, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "reservation")); ok {
+			if tmpList := reservation.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "reservation"), 0)
+				tmp, err := s.mapToCreateReservationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert reservation, encountered error: %v", err)
+				}
+				details.Reservation = tmp
+			}
 		}
 		if shape, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape")); ok {
 			if tmpList := shape.([]interface{}); len(tmpList) > 0 {
@@ -1251,6 +1300,14 @@ func FleetToMap(obj oci_batch.Fleet) map[string]interface{} {
 			result["name"] = string(*v.Name)
 		}
 
+		if v.Reservation != nil {
+			reservationArray := []interface{}{}
+			if reservationMap := CreateReservationDetailsToMap(&v.Reservation); reservationMap != nil {
+				reservationArray = append(reservationArray, reservationMap)
+			}
+			result["reservation"] = reservationArray
+		}
+
 		if v.Shape != nil {
 			result["shape"] = []interface{}{FleetShapeToMap(v.Shape)}
 		}
@@ -1264,6 +1321,14 @@ func FleetToMap(obj oci_batch.Fleet) map[string]interface{} {
 
 		if v.Name != nil {
 			result["name"] = string(*v.Name)
+		}
+
+		if v.Reservation != nil {
+			reservationArray := []interface{}{}
+			if reservationMap := ReservationToMap(&v.Reservation); reservationMap != nil {
+				reservationArray = append(reservationArray, reservationMap)
+			}
+			result["reservation"] = reservationArray
 		}
 
 		if v.Details != nil {
@@ -1288,6 +1353,14 @@ func FleetToMap(obj oci_batch.Fleet) map[string]interface{} {
 			result["name"] = string(*v.Name)
 		}
 
+		if v.Reservation != nil {
+			reservationArray := []interface{}{}
+			if reservationMap := CreateReservationDetailsToMap(&v.Reservation); reservationMap != nil {
+				reservationArray = append(reservationArray, reservationMap)
+			}
+			result["reservation"] = reservationArray
+		}
+
 		if v.Shape != nil {
 			shapeArray := []interface{}{}
 			if shapeMap := CreateGpuFleetShapeDetailsToMap(&v.Shape); shapeMap != nil {
@@ -1304,6 +1377,14 @@ func FleetToMap(obj oci_batch.Fleet) map[string]interface{} {
 
 		if v.Name != nil {
 			result["name"] = string(*v.Name)
+		}
+
+		if v.Reservation != nil {
+			reservationArray := []interface{}{}
+			if reservationMap := ReservationToMap(&v.Reservation); reservationMap != nil {
+				reservationArray = append(reservationArray, reservationMap)
+			}
+			result["reservation"] = reservationArray
 		}
 
 		if v.Details != nil {
@@ -1447,6 +1528,66 @@ func NetworkToMap(obj *oci_batch.Network, datasource bool) map[string]interface{
 	}
 	result["vnics"] = vnics
 
+	return result
+}
+
+func (s *BatchBatchContextResourceCrud) mapToCreateReservationDetails(fieldKeyFormat string) (oci_batch.CreateReservationDetails, error) {
+	var baseObject oci_batch.CreateReservationDetails
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("COMPUTE_CAPACITY_RESERVATION"):
+		details := oci_batch.CreateComputeCapacityReservationDetails{}
+		if capacityReservationIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "capacity_reservation_ids")); ok {
+			interfaces := capacityReservationIds.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "capacity_reservation_ids")) {
+				details.CapacityReservationIds = tmp
+			}
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func CreateReservationDetailsToMap(obj *oci_batch.CreateReservationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_batch.CreateComputeCapacityReservationDetails:
+		result["type"] = "COMPUTE_CAPACITY_RESERVATION"
+
+		result["capacity_reservation_ids"] = v.CapacityReservationIds
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func ReservationToMap(obj *oci_batch.Reservation) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_batch.ComputeCapacityReservation:
+		result["type"] = "COMPUTE_CAPACITY_RESERVATION"
+		result["capacity_reservation_ids"] = v.CapacityReservationIds
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		return nil
+	}
 	return result
 }
 

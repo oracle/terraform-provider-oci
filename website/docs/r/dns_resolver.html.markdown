@@ -15,19 +15,37 @@ Example terraform configs related to the resource : https://github.com/oracle/te
 
 Updates the specified resolver with your new information.
 
-Note: Resolvers are associated with VCNs and created when a VCN is created. Wait until the created VCN's state shows as Available in the OCI Console before updating DNS resolver properties.
+Resolvers are associated with VCNs and created when a VCN is created. Use the VCN resolver association data source to wait for the association before configuring the resolver.
 A VCN cannot be deleted while its resolver has resolver endpoints. Additionally, a resolver endpoint cannot be deleted if it is referenced in the resolver's rules. To remove rules from a resolver, update the resolver resource.
 
 Destroy behavior: This resource does not delete the underlying DNS Resolver. The resolver itself is deleted only when the attached VCN is deleted. When this Terraform resource is destroyed, managed properties on the resolver (for example, attached views and rules) are cleared so the VCN can be deleted.
 
 Default view behavior on VCN delete: If the resolver's default view contains customer-created zones, deleting the VCN (which deletes the resolver) can convert that default view into a non-protected regular view. That view may persist even if it was never imported into Terraform state. To avoid orphaned resources, either delete the zones from the default view before deleting the VCN, or plan to clean up the resulting view afterward.
 
+## Dependency ordering
+
+With OCI provider v8.16.0 or later, the
+[`oci_core_vcn_dns_resolver_association`](https://registry.terraform.io/providers/oracle/oci/latest/docs/data-sources/core_vcn_dns_resolver_association)
+data source waits for the VCN's resolver association to become available. Use its
+`dns_resolver_id` directly for endpoints and resolver configuration. Endpoints
+must not depend on the resolver configuration resource whose rules reference
+those endpoints, because that would create a dependency cycle.
+
+Reference the forwarding endpoint's `name` in `source_endpoint_name` and the
+destination listening endpoint's `listening_address` in `destination_addresses`.
+These references order rule configuration after endpoint creation and rule
+removal before endpoint deletion. When using modules, expose endpoint names and
+addresses as outputs and use them to configure rules in the calling module.
+
+See the [runnable resolver example](https://github.com/oracle/terraform-provider-oci/tree/master/examples/dns/private/resolver)
+and the [resolver endpoint reference](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/dns_resolver_endpoint).
+
 ## Example Usage
 
 ```hcl
 resource "oci_dns_resolver" "test_resolver" {
 	#Required
-	resolver_id = oci_dns_resolver.test_resolver.id
+	resolver_id = data.oci_core_vcn_dns_resolver_association.test_vcn_dns_resolver_association.dns_resolver_id
 
 	#Optional
 	scope = "PRIVATE"
@@ -42,7 +60,7 @@ resource "oci_dns_resolver" "test_resolver" {
 		#Required
 		action = var.resolver_rules_action
 		destination_addresses = var.resolver_rules_destination_addresses
-		source_endpoint_name = oci_data_connectivity_endpoint.test_endpoint.name
+		source_endpoint_name = oci_dns_resolver_endpoint.test_resolver_endpoint.name
 
 		#Optional
 		client_address_conditions = var.resolver_rules_client_address_conditions

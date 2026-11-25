@@ -18,27 +18,36 @@ type IcebergStorageTypeEnum string
 
 // Set of constants representing the allowable values for IcebergStorageTypeEnum
 const (
-	IcebergStorageTypeAmazonS3              IcebergStorageTypeEnum = "AMAZON_S3"
-	IcebergStorageTypeGoogleCloudStorage    IcebergStorageTypeEnum = "GOOGLE_CLOUD_STORAGE"
-	IcebergStorageTypeAzureDataLakeStorage  IcebergStorageTypeEnum = "AZURE_DATA_LAKE_STORAGE"
-	IcebergStorageTypeNone                  IcebergStorageTypeEnum = "NONE"
-	IcebergStorageTypeOciObjectStorageS3Api IcebergStorageTypeEnum = "OCI_OBJECT_STORAGE_S3_API"
+	IcebergStorageTypeAmazonS3                  IcebergStorageTypeEnum = "AMAZON_S3"
+	IcebergStorageTypeGoogleCloudStorage        IcebergStorageTypeEnum = "GOOGLE_CLOUD_STORAGE"
+	IcebergStorageTypeAzureDataLakeStorage      IcebergStorageTypeEnum = "AZURE_DATA_LAKE_STORAGE"
+	IcebergStorageTypeNone                      IcebergStorageTypeEnum = "NONE"
+	IcebergStorageTypeOciObjectStorageS3Api     IcebergStorageTypeEnum = "OCI_OBJECT_STORAGE_S3_API"
+	IcebergStorageTypeOciObjectStorageAccessKey IcebergStorageTypeEnum = "OCI_OBJECT_STORAGE_ACCESS_KEY"
+	IcebergStorageTypeAzureStorage              IcebergStorageTypeEnum = "AZURE_STORAGE"
+	IcebergStorageTypeZfs                       IcebergStorageTypeEnum = "ZFS"
 )
 
 var mappingIcebergStorageTypeEnum = map[string]IcebergStorageTypeEnum{
-	"AMAZON_S3":                 IcebergStorageTypeAmazonS3,
-	"GOOGLE_CLOUD_STORAGE":      IcebergStorageTypeGoogleCloudStorage,
-	"AZURE_DATA_LAKE_STORAGE":   IcebergStorageTypeAzureDataLakeStorage,
-	"NONE":                      IcebergStorageTypeNone,
-	"OCI_OBJECT_STORAGE_S3_API": IcebergStorageTypeOciObjectStorageS3Api,
+	"AMAZON_S3":                     IcebergStorageTypeAmazonS3,
+	"GOOGLE_CLOUD_STORAGE":          IcebergStorageTypeGoogleCloudStorage,
+	"AZURE_DATA_LAKE_STORAGE":       IcebergStorageTypeAzureDataLakeStorage,
+	"NONE":                          IcebergStorageTypeNone,
+	"OCI_OBJECT_STORAGE_S3_API":     IcebergStorageTypeOciObjectStorageS3Api,
+	"OCI_OBJECT_STORAGE_ACCESS_KEY": IcebergStorageTypeOciObjectStorageAccessKey,
+	"AZURE_STORAGE":                 IcebergStorageTypeAzureStorage,
+	"ZFS":                           IcebergStorageTypeZfs,
 }
 
 var mappingIcebergStorageTypeEnumLowerCase = map[string]IcebergStorageTypeEnum{
-	"amazon_s3":                 IcebergStorageTypeAmazonS3,
-	"google_cloud_storage":      IcebergStorageTypeGoogleCloudStorage,
-	"azure_data_lake_storage":   IcebergStorageTypeAzureDataLakeStorage,
-	"none":                      IcebergStorageTypeNone,
-	"oci_object_storage_s3_api": IcebergStorageTypeOciObjectStorageS3Api,
+	"amazon_s3":                     IcebergStorageTypeAmazonS3,
+	"google_cloud_storage":          IcebergStorageTypeGoogleCloudStorage,
+	"azure_data_lake_storage":       IcebergStorageTypeAzureDataLakeStorage,
+	"none":                          IcebergStorageTypeNone,
+	"oci_object_storage_s3_api":     IcebergStorageTypeOciObjectStorageS3Api,
+	"oci_object_storage_access_key": IcebergStorageTypeOciObjectStorageAccessKey,
+	"azure_storage":                 IcebergStorageTypeAzureStorage,
+	"zfs":                           IcebergStorageTypeZfs,
 }
 
 // GetIcebergStorageTypeEnumValues Enumerates the set of values for IcebergStorageTypeEnum
@@ -58,6 +67,9 @@ func GetIcebergStorageTypeEnumStringValues() []string {
 		"AZURE_DATA_LAKE_STORAGE",
 		"NONE",
 		"OCI_OBJECT_STORAGE_S3_API",
+		"OCI_OBJECT_STORAGE_ACCESS_KEY",
+		"AZURE_STORAGE",
+		"ZFS",
 	}
 }
 

@@ -12,6 +12,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,11 +25,11 @@ func OpsiOperationsInsightsWarehouseResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOpsiOperationsInsightsWarehouse,
-		Read:     readOpsiOperationsInsightsWarehouse,
-		Update:   updateOpsiOperationsInsightsWarehouse,
-		Delete:   deleteOpsiOperationsInsightsWarehouse,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOpsiOperationsInsightsWarehouseWithContext,
+		ReadContext:   readOpsiOperationsInsightsWarehouseWithContext,
+		UpdateContext: updateOpsiOperationsInsightsWarehouseWithContext,
+		DeleteContext: deleteOpsiOperationsInsightsWarehouseWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -115,37 +116,37 @@ func OpsiOperationsInsightsWarehouseResource() *schema.Resource {
 	}
 }
 
-func createOpsiOperationsInsightsWarehouse(d *schema.ResourceData, m interface{}) error {
+func createOpsiOperationsInsightsWarehouseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiOperationsInsightsWarehouseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOpsiOperationsInsightsWarehouse(d *schema.ResourceData, m interface{}) error {
+func readOpsiOperationsInsightsWarehouseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiOperationsInsightsWarehouseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateOpsiOperationsInsightsWarehouse(d *schema.ResourceData, m interface{}) error {
+func updateOpsiOperationsInsightsWarehouseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiOperationsInsightsWarehouseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteOpsiOperationsInsightsWarehouse(d *schema.ResourceData, m interface{}) error {
+func deleteOpsiOperationsInsightsWarehouseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiOperationsInsightsWarehouseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type OpsiOperationsInsightsWarehouseResourceCrud struct {
@@ -183,7 +184,7 @@ func (s *OpsiOperationsInsightsWarehouseResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *OpsiOperationsInsightsWarehouseResourceCrud) Create() error {
+func (s *OpsiOperationsInsightsWarehouseResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_opsi.CreateOperationsInsightsWarehouseRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -224,7 +225,7 @@ func (s *OpsiOperationsInsightsWarehouseResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.CreateOperationsInsightsWarehouse(context.Background(), request)
+	response, err := s.Client.CreateOperationsInsightsWarehouse(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -235,14 +236,14 @@ func (s *OpsiOperationsInsightsWarehouseResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getOperationsInsightsWarehouseFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getOperationsInsightsWarehouseFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OpsiOperationsInsightsWarehouseResourceCrud) getOperationsInsightsWarehouseFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OpsiOperationsInsightsWarehouseResourceCrud) getOperationsInsightsWarehouseFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_opsi.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	operationsInsightsWarehouseId, err := operationsInsightsWarehouseWaitForWorkRequest(workId, "opsi",
+	operationsInsightsWarehouseId, err := operationsInsightsWarehouseWaitForWorkRequest(ctx, workId, "opsi",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -250,7 +251,7 @@ func (s *OpsiOperationsInsightsWarehouseResourceCrud) getOperationsInsightsWareh
 	}
 	s.D.SetId(*operationsInsightsWarehouseId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func operationsInsightsWarehouseWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -276,7 +277,7 @@ func operationsInsightsWarehouseWorkRequestShouldRetryFunc(timeout time.Duration
 	}
 }
 
-func operationsInsightsWarehouseWaitForWorkRequest(wId *string, entityType string, action oci_opsi.ActionTypeEnum,
+func operationsInsightsWarehouseWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_opsi.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_opsi.OperationsInsightsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "opsi")
 	retryPolicy.ShouldRetryOperation = operationsInsightsWarehouseWorkRequestShouldRetryFunc(timeout)
@@ -295,7 +296,7 @@ func operationsInsightsWarehouseWaitForWorkRequest(wId *string, entityType strin
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_opsi.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -307,7 +308,7 @@ func operationsInsightsWarehouseWaitForWorkRequest(wId *string, entityType strin
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -324,14 +325,14 @@ func operationsInsightsWarehouseWaitForWorkRequest(wId *string, entityType strin
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_opsi.OperationStatusFailed || response.Status == oci_opsi.OperationStatusCanceled {
-		return nil, getErrorFromOpsiOperationsInsightsWarehouseWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOpsiOperationsInsightsWarehouseWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOpsiOperationsInsightsWarehouseWorkRequest(client *oci_opsi.OperationsInsightsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opsi.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOpsiOperationsInsightsWarehouseWorkRequest(ctx context.Context, client *oci_opsi.OperationsInsightsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opsi.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_opsi.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -353,7 +354,7 @@ func getErrorFromOpsiOperationsInsightsWarehouseWorkRequest(client *oci_opsi.Ope
 	return workRequestErr
 }
 
-func (s *OpsiOperationsInsightsWarehouseResourceCrud) Get() error {
+func (s *OpsiOperationsInsightsWarehouseResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_opsi.GetOperationsInsightsWarehouseRequest{}
 
 	tmp := s.D.Id()
@@ -361,7 +362,7 @@ func (s *OpsiOperationsInsightsWarehouseResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.GetOperationsInsightsWarehouse(context.Background(), request)
+	response, err := s.Client.GetOperationsInsightsWarehouse(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -370,11 +371,11 @@ func (s *OpsiOperationsInsightsWarehouseResourceCrud) Get() error {
 	return nil
 }
 
-func (s *OpsiOperationsInsightsWarehouseResourceCrud) Update() error {
+func (s *OpsiOperationsInsightsWarehouseResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -418,16 +419,16 @@ func (s *OpsiOperationsInsightsWarehouseResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.UpdateOperationsInsightsWarehouse(context.Background(), request)
+	response, err := s.Client.UpdateOperationsInsightsWarehouse(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOperationsInsightsWarehouseFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeRelated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getOperationsInsightsWarehouseFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeRelated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *OpsiOperationsInsightsWarehouseResourceCrud) Delete() error {
+func (s *OpsiOperationsInsightsWarehouseResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_opsi.DeleteOperationsInsightsWarehouseRequest{}
 
 	tmp := s.D.Id()
@@ -435,14 +436,14 @@ func (s *OpsiOperationsInsightsWarehouseResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.DeleteOperationsInsightsWarehouse(context.Background(), request)
+	response, err := s.Client.DeleteOperationsInsightsWarehouse(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := operationsInsightsWarehouseWaitForWorkRequest(workId, "opsi",
+	_, delWorkRequestErr := operationsInsightsWarehouseWaitForWorkRequest(ctx, workId, "opsi",
 		oci_opsi.ActionTypeRelated, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -585,7 +586,7 @@ func OperationsInsightsWarehouseSummaryToMap(obj oci_opsi.OperationsInsightsWare
 	return result
 }
 
-func (s *OpsiOperationsInsightsWarehouseResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *OpsiOperationsInsightsWarehouseResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_opsi.ChangeOperationsInsightsWarehouseCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -596,11 +597,11 @@ func (s *OpsiOperationsInsightsWarehouseResourceCrud) updateCompartment(compartm
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.ChangeOperationsInsightsWarehouseCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeOperationsInsightsWarehouseCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOperationsInsightsWarehouseFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getOperationsInsightsWarehouseFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

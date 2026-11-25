@@ -30,6 +30,7 @@ const (
 	DeploymentTypeDataTransforms             DeploymentTypeEnum = "DATA_TRANSFORMS"
 	DeploymentTypeVeridataServer             DeploymentTypeEnum = "VERIDATA_SERVER"
 	DeploymentTypeVeridataAgent              DeploymentTypeEnum = "VERIDATA_AGENT"
+	DeploymentTypeAiDataCatalog              DeploymentTypeEnum = "AI_DATA_CATALOG"
 )
 
 var mappingDeploymentTypeEnum = map[string]DeploymentTypeEnum{
@@ -45,6 +46,7 @@ var mappingDeploymentTypeEnum = map[string]DeploymentTypeEnum{
 	"DATA_TRANSFORMS":              DeploymentTypeDataTransforms,
 	"VERIDATA_SERVER":              DeploymentTypeVeridataServer,
 	"VERIDATA_AGENT":               DeploymentTypeVeridataAgent,
+	"AI_DATA_CATALOG":              DeploymentTypeAiDataCatalog,
 }
 
 var mappingDeploymentTypeEnumLowerCase = map[string]DeploymentTypeEnum{
@@ -60,6 +62,7 @@ var mappingDeploymentTypeEnumLowerCase = map[string]DeploymentTypeEnum{
 	"data_transforms":              DeploymentTypeDataTransforms,
 	"veridata_server":              DeploymentTypeVeridataServer,
 	"veridata_agent":               DeploymentTypeVeridataAgent,
+	"ai_data_catalog":              DeploymentTypeAiDataCatalog,
 }
 
 // GetDeploymentTypeEnumValues Enumerates the set of values for DeploymentTypeEnum
@@ -86,6 +89,7 @@ func GetDeploymentTypeEnumStringValues() []string {
 		"DATA_TRANSFORMS",
 		"VERIDATA_SERVER",
 		"VERIDATA_AGENT",
+		"AI_DATA_CATALOG",
 	}
 }
 

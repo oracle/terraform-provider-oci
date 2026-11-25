@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -21,10 +22,10 @@ import (
 
 func IdentityDomainReplicationToRegionResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createIdentityDomainReplicationToRegion,
-		Read:     readIdentityDomainReplicationToRegion,
-		Delete:   deleteIdentityDomainReplicationToRegion,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createIdentityDomainReplicationToRegionWithContext,
+		ReadContext:   readIdentityDomainReplicationToRegionWithContext,
+		DeleteContext: deleteIdentityDomainReplicationToRegionWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"domain_id": {
@@ -46,19 +47,19 @@ func IdentityDomainReplicationToRegionResource() *schema.Resource {
 	}
 }
 
-func createIdentityDomainReplicationToRegion(d *schema.ResourceData, m interface{}) error {
+func createIdentityDomainReplicationToRegionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &IdentityDomainReplicationToRegionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).IdentityClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readIdentityDomainReplicationToRegion(d *schema.ResourceData, m interface{}) error {
+func readIdentityDomainReplicationToRegionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteIdentityDomainReplicationToRegion(d *schema.ResourceData, m interface{}) error {
+func deleteIdentityDomainReplicationToRegionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -73,7 +74,7 @@ func (s *IdentityDomainReplicationToRegionResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *IdentityDomainReplicationToRegionResourceCrud) Create() error {
+func (s *IdentityDomainReplicationToRegionResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_identity.EnableReplicationToRegionRequest{}
 
 	if domainId, ok := s.D.GetOkExists("domain_id"); ok {
@@ -88,20 +89,20 @@ func (s *IdentityDomainReplicationToRegionResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
-	response, err := s.Client.EnableReplicationToRegion(context.Background(), request)
+	response, err := s.Client.EnableReplicationToRegion(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDomainReplicationToRegionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "domain"), oci_identity.IamWorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDomainReplicationToRegionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "domain"), oci_identity.IamWorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *IdentityDomainReplicationToRegionResourceCrud) getDomainReplicationToRegionFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *IdentityDomainReplicationToRegionResourceCrud) getDomainReplicationToRegionFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_identity.IamWorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	domainReplicationToRegionId, err := domainReplicationToRegionWaitForWorkRequest(workId, "domain",
+	domainReplicationToRegionId, err := domainReplicationToRegionWaitForWorkRequest(ctx, workId, "domain",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -109,10 +110,10 @@ func (s *IdentityDomainReplicationToRegionResourceCrud) getDomainReplicationToRe
 	}
 	s.D.SetId(*domainReplicationToRegionId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *IdentityDomainReplicationToRegionResourceCrud) Get() error {
+func (s *IdentityDomainReplicationToRegionResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_identity.GetDomainRequest{}
 
 	tmp := s.D.Id()
@@ -120,7 +121,7 @@ func (s *IdentityDomainReplicationToRegionResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
-	response, err := s.Client.GetDomain(context.Background(), request)
+	response, err := s.Client.GetDomain(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -152,7 +153,7 @@ func domainReplicationToRegionWorkRequestShouldRetryFunc(timeout time.Duration) 
 	}
 }
 
-func domainReplicationToRegionWaitForWorkRequest(wId *string, entityType string, action oci_identity.IamWorkRequestResourceActionTypeEnum,
+func domainReplicationToRegionWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_identity.IamWorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_identity.IdentityClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "identity")
 	retryPolicy.ShouldRetryOperation = domainReplicationToRegionWorkRequestShouldRetryFunc(timeout)
@@ -171,7 +172,7 @@ func domainReplicationToRegionWaitForWorkRequest(wId *string, entityType string,
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetIamWorkRequest(context.Background(),
+			response, err = client.GetIamWorkRequest(ctx,
 				oci_identity.GetIamWorkRequestRequest{
 					IamWorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -182,7 +183,7 @@ func domainReplicationToRegionWaitForWorkRequest(wId *string, entityType string,
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -199,15 +200,15 @@ func domainReplicationToRegionWaitForWorkRequest(wId *string, entityType string,
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_identity.IamWorkRequestStatusFailed || response.Status == oci_identity.IamWorkRequestStatusCanceled {
-		return nil, getErrorFromIdentityDomainReplicaWorkRequest(client, wId, retryPolicy, response.OperationType)
+		return nil, getErrorFromIdentityDomainReplicaWorkRequest(ctx, client, wId, retryPolicy, response.OperationType)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromIdentityDomainReplicaWorkRequest(client *oci_identity.IdentityClient, workId *string, retryPolicy *oci_common.RetryPolicy, operationType oci_identity.IamWorkRequestOperationTypeEnum) error {
+func getErrorFromIdentityDomainReplicaWorkRequest(ctx context.Context, client *oci_identity.IdentityClient, workId *string, retryPolicy *oci_common.RetryPolicy, operationType oci_identity.IamWorkRequestOperationTypeEnum) error {
 
-	errorMessage, err := getErrorMessageFromIdentityDomainReplicaWorkRequest(client, workId, retryPolicy)
+	errorMessage, err := getErrorMessageFromIdentityDomainReplicaWorkRequest(ctx, client, workId, retryPolicy)
 	if err != nil {
 		return err
 	}
@@ -216,9 +217,9 @@ func getErrorFromIdentityDomainReplicaWorkRequest(client *oci_identity.IdentityC
 	return workRequestErr
 }
 
-func getErrorMessageFromIdentityDomainReplicaWorkRequest(client *oci_identity.IdentityClient, workId *string, retryPolicy *oci_common.RetryPolicy) (string, error) {
+func getErrorMessageFromIdentityDomainReplicaWorkRequest(ctx context.Context, client *oci_identity.IdentityClient, workId *string, retryPolicy *oci_common.RetryPolicy) (string, error) {
 	errorMessage := ""
-	response, err := client.ListIamWorkRequestErrors(context.Background(),
+	response, err := client.ListIamWorkRequestErrors(ctx,
 		oci_identity.ListIamWorkRequestErrorsRequest{
 			IamWorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

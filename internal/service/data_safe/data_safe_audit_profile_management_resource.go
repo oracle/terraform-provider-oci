@@ -90,12 +90,6 @@ func DataSafeAuditProfileManagementResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
-			"is_override_global_retention_setting": {
-				Type:     schema.TypeBool,
-				Computed: true,
-				Optional: true,
-			},
-
 			// Computed
 			"audit_collected_volume": {
 				Type:     schema.TypeString,
@@ -216,6 +210,11 @@ func DataSafeAuditProfileManagementResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"is_override_global_retention_setting": {
+				Type:     schema.TypeBool,
+				Computed: true,
+				Optional: true,
 			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
@@ -372,6 +371,30 @@ func (s *DataSafeAuditProfileManagementResourceCrud) CreateWithContext(ctx conte
 		if err != nil {
 			return fmt.Errorf("failed to fetch audit profile ID: %v", err)
 		}
+		for _, field := range []string{"display_name", "description", "defined_tags", "freeform_tags", "is_paid_usage_enabled"} {
+			if _, ok := s.D.GetOkExists(field); ok {
+				if err := s.UpdateWithContext(ctx); err != nil {
+					return err
+				}
+				break
+			}
+		}
+		onlineMonths, hasOnlineMonths := s.D.GetOkExists("online_months")
+		offlineMonths, hasOfflineMonths := s.D.GetOkExists("offline_months")
+		override, hasOverride := s.D.GetOkExists("is_override_global_retention_setting")
+		if hasOnlineMonths || hasOfflineMonths || hasOverride {
+			// Preserve existing values for retention settings omitted from configuration.
+			if !hasOnlineMonths && s.Res.OnlineMonths != nil {
+				onlineMonths = *s.Res.OnlineMonths
+			}
+			if !hasOfflineMonths && s.Res.OfflineMonths != nil {
+				offlineMonths = *s.Res.OfflineMonths
+			}
+			if !hasOverride && s.Res.IsOverrideGlobalRetentionSetting != nil {
+				override = *s.Res.IsOverrideGlobalRetentionSetting
+			}
+			return s.ChangeRetention(ctx, offlineMonths.(int), onlineMonths.(int), override.(bool))
+		}
 		return nil
 	}
 	request := oci_data_safe.CreateAuditProfileRequest{}
@@ -502,15 +525,14 @@ func (s *DataSafeAuditProfileManagementResourceCrud) GetAuditProfileList(ctx con
 	if response.AuditProfileCollection.Items != nil && len(response.AuditProfileCollection.Items) > 0 {
 		tmp1 := &response.AuditProfileCollection.Items[0]
 		auditProfile.Id = tmp1.Id
-		s.D.Set("is_override_global_retention_setting", tmp1.IsOverrideGlobalRetentionSetting)
 	}
 
 	if auditProfile.Id == nil {
-		return nil
+		return fmt.Errorf("no audit profile found matching the criteria")
 	}
 
 	s.D.SetId(*auditProfile.Id)
-	return nil
+	return s.GetWithContext(ctx)
 }
 
 func (s *DataSafeAuditProfileManagementResourceCrud) GetWithContext(ctx context.Context) error {

@@ -96,6 +96,12 @@ func (s *CoreInstancePoolDataSourceCrud) SetData() error {
 		s.D.Set("instance_hostname_formatter", *s.Res.InstanceHostnameFormatter)
 	}
 
+	if s.Res.InstanceMaintenancePolicy != nil {
+		s.D.Set("instance_maintenance_policy", []interface{}{InstancePoolMaintenancePolicyDetailsToMap(s.Res.InstanceMaintenancePolicy)})
+	} else {
+		s.D.Set("instance_maintenance_policy", nil)
+	}
+
 	if s.Res.LifecycleManagement != nil {
 		s.D.Set("lifecycle_management", []interface{}{InstancePoolLifecycleManagementDetailsToMap(s.Res.LifecycleManagement)})
 	} else {

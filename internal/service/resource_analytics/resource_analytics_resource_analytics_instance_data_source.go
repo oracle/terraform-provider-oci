@@ -6,6 +6,7 @@ package resource_analytics
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_resource_analytics "github.com/oracle/oci-go-sdk/v65/resourceanalytics"
 
@@ -19,15 +20,15 @@ func ResourceAnalyticsResourceAnalyticsInstanceDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(ResourceAnalyticsResourceAnalyticsInstanceResource(), fieldMap, readSingularResourceAnalyticsResourceAnalyticsInstance)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(ResourceAnalyticsResourceAnalyticsInstanceResource(), fieldMap, readSingularResourceAnalyticsResourceAnalyticsInstanceWithContext)
 }
 
-func readSingularResourceAnalyticsResourceAnalyticsInstance(d *schema.ResourceData, m interface{}) error {
+func readSingularResourceAnalyticsResourceAnalyticsInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ResourceAnalyticsResourceAnalyticsInstanceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ResourceAnalyticsInstanceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ResourceAnalyticsResourceAnalyticsInstanceDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *ResourceAnalyticsResourceAnalyticsInstanceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ResourceAnalyticsResourceAnalyticsInstanceDataSourceCrud) Get() error {
+func (s *ResourceAnalyticsResourceAnalyticsInstanceDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_resource_analytics.GetResourceAnalyticsInstanceRequest{}
 
 	if resourceAnalyticsInstanceId, ok := s.D.GetOkExists("resource_analytics_instance_id"); ok {
@@ -50,7 +51,7 @@ func (s *ResourceAnalyticsResourceAnalyticsInstanceDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "resource_analytics")
 
-	response, err := s.Client.GetResourceAnalyticsInstance(context.Background(), request)
+	response, err := s.Client.GetResourceAnalyticsInstance(ctx, request)
 	if err != nil {
 		return err
 	}

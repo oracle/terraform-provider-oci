@@ -72,6 +72,7 @@ func GoldenGateConnectionResource() *schema.Resource {
 					"MYSQL",
 					"OCI_OBJECT_STORAGE",
 					"ORACLE",
+					"ORACLE_AI_DATA_CATALOG_STORAGE",
 					"ORACLE_AI_DATA_PLATFORM",
 					"ORACLE_AI_DATA_PLATFORM_ENGINE",
 					"ORACLE_NOSQL",
@@ -458,6 +459,7 @@ func GoldenGateConnectionResource() *schema.Resource {
 								"GLUE",
 								"HADOOP",
 								"NESSIE",
+								"OADC",
 								"POLARIS",
 								"REST",
 							}, true),
@@ -468,6 +470,58 @@ func GoldenGateConnectionResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
+						},
+						"catalog_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"catalog_config_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"DB_CREDENTIALS",
+											"OCI_GOLDENGATE",
+										}, true),
+									},
+									"database_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"database_type": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"deployment_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"password": {
+										Type:       schema.TypeString,
+										Optional:   true,
+										Computed:   true,
+										Sensitive:  true,
+										Deprecated: tfresource.FieldDeprecatedForAnother("password", "password_secret_id"),
+									},
+									"password_secret_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"username": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+								},
+							},
 						},
 						"client_id": {
 							Type:     schema.TypeString,
@@ -993,9 +1047,12 @@ func GoldenGateConnectionResource() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{
 								"AMAZON_S3",
 								"AZURE_DATA_LAKE_STORAGE",
+								"AZURE_STORAGE",
 								"GOOGLE_CLOUD_STORAGE",
 								"NONE",
+								"OCI_OBJECT_STORAGE_ACCESS_KEY",
 								"OCI_OBJECT_STORAGE_S3_API",
+								"ZFS",
 							}, true),
 						},
 
@@ -1041,6 +1098,17 @@ func GoldenGateConnectionResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"properties": {
+							Type:      schema.TypeString,
+							Optional:  true,
+							Computed:  true,
+							Sensitive: true,
+						},
+						"properties_secret_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"region": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -1073,8 +1141,17 @@ func GoldenGateConnectionResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
-
-						// Computed
+						"trust_store": {
+							Type:       schema.TypeString,
+							Optional:   true,
+							Computed:   true,
+							Deprecated: tfresource.FieldDeprecatedForAnother("trust_store", "trust_store_secret_id"),
+						},
+						"trust_store_secret_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -1133,10 +1210,9 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Deprecated: tfresource.FieldDeprecatedForAnother("tls_certificate_key_file_password", "tls_certificate_key_file_password_secret_id"),
 			},
 			"tls_certificate_key_file_password_secret_id": {
-				Type:      schema.TypeString,
-				Optional:  true,
-				Computed:  true,
-				Sensitive: true,
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 			"tls_certificate_key_file_secret_id": {
 				Type:     schema.TypeString,
@@ -1202,6 +1278,90 @@ func GoldenGateConnectionResource() *schema.Resource {
 			"wallet_secret_id": {
 				Type:     schema.TypeString,
 				Optional: true,
+			},
+			"warehouse_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"warehouse_storage": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"storage_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"AZURE_STORAGE",
+								"OCI_OBJECT_STORAGE_ACCESS_KEY",
+								"ZFS",
+							}, true),
+						},
+						"access_key_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"account_key": {
+							Type:      schema.TypeString,
+							Optional:  true,
+							Computed:  true,
+							Sensitive: true,
+						},
+						"account_key_secret_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"account_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"endpoint_url": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"namespace": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"region": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"secret_access_key": {
+							Type:      schema.TypeString,
+							Optional:  true,
+							Computed:  true,
+							Sensitive: true,
+						},
+						"secret_access_key_secret_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"trust_store": {
+							Type:       schema.TypeString,
+							Optional:   true,
+							Computed:   true,
+							Deprecated: tfresource.FieldDeprecatedForAnother("trust_store", "trust_store_secret_id"),
+						},
+						"trust_store_secret_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"workspace_url": {
 				Type:     schema.TypeString,
@@ -4751,6 +4911,114 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		if v.VaultId != nil {
 			s.D.Set("vault_id", *v.VaultId)
 		}
+	case oci_golden_gate.OracleAiDataCatalogStorageConnection:
+		s.D.Set("connection_type", "ORACLE_AI_DATA_CATALOG_STORAGE")
+
+		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.WarehouseName != nil {
+			s.D.Set("warehouse_name", *v.WarehouseName)
+		}
+
+		if v.WarehouseStorage != nil {
+			warehouseStorageArray := []interface{}{}
+			if warehouseStorageMap := WarehouseStorageToMap(&v.WarehouseStorage); warehouseStorageMap != nil {
+				warehouseStorageArray = append(warehouseStorageArray, warehouseStorageMap)
+			}
+			s.D.Set("warehouse_storage", warehouseStorageArray)
+		} else {
+			s.D.Set("warehouse_storage", nil)
+		}
+
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.Id != nil {
+			s.D.SetId(*v.Id)
+		}
+
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
+		if v.KeyId != nil {
+			s.D.Set("key_id", *v.KeyId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
+
+		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		} else {
+			s.D.Set("security_attributes", nil)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.VaultId != nil {
+			s.D.Set("vault_id", *v.VaultId)
+		}
 	case oci_golden_gate.OracleAiDataPlatformConnection:
 		s.D.Set("connection_type", "ORACLE_AI_DATA_PLATFORM")
 
@@ -6791,6 +7059,22 @@ func ConnectionSummaryToMap(obj oci_golden_gate.ConnectionSummary, datasource bo
 		if v.WalletSecretId != nil {
 			result["wallet_secret_id"] = string(*v.WalletSecretId)
 		}
+	case oci_golden_gate.OracleAiDataCatalogStorageConnectionSummary:
+		result["connection_type"] = "ORACLE_AI_DATA_CATALOG_STORAGE"
+
+		result["technology_type"] = string(v.TechnologyType)
+
+		if v.WarehouseName != nil {
+			result["warehouse_name"] = string(*v.WarehouseName)
+		}
+
+		if v.WarehouseStorage != nil {
+			warehouseStorageArray := []interface{}{}
+			if warehouseStorageMap := WarehouseStorageSummaryToMap(&v.WarehouseStorage); warehouseStorageMap != nil {
+				warehouseStorageArray = append(warehouseStorageArray, warehouseStorageMap)
+			}
+			result["warehouse_storage"] = warehouseStorageArray
+		}
 	case oci_golden_gate.OracleAiDataPlatformConnectionSummary:
 		result["connection_type"] = "ORACLE_AI_DATA_PLATFORM"
 
@@ -7257,6 +7541,19 @@ func (s *GoldenGateConnectionResourceCrud) mapToCreateIcebergCatalogDetails(fiel
 			details.Uri = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("OADC"):
+		details := oci_golden_gate.CreateOracleAiDataCatalogIcebergCatalogDetails{}
+		if catalogConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "catalog_config")); ok {
+			if tmpList := catalogConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "catalog_config"), 0)
+				tmp, err := s.mapToCreateOracleAiDataCatalogIcebergCatalogConfigDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert catalog_config, encountered error: %v", err)
+				}
+				details.CatalogConfig = tmp
+			}
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown catalog_type '%v' was specified", catalogType)
 	}
@@ -7323,6 +7620,16 @@ func CreateIcebergCatalogDetailsToMap(obj *oci_golden_gate.CreateIcebergCatalogD
 
 		if v.Uri != nil {
 			result["uri"] = string(*v.Uri)
+		}
+	case oci_golden_gate.CreateOracleAiDataCatalogIcebergCatalogDetails:
+		result["catalog_type"] = "OADC"
+
+		if v.CatalogConfig != nil {
+			catalogConfigArray := []interface{}{}
+			if catalogConfigMap := CreateOracleAiDataCatalogIcebergCatalogConfigDetailsToMap(&v.CatalogConfig); catalogConfigMap != nil {
+				catalogConfigArray = append(catalogConfigArray, catalogConfigMap)
+			}
+			result["catalog_config"] = catalogConfigArray
 		}
 	default:
 		log.Printf("[WARN] Received 'catalog_type' of unknown type %v", *obj)
@@ -7465,6 +7772,83 @@ func (s *GoldenGateConnectionResourceCrud) mapToCreateIcebergStorageDetails(fiel
 			}
 		}
 		baseObject = details
+	case strings.ToLower("AZURE_STORAGE"):
+		details := oci_golden_gate.CreateAzureStorageIcebergStorageDetails{}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "account_name")); ok {
+			tmp := value.(string)
+			details.AccountName = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "account_key_secret_id")); ok {
+			tmp := value.(string)
+			details.AccountKeySecretId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "account_key")); ok {
+			tmp := value.(string)
+			details.AccountKey = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "properties_secret_id")); ok {
+			tmp := value.(string)
+			details.PropertiesSecretId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "properties")); ok {
+			tmp := value.(string)
+			details.Properties = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("OCI_OBJECT_STORAGE_ACCESS_KEY"):
+		details := oci_golden_gate.CreateOciObjectStorageAccessKeyIcebergStorageDetails{}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+			tmp := value.(string)
+			details.AccessKeyId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+			tmp := value.(string)
+			details.SecretAccessKeySecretId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key")); ok {
+			tmp := value.(string)
+			details.SecretAccessKey = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "properties_secret_id")); ok {
+			tmp := value.(string)
+			details.PropertiesSecretId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "properties")); ok {
+			tmp := value.(string)
+			details.Properties = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("ZFS"):
+		details := oci_golden_gate.CreateZfsIcebergStorageDetails{}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+			tmp := value.(string)
+			details.AccessKeyId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+			tmp := value.(string)
+			details.SecretAccessKeySecretId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key")); ok {
+			tmp := value.(string)
+			details.SecretAccessKey = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "trust_store_secret_id")); ok {
+			tmp := value.(string)
+			details.TrustStoreSecretId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "trust_store")); ok {
+			tmp := value.(string)
+			details.TrustStore = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "properties_secret_id")); ok {
+			tmp := value.(string)
+			details.PropertiesSecretId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "properties")); ok {
+			tmp := value.(string)
+			details.Properties = &tmp
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown storage_type '%v' was specified", storageType)
 	}
@@ -7570,6 +7954,66 @@ func CreateIcebergStorageDetailsToMap(obj *oci_golden_gate.CreateIcebergStorageD
 		if v.SecretAccessKeySecretId != nil {
 			result["secret_access_key_secret_id"] = string(*v.SecretAccessKeySecretId)
 		}
+	case oci_golden_gate.CreateAzureStorageIcebergStorageDetails:
+		result["storage_type"] = "AZURE_STORAGE"
+		if v.AccountName != nil {
+			result["account_name"] = *v.AccountName
+		}
+		if v.AccountKeySecretId != nil {
+			result["account_key_secret_id"] = *v.AccountKeySecretId
+		}
+		if v.AccountKey != nil {
+			result["account_key"] = *v.AccountKey
+		}
+		if v.PropertiesSecretId != nil {
+			result["properties_secret_id"] = *v.PropertiesSecretId
+		}
+		if v.Properties != nil {
+			result["properties"] = *v.Properties
+		}
+
+	case oci_golden_gate.CreateOciObjectStorageAccessKeyIcebergStorageDetails:
+		result["storage_type"] = "OCI_OBJECT_STORAGE_ACCESS_KEY"
+		if v.AccessKeyId != nil {
+			result["access_key_id"] = *v.AccessKeyId
+		}
+		if v.SecretAccessKeySecretId != nil {
+			result["secret_access_key_secret_id"] = *v.SecretAccessKeySecretId
+		}
+		if v.SecretAccessKey != nil {
+			result["secret_access_key"] = *v.SecretAccessKey
+		}
+		if v.PropertiesSecretId != nil {
+			result["properties_secret_id"] = *v.PropertiesSecretId
+		}
+		if v.Properties != nil {
+			result["properties"] = *v.Properties
+		}
+
+	case oci_golden_gate.CreateZfsIcebergStorageDetails:
+		result["storage_type"] = "ZFS"
+		if v.AccessKeyId != nil {
+			result["access_key_id"] = *v.AccessKeyId
+		}
+		if v.SecretAccessKeySecretId != nil {
+			result["secret_access_key_secret_id"] = *v.SecretAccessKeySecretId
+		}
+		if v.SecretAccessKey != nil {
+			result["secret_access_key"] = *v.SecretAccessKey
+		}
+		if v.TrustStoreSecretId != nil {
+			result["trust_store_secret_id"] = *v.TrustStoreSecretId
+		}
+		if v.TrustStore != nil {
+			result["trust_store"] = *v.TrustStore
+		}
+		if v.PropertiesSecretId != nil {
+			result["properties_secret_id"] = *v.PropertiesSecretId
+		}
+		if v.Properties != nil {
+			result["properties"] = *v.Properties
+		}
+
 	default:
 		log.Printf("[WARN] Received 'storage_type' of unknown type %v", *obj)
 		return nil
@@ -7674,6 +8118,19 @@ func (s *GoldenGateConnectionResourceCrud) mapToIcebergCatalog(fieldKeyFormat st
 			details.Uri = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("OADC"):
+		details := oci_golden_gate.OracleAiDataCatalogIcebergCatalog{}
+		if catalogConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "catalog_config")); ok {
+			if tmpList := catalogConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "catalog_config"), 0)
+				tmp, err := s.mapToOracleAiDataCatalogIcebergCatalogConfig(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert catalog_config, encountered error: %v", err)
+				}
+				details.CatalogConfig = tmp
+			}
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown catalog_type '%v' was specified", catalogType)
 	}
@@ -7732,6 +8189,16 @@ func IcebergCatalogToMap(obj *oci_golden_gate.IcebergCatalog) map[string]interfa
 
 		if v.Uri != nil {
 			result["uri"] = string(*v.Uri)
+		}
+	case oci_golden_gate.OracleAiDataCatalogIcebergCatalog:
+		result["catalog_type"] = "OADC"
+
+		if v.CatalogConfig != nil {
+			catalogConfigArray := []interface{}{}
+			if catalogConfigMap := OracleAiDataCatalogIcebergCatalogConfigToMap(&v.CatalogConfig); catalogConfigMap != nil {
+				catalogConfigArray = append(catalogConfigArray, catalogConfigMap)
+			}
+			result["catalog_config"] = catalogConfigArray
 		}
 	default:
 		log.Printf("[WARN] Received 'catalog_type' of unknown type %v", *obj)
@@ -7807,6 +8274,19 @@ func (s *GoldenGateConnectionResourceCrud) mapToIcebergCatalogSummary(fieldKeyFo
 			details.Uri = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("OADC"):
+		details := oci_golden_gate.OracleAiDataCatalogIcebergCatalogSummary{}
+		if catalogConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "catalog_config")); ok {
+			if tmpList := catalogConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "catalog_config"), 0)
+				tmp, err := s.mapToOracleAiDataCatalogIcebergCatalogConfigSummary(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert catalog_config, encountered error: %v", err)
+				}
+				details.CatalogConfig = tmp
+			}
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown catalog_type '%v' was specified", catalogType)
 	}
@@ -7865,6 +8345,16 @@ func IcebergCatalogSummaryToMap(obj *oci_golden_gate.IcebergCatalogSummary) map[
 
 		if v.Uri != nil {
 			result["uri"] = string(*v.Uri)
+		}
+	case oci_golden_gate.OracleAiDataCatalogIcebergCatalogSummary:
+		result["catalog_type"] = "OADC"
+
+		if v.CatalogConfig != nil {
+			catalogConfigArray := []interface{}{}
+			if catalogConfigMap := OracleAiDataCatalogIcebergCatalogConfigSummaryToMap(&v.CatalogConfig); catalogConfigMap != nil {
+				catalogConfigArray = append(catalogConfigArray, catalogConfigMap)
+			}
+			result["catalog_config"] = catalogConfigArray
 		}
 	default:
 		log.Printf("[WARN] Received 'catalog_type' of unknown type %v", *obj)
@@ -7971,6 +8461,55 @@ func (s *GoldenGateConnectionResourceCrud) mapToIcebergStorage(fieldKeyFormat st
 			details.SecretAccessKeySecretId = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("AZURE_STORAGE"):
+		details := oci_golden_gate.AzureStorageIcebergStorage{}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "account_name")); ok {
+			tmp := value.(string)
+			details.AccountName = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "account_key_secret_id")); ok {
+			tmp := value.(string)
+			details.AccountKeySecretId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "properties_secret_id")); ok {
+			tmp := value.(string)
+			details.PropertiesSecretId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("OCI_OBJECT_STORAGE_ACCESS_KEY"):
+		details := oci_golden_gate.OciObjectStorageAccessKeyIcebergStorage{}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+			tmp := value.(string)
+			details.AccessKeyId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+			tmp := value.(string)
+			details.SecretAccessKeySecretId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "properties_secret_id")); ok {
+			tmp := value.(string)
+			details.PropertiesSecretId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("ZFS"):
+		details := oci_golden_gate.ZfsIcebergStorage{}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+			tmp := value.(string)
+			details.AccessKeyId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+			tmp := value.(string)
+			details.SecretAccessKeySecretId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "trust_store_secret_id")); ok {
+			tmp := value.(string)
+			details.TrustStoreSecretId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "properties_secret_id")); ok {
+			tmp := value.(string)
+			details.PropertiesSecretId = &tmp
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown storage_type '%v' was specified", storageType)
 	}
@@ -8060,6 +8599,45 @@ func IcebergStorageToMap(obj *oci_golden_gate.IcebergStorage) map[string]interfa
 		if v.SecretAccessKeySecretId != nil {
 			result["secret_access_key_secret_id"] = string(*v.SecretAccessKeySecretId)
 		}
+	case oci_golden_gate.AzureStorageIcebergStorage:
+		result["storage_type"] = "AZURE_STORAGE"
+		if v.AccountName != nil {
+			result["account_name"] = *v.AccountName
+		}
+		if v.AccountKeySecretId != nil {
+			result["account_key_secret_id"] = *v.AccountKeySecretId
+		}
+		if v.PropertiesSecretId != nil {
+			result["properties_secret_id"] = *v.PropertiesSecretId
+		}
+
+	case oci_golden_gate.OciObjectStorageAccessKeyIcebergStorage:
+		result["storage_type"] = "OCI_OBJECT_STORAGE_ACCESS_KEY"
+		if v.AccessKeyId != nil {
+			result["access_key_id"] = *v.AccessKeyId
+		}
+		if v.SecretAccessKeySecretId != nil {
+			result["secret_access_key_secret_id"] = *v.SecretAccessKeySecretId
+		}
+		if v.PropertiesSecretId != nil {
+			result["properties_secret_id"] = *v.PropertiesSecretId
+		}
+
+	case oci_golden_gate.ZfsIcebergStorage:
+		result["storage_type"] = "ZFS"
+		if v.AccessKeyId != nil {
+			result["access_key_id"] = *v.AccessKeyId
+		}
+		if v.SecretAccessKeySecretId != nil {
+			result["secret_access_key_secret_id"] = *v.SecretAccessKeySecretId
+		}
+		if v.TrustStoreSecretId != nil {
+			result["trust_store_secret_id"] = *v.TrustStoreSecretId
+		}
+		if v.PropertiesSecretId != nil {
+			result["properties_secret_id"] = *v.PropertiesSecretId
+		}
+
 	default:
 		log.Printf("[WARN] Received 'storage_type' of unknown type %v", *obj)
 		return nil
@@ -8165,6 +8743,55 @@ func (s *GoldenGateConnectionResourceCrud) mapToIcebergStorageSummary(fieldKeyFo
 			details.SecretAccessKeySecretId = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("AZURE_STORAGE"):
+		details := oci_golden_gate.AzureStorageIcebergStorageSummary{}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "account_name")); ok {
+			tmp := value.(string)
+			details.AccountName = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "account_key_secret_id")); ok {
+			tmp := value.(string)
+			details.AccountKeySecretId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "properties_secret_id")); ok {
+			tmp := value.(string)
+			details.PropertiesSecretId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("OCI_OBJECT_STORAGE_ACCESS_KEY"):
+		details := oci_golden_gate.OciObjectStorageAccessKeyIcebergStorageSummary{}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+			tmp := value.(string)
+			details.AccessKeyId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+			tmp := value.(string)
+			details.SecretAccessKeySecretId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "properties_secret_id")); ok {
+			tmp := value.(string)
+			details.PropertiesSecretId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("ZFS"):
+		details := oci_golden_gate.ZfsIcebergStorageSummary{}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+			tmp := value.(string)
+			details.AccessKeyId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+			tmp := value.(string)
+			details.SecretAccessKeySecretId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "trust_store_secret_id")); ok {
+			tmp := value.(string)
+			details.TrustStoreSecretId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "properties_secret_id")); ok {
+			tmp := value.(string)
+			details.PropertiesSecretId = &tmp
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown storage_type '%v' was specified", storageType)
 	}
@@ -8254,6 +8881,45 @@ func IcebergStorageSummaryToMap(obj *oci_golden_gate.IcebergStorageSummary) map[
 		if v.SecretAccessKeySecretId != nil {
 			result["secret_access_key_secret_id"] = string(*v.SecretAccessKeySecretId)
 		}
+	case oci_golden_gate.AzureStorageIcebergStorageSummary:
+		result["storage_type"] = "AZURE_STORAGE"
+		if v.AccountName != nil {
+			result["account_name"] = *v.AccountName
+		}
+		if v.AccountKeySecretId != nil {
+			result["account_key_secret_id"] = *v.AccountKeySecretId
+		}
+		if v.PropertiesSecretId != nil {
+			result["properties_secret_id"] = *v.PropertiesSecretId
+		}
+
+	case oci_golden_gate.OciObjectStorageAccessKeyIcebergStorageSummary:
+		result["storage_type"] = "OCI_OBJECT_STORAGE_ACCESS_KEY"
+		if v.AccessKeyId != nil {
+			result["access_key_id"] = *v.AccessKeyId
+		}
+		if v.SecretAccessKeySecretId != nil {
+			result["secret_access_key_secret_id"] = *v.SecretAccessKeySecretId
+		}
+		if v.PropertiesSecretId != nil {
+			result["properties_secret_id"] = *v.PropertiesSecretId
+		}
+
+	case oci_golden_gate.ZfsIcebergStorageSummary:
+		result["storage_type"] = "ZFS"
+		if v.AccessKeyId != nil {
+			result["access_key_id"] = *v.AccessKeyId
+		}
+		if v.SecretAccessKeySecretId != nil {
+			result["secret_access_key_secret_id"] = *v.SecretAccessKeySecretId
+		}
+		if v.TrustStoreSecretId != nil {
+			result["trust_store_secret_id"] = *v.TrustStoreSecretId
+		}
+		if v.PropertiesSecretId != nil {
+			result["properties_secret_id"] = *v.PropertiesSecretId
+		}
+
 	default:
 		log.Printf("[WARN] Received 'storage_type' of unknown type %v", *obj)
 		return nil
@@ -8544,6 +9210,19 @@ func (s *GoldenGateConnectionResourceCrud) mapToUpdateIcebergCatalogDetails(fiel
 			details.Uri = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("OADC"):
+		details := oci_golden_gate.UpdateOracleAiDataCatalogIcebergCatalogDetails{}
+		if catalogConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "catalog_config")); ok {
+			if tmpList := catalogConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "catalog_config"), 0)
+				tmp, err := s.mapToUpdateOracleAiDataCatalogIcebergCatalogConfigDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert catalog_config, encountered error: %v", err)
+				}
+				details.CatalogConfig = tmp
+			}
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown catalog_type '%v' was specified", catalogType)
 	}
@@ -8610,6 +9289,16 @@ func UpdateIcebergCatalogDetailsToMap(obj *oci_golden_gate.UpdateIcebergCatalogD
 
 		if v.Uri != nil {
 			result["uri"] = string(*v.Uri)
+		}
+	case oci_golden_gate.UpdateOracleAiDataCatalogIcebergCatalogDetails:
+		result["catalog_type"] = "OADC"
+
+		if v.CatalogConfig != nil {
+			catalogConfigArray := []interface{}{}
+			if catalogConfigMap := UpdateOracleAiDataCatalogIcebergCatalogConfigDetailsToMap(&v.CatalogConfig); catalogConfigMap != nil {
+				catalogConfigArray = append(catalogConfigArray, catalogConfigMap)
+			}
+			result["catalog_config"] = catalogConfigArray
 		}
 	default:
 		log.Printf("[WARN] Received 'catalog_type' of unknown type %v", *obj)
@@ -8752,6 +9441,83 @@ func (s *GoldenGateConnectionResourceCrud) mapToUpdateIcebergStorageDetails(fiel
 			}
 		}
 		baseObject = details
+	case strings.ToLower("AZURE_STORAGE"):
+		details := oci_golden_gate.UpdateAzureStorageIcebergStorageDetails{}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "account_name")); ok {
+			tmp := value.(string)
+			details.AccountName = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "account_key_secret_id")); ok {
+			tmp := value.(string)
+			details.AccountKeySecretId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "account_key")); ok {
+			tmp := value.(string)
+			details.AccountKey = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "properties_secret_id")); ok {
+			tmp := value.(string)
+			details.PropertiesSecretId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "properties")); ok {
+			tmp := value.(string)
+			details.Properties = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("OCI_OBJECT_STORAGE_ACCESS_KEY"):
+		details := oci_golden_gate.UpdateOciObjectStorageAccessKeyIcebergStorageDetails{}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+			tmp := value.(string)
+			details.AccessKeyId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+			tmp := value.(string)
+			details.SecretAccessKeySecretId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key")); ok {
+			tmp := value.(string)
+			details.SecretAccessKey = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "properties_secret_id")); ok {
+			tmp := value.(string)
+			details.PropertiesSecretId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "properties")); ok {
+			tmp := value.(string)
+			details.Properties = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("ZFS"):
+		details := oci_golden_gate.UpdateZfsIcebergStorageDetails{}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+			tmp := value.(string)
+			details.AccessKeyId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+			tmp := value.(string)
+			details.SecretAccessKeySecretId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key")); ok {
+			tmp := value.(string)
+			details.SecretAccessKey = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "trust_store_secret_id")); ok {
+			tmp := value.(string)
+			details.TrustStoreSecretId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "trust_store")); ok {
+			tmp := value.(string)
+			details.TrustStore = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "properties_secret_id")); ok {
+			tmp := value.(string)
+			details.PropertiesSecretId = &tmp
+		}
+		if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "properties")); ok {
+			tmp := value.(string)
+			details.Properties = &tmp
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown storage_type '%v' was specified", storageType)
 	}
@@ -8857,6 +9623,66 @@ func UpdateIcebergStorageDetailsToMap(obj *oci_golden_gate.UpdateIcebergStorageD
 		if v.SecretAccessKeySecretId != nil {
 			result["secret_access_key_secret_id"] = string(*v.SecretAccessKeySecretId)
 		}
+	case oci_golden_gate.UpdateAzureStorageIcebergStorageDetails:
+		result["storage_type"] = "AZURE_STORAGE"
+		if v.AccountName != nil {
+			result["account_name"] = *v.AccountName
+		}
+		if v.AccountKeySecretId != nil {
+			result["account_key_secret_id"] = *v.AccountKeySecretId
+		}
+		if v.AccountKey != nil {
+			result["account_key"] = *v.AccountKey
+		}
+		if v.PropertiesSecretId != nil {
+			result["properties_secret_id"] = *v.PropertiesSecretId
+		}
+		if v.Properties != nil {
+			result["properties"] = *v.Properties
+		}
+
+	case oci_golden_gate.UpdateOciObjectStorageAccessKeyIcebergStorageDetails:
+		result["storage_type"] = "OCI_OBJECT_STORAGE_ACCESS_KEY"
+		if v.AccessKeyId != nil {
+			result["access_key_id"] = *v.AccessKeyId
+		}
+		if v.SecretAccessKeySecretId != nil {
+			result["secret_access_key_secret_id"] = *v.SecretAccessKeySecretId
+		}
+		if v.SecretAccessKey != nil {
+			result["secret_access_key"] = *v.SecretAccessKey
+		}
+		if v.PropertiesSecretId != nil {
+			result["properties_secret_id"] = *v.PropertiesSecretId
+		}
+		if v.Properties != nil {
+			result["properties"] = *v.Properties
+		}
+
+	case oci_golden_gate.UpdateZfsIcebergStorageDetails:
+		result["storage_type"] = "ZFS"
+		if v.AccessKeyId != nil {
+			result["access_key_id"] = *v.AccessKeyId
+		}
+		if v.SecretAccessKeySecretId != nil {
+			result["secret_access_key_secret_id"] = *v.SecretAccessKeySecretId
+		}
+		if v.SecretAccessKey != nil {
+			result["secret_access_key"] = *v.SecretAccessKey
+		}
+		if v.TrustStoreSecretId != nil {
+			result["trust_store_secret_id"] = *v.TrustStoreSecretId
+		}
+		if v.TrustStore != nil {
+			result["trust_store"] = *v.TrustStore
+		}
+		if v.PropertiesSecretId != nil {
+			result["properties_secret_id"] = *v.PropertiesSecretId
+		}
+		if v.Properties != nil {
+			result["properties"] = *v.Properties
+		}
+
 	default:
 		log.Printf("[WARN] Received 'storage_type' of unknown type %v", *obj)
 		return nil
@@ -14340,6 +15166,110 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			details.VaultId = &tmp
 		}
 		request.CreateConnectionDetails = details
+	case strings.ToLower("ORACLE_AI_DATA_CATALOG_STORAGE"):
+		details := oci_golden_gate.CreateOracleAiDataCatalogStorageConnectionDetails{}
+		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
+			details.TechnologyType = oci_golden_gate.OracleAiDataCatalogStorageConnectionTechnologyTypeEnum(technologyType.(string))
+		}
+		if warehouseName, ok := s.D.GetOkExists("warehouse_name"); ok {
+			tmp := warehouseName.(string)
+			details.WarehouseName = &tmp
+		}
+		if warehouseStorage, ok := s.D.GetOkExists("warehouse_storage"); ok {
+			if tmpList := warehouseStorage.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "warehouse_storage", 0)
+				tmp, err := s.mapToCreateWarehouseStorageDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.WarehouseStorage = tmp
+			}
+		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+			tmp := doesUseSecretIds.(bool)
+			details.DoesUseSecretIds = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if keyId, ok := s.D.GetOkExists("key_id"); ok {
+			tmp := keyId.(string)
+			details.KeyId = &tmp
+		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
+		}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
+		}
+		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
+			details.TechnologyType = oci_golden_gate.OracleAiDataCatalogStorageConnectionTechnologyTypeEnum(technologyType.(string))
+		}
+		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
+		}
+		request.CreateConnectionDetails = details
 	case strings.ToLower("ORACLE_AI_DATA_PLATFORM"):
 		details := oci_golden_gate.CreateOracleAiDataPlatformConnectionDetails{}
 		if connectionUrl, ok := s.D.GetOkExists("connection_url"); ok {
@@ -17893,6 +18823,78 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			details.VaultId = &tmp
 		}
 		request.UpdateConnectionDetails = details
+	case strings.ToLower("ORACLE_AI_DATA_CATALOG_STORAGE"):
+		details := oci_golden_gate.UpdateOracleAiDataCatalogStorageConnectionDetails{}
+		if warehouseName, ok := s.D.GetOkExists("warehouse_name"); ok {
+			tmp := warehouseName.(string)
+			details.WarehouseName = &tmp
+		}
+		if warehouseStorage, ok := s.D.GetOkExists("warehouse_storage"); ok {
+			if tmpList := warehouseStorage.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "warehouse_storage", 0)
+				tmp, err := s.mapToUpdateWarehouseStorageDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.WarehouseStorage = tmp
+			}
+		}
+		tmp := s.D.Id()
+		request.ConnectionId = &tmp
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+			tmp := doesUseSecretIds.(bool)
+			details.DoesUseSecretIds = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if keyId, ok := s.D.GetOkExists("key_id"); ok {
+			tmp := keyId.(string)
+			details.KeyId = &tmp
+		}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
+		}
+		request.UpdateConnectionDetails = details
 	case strings.ToLower("ORACLE_AI_DATA_PLATFORM"):
 		details := oci_golden_gate.UpdateOracleAiDataPlatformConnectionDetails{}
 		if connectionUrl, ok := s.D.GetOkExists("connection_url"); ok {
@@ -18710,4 +19712,875 @@ func (s *GoldenGateConnectionResourceCrud) updateCompartment(compartment interfa
 
 	workId := response.OpcWorkRequestId
 	return s.getConnectionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+}
+func (s *GoldenGateConnectionResourceCrud) mapToCreateOracleAiDataCatalogIcebergCatalogConfigDetails(fieldKeyFormat string) (oci_golden_gate.CreateOracleAiDataCatalogIcebergCatalogConfigDetails, error) {
+	var baseObject oci_golden_gate.CreateOracleAiDataCatalogIcebergCatalogConfigDetails
+	//discriminator
+	catalogConfigTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "catalog_config_type"))
+	var catalogConfigType string
+	if ok {
+		catalogConfigType = catalogConfigTypeRaw.(string)
+	} else {
+		catalogConfigType = "" // default value
+	}
+	switch strings.ToLower(catalogConfigType) {
+	case strings.ToLower("DB_CREDENTIALS"):
+		details := oci_golden_gate.CreateDbCredentialsOracleAiDataCatalogIcebergCatalogConfigDetails{}
+		if databaseId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_id")); ok {
+			tmp := databaseId.(string)
+			details.DatabaseId = &tmp
+		}
+		if databaseType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_type")); ok {
+			details.DatabaseType = oci_golden_gate.OracleAiDataCatalogIcebergCatalogDatabaseTypeEnum(databaseType.(string))
+		}
+		if password, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password")); ok {
+			tmp := password.(string)
+			details.Password = &tmp
+		}
+		if passwordSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password_secret_id")); ok {
+			tmp := passwordSecretId.(string)
+			details.PasswordSecretId = &tmp
+		}
+		if username, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "username")); ok {
+			tmp := username.(string)
+			details.Username = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("OCI_GOLDENGATE"):
+		details := oci_golden_gate.CreateOciGoldenGateOracleAiDataCatalogIcebergCatalogConfigDetails{}
+		if deploymentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "deployment_id")); ok {
+			tmp := deploymentId.(string)
+			details.DeploymentId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown catalog_config_type '%v' was specified", catalogConfigType)
+	}
+	return baseObject, nil
+}
+
+func CreateOracleAiDataCatalogIcebergCatalogConfigDetailsToMap(obj *oci_golden_gate.CreateOracleAiDataCatalogIcebergCatalogConfigDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_golden_gate.CreateDbCredentialsOracleAiDataCatalogIcebergCatalogConfigDetails:
+		result["catalog_config_type"] = "DB_CREDENTIALS"
+
+		if v.DatabaseId != nil {
+			result["database_id"] = string(*v.DatabaseId)
+		}
+
+		result["database_type"] = string(v.DatabaseType)
+
+		if v.Password != nil {
+			result["password"] = string(*v.Password)
+		}
+
+		if v.PasswordSecretId != nil {
+			result["password_secret_id"] = string(*v.PasswordSecretId)
+		}
+
+		if v.Username != nil {
+			result["username"] = string(*v.Username)
+		}
+	case oci_golden_gate.CreateOciGoldenGateOracleAiDataCatalogIcebergCatalogConfigDetails:
+		result["catalog_config_type"] = "OCI_GOLDENGATE"
+
+		if v.DeploymentId != nil {
+			result["deployment_id"] = string(*v.DeploymentId)
+		}
+	default:
+		log.Printf("[WARN] Received 'catalog_config_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *GoldenGateConnectionResourceCrud) mapToCreateWarehouseStorageDetails(fieldKeyFormat string) (oci_golden_gate.CreateWarehouseStorageDetails, error) {
+	var baseObject oci_golden_gate.CreateWarehouseStorageDetails
+	//discriminator
+	storageTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "storage_type"))
+	var storageType string
+	if ok {
+		storageType = storageTypeRaw.(string)
+	} else {
+		storageType = "" // default value
+	}
+	switch strings.ToLower(storageType) {
+	case strings.ToLower("AZURE_STORAGE"):
+		details := oci_golden_gate.CreateAzureStorageWarehouseStorageDetails{}
+		if accountKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "account_key")); ok {
+			tmp := accountKey.(string)
+			details.AccountKey = &tmp
+		}
+		if accountKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "account_key_secret_id")); ok {
+			tmp := accountKeySecretId.(string)
+			details.AccountKeySecretId = &tmp
+		}
+		if accountName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "account_name")); ok {
+			tmp := accountName.(string)
+			details.AccountName = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("OCI_OBJECT_STORAGE_ACCESS_KEY"):
+		details := oci_golden_gate.CreateOciObjectStorageAccessKeyWarehouseStorageDetails{}
+		if accessKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+			tmp := accessKeyId.(string)
+			details.AccessKeyId = &tmp
+		}
+		if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.NamespaceName = &tmp
+		}
+		if region, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		if secretAccessKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_access_key")); ok {
+			tmp := secretAccessKey.(string)
+			details.SecretAccessKey = &tmp
+		}
+		if secretAccessKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+			tmp := secretAccessKeySecretId.(string)
+			details.SecretAccessKeySecretId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("ZFS"):
+		details := oci_golden_gate.CreateZfsWarehouseStorageDetails{}
+		if accessKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+			tmp := accessKeyId.(string)
+			details.AccessKeyId = &tmp
+		}
+		if endpointUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint_url")); ok {
+			tmp := endpointUrl.(string)
+			details.EndpointUrl = &tmp
+		}
+		if secretAccessKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_access_key")); ok {
+			tmp := secretAccessKey.(string)
+			details.SecretAccessKey = &tmp
+		}
+		if secretAccessKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+			tmp := secretAccessKeySecretId.(string)
+			details.SecretAccessKeySecretId = &tmp
+		}
+		if trustStore, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "trust_store")); ok {
+			tmp := trustStore.(string)
+			details.TrustStore = &tmp
+		}
+		if trustStoreSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "trust_store_secret_id")); ok {
+			tmp := trustStoreSecretId.(string)
+			details.TrustStoreSecretId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown storage_type '%v' was specified", storageType)
+	}
+	return baseObject, nil
+}
+
+func CreateWarehouseStorageDetailsToMap(obj *oci_golden_gate.CreateWarehouseStorageDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_golden_gate.CreateAzureStorageWarehouseStorageDetails:
+		result["storage_type"] = "AZURE_STORAGE"
+
+		if v.AccountKey != nil {
+			result["account_key"] = string(*v.AccountKey)
+		}
+
+		if v.AccountKeySecretId != nil {
+			result["account_key_secret_id"] = string(*v.AccountKeySecretId)
+		}
+
+		if v.AccountName != nil {
+			result["account_name"] = string(*v.AccountName)
+		}
+	case oci_golden_gate.CreateOciObjectStorageAccessKeyWarehouseStorageDetails:
+		result["storage_type"] = "OCI_OBJECT_STORAGE_ACCESS_KEY"
+
+		if v.AccessKeyId != nil {
+			result["access_key_id"] = string(*v.AccessKeyId)
+		}
+
+		if v.NamespaceName != nil {
+			result["namespace"] = string(*v.NamespaceName)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+
+		if v.SecretAccessKey != nil {
+			result["secret_access_key"] = string(*v.SecretAccessKey)
+		}
+
+		if v.SecretAccessKeySecretId != nil {
+			result["secret_access_key_secret_id"] = string(*v.SecretAccessKeySecretId)
+		}
+	case oci_golden_gate.CreateZfsWarehouseStorageDetails:
+		result["storage_type"] = "ZFS"
+
+		if v.AccessKeyId != nil {
+			result["access_key_id"] = string(*v.AccessKeyId)
+		}
+
+		if v.EndpointUrl != nil {
+			result["endpoint_url"] = string(*v.EndpointUrl)
+		}
+
+		if v.SecretAccessKey != nil {
+			result["secret_access_key"] = string(*v.SecretAccessKey)
+		}
+
+		if v.SecretAccessKeySecretId != nil {
+			result["secret_access_key_secret_id"] = string(*v.SecretAccessKeySecretId)
+		}
+
+		if v.TrustStore != nil {
+			result["trust_store"] = string(*v.TrustStore)
+		}
+
+		if v.TrustStoreSecretId != nil {
+			result["trust_store_secret_id"] = string(*v.TrustStoreSecretId)
+		}
+	default:
+		log.Printf("[WARN] Received 'storage_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *GoldenGateConnectionResourceCrud) mapToOracleAiDataCatalogIcebergCatalogConfig(fieldKeyFormat string) (oci_golden_gate.OracleAiDataCatalogIcebergCatalogConfig, error) {
+	var baseObject oci_golden_gate.OracleAiDataCatalogIcebergCatalogConfig
+	//discriminator
+	catalogConfigTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "catalog_config_type"))
+	var catalogConfigType string
+	if ok {
+		catalogConfigType = catalogConfigTypeRaw.(string)
+	} else {
+		catalogConfigType = "" // default value
+	}
+	switch strings.ToLower(catalogConfigType) {
+	case strings.ToLower("DB_CREDENTIALS"):
+		details := oci_golden_gate.DbCredentialsOracleAiDataCatalogIcebergCatalogConfig{}
+		if databaseId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_id")); ok {
+			tmp := databaseId.(string)
+			details.DatabaseId = &tmp
+		}
+		if databaseType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_type")); ok {
+			details.DatabaseType = oci_golden_gate.OracleAiDataCatalogIcebergCatalogDatabaseTypeEnum(databaseType.(string))
+		}
+		if passwordSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password_secret_id")); ok {
+			tmp := passwordSecretId.(string)
+			details.PasswordSecretId = &tmp
+		}
+		if username, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "username")); ok {
+			tmp := username.(string)
+			details.Username = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("OCI_GOLDENGATE"):
+		details := oci_golden_gate.OciGoldenGateOracleAiDataCatalogIcebergCatalogConfig{}
+		if deploymentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "deployment_id")); ok {
+			tmp := deploymentId.(string)
+			details.DeploymentId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown catalog_config_type '%v' was specified", catalogConfigType)
+	}
+	return baseObject, nil
+}
+
+func OracleAiDataCatalogIcebergCatalogConfigToMap(obj *oci_golden_gate.OracleAiDataCatalogIcebergCatalogConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_golden_gate.DbCredentialsOracleAiDataCatalogIcebergCatalogConfig:
+		result["catalog_config_type"] = "DB_CREDENTIALS"
+
+		if v.DatabaseId != nil {
+			result["database_id"] = string(*v.DatabaseId)
+		}
+
+		result["database_type"] = string(v.DatabaseType)
+
+		if v.PasswordSecretId != nil {
+			result["password_secret_id"] = string(*v.PasswordSecretId)
+		}
+
+		if v.Username != nil {
+			result["username"] = string(*v.Username)
+		}
+	case oci_golden_gate.OciGoldenGateOracleAiDataCatalogIcebergCatalogConfig:
+		result["catalog_config_type"] = "OCI_GOLDENGATE"
+
+		if v.DeploymentId != nil {
+			result["deployment_id"] = string(*v.DeploymentId)
+		}
+	default:
+		log.Printf("[WARN] Received 'catalog_config_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *GoldenGateConnectionResourceCrud) mapToOracleAiDataCatalogIcebergCatalogConfigSummary(fieldKeyFormat string) (oci_golden_gate.OracleAiDataCatalogIcebergCatalogConfigSummary, error) {
+	var baseObject oci_golden_gate.OracleAiDataCatalogIcebergCatalogConfigSummary
+	//discriminator
+	catalogConfigTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "catalog_config_type"))
+	var catalogConfigType string
+	if ok {
+		catalogConfigType = catalogConfigTypeRaw.(string)
+	} else {
+		catalogConfigType = "" // default value
+	}
+	switch strings.ToLower(catalogConfigType) {
+	case strings.ToLower("DB_CREDENTIALS"):
+		details := oci_golden_gate.DbCredentialsOracleAiDataCatalogIcebergCatalogConfigSummary{}
+		if databaseId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_id")); ok {
+			tmp := databaseId.(string)
+			details.DatabaseId = &tmp
+		}
+		if databaseType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_type")); ok {
+			details.DatabaseType = oci_golden_gate.OracleAiDataCatalogIcebergCatalogDatabaseTypeEnum(databaseType.(string))
+		}
+		if passwordSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password_secret_id")); ok {
+			tmp := passwordSecretId.(string)
+			details.PasswordSecretId = &tmp
+		}
+		if username, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "username")); ok {
+			tmp := username.(string)
+			details.Username = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("OCI_GOLDENGATE"):
+		details := oci_golden_gate.OciGoldenGateOracleAiDataCatalogIcebergCatalogConfigSummary{}
+		if deploymentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "deployment_id")); ok {
+			tmp := deploymentId.(string)
+			details.DeploymentId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown catalog_config_type '%v' was specified", catalogConfigType)
+	}
+	return baseObject, nil
+}
+
+func OracleAiDataCatalogIcebergCatalogConfigSummaryToMap(obj *oci_golden_gate.OracleAiDataCatalogIcebergCatalogConfigSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_golden_gate.DbCredentialsOracleAiDataCatalogIcebergCatalogConfigSummary:
+		result["catalog_config_type"] = "DB_CREDENTIALS"
+
+		if v.DatabaseId != nil {
+			result["database_id"] = string(*v.DatabaseId)
+		}
+
+		result["database_type"] = string(v.DatabaseType)
+
+		if v.PasswordSecretId != nil {
+			result["password_secret_id"] = string(*v.PasswordSecretId)
+		}
+
+		if v.Username != nil {
+			result["username"] = string(*v.Username)
+		}
+	case oci_golden_gate.OciGoldenGateOracleAiDataCatalogIcebergCatalogConfigSummary:
+		result["catalog_config_type"] = "OCI_GOLDENGATE"
+
+		if v.DeploymentId != nil {
+			result["deployment_id"] = string(*v.DeploymentId)
+		}
+	default:
+		log.Printf("[WARN] Received 'catalog_config_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *GoldenGateConnectionResourceCrud) mapToUpdateOracleAiDataCatalogIcebergCatalogConfigDetails(fieldKeyFormat string) (oci_golden_gate.UpdateOracleAiDataCatalogIcebergCatalogConfigDetails, error) {
+	var baseObject oci_golden_gate.UpdateOracleAiDataCatalogIcebergCatalogConfigDetails
+	//discriminator
+	catalogConfigTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "catalog_config_type"))
+	var catalogConfigType string
+	if ok {
+		catalogConfigType = catalogConfigTypeRaw.(string)
+	} else {
+		catalogConfigType = "" // default value
+	}
+	switch strings.ToLower(catalogConfigType) {
+	case strings.ToLower("DB_CREDENTIALS"):
+		details := oci_golden_gate.UpdateDbCredentialsOracleAiDataCatalogIcebergCatalogConfigDetails{}
+		if databaseId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_id")); ok {
+			tmp := databaseId.(string)
+			details.DatabaseId = &tmp
+		}
+		if databaseType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_type")); ok {
+			details.DatabaseType = oci_golden_gate.OracleAiDataCatalogIcebergCatalogDatabaseTypeEnum(databaseType.(string))
+		}
+		if password, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password")); ok {
+			tmp := password.(string)
+			details.Password = &tmp
+		}
+		if passwordSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password_secret_id")); ok {
+			tmp := passwordSecretId.(string)
+			details.PasswordSecretId = &tmp
+		}
+		if username, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "username")); ok {
+			tmp := username.(string)
+			details.Username = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("OCI_GOLDENGATE"):
+		details := oci_golden_gate.UpdateOciGoldenGateOracleAiDataCatalogIcebergCatalogConfigDetails{}
+		if deploymentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "deployment_id")); ok {
+			tmp := deploymentId.(string)
+			details.DeploymentId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown catalog_config_type '%v' was specified", catalogConfigType)
+	}
+	return baseObject, nil
+}
+
+func UpdateOracleAiDataCatalogIcebergCatalogConfigDetailsToMap(obj *oci_golden_gate.UpdateOracleAiDataCatalogIcebergCatalogConfigDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_golden_gate.UpdateDbCredentialsOracleAiDataCatalogIcebergCatalogConfigDetails:
+		result["catalog_config_type"] = "DB_CREDENTIALS"
+
+		if v.DatabaseId != nil {
+			result["database_id"] = string(*v.DatabaseId)
+		}
+
+		result["database_type"] = string(v.DatabaseType)
+
+		if v.Password != nil {
+			result["password"] = string(*v.Password)
+		}
+
+		if v.PasswordSecretId != nil {
+			result["password_secret_id"] = string(*v.PasswordSecretId)
+		}
+
+		if v.Username != nil {
+			result["username"] = string(*v.Username)
+		}
+	case oci_golden_gate.UpdateOciGoldenGateOracleAiDataCatalogIcebergCatalogConfigDetails:
+		result["catalog_config_type"] = "OCI_GOLDENGATE"
+
+		if v.DeploymentId != nil {
+			result["deployment_id"] = string(*v.DeploymentId)
+		}
+	default:
+		log.Printf("[WARN] Received 'catalog_config_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *GoldenGateConnectionResourceCrud) mapToUpdateWarehouseStorageDetails(fieldKeyFormat string) (oci_golden_gate.UpdateWarehouseStorageDetails, error) {
+	var baseObject oci_golden_gate.UpdateWarehouseStorageDetails
+	//discriminator
+	storageTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "storage_type"))
+	var storageType string
+	if ok {
+		storageType = storageTypeRaw.(string)
+	} else {
+		storageType = "" // default value
+	}
+	switch strings.ToLower(storageType) {
+	case strings.ToLower("AZURE_STORAGE"):
+		details := oci_golden_gate.UpdateAzureStorageWarehouseStorageDetails{}
+		if accountKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "account_key")); ok {
+			tmp := accountKey.(string)
+			details.AccountKey = &tmp
+		}
+		if accountKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "account_key_secret_id")); ok {
+			tmp := accountKeySecretId.(string)
+			details.AccountKeySecretId = &tmp
+		}
+		if accountName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "account_name")); ok {
+			tmp := accountName.(string)
+			details.AccountName = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("OCI_OBJECT_STORAGE_ACCESS_KEY"):
+		details := oci_golden_gate.UpdateOciObjectStorageAccessKeyWarehouseStorageDetails{}
+		if accessKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+			tmp := accessKeyId.(string)
+			details.AccessKeyId = &tmp
+		}
+		if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.NamespaceName = &tmp
+		}
+		if region, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		if secretAccessKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_access_key")); ok {
+			tmp := secretAccessKey.(string)
+			details.SecretAccessKey = &tmp
+		}
+		if secretAccessKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+			tmp := secretAccessKeySecretId.(string)
+			details.SecretAccessKeySecretId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("ZFS"):
+		details := oci_golden_gate.UpdateZfsWarehouseStorageDetails{}
+		if accessKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+			tmp := accessKeyId.(string)
+			details.AccessKeyId = &tmp
+		}
+		if endpointUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint_url")); ok {
+			tmp := endpointUrl.(string)
+			details.EndpointUrl = &tmp
+		}
+		if secretAccessKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_access_key")); ok {
+			tmp := secretAccessKey.(string)
+			details.SecretAccessKey = &tmp
+		}
+		if secretAccessKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+			tmp := secretAccessKeySecretId.(string)
+			details.SecretAccessKeySecretId = &tmp
+		}
+		if trustStore, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "trust_store")); ok {
+			tmp := trustStore.(string)
+			details.TrustStore = &tmp
+		}
+		if trustStoreSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "trust_store_secret_id")); ok {
+			tmp := trustStoreSecretId.(string)
+			details.TrustStoreSecretId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown storage_type '%v' was specified", storageType)
+	}
+	return baseObject, nil
+}
+
+func UpdateWarehouseStorageDetailsToMap(obj *oci_golden_gate.UpdateWarehouseStorageDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_golden_gate.UpdateAzureStorageWarehouseStorageDetails:
+		result["storage_type"] = "AZURE_STORAGE"
+
+		if v.AccountKey != nil {
+			result["account_key"] = string(*v.AccountKey)
+		}
+
+		if v.AccountKeySecretId != nil {
+			result["account_key_secret_id"] = string(*v.AccountKeySecretId)
+		}
+
+		if v.AccountName != nil {
+			result["account_name"] = string(*v.AccountName)
+		}
+	case oci_golden_gate.UpdateOciObjectStorageAccessKeyWarehouseStorageDetails:
+		result["storage_type"] = "OCI_OBJECT_STORAGE_ACCESS_KEY"
+
+		if v.AccessKeyId != nil {
+			result["access_key_id"] = string(*v.AccessKeyId)
+		}
+
+		if v.NamespaceName != nil {
+			result["namespace"] = string(*v.NamespaceName)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+
+		if v.SecretAccessKey != nil {
+			result["secret_access_key"] = string(*v.SecretAccessKey)
+		}
+
+		if v.SecretAccessKeySecretId != nil {
+			result["secret_access_key_secret_id"] = string(*v.SecretAccessKeySecretId)
+		}
+	case oci_golden_gate.UpdateZfsWarehouseStorageDetails:
+		result["storage_type"] = "ZFS"
+
+		if v.AccessKeyId != nil {
+			result["access_key_id"] = string(*v.AccessKeyId)
+		}
+
+		if v.EndpointUrl != nil {
+			result["endpoint_url"] = string(*v.EndpointUrl)
+		}
+
+		if v.SecretAccessKey != nil {
+			result["secret_access_key"] = string(*v.SecretAccessKey)
+		}
+
+		if v.SecretAccessKeySecretId != nil {
+			result["secret_access_key_secret_id"] = string(*v.SecretAccessKeySecretId)
+		}
+
+		if v.TrustStore != nil {
+			result["trust_store"] = string(*v.TrustStore)
+		}
+
+		if v.TrustStoreSecretId != nil {
+			result["trust_store_secret_id"] = string(*v.TrustStoreSecretId)
+		}
+	default:
+		log.Printf("[WARN] Received 'storage_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *GoldenGateConnectionResourceCrud) mapToWarehouseStorage(fieldKeyFormat string) (oci_golden_gate.WarehouseStorage, error) {
+	var baseObject oci_golden_gate.WarehouseStorage
+	//discriminator
+	storageTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "storage_type"))
+	var storageType string
+	if ok {
+		storageType = storageTypeRaw.(string)
+	} else {
+		storageType = "" // default value
+	}
+	switch strings.ToLower(storageType) {
+	case strings.ToLower("AZURE_STORAGE"):
+		details := oci_golden_gate.AzureStorageWarehouseStorage{}
+		if accountKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "account_key_secret_id")); ok {
+			tmp := accountKeySecretId.(string)
+			details.AccountKeySecretId = &tmp
+		}
+		if accountName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "account_name")); ok {
+			tmp := accountName.(string)
+			details.AccountName = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("OCI_OBJECT_STORAGE_ACCESS_KEY"):
+		details := oci_golden_gate.OciObjectStorageAccessKeyWarehouseStorage{}
+		if accessKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+			tmp := accessKeyId.(string)
+			details.AccessKeyId = &tmp
+		}
+		if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.NamespaceName = &tmp
+		}
+		if region, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		if secretAccessKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+			tmp := secretAccessKeySecretId.(string)
+			details.SecretAccessKeySecretId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("ZFS"):
+		details := oci_golden_gate.ZfsWarehouseStorage{}
+		if accessKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+			tmp := accessKeyId.(string)
+			details.AccessKeyId = &tmp
+		}
+		if endpointUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint_url")); ok {
+			tmp := endpointUrl.(string)
+			details.EndpointUrl = &tmp
+		}
+		if secretAccessKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+			tmp := secretAccessKeySecretId.(string)
+			details.SecretAccessKeySecretId = &tmp
+		}
+		if trustStoreSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "trust_store_secret_id")); ok {
+			tmp := trustStoreSecretId.(string)
+			details.TrustStoreSecretId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown storage_type '%v' was specified", storageType)
+	}
+	return baseObject, nil
+}
+
+func WarehouseStorageToMap(obj *oci_golden_gate.WarehouseStorage) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_golden_gate.AzureStorageWarehouseStorage:
+		result["storage_type"] = "AZURE_STORAGE"
+
+		if v.AccountKeySecretId != nil {
+			result["account_key_secret_id"] = string(*v.AccountKeySecretId)
+		}
+
+		if v.AccountName != nil {
+			result["account_name"] = string(*v.AccountName)
+		}
+	case oci_golden_gate.OciObjectStorageAccessKeyWarehouseStorage:
+		result["storage_type"] = "OCI_OBJECT_STORAGE_ACCESS_KEY"
+
+		if v.AccessKeyId != nil {
+			result["access_key_id"] = string(*v.AccessKeyId)
+		}
+
+		if v.NamespaceName != nil {
+			result["namespace"] = string(*v.NamespaceName)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+
+		if v.SecretAccessKeySecretId != nil {
+			result["secret_access_key_secret_id"] = string(*v.SecretAccessKeySecretId)
+		}
+	case oci_golden_gate.ZfsWarehouseStorage:
+		result["storage_type"] = "ZFS"
+
+		if v.AccessKeyId != nil {
+			result["access_key_id"] = string(*v.AccessKeyId)
+		}
+
+		if v.EndpointUrl != nil {
+			result["endpoint_url"] = string(*v.EndpointUrl)
+		}
+
+		if v.SecretAccessKeySecretId != nil {
+			result["secret_access_key_secret_id"] = string(*v.SecretAccessKeySecretId)
+		}
+
+		if v.TrustStoreSecretId != nil {
+			result["trust_store_secret_id"] = string(*v.TrustStoreSecretId)
+		}
+	default:
+		log.Printf("[WARN] Received 'storage_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *GoldenGateConnectionResourceCrud) mapToWarehouseStorageSummary(fieldKeyFormat string) (oci_golden_gate.WarehouseStorageSummary, error) {
+	var baseObject oci_golden_gate.WarehouseStorageSummary
+	//discriminator
+	storageTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "storage_type"))
+	var storageType string
+	if ok {
+		storageType = storageTypeRaw.(string)
+	} else {
+		storageType = "" // default value
+	}
+	switch strings.ToLower(storageType) {
+	case strings.ToLower("AZURE_STORAGE"):
+		details := oci_golden_gate.AzureStorageWarehouseStorageSummary{}
+		if accountKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "account_key_secret_id")); ok {
+			tmp := accountKeySecretId.(string)
+			details.AccountKeySecretId = &tmp
+		}
+		if accountName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "account_name")); ok {
+			tmp := accountName.(string)
+			details.AccountName = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("OCI_OBJECT_STORAGE_ACCESS_KEY"):
+		details := oci_golden_gate.OciObjectStorageAccessKeyWarehouseStorageSummary{}
+		if accessKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+			tmp := accessKeyId.(string)
+			details.AccessKeyId = &tmp
+		}
+		if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.NamespaceName = &tmp
+		}
+		if region, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		if secretAccessKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+			tmp := secretAccessKeySecretId.(string)
+			details.SecretAccessKeySecretId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("ZFS"):
+		details := oci_golden_gate.ZfsWarehouseStorageSummary{}
+		if accessKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+			tmp := accessKeyId.(string)
+			details.AccessKeyId = &tmp
+		}
+		if endpointUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint_url")); ok {
+			tmp := endpointUrl.(string)
+			details.EndpointUrl = &tmp
+		}
+		if secretAccessKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+			tmp := secretAccessKeySecretId.(string)
+			details.SecretAccessKeySecretId = &tmp
+		}
+		if trustStoreSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "trust_store_secret_id")); ok {
+			tmp := trustStoreSecretId.(string)
+			details.TrustStoreSecretId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown storage_type '%v' was specified", storageType)
+	}
+	return baseObject, nil
+}
+
+func WarehouseStorageSummaryToMap(obj *oci_golden_gate.WarehouseStorageSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_golden_gate.AzureStorageWarehouseStorageSummary:
+		result["storage_type"] = "AZURE_STORAGE"
+
+		if v.AccountKeySecretId != nil {
+			result["account_key_secret_id"] = string(*v.AccountKeySecretId)
+		}
+
+		if v.AccountName != nil {
+			result["account_name"] = string(*v.AccountName)
+		}
+	case oci_golden_gate.OciObjectStorageAccessKeyWarehouseStorageSummary:
+		result["storage_type"] = "OCI_OBJECT_STORAGE_ACCESS_KEY"
+
+		if v.AccessKeyId != nil {
+			result["access_key_id"] = string(*v.AccessKeyId)
+		}
+
+		if v.NamespaceName != nil {
+			result["namespace"] = string(*v.NamespaceName)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+
+		if v.SecretAccessKeySecretId != nil {
+			result["secret_access_key_secret_id"] = string(*v.SecretAccessKeySecretId)
+		}
+	case oci_golden_gate.ZfsWarehouseStorageSummary:
+		result["storage_type"] = "ZFS"
+
+		if v.AccessKeyId != nil {
+			result["access_key_id"] = string(*v.AccessKeyId)
+		}
+
+		if v.EndpointUrl != nil {
+			result["endpoint_url"] = string(*v.EndpointUrl)
+		}
+
+		if v.SecretAccessKeySecretId != nil {
+			result["secret_access_key_secret_id"] = string(*v.SecretAccessKeySecretId)
+		}
+
+		if v.TrustStoreSecretId != nil {
+			result["trust_store_secret_id"] = string(*v.TrustStoreSecretId)
+		}
+	default:
+		log.Printf("[WARN] Received 'storage_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
 }

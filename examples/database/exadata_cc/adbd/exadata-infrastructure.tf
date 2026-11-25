@@ -7,7 +7,10 @@ provider "oci" {
   fingerprint      = var.fingerprint
   private_key_path = var.private_key_path
   region           = var.region
-  #version          = "8.2.0"
+  ignore_defined_tags = [
+    "Oracle-Tags.CreatedBy",
+    "Oracle-Tags.CreatedOn",
+  ]
 }
 
 resource "oci_identity_tag_namespace" "tag-namespace1" {

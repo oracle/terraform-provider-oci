@@ -7,6 +7,7 @@ import (
 	"context"
 	"log"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_migration "github.com/oracle/oci-go-sdk/v65/databasemigration"
 
@@ -20,15 +21,15 @@ func DatabaseMigrationAssessmentDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseMigrationAssessmentResource(), fieldMap, readSingularDatabaseMigrationAssessment)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseMigrationAssessmentResource(), fieldMap, readSingularDatabaseMigrationAssessmentWithContext)
 }
 
-func readSingularDatabaseMigrationAssessment(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseMigrationAssessmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseMigrationAssessmentDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseMigrationClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseMigrationAssessmentDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *DatabaseMigrationAssessmentDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseMigrationAssessmentDataSourceCrud) Get() error {
+func (s *DatabaseMigrationAssessmentDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_migration.GetAssessmentRequest{}
 
 	if assessmentId, ok := s.D.GetOkExists("assessment_id"); ok {
@@ -51,7 +52,7 @@ func (s *DatabaseMigrationAssessmentDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_migration")
 
-	response, err := s.Client.GetAssessment(context.Background(), request)
+	response, err := s.Client.GetAssessment(ctx, request)
 	if err != nil {
 		return err
 	}

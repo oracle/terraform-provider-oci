@@ -16,9 +16,7 @@ import (
 	"strings"
 )
 
-// UpdateOracleMigrationDetails Update Migration resource parameters.
-// Deprecated: The parent-level Oracle migration configuration properties on this model are deprecated.
-// Use `migrationSettings` instead.
+// UpdateOracleMigrationDetails Create Migration resource parameters.
 type UpdateOracleMigrationDetails struct {
 
 	// A user-friendly description. Does not have to be unique, and it's changeable.
@@ -42,8 +40,6 @@ type UpdateOracleMigrationDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-
-	MigrationSettings UpdateOracleMigrationSettings `mandatory:"false" json:"migrationSettings"`
 
 	DataTransferMediumDetails UpdateOracleDataTransferMediumDetails `mandatory:"false" json:"dataTransferMediumDetails"`
 
@@ -147,7 +143,6 @@ func (m *UpdateOracleMigrationDetails) UnmarshalJSON(data []byte) (e error) {
 		TargetDatabaseConnectionId          *string                               `json:"targetDatabaseConnectionId"`
 		FreeformTags                        map[string]string                     `json:"freeformTags"`
 		DefinedTags                         map[string]map[string]interface{}     `json:"definedTags"`
-		MigrationSettings                   updateoraclemigrationsettings         `json:"migrationSettings"`
 		DataTransferMediumDetails           updateoracledatatransfermediumdetails `json:"dataTransferMediumDetails"`
 		InitialLoadSettings                 *UpdateOracleInitialLoadSettings      `json:"initialLoadSettings"`
 		AdvisorSettings                     *UpdateOracleAdvisorSettings          `json:"advisorSettings"`
@@ -176,16 +171,6 @@ func (m *UpdateOracleMigrationDetails) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
-
-	nn, e = model.MigrationSettings.UnmarshalPolymorphicJSON(model.MigrationSettings.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.MigrationSettings = nn.(UpdateOracleMigrationSettings)
-	} else {
-		m.MigrationSettings = nil
-	}
 
 	nn, e = model.DataTransferMediumDetails.UnmarshalPolymorphicJSON(model.DataTransferMediumDetails.JsonData)
 	if e != nil {

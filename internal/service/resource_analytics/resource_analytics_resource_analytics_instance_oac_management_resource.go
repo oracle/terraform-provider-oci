@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -27,10 +28,10 @@ func ResourceAnalyticsResourceAnalyticsInstanceOacManagementResource() *schema.R
 			Delete: &tfresource.TwoHours,
 			Read:   &tfresource.TwoHours,
 		},
-		Create: createResourceAnalyticsResourceAnalyticsInstanceOacManagement,
-		Read:   readResourceAnalyticsResourceAnalyticsInstanceOacManagement,
-		Update: updateResourceAnalyticsResourceAnalyticsInstanceOacManagement,
-		Delete: deleteResourceAnalyticsResourceAnalyticsInstanceOacManagement,
+		CreateContext: createResourceAnalyticsResourceAnalyticsInstanceOacManagement,
+		ReadContext:   readResourceAnalyticsResourceAnalyticsInstanceOacManagement,
+		UpdateContext: updateResourceAnalyticsResourceAnalyticsInstanceOacManagement,
+		DeleteContext: deleteResourceAnalyticsResourceAnalyticsInstanceOacManagement,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"resource_analytics_instance_id": {
@@ -146,7 +147,7 @@ func ResourceAnalyticsResourceAnalyticsInstanceOacManagementResource() *schema.R
 	}
 }
 
-func createResourceAnalyticsResourceAnalyticsInstanceOacManagement(d *schema.ResourceData, m interface{}) error {
+func createResourceAnalyticsResourceAnalyticsInstanceOacManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud{}
 	sync.D = d
 	clients := m.(*client.OracleClients)
@@ -154,10 +155,10 @@ func createResourceAnalyticsResourceAnalyticsInstanceOacManagement(d *schema.Res
 	sync.WorkReqClient = clients.ResourceAnalyticsInstanceClient()
 	sync.Res = &ResourceAnalyticsResourceAnalyticsInstanceOacManagementResponse{}
 	sync.Res.LifecycleState = oci_resource_analytics.ListWorkRequestsStatusSucceeded
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readResourceAnalyticsResourceAnalyticsInstanceOacManagement(d *schema.ResourceData, m interface{}) error {
+func readResourceAnalyticsResourceAnalyticsInstanceOacManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud{}
 	sync.D = d
 	clients := m.(*client.OracleClients)
@@ -165,10 +166,10 @@ func readResourceAnalyticsResourceAnalyticsInstanceOacManagement(d *schema.Resou
 	sync.WorkReqClient = clients.ResourceAnalyticsInstanceClient()
 	sync.Res = &ResourceAnalyticsResourceAnalyticsInstanceOacManagementResponse{}
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateResourceAnalyticsResourceAnalyticsInstanceOacManagement(d *schema.ResourceData, m interface{}) error {
+func updateResourceAnalyticsResourceAnalyticsInstanceOacManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud{}
 	sync.D = d
 	clients := m.(*client.OracleClients)
@@ -176,10 +177,10 @@ func updateResourceAnalyticsResourceAnalyticsInstanceOacManagement(d *schema.Res
 	sync.WorkReqClient = clients.ResourceAnalyticsInstanceClient()
 	sync.Res = &ResourceAnalyticsResourceAnalyticsInstanceOacManagementResponse{}
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteResourceAnalyticsResourceAnalyticsInstanceOacManagement(d *schema.ResourceData, m interface{}) error {
+func deleteResourceAnalyticsResourceAnalyticsInstanceOacManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud{}
 	sync.D = d
 	clients := m.(*client.OracleClients)
@@ -192,7 +193,7 @@ func deleteResourceAnalyticsResourceAnalyticsInstanceOacManagement(d *schema.Res
 		sync.Res.LifecycleState = oci_resource_analytics.ListWorkRequestsStatusSucceeded
 	}
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type ResourceAnalyticsResourceAnalyticsInstanceOacManagementResponse struct {
@@ -249,23 +250,23 @@ func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) St
 
 	if s.Res.disableResponse != nil {
 		log.Printf("[INFO] Fetching state from disableResponse: %v\n", s.Res.disableResponse)
-		s.setResToFetchedWorkRequest(err, s.Res.disableResponse.OpcWorkRequestId, retryPolicy)
+		s.setResToFetchedWorkRequest(context.Background(), err, s.Res.disableResponse.OpcWorkRequestId, retryPolicy)
 	} else if s.Res.enableResponse != nil {
 		log.Printf("[INFO] Fetching state from enableResponse: %v\n", s.Res.enableResponse)
-		s.setResToFetchedWorkRequest(err, s.Res.enableResponse.OpcWorkRequestId, retryPolicy)
+		s.setResToFetchedWorkRequest(context.Background(), err, s.Res.enableResponse.OpcWorkRequestId, retryPolicy)
 	}
 	log.Printf("[INFO] State() After fetch = %v\n", s.Res.LifecycleState)
 	return string(s.Res.LifecycleState)
 }
 
-func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) Get() error {
+func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) GetWithContext(ctx context.Context) error {
 	// For management resources, we don't need to fetch actual data
 	// The resource state is managed through the enable/disable operations
 	// This method is required by the interface but can be a no-op
 	return nil
 }
 
-func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) Create() error {
+func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_oac"); ok {
 		operation = enableOperation.(bool)
@@ -296,14 +297,14 @@ func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) Cr
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics")
 
-		response, err := s.executeEnableOacRequest(request)
+		response, err := s.executeEnableOacRequest(ctx, request)
 		if err != nil {
 			return err
 		}
 
-		s.setResToFetchedWorkRequest(err, response.OpcWorkRequestId, request.RequestMetadata.RetryPolicy)
+		s.setResToFetchedWorkRequest(ctx, err, response.OpcWorkRequestId, request.RequestMetadata.RetryPolicy)
 
-		err = s.getResourceAnalyticsInstanceOacManagementFromWorkRequest(response.OpcWorkRequestId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics"), oci_resource_analytics.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getResourceAnalyticsInstanceOacManagementFromWorkRequest(ctx, response.OpcWorkRequestId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics"), oci_resource_analytics.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
@@ -320,15 +321,15 @@ func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) Cr
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics")
 
-	response, err := s.executeDisableOacRequest(request)
+	response, err := s.executeDisableOacRequest(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	s.setResToFetchedWorkRequest(err, response.OpcWorkRequestId, request.RequestMetadata.RetryPolicy)
+	s.setResToFetchedWorkRequest(ctx, err, response.OpcWorkRequestId, request.RequestMetadata.RetryPolicy)
 
 	workId := response.OpcWorkRequestId
-	err = s.getResourceAnalyticsInstanceOacManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics"), oci_resource_analytics.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getResourceAnalyticsInstanceOacManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics"), oci_resource_analytics.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -336,9 +337,9 @@ func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) Cr
 	return nil
 }
 
-func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) setResToFetchedWorkRequest(err error, workId *string, retryPolicy *oci_common.RetryPolicy) *oci_resource_analytics.WorkRequest {
+func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) setResToFetchedWorkRequest(ctx context.Context, err error, workId *string, retryPolicy *oci_common.RetryPolicy) *oci_resource_analytics.WorkRequest {
 	log.Printf("setResToFetchedWorkRequest called with workId: %s, err: %v\n", *workId, err)
-	wrResponse, err := s.WorkReqClient.GetWorkRequest(context.Background(),
+	wrResponse, err := s.WorkReqClient.GetWorkRequest(ctx,
 		oci_resource_analytics.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -354,13 +355,13 @@ func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) se
 	return wr
 }
 
-func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) getResourceAnalyticsInstanceOacManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) getResourceAnalyticsInstanceOacManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_resource_analytics.ActionTypeEnum, timeout time.Duration) error {
 
 	log.Printf("getResourceAnalyticsInstanceOacManagementFromWorkRequest called with workId: %s, actionTypeEnum: %v, timeout: %v\n", *workId, actionTypeEnum, timeout)
 
 	// Wait until it finishes
-	resourceAnalyticsInstanceOacManagementId, err := resourceAnalyticsInstanceOacManagementWaitForWorkRequest(s, workId, "resourceanalyticsinstance",
+	resourceAnalyticsInstanceOacManagementId, err := resourceAnalyticsInstanceOacManagementWaitForWorkRequest(ctx, s, workId, "resourceanalyticsinstance",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	log.Printf("getResourceAnalyticsInstanceOacManagementFromWorkRequest. Finished!\n")
@@ -368,7 +369,7 @@ func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) ge
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] getResourceAnalyticsInstanceOacManagementFromWorkRequest: creation failed, attempting to cancel the workrequest: %s for identifier: %v\n", *workId, resourceAnalyticsInstanceOacManagementId)
-		_, cancelErr := s.WorkReqClient.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.WorkReqClient.CancelWorkRequest(ctx,
 			oci_resource_analytics.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -407,7 +408,7 @@ func resourceAnalyticsInstanceOacManagementWorkRequestShouldRetryFunc(timeout ti
 	}
 }
 
-func resourceAnalyticsInstanceOacManagementWaitForWorkRequest(s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud, wId *string, entityType string, action oci_resource_analytics.ActionTypeEnum, timeout time.Duration, disableFoundRetries bool, client *oci_resource_analytics.ResourceAnalyticsInstanceClient) (*string, error) {
+func resourceAnalyticsInstanceOacManagementWaitForWorkRequest(ctx context.Context, s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud, wId *string, entityType string, action oci_resource_analytics.ActionTypeEnum, timeout time.Duration, disableFoundRetries bool, client *oci_resource_analytics.ResourceAnalyticsInstanceClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "resource_analytics")
 	retryPolicy.ShouldRetryOperation = resourceAnalyticsInstanceOacManagementWorkRequestShouldRetryFunc(timeout)
 
@@ -426,7 +427,7 @@ func resourceAnalyticsInstanceOacManagementWaitForWorkRequest(s *ResourceAnalyti
 		Refresh: func() (interface{}, string, error) {
 			log.Printf("[DEBUG] REFRESH() resourceAnalyticsInstanceOacManagementWaitForWorkRequest. Getting WR...")
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_resource_analytics.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -442,7 +443,7 @@ func resourceAnalyticsInstanceOacManagementWaitForWorkRequest(s *ResourceAnalyti
 		Timeout: timeout,
 	}
 	log.Printf("[DEBUG] ABOUT TO WAIT FOR STATE... resourceAnalyticsInstanceOacManagementWaitForWorkRequest: stateConf: %v\n", stateConf)
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		log.Printf("[DEBUG] ABOUT TO WAIT FOR STATE... DONE! Bad :( resourceAnalyticsInstanceOacManagementWaitForWorkRequest: stateConf: %v\n", stateConf)
 		return nil, e
 	}
@@ -464,14 +465,14 @@ func resourceAnalyticsInstanceOacManagementWaitForWorkRequest(s *ResourceAnalyti
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_resource_analytics.OperationStatusFailed || response.Status == oci_resource_analytics.OperationStatusCanceled {
 		log.Printf("[DEBUG] resourceAnalyticsInstanceOacManagementWaitForWorkRequest: DIDNT FIND!!!!")
-		return nil, getErrorFromResourceAnalyticsResourceAnalyticsInstanceOacManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromResourceAnalyticsResourceAnalyticsInstanceOacManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromResourceAnalyticsResourceAnalyticsInstanceOacManagementWorkRequest(client *oci_resource_analytics.ResourceAnalyticsInstanceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_resource_analytics.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromResourceAnalyticsResourceAnalyticsInstanceOacManagementWorkRequest(ctx context.Context, client *oci_resource_analytics.ResourceAnalyticsInstanceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_resource_analytics.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_resource_analytics.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -493,7 +494,7 @@ func getErrorFromResourceAnalyticsResourceAnalyticsInstanceOacManagementWorkRequ
 	return workRequestErr
 }
 
-func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) Update() error {
+func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) UpdateWithContext(ctx context.Context) error {
 	log.Printf("[DEBUG] Update called for resourceAnalyticsInstanceOacManagementResourceCrud")
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_oac"); ok {
@@ -526,18 +527,18 @@ func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) Up
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics")
 
-		response, err := s.executeEnableOacRequest(request)
+		response, err := s.executeEnableOacRequest(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getResourceAnalyticsInstanceOacManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics"), oci_resource_analytics.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getResourceAnalyticsInstanceOacManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics"), oci_resource_analytics.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
 
-		s.setResToFetchedWorkRequest(err, response.OpcWorkRequestId, request.RequestMetadata.RetryPolicy)
+		s.setResToFetchedWorkRequest(ctx, err, response.OpcWorkRequestId, request.RequestMetadata.RetryPolicy)
 
 		return nil
 	}
@@ -556,43 +557,43 @@ func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) Up
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics")
 
-	response, err := s.executeDisableOacRequest(request)
+	response, err := s.executeDisableOacRequest(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getResourceAnalyticsInstanceOacManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics"), oci_resource_analytics.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getResourceAnalyticsInstanceOacManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics"), oci_resource_analytics.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
-	s.setResToFetchedWorkRequest(err, response.OpcWorkRequestId, request.RequestMetadata.RetryPolicy)
+	s.setResToFetchedWorkRequest(ctx, err, response.OpcWorkRequestId, request.RequestMetadata.RetryPolicy)
 
 	return nil
 }
 
-func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) executeEnableOacRequest(request oci_resource_analytics.ResourceAnalyticsInstanceEnableOacRequest) (oci_resource_analytics.ResourceAnalyticsInstanceEnableOacResponse, error) {
+func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) executeEnableOacRequest(ctx context.Context, request oci_resource_analytics.ResourceAnalyticsInstanceEnableOacRequest) (oci_resource_analytics.ResourceAnalyticsInstanceEnableOacResponse, error) {
 
 	s.Res.LifecycleState = oci_resource_analytics.ListWorkRequestsStatusInProgress
 	log.Printf("[DEBUG] executeEnableOacRequest: pre - SETTING LifeCycleState to: %v\n", s.Res.LifecycleState)
-	response, err := s.Client.ResourceAnalyticsInstanceEnableOac(context.Background(), request)
+	response, err := s.Client.ResourceAnalyticsInstanceEnableOac(ctx, request)
 	s.Res.enableResponse = &response
 	s.Res.LifecycleState = oci_resource_analytics.ListWorkRequestsStatusSucceeded
 	log.Printf("[DEBUG] executeEnableOacRequest: post - SETTING LifeCycleState to: %v\n", s.Res.LifecycleState)
 	return response, err
 }
 
-func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) executeDisableOacRequest(request oci_resource_analytics.ResourceAnalyticsInstanceDisableOacRequest) (oci_resource_analytics.ResourceAnalyticsInstanceDisableOacResponse, error) {
+func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) executeDisableOacRequest(ctx context.Context, request oci_resource_analytics.ResourceAnalyticsInstanceDisableOacRequest) (oci_resource_analytics.ResourceAnalyticsInstanceDisableOacResponse, error) {
 	s.Res.LifecycleState = oci_resource_analytics.ListWorkRequestsStatusInProgress
 	log.Printf("[DEBUG] executeDisableOacRequest: pre - SETTING LifeCycleState to: %v\n", s.Res.LifecycleState)
-	response, err := s.Client.ResourceAnalyticsInstanceDisableOac(context.Background(), request)
+	response, err := s.Client.ResourceAnalyticsInstanceDisableOac(ctx, request)
 	s.Res.disableResponse = &response
 	s.Res.LifecycleState = oci_resource_analytics.ListWorkRequestsStatusSucceeded
 	log.Printf("[DEBUG] executeDisableOacRequest: post - SETTING LifeCycleState to: %v\n", s.Res.LifecycleState)
 	return response, err
 }
 
-func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) Delete() error {
+func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) DeleteWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_oac"); ok {
 		operation = enableOperation.(bool)
@@ -615,18 +616,18 @@ func (s *ResourceAnalyticsResourceAnalyticsInstanceOacManagementResourceCrud) De
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics")
 
-	response, err := s.Client.ResourceAnalyticsInstanceDisableOac(context.Background(), request)
+	response, err := s.Client.ResourceAnalyticsInstanceDisableOac(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getResourceAnalyticsInstanceOacManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics"), oci_resource_analytics.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getResourceAnalyticsInstanceOacManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics"), oci_resource_analytics.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
 
-	s.setResToFetchedWorkRequest(err, response.OpcWorkRequestId, request.RequestMetadata.RetryPolicy)
+	s.setResToFetchedWorkRequest(ctx, err, response.OpcWorkRequestId, request.RequestMetadata.RetryPolicy)
 	return nil
 }
 

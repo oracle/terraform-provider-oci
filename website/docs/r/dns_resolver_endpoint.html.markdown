@@ -16,6 +16,24 @@ Example terraform configs related to the resource : https://github.com/oracle/te
 Creates a new resolver endpoint in the same compartment as the resolver.
 
 
+## Dependency ordering
+
+With OCI provider v8.16.0 or later, the
+[`oci_core_vcn_dns_resolver_association`](https://registry.terraform.io/providers/oracle/oci/latest/docs/data-sources/core_vcn_dns_resolver_association)
+data source waits for the VCN's resolver association to become available. Use its
+`dns_resolver_id` directly for endpoints and resolver configuration. Endpoints
+must not depend on the resolver configuration resource whose rules reference
+those endpoints, because that would create a dependency cycle.
+
+Reference the forwarding endpoint's `name` in `source_endpoint_name` and the
+destination listening endpoint's `listening_address` in `destination_addresses`.
+These references order rule configuration after endpoint creation and rule
+removal before endpoint deletion. When using modules, expose endpoint names and
+addresses as outputs and use them to configure rules in the calling module.
+
+See the [runnable resolver example](https://github.com/oracle/terraform-provider-oci/tree/master/examples/dns/private/resolver)
+and the [resolver reference](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/dns_resolver).
+
 ## Example Usage
 
 ```hcl
@@ -24,7 +42,7 @@ resource "oci_dns_resolver_endpoint" "test_resolver_endpoint" {
 	is_forwarding = var.resolver_endpoint_is_forwarding
 	is_listening = var.resolver_endpoint_is_listening
 	name = var.resolver_endpoint_name
-	resolver_id = oci_dns_resolver.test_resolver.id
+	resolver_id = data.oci_core_vcn_dns_resolver_association.test_vcn_dns_resolver_association.dns_resolver_id
 	subnet_id = oci_core_subnet.test_subnet.id
 	scope = "PRIVATE"
 

@@ -32,8 +32,8 @@ type DeploymentSummary struct {
 	// The Oracle license model that applies to a Deployment.
 	LicenseModel LicenseModelEnum `mandatory:"true" json:"licenseModel"`
 
-	// The deployment category defines the broad separation of the deployment type into four categories.
-	// Currently the separation is 'DATA_REPLICATION', 'STREAM_ANALYTICS', 'DATA_TRANSFORMS' and 'DATA_VERIFICATION'.
+	// The deployment category defines the broad separation of the deployment type into five categories.
+	// Currently the separation is 'DATA_REPLICATION', 'STREAM_ANALYTICS', 'DATA_TRANSFORMS', 'DATA_VERIFICATION' and 'DATA_CATALOG'.
 	Category DeploymentCategoryEnum `mandatory:"true" json:"category"`
 
 	// The type of deployment, which can be any one of the Allowed values.

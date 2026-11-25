@@ -14,6 +14,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -29,11 +30,11 @@ func BdsBdsInstanceNodeBackupConfigurationResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createBdsBdsInstanceNodeBackupConfiguration,
-		Read:     readBdsBdsInstanceNodeBackupConfiguration,
-		Update:   updateBdsBdsInstanceNodeBackupConfiguration,
-		Delete:   deleteBdsBdsInstanceNodeBackupConfiguration,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createBdsBdsInstanceNodeBackupConfigurationWithContext,
+		ReadContext:   readBdsBdsInstanceNodeBackupConfigurationWithContext,
+		UpdateContext: updateBdsBdsInstanceNodeBackupConfigurationWithContext,
+		DeleteContext: deleteBdsBdsInstanceNodeBackupConfigurationWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"bds_instance_id": {
@@ -119,37 +120,37 @@ func BdsBdsInstanceNodeBackupConfigurationResource() *schema.Resource {
 	}
 }
 
-func createBdsBdsInstanceNodeBackupConfiguration(d *schema.ResourceData, m interface{}) error {
+func createBdsBdsInstanceNodeBackupConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceNodeBackupConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readBdsBdsInstanceNodeBackupConfiguration(d *schema.ResourceData, m interface{}) error {
+func readBdsBdsInstanceNodeBackupConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceNodeBackupConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateBdsBdsInstanceNodeBackupConfiguration(d *schema.ResourceData, m interface{}) error {
+func updateBdsBdsInstanceNodeBackupConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceNodeBackupConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteBdsBdsInstanceNodeBackupConfiguration(d *schema.ResourceData, m interface{}) error {
+func deleteBdsBdsInstanceNodeBackupConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceNodeBackupConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type BdsBdsInstanceNodeBackupConfigurationResourceCrud struct {
@@ -187,7 +188,7 @@ func (s *BdsBdsInstanceNodeBackupConfigurationResourceCrud) DeletedTarget() []st
 	}
 }
 
-func (s *BdsBdsInstanceNodeBackupConfigurationResourceCrud) Create() error {
+func (s *BdsBdsInstanceNodeBackupConfigurationResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_bds.CreateNodeBackupConfigurationRequest{}
 
 	if backupType, ok := s.D.GetOkExists("backup_type"); ok {
@@ -232,20 +233,20 @@ func (s *BdsBdsInstanceNodeBackupConfigurationResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.CreateNodeBackupConfiguration(context.Background(), request)
+	response, err := s.Client.CreateNodeBackupConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceNodeBackupConfigurationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getBdsInstanceNodeBackupConfigurationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *BdsBdsInstanceNodeBackupConfigurationResourceCrud) getBdsInstanceNodeBackupConfigurationFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *BdsBdsInstanceNodeBackupConfigurationResourceCrud) getBdsInstanceNodeBackupConfigurationFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_bds.ActionTypesEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	bdsInstanceNodeBackupConfigurationId, err := bdsInstanceNodeBackupConfigurationWaitForWorkRequest(workId, "backupConfig",
+	bdsInstanceNodeBackupConfigurationId, err := bdsInstanceNodeBackupConfigurationWaitForWorkRequest(ctx, workId, "backupConfig",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -253,7 +254,7 @@ func (s *BdsBdsInstanceNodeBackupConfigurationResourceCrud) getBdsInstanceNodeBa
 	}
 	s.D.SetId(*bdsInstanceNodeBackupConfigurationId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func bdsInstanceNodeBackupConfigurationWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -279,7 +280,7 @@ func bdsInstanceNodeBackupConfigurationWorkRequestShouldRetryFunc(timeout time.D
 	}
 }
 
-func bdsInstanceNodeBackupConfigurationWaitForWorkRequest(wId *string, entityType string, action oci_bds.ActionTypesEnum,
+func bdsInstanceNodeBackupConfigurationWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_bds.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_bds.BdsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "bds")
 	retryPolicy.ShouldRetryOperation = bdsInstanceNodeBackupConfigurationWorkRequestShouldRetryFunc(timeout)
@@ -298,7 +299,7 @@ func bdsInstanceNodeBackupConfigurationWaitForWorkRequest(wId *string, entityTyp
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_bds.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -310,7 +311,7 @@ func bdsInstanceNodeBackupConfigurationWaitForWorkRequest(wId *string, entityTyp
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -326,14 +327,14 @@ func bdsInstanceNodeBackupConfigurationWaitForWorkRequest(wId *string, entityTyp
 	}
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_bds.OperationStatusFailed || response.Status == oci_bds.OperationStatusCanceled {
-		return nil, getErrorFromBdsBdsInstanceNodeBackupConfigurationWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromBdsBdsInstanceNodeBackupConfigurationWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromBdsBdsInstanceNodeBackupConfigurationWorkRequest(client *oci_bds.BdsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_bds.ActionTypesEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromBdsBdsInstanceNodeBackupConfigurationWorkRequest(ctx context.Context, client *oci_bds.BdsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_bds.ActionTypesEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_bds.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -355,7 +356,7 @@ func getErrorFromBdsBdsInstanceNodeBackupConfigurationWorkRequest(client *oci_bd
 	return workRequestErr
 }
 
-func (s *BdsBdsInstanceNodeBackupConfigurationResourceCrud) Get() error {
+func (s *BdsBdsInstanceNodeBackupConfigurationResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_bds.GetNodeBackupConfigurationRequest{}
 	tmp := s.D.Id()
 	request.NodeBackupConfigurationId = &tmp
@@ -376,7 +377,7 @@ func (s *BdsBdsInstanceNodeBackupConfigurationResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.GetNodeBackupConfiguration(context.Background(), request)
+	response, err := s.Client.GetNodeBackupConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -385,7 +386,7 @@ func (s *BdsBdsInstanceNodeBackupConfigurationResourceCrud) Get() error {
 	return nil
 }
 
-func (s *BdsBdsInstanceNodeBackupConfigurationResourceCrud) Update() error {
+func (s *BdsBdsInstanceNodeBackupConfigurationResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_bds.UpdateNodeBackupConfigurationRequest{}
 
 	if backupType, ok := s.D.GetOkExists("backup_type"); ok {
@@ -433,16 +434,16 @@ func (s *BdsBdsInstanceNodeBackupConfigurationResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.UpdateNodeBackupConfiguration(context.Background(), request)
+	response, err := s.Client.UpdateNodeBackupConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceNodeBackupConfigurationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesCreated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBdsInstanceNodeBackupConfigurationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesCreated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *BdsBdsInstanceNodeBackupConfigurationResourceCrud) Delete() error {
+func (s *BdsBdsInstanceNodeBackupConfigurationResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_bds.DeleteNodeBackupConfigurationRequest{}
 
 	if bdsInstanceId, ok := s.D.GetOkExists("bds_instance_id"); ok {
@@ -455,14 +456,14 @@ func (s *BdsBdsInstanceNodeBackupConfigurationResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.DeleteNodeBackupConfiguration(context.Background(), request)
+	response, err := s.Client.DeleteNodeBackupConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := bdsInstanceNodeBackupConfigurationWaitForWorkRequest(workId, "backupConfig",
+	_, delWorkRequestErr := bdsInstanceNodeBackupConfigurationWaitForWorkRequest(ctx, workId, "backupConfig",
 		oci_bds.ActionTypesInProgress, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

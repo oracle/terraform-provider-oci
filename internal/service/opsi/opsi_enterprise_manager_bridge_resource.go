@@ -12,6 +12,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,11 +25,11 @@ func OpsiEnterpriseManagerBridgeResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOpsiEnterpriseManagerBridge,
-		Read:     readOpsiEnterpriseManagerBridge,
-		Update:   updateOpsiEnterpriseManagerBridge,
-		Delete:   deleteOpsiEnterpriseManagerBridge,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOpsiEnterpriseManagerBridgeWithContext,
+		ReadContext:   readOpsiEnterpriseManagerBridgeWithContext,
+		UpdateContext: updateOpsiEnterpriseManagerBridgeWithContext,
+		DeleteContext: deleteOpsiEnterpriseManagerBridgeWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -99,37 +100,37 @@ func OpsiEnterpriseManagerBridgeResource() *schema.Resource {
 	}
 }
 
-func createOpsiEnterpriseManagerBridge(d *schema.ResourceData, m interface{}) error {
+func createOpsiEnterpriseManagerBridgeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiEnterpriseManagerBridgeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOpsiEnterpriseManagerBridge(d *schema.ResourceData, m interface{}) error {
+func readOpsiEnterpriseManagerBridgeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiEnterpriseManagerBridgeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateOpsiEnterpriseManagerBridge(d *schema.ResourceData, m interface{}) error {
+func updateOpsiEnterpriseManagerBridgeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiEnterpriseManagerBridgeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteOpsiEnterpriseManagerBridge(d *schema.ResourceData, m interface{}) error {
+func deleteOpsiEnterpriseManagerBridgeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiEnterpriseManagerBridgeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type OpsiEnterpriseManagerBridgeResourceCrud struct {
@@ -168,7 +169,7 @@ func (s *OpsiEnterpriseManagerBridgeResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *OpsiEnterpriseManagerBridgeResourceCrud) Create() error {
+func (s *OpsiEnterpriseManagerBridgeResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_opsi.CreateEnterpriseManagerBridgeRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -205,7 +206,7 @@ func (s *OpsiEnterpriseManagerBridgeResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.CreateEnterpriseManagerBridge(context.Background(), request)
+	response, err := s.Client.CreateEnterpriseManagerBridge(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -216,14 +217,14 @@ func (s *OpsiEnterpriseManagerBridgeResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getEnterpriseManagerBridgeFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getEnterpriseManagerBridgeFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OpsiEnterpriseManagerBridgeResourceCrud) getEnterpriseManagerBridgeFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OpsiEnterpriseManagerBridgeResourceCrud) getEnterpriseManagerBridgeFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_opsi.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	enterpriseManagerBridgeId, err := enterpriseManagerBridgeWaitForWorkRequest(workId, "opsi",
+	enterpriseManagerBridgeId, err := enterpriseManagerBridgeWaitForWorkRequest(ctx, workId, "opsi",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -231,7 +232,7 @@ func (s *OpsiEnterpriseManagerBridgeResourceCrud) getEnterpriseManagerBridgeFrom
 	}
 	s.D.SetId(*enterpriseManagerBridgeId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func enterpriseManagerBridgeWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -257,7 +258,7 @@ func enterpriseManagerBridgeWorkRequestShouldRetryFunc(timeout time.Duration) fu
 	}
 }
 
-func enterpriseManagerBridgeWaitForWorkRequest(wId *string, entityType string, action oci_opsi.ActionTypeEnum,
+func enterpriseManagerBridgeWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_opsi.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_opsi.OperationsInsightsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "opsi")
 	retryPolicy.ShouldRetryOperation = enterpriseManagerBridgeWorkRequestShouldRetryFunc(timeout)
@@ -276,7 +277,7 @@ func enterpriseManagerBridgeWaitForWorkRequest(wId *string, entityType string, a
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_opsi.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -288,7 +289,7 @@ func enterpriseManagerBridgeWaitForWorkRequest(wId *string, entityType string, a
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -305,14 +306,14 @@ func enterpriseManagerBridgeWaitForWorkRequest(wId *string, entityType string, a
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_opsi.OperationStatusFailed || response.Status == oci_opsi.OperationStatusCanceled {
-		return nil, getErrorFromOpsiEnterpriseManagerBridgeWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOpsiEnterpriseManagerBridgeWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOpsiEnterpriseManagerBridgeWorkRequest(client *oci_opsi.OperationsInsightsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opsi.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOpsiEnterpriseManagerBridgeWorkRequest(ctx context.Context, client *oci_opsi.OperationsInsightsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opsi.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_opsi.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -334,7 +335,7 @@ func getErrorFromOpsiEnterpriseManagerBridgeWorkRequest(client *oci_opsi.Operati
 	return workRequestErr
 }
 
-func (s *OpsiEnterpriseManagerBridgeResourceCrud) Get() error {
+func (s *OpsiEnterpriseManagerBridgeResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_opsi.GetEnterpriseManagerBridgeRequest{}
 
 	tmp := s.D.Id()
@@ -342,7 +343,7 @@ func (s *OpsiEnterpriseManagerBridgeResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.GetEnterpriseManagerBridge(context.Background(), request)
+	response, err := s.Client.GetEnterpriseManagerBridge(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -351,11 +352,11 @@ func (s *OpsiEnterpriseManagerBridgeResourceCrud) Get() error {
 	return nil
 }
 
-func (s *OpsiEnterpriseManagerBridgeResourceCrud) Update() error {
+func (s *OpsiEnterpriseManagerBridgeResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -390,16 +391,16 @@ func (s *OpsiEnterpriseManagerBridgeResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.UpdateEnterpriseManagerBridge(context.Background(), request)
+	response, err := s.Client.UpdateEnterpriseManagerBridge(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getEnterpriseManagerBridgeFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getEnterpriseManagerBridgeFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *OpsiEnterpriseManagerBridgeResourceCrud) Delete() error {
+func (s *OpsiEnterpriseManagerBridgeResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_opsi.DeleteEnterpriseManagerBridgeRequest{}
 
 	tmp := s.D.Id()
@@ -407,14 +408,14 @@ func (s *OpsiEnterpriseManagerBridgeResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.DeleteEnterpriseManagerBridge(context.Background(), request)
+	response, err := s.Client.DeleteEnterpriseManagerBridge(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := enterpriseManagerBridgeWaitForWorkRequest(workId, "opsi",
+	_, delWorkRequestErr := enterpriseManagerBridgeWaitForWorkRequest(ctx, workId, "opsi",
 		oci_opsi.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -525,7 +526,7 @@ func EnterpriseManagerBridgeSummaryToMap(obj oci_opsi.EnterpriseManagerBridgeSum
 	return result
 }
 
-func (s *OpsiEnterpriseManagerBridgeResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *OpsiEnterpriseManagerBridgeResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_opsi.ChangeEnterpriseManagerBridgeCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -536,11 +537,11 @@ func (s *OpsiEnterpriseManagerBridgeResourceCrud) updateCompartment(compartment 
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.ChangeEnterpriseManagerBridgeCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeEnterpriseManagerBridgeCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getEnterpriseManagerBridgeFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getEnterpriseManagerBridgeFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

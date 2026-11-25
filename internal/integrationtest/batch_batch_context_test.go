@@ -6,6 +6,8 @@ package integrationtest
 import (
 	"context"
 	"fmt"
+	"os"
+	"reflect"
 	"strconv"
 	"testing"
 	"time"
@@ -20,6 +22,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/service/batch"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
@@ -66,6 +69,7 @@ var (
 		"max_concurrent_tasks": acctest.Representation{RepType: acctest.Required, Create: `10`},
 		"name":                 acctest.Representation{RepType: acctest.Required, Create: `name`},
 		"shape":                acctest.RepresentationGroup{RepType: acctest.Required, Group: BatchBatchContextFleetsShapeRepresentation},
+		"reservation":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: BatchBatchContextFleetsReservationRepresentation},
 		"type":                 acctest.Representation{RepType: acctest.Required, Create: `SERVICE_MANAGED_GPU_FLEET`},
 	}
 	BatchBatchContextNetworkRepresentation = map[string]interface{}{
@@ -90,6 +94,10 @@ var (
 		"type":             acctest.Representation{RepType: acctest.Required, Create: `FIXED_GPU_FLEET_SHAPE`},
 		"disk_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `10`},
 		"shape_name":       acctest.Representation{RepType: acctest.Required, Create: `VM.GPU.A10.1`},
+	}
+	BatchBatchContextFleetsReservationRepresentation = map[string]interface{}{
+		"capacity_reservation_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`capacityReservationIds`}},
+		"type":                     acctest.Representation{RepType: acctest.Required, Create: `COMPUTE_CAPACITY_RESERVATION`},
 	}
 
 	BatchBatchContextResourceDependencies = BatchBatchContextShapeResourceConfig +
@@ -207,6 +215,9 @@ func TestBatchBatchContextResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "fleets.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "fleets.0.max_concurrent_tasks", "10"),
 				resource.TestCheckResourceAttr(resourceName, "fleets.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "fleets.0.reservation.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "fleets.0.reservation.0.capacity_reservation_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "fleets.0.reservation.0.type", "COMPUTE_CAPACITY_RESERVATION"),
 				resource.TestCheckResourceAttr(resourceName, "fleets.0.shape.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "fleets.0.shape.0.disk_size_in_gbs", "10"),
 				resource.TestCheckResourceAttr(resourceName, "fleets.0.shape.0.memory_in_gbs", "240"),
@@ -259,6 +270,9 @@ func TestBatchBatchContextResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "fleets.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "fleets.0.max_concurrent_tasks", "10"),
 				resource.TestCheckResourceAttr(resourceName, "fleets.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "fleets.0.reservation.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "fleets.0.reservation.0.capacity_reservation_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "fleets.0.reservation.0.type", "COMPUTE_CAPACITY_RESERVATION"),
 				resource.TestCheckResourceAttr(resourceName, "fleets.0.shape.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "fleets.0.shape.0.disk_size_in_gbs", "10"),
 				resource.TestCheckResourceAttr(resourceName, "fleets.0.shape.0.memory_in_gbs", "240"),
@@ -306,6 +320,9 @@ func TestBatchBatchContextResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "fleets.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "fleets.0.max_concurrent_tasks", "10"),
 				resource.TestCheckResourceAttr(resourceName, "fleets.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "fleets.0.reservation.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "fleets.0.reservation.0.capacity_reservation_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "fleets.0.reservation.0.type", "COMPUTE_CAPACITY_RESERVATION"),
 				resource.TestCheckResourceAttr(resourceName, "fleets.0.shape.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "fleets.0.shape.0.disk_size_in_gbs", "10"),
 				resource.TestCheckResourceAttr(resourceName, "fleets.0.shape.0.memory_in_gbs", "240"),
@@ -371,6 +388,9 @@ func TestBatchBatchContextResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "fleets.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "fleets.0.max_concurrent_tasks", "10"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "fleets.0.name", "name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "fleets.0.reservation.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "fleets.0.reservation.0.capacity_reservation_ids.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "fleets.0.reservation.0.type", "COMPUTE_CAPACITY_RESERVATION"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "fleets.0.shape.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "fleets.0.shape.0.disk_size_in_gbs", "10"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "fleets.0.shape.0.memory_in_gbs", "240"),
@@ -601,4 +621,125 @@ func BatchBatchContextSweepResponseFetchOperation(client *tf_client.OracleClient
 		},
 	})
 	return err
+}
+
+func checkReservationSmokeDetails(s *batch.BatchBatchContextResourceCrud, id, compartment, subnet, reservationID string) error {
+	if s.Res == nil || s.Res.Id == nil || *s.Res.Id != id {
+		return fmt.Errorf("GET did not return the created BC %s", id)
+	}
+	if s.Res.LifecycleState != oci_batch.BatchContextLifecycleStateCreating && s.Res.LifecycleState != oci_batch.BatchContextLifecycleStateFailed {
+		return fmt.Errorf("unexpected state %q for synthetic reservation", s.Res.LifecycleState)
+	}
+	if err := s.SetData(); err != nil {
+		return err
+	}
+	want := map[string]interface{}{
+		"compartment_id": compartment, "network.0.subnet_id": subnet,
+		"fleets.#": 1, "fleets.0.name": "reservation-smoke-cpu", "fleets.0.type": "SERVICE_MANAGED_FLEET",
+		"fleets.0.max_concurrent_tasks": 1, "fleets.0.shape.0.shape_name": "VM.Standard.E5.Flex",
+		"fleets.0.shape.0.ocpus": 1, "fleets.0.shape.0.memory_in_gbs": 12,
+		"fleets.0.reservation.#": 1, "fleets.0.reservation.0.type": "COMPUTE_CAPACITY_RESERVATION",
+		"fleets.0.reservation.0.capacity_reservation_ids.#": 1,
+		"fleets.0.reservation.0.capacity_reservation_ids.0": reservationID,
+	}
+	for key, expected := range want {
+		if actual := s.D.Get(key); !reflect.DeepEqual(actual, expected) {
+			return fmt.Errorf("%s = %#v; want %#v", key, actual, expected)
+		}
+	}
+	return nil
+}
+
+// issue-routing-tag: batch/default
+// This is a live API/provider-mapping smoke test, not a successful Terraform apply.
+// It intentionally bypasses the create work-request waiter. A synthetic reservation
+// may cause asynchronous provisioning to fail; only acceptance and persisted details
+// are checked. The BC is intentionally retained; provisioning and cleanup are not tested.
+// BATCH_RESERVATION_SMOKE=1 explicitly opts into this retained-resource scenario.
+func TestBatchBatchContextResource_reservationCreateRead(t *testing.T) {
+	if os.Getenv("TF_ACC") != "1" || os.Getenv("BATCH_RESERVATION_SMOKE") != "1" {
+		t.Skip("retained-BC smoke test requires TF_ACC=1 and BATCH_RESERVATION_SMOKE=1")
+	}
+	required := func(name string) string {
+		v := os.Getenv(name)
+		if v == "" {
+			t.Fatalf("%s is required", name)
+		}
+		return v
+	}
+	compartment := required("TF_VAR_compartment_ocid")
+	subnet := required("TF_VAR_subnet_ocid")
+	// Supply a synthetic reservation externally; never reuse a real reservation.
+	reservationID := required("TF_VAR_capacity_reservation_ocid")
+	required("TF_VAR_region")
+	// Reuse the acceptance suite's provider configuration and authentication.
+	// Validate test-specific inputs above before configuring clients or creating a BC.
+	client := acctest.GetTestClients(&schema.ResourceData{}).BatchComputingClient()
+	s := &batch.BatchBatchContextResourceCrud{Client: client}
+	fleet := oci_batch.CreateServiceManagedFleetDetails{
+		Name: common.String("reservation-smoke-cpu"), MaxConcurrentTasks: common.Int(1),
+		Shape:       &oci_batch.FleetShape{ShapeName: common.String("VM.Standard.E5.Flex"), Ocpus: common.Int(1), MemoryInGBs: common.Int(12)},
+		Reservation: oci_batch.CreateComputeCapacityReservationDetails{CapacityReservationIds: []string{reservationID}},
+	}
+	network := oci_batch.CreateNetworkDetails{SubnetId: &subnet}
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
+	defer cancel()
+	name := fmt.Sprintf("terraform-reservation-create-read-%d", time.Now().UnixNano())
+	response, err := client.CreateBatchContext(ctx, oci_batch.CreateBatchContextRequest{
+		CreateBatchContextDetails: oci_batch.CreateBatchContextDetails{
+			CompartmentId: &compartment, DisplayName: &name, Network: &network,
+			Fleets: []oci_batch.CreateFleetDetails{fleet},
+		},
+	})
+	if err != nil {
+		t.Fatalf("create was not accepted: %v", err)
+	}
+	if response.Id == nil || *response.Id == "" {
+		t.Fatal("create returned no BC ID; inspect the service for cleanup")
+	}
+	id := *response.Id
+	t.Logf("Created BC %s; synthetic reservation %s", id, reservationID)
+	t.Logf("BC %s is retained intentionally; this test does not delete resources.", id)
+	// Use fresh resource data: values from the create configuration must not mask
+	// missing fields in the GET response.
+	s.D = schema.TestResourceDataRaw(t, batch.BatchBatchContextResource().Schema, nil)
+	s.D.SetId(id)
+	if err := s.GetWithContext(ctx); err != nil {
+		t.Fatalf("read created BC %s: %v", id, err)
+	}
+	if err := checkReservationSmokeDetails(s, id, compartment, subnet, reservationID); err != nil {
+		t.Fatal(err)
+	}
+	t.Logf("Create/read assertions passed in state %s; BC retained; provisioning and cleanup not tested.", s.Res.LifecycleState)
+}
+
+// issue-routing-tag: batch/default
+// Discover an existing BC without creating or deleting cloud resources. Discovery
+// supports ACTIVE/NEEDS_ATTENTION, not the synthetic reservation's CREATING/FAILED.
+func TestBatchBatchContextResource_resourceDiscovery(t *testing.T) {
+	if os.Getenv("TF_ACC") != "1" || os.Getenv("BATCH_RESOURCE_DISCOVERY") != "1" {
+		t.Skip("existing-BC discovery requires TF_ACC=1 and BATCH_RESOURCE_DISCOVERY=1")
+	}
+	id := os.Getenv("TF_VAR_batch_context_discovery_id")
+	compartment := os.Getenv("TF_VAR_compartment_ocid")
+	if id == "" || compartment == "" || os.Getenv("TF_VAR_region") == "" {
+		t.Fatal("TF_VAR_batch_context_discovery_id, TF_VAR_compartment_ocid and TF_VAR_region are required")
+	}
+	client := acctest.GetTestClients(&schema.ResourceData{}).BatchComputingClient()
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
+	defer cancel()
+	response, err := client.GetBatchContext(ctx, oci_batch.GetBatchContextRequest{BatchContextId: &id})
+	if err != nil {
+		t.Fatalf("read discovery BC: %v", err)
+	}
+	if response.Id == nil || *response.Id != id || response.CompartmentId == nil || *response.CompartmentId != compartment {
+		t.Fatal("discovery BC does not match the requested ID and compartment")
+	}
+	if response.LifecycleState != oci_batch.BatchContextLifecycleStateActive && response.LifecycleState != oci_batch.BatchContextLifecycleStateNeedsAttention {
+		t.Fatalf("discovery requires ACTIVE or NEEDS_ATTENTION; BC is %s", response.LifecycleState)
+	}
+	if err := resourcediscovery.TestExportCompartmentWithResourceName(&id, &compartment, "oci_batch_batch_context.reservation_discovery"); err != nil {
+		t.Fatalf("resource discovery failed: %v", err)
+	}
+	t.Logf("Resource discovery completed for existing BC %s; no cloud resources created or deleted by this test.", id)
 }

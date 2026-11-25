@@ -35,6 +35,7 @@ Following environment variables are required:
  - TF_VAR_password - password used for create connection, due to sec central issues, we must use environment variables instead of hardcoded passwords
  - TF_VAR_new_password - new password used for update connection, due to sec central issues, we must use environment variables instead of hardcoded passwords
  - TF_VAR_password_secret_id - secret which stores the password used for create connection
+ - TF_VAR_objectstorage_namespace - Object Storage namespace for the OADC warehouse bucket
  - TF_VAR_new_password_secret_id - secret which stores new password used for update connection
  - TF_VAR_stream_pool_id - streampool id for oci streaming connection
  - TF_VAR_streaming_username - full username including tenant and streampool id for oci streaming connection (e.g. tenant/username/streampoolid)
@@ -139,39 +140,40 @@ var (
 	// This is unrelated to Terraform's normal state refresh behavior.
 	RefreshTestEnabled     = false
 	EnabledConnectionTests = []oci_golden_gate.ConnectionTypeEnum{
-		// 		oci_golden_gate.ConnectionTypeAiModel,
+		oci_golden_gate.ConnectionTypeOracleAiDataCatalogStorage,
+		oci_golden_gate.ConnectionTypeAiModel,
 		oci_golden_gate.ConnectionTypeAiProvider,
-		// 		oci_golden_gate.ConnectionTypeAmazonS3,
-		// 		oci_golden_gate.ConnectionTypeAmazonKinesis,
-		// 		oci_golden_gate.ConnectionTypeAmazonRedshift,
-		// 		oci_golden_gate.ConnectionTypeAzureDataLakeStorage,
-		// 		oci_golden_gate.ConnectionTypeAzureSynapseAnalytics,
-		//		oci_golden_gate.ConnectionTypeCassandra, //TODO 2023. 09. 19. lmadaras: to be tested
-		// 		oci_golden_gate.ConnectionTypeDb2,
-		// 		oci_golden_gate.ConnectionTypeElasticsearch,
-		// 		oci_golden_gate.ConnectionTypeGoldengate,
-		// 		oci_golden_gate.ConnectionTypeGeneric,
-		// 		oci_golden_gate.ConnectionTypeGoogleBigquery,
-		// 		oci_golden_gate.ConnectionTypeGoogleCloudStorage,
-		// 		oci_golden_gate.ConnectionTypeHdfs,
-		// 		oci_golden_gate.ConnectionTypeJavaMessageService,
-		// 		oci_golden_gate.ConnectionTypeKafka,
-		// 		oci_golden_gate.ConnectionTypeKafkaSchemaRegistry,
-		// 		oci_golden_gate.ConnectionTypeMicrosoftSqlserver,
-		// 		oci_golden_gate.ConnectionTypeMongodb,
-		// 		oci_golden_gate.ConnectionTypeMysql,
-		// 		oci_golden_gate.ConnectionTypeOciObjectStorage,
-		// 		oci_golden_gate.ConnectionTypeOracle,
-		// 		oci_golden_gate.ConnectionTypeOracleNosql,
-		// 		oci_golden_gate.ConnectionTypePostgresql,
-		// 		oci_golden_gate.ConnectionTypeRedis,
-		// 		oci_golden_gate.ConnectionTypeSnowflake,
-		// 		oci_golden_gate.ConnectionTypeDatabricks,
+		oci_golden_gate.ConnectionTypeAmazonS3,
+		oci_golden_gate.ConnectionTypeAmazonKinesis,
+		oci_golden_gate.ConnectionTypeAmazonRedshift,
+		oci_golden_gate.ConnectionTypeAzureDataLakeStorage,
+		oci_golden_gate.ConnectionTypeAzureSynapseAnalytics,
+		//oci_golden_gate.ConnectionTypeCassandra, //TODO 2023. 09. 19. lmadaras: to be tested
+		oci_golden_gate.ConnectionTypeDb2,
+		oci_golden_gate.ConnectionTypeElasticsearch,
+		oci_golden_gate.ConnectionTypeGoldengate,
+		oci_golden_gate.ConnectionTypeGeneric,
+		oci_golden_gate.ConnectionTypeGoogleBigquery,
+		oci_golden_gate.ConnectionTypeGoogleCloudStorage,
+		oci_golden_gate.ConnectionTypeHdfs,
+		oci_golden_gate.ConnectionTypeJavaMessageService,
+		oci_golden_gate.ConnectionTypeKafka,
+		oci_golden_gate.ConnectionTypeKafkaSchemaRegistry,
+		oci_golden_gate.ConnectionTypeMicrosoftSqlserver,
+		oci_golden_gate.ConnectionTypeMongodb,
+		oci_golden_gate.ConnectionTypeMysql,
+		oci_golden_gate.ConnectionTypeOciObjectStorage,
+		oci_golden_gate.ConnectionTypeOracle,
+		oci_golden_gate.ConnectionTypeOracleNosql,
+		oci_golden_gate.ConnectionTypePostgresql,
+		oci_golden_gate.ConnectionTypeRedis,
+		oci_golden_gate.ConnectionTypeSnowflake,
+		oci_golden_gate.ConnectionTypeDatabricks,
 		oci_golden_gate.ConnectionTypeDatabricksEngine,
-		// 		oci_golden_gate.ConnectionTypeGooglePubsub,
-		// 		oci_golden_gate.ConnectionTypeMicrosoftFabric,
-		// 		oci_golden_gate.ConnectionTypeIceberg,
-		// 		oci_golden_gate.ConnectionTypeOracleAiDataPlatform,
+		oci_golden_gate.ConnectionTypeGooglePubsub,
+		oci_golden_gate.ConnectionTypeMicrosoftFabric,
+		oci_golden_gate.ConnectionTypeIceberg,
+		oci_golden_gate.ConnectionTypeOracleAiDataPlatform,
 		oci_golden_gate.ConnectionTypeOracleAiDataPlatformEngine,
 		oci_golden_gate.ConnectionTypeSpark,
 	}
@@ -713,6 +715,21 @@ var (
 			},
 		},
 
+		// Oracle AI Data Catalog Storage
+		{connectionType: oci_golden_gate.ConnectionTypeOracleAiDataCatalogStorage, technologyType: oci_golden_gate.TechnologyTypeOracleAiDataCatalogStorage,
+			representation: map[string]interface{}{
+				"warehouse_name":      acctest.Representation{RepType: acctest.Required, Create: `test-warehouse`, Update: `test-warehouse-updated`},
+				"does_use_secret_ids": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+				"warehouse_storage": acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
+					"namespace":                   acctest.Representation{RepType: acctest.Required, Create: `${var.objectstorage_namespace}`},
+					"storage_type":                acctest.Representation{RepType: acctest.Required, Create: `OCI_OBJECT_STORAGE_ACCESS_KEY`},
+					"access_key_id":               acctest.Representation{RepType: acctest.Required, Create: `access-key-id`, Update: `access-key-id-updated`},
+					"region":                      acctest.Representation{RepType: acctest.Required, Create: `us-ashburn-1`, Update: `us-phoenix-1`},
+					"secret_access_key_secret_id": acctest.Representation{RepType: acctest.Required, Create: `${var.password_secret_id}`, Update: `${var.new_password_secret_id}`},
+				}},
+			},
+		},
+
 		// OracleAiDataPlatform
 		{connectionType: oci_golden_gate.ConnectionTypeOracleAiDataPlatform, technologyType: oci_golden_gate.TechnologyTypeOracleAiDataPlatform,
 			representation: map[string]interface{}{
@@ -956,6 +973,9 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 		makeVariableStr(GOLDEN_GATE_ARTIFACT_USER_ID, t) +
 		makeVariableStr(GOLDEN_GATE_ARTIFACT_PAR_URL_SECRET_ID, t) +
 		makeVariableStr(ICEBERG_SERVICE_ACCOUNT_KEY_FILE_SECRET_ID, t)
+	if containsConnection(EnabledConnectionTests, oci_golden_gate.ConnectionTypeOracleAiDataCatalogStorage) {
+		config += makeVariableStr("objectstorage_namespace", t)
+	}
 
 	var createResourcesConfig, dataSourceConfig, listDataSourceConfig, updateResourcesConfig string
 	// CREATE CHECK FUNCTION MAPS
@@ -1098,9 +1118,9 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 		}
 
 		runResourceDiscovery := false
-		if !resourceDiscoveryCheckAdded {
+		if !resourceDiscoveryCheckAdded || connectionTestDescriptor.connectionType == oci_golden_gate.ConnectionTypeOracleAiDataCatalogStorage {
 			compartmentRepresentation := connectionRepresentation[COMPARTMENT_ID].(acctest.Representation)
-			if getStrRepresentation(compartmentRepresentation) == "${var.compartment_id}" {
+			if compartmentRepresentation.Create == "${var.compartment_id}" {
 				runResourceDiscovery = true
 				resourceDiscoveryCheckAdded = true
 			}

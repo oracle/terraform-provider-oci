@@ -27,6 +27,8 @@ type ServiceManagedFleet struct {
 	// Maximum number of concurrent tasks for the service managed fleet.
 	MaxConcurrentTasks *int `mandatory:"true" json:"maxConcurrentTasks"`
 
+	Reservation Reservation `mandatory:"false" json:"reservation"`
+
 	// Current state of the service manage fleet configuration.
 	State *string `mandatory:"false" json:"state"`
 
@@ -62,4 +64,43 @@ func (m ServiceManagedFleet) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *ServiceManagedFleet) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Reservation        reservation `json:"reservation"`
+		State              *string     `json:"state"`
+		Details            *string     `json:"details"`
+		Name               *string     `json:"name"`
+		Shape              *FleetShape `json:"shape"`
+		MaxConcurrentTasks *int        `json:"maxConcurrentTasks"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	nn, e = model.Reservation.UnmarshalPolymorphicJSON(model.Reservation.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.Reservation = nn.(Reservation)
+	} else {
+		m.Reservation = nil
+	}
+
+	m.State = model.State
+
+	m.Details = model.Details
+
+	m.Name = model.Name
+
+	m.Shape = model.Shape
+
+	m.MaxConcurrentTasks = model.MaxConcurrentTasks
+
+	return
 }

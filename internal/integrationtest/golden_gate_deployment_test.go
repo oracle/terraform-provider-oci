@@ -148,6 +148,15 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			"ogg_version":        acctest.Representation{RepType: acctest.Required, Create: `${var.base_ogg_version}`},
 		}
 
+		oggDataRepresentationForAiDataCatalog = acctest.RepresentationCopyWithRemovedProperties(
+			acctest.RepresentationCopyWithNewProperties(oggDataRepresentationForIam, map[string]interface{}{
+				"group_to_roles_mapping": acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
+					"security_group_id": acctest.Representation{RepType: acctest.Required, Create: `${var.group_id}`},
+				}},
+			}),
+			[]string{"ogg_version"},
+		)
+
 		oggDataRepresentationForGoldenGate = map[string]interface{}{
 			"deployment_name":    acctest.Representation{RepType: acctest.Required, Create: `GoldengateDeployment`},
 			"credential_store":   acctest.Representation{RepType: acctest.Required, Create: `GOLDENGATE`},
@@ -956,6 +965,58 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			),
 		},
 		// #21 delete before next Create
+		{
+			Config: config,
+		},
+		// #22 verify AI Data Catalog deployment creation
+		{
+			PreConfig: func() {
+				fmt.Println("This step will run only if TF_VAR_identity_domain_id and TF_VAR_group_id env variables are set.")
+			},
+			SkipFunc: func() (bool, error) {
+				if identityDomainId == "" || groupId == "" {
+					return true, nil
+				}
+				return false, nil
+			},
+			Config: config + testDeploymentIdVariableStr + acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Required, acctest.Create,
+				acctest.RepresentationCopyWithNewProperties(goldenGateDeploymentRepresentation, map[string]interface{}{
+					"deployment_type": acctest.Representation{RepType: acctest.Required, Create: `AI_DATA_CATALOG`},
+					"ogg_data":        acctest.RepresentationGroup{RepType: acctest.Required, Group: oggDataRepresentationForAiDataCatalog},
+				})),
+
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_type", "AI_DATA_CATALOG"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Terraform_integration_test"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.credential_store", "IAM"),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.identity_domain_id", identityDomainId),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.group_to_roles_mapping.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.group_to_roles_mapping.0.security_group_id", groupId),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.deployment_name", "IamDeployment"),
+				resource.TestCheckResourceAttrSet(resourceName, "ogg_data.0.ogg_version"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if err != nil {
+						return err
+					}
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						resourceDiscoveryId := "oci_golden_gate_deployment:" + resId
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resourceDiscoveryId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+		// #23 delete AI Data Catalog deployment
 		{
 			Config: config,
 		},

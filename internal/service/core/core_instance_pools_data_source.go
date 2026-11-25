@@ -138,6 +138,12 @@ func (s *CoreInstancePoolsDataSourceCrud) SetData() error {
 			instancePool["override_policy"] = nil
 		}
 
+		if r.InstanceMaintenancePolicy != nil {
+			instancePool["instance_maintenance_policy"] = []interface{}{InstancePoolMaintenancePolicyDetailsToMap(r.InstanceMaintenancePolicy)}
+		} else {
+			instancePool["instance_maintenance_policy"] = nil
+		}
+
 		instancePool["pool_type"] = r.PoolType
 
 		if r.Size != nil {

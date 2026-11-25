@@ -61,6 +61,12 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `associated_autonomous_vm_clusters` - List of Autonomous VM Clusters associated with the key store.
+	* `display_name` - The display name of the Autonomous VM Cluster associated with the key store.
+	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous VM Cluster.
+* `associated_cloud_autonomous_vm_clusters` - List of Cloud Autonomous VM Clusters associated with the key store.
+	* `display_name` - The display name of the Cloud Autonomous VM Cluster associated with the key store.
+	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Cloud Autonomous VM Cluster.
 * `associated_databases` - List of databases associated with the key store.
 	* `db_name` - The name of the database that is associated with the key store.
 	* `db_unique_name` - The unique name of the database that is associated with the key store.
