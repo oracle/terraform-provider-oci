@@ -10,6 +10,7 @@
 package database
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -182,6 +183,8 @@ type AutonomousVmClusterSummary struct {
 
 	// The lowest value to which maximum number of ACDs can be scaled down.
 	MaxAcdsLowestScaledValue *int `mandatory:"false" json:"maxAcdsLowestScaledValue"`
+
+	KeyManagementSystemDetails KeyManagementSystemDetails `mandatory:"false" json:"keyManagementSystemDetails"`
 }
 
 func (m AutonomousVmClusterSummary) String() string {
@@ -210,6 +213,192 @@ func (m AutonomousVmClusterSummary) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *AutonomousVmClusterSummary) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		TimeCreated                                  *common.SDKTime                                     `json:"timeCreated"`
+		LifecycleDetails                             *string                                             `json:"lifecycleDetails"`
+		TimeZone                                     *string                                             `json:"timeZone"`
+		DistributionAlgorithm                        AutonomousVmClusterSummaryDistributionAlgorithmEnum `json:"distributionAlgorithm"`
+		SgaPercentage                                *float32                                            `json:"sgaPercentage"`
+		IsLocalBackupEnabled                         *bool                                               `json:"isLocalBackupEnabled"`
+		CpusEnabled                                  *int                                                `json:"cpusEnabled"`
+		ComputeModel                                 AutonomousVmClusterSummaryComputeModelEnum          `json:"computeModel"`
+		OcpusEnabled                                 *float32                                            `json:"ocpusEnabled"`
+		AvailableCpus                                *int                                                `json:"availableCpus"`
+		TotalContainerDatabases                      *int                                                `json:"totalContainerDatabases"`
+		MemoryPerOracleComputeUnitInGBs              *int                                                `json:"memoryPerOracleComputeUnitInGBs"`
+		MemoryPerComputeUnitInGBs                    *float32                                            `json:"memoryPerComputeUnitInGBs"`
+		CpuCoreCountPerNode                          *int                                                `json:"cpuCoreCountPerNode"`
+		AutonomousDataStorageSizeInTBs               *float64                                            `json:"autonomousDataStorageSizeInTBs"`
+		MaintenanceWindow                            *MaintenanceWindow                                  `json:"maintenanceWindow"`
+		LastMaintenanceRunId                         *string                                             `json:"lastMaintenanceRunId"`
+		NextMaintenanceRunId                         *string                                             `json:"nextMaintenanceRunId"`
+		CpuPercentage                                *float32                                            `json:"cpuPercentage"`
+		AutonomousDataStoragePercentage              *float32                                            `json:"autonomousDataStoragePercentage"`
+		ProvisionedCpus                              *float32                                            `json:"provisionedCpus"`
+		TotalAutonomousDataStorageInTBs              *float32                                            `json:"totalAutonomousDataStorageInTBs"`
+		ReservedCpus                                 *float32                                            `json:"reservedCpus"`
+		ProvisionableAutonomousContainerDatabases    *int                                                `json:"provisionableAutonomousContainerDatabases"`
+		ProvisionedAutonomousContainerDatabases      *int                                                `json:"provisionedAutonomousContainerDatabases"`
+		NonProvisionableAutonomousContainerDatabases *int                                                `json:"nonProvisionableAutonomousContainerDatabases"`
+		MemorySizeInGBs                              *int                                                `json:"memorySizeInGBs"`
+		DbNodeStorageSizeInGBs                       *int                                                `json:"dbNodeStorageSizeInGBs"`
+		DataStorageSizeInTBs                         *float64                                            `json:"dataStorageSizeInTBs"`
+		DataStorageSizeInGBs                         *float64                                            `json:"dataStorageSizeInGBs"`
+		AvailableDataStorageSizeInTBs                *float64                                            `json:"availableDataStorageSizeInTBs"`
+		NodeCount                                    *int                                                `json:"nodeCount"`
+		LicenseModel                                 AutonomousVmClusterSummaryLicenseModelEnum          `json:"licenseModel"`
+		FreeformTags                                 map[string]string                                   `json:"freeformTags"`
+		DefinedTags                                  map[string]map[string]interface{}                   `json:"definedTags"`
+		SystemTags                                   map[string]map[string]interface{}                   `json:"systemTags"`
+		DbServers                                    []string                                            `json:"dbServers"`
+		ReclaimableCpus                              *int                                                `json:"reclaimableCpus"`
+		AvailableContainerDatabases                  *int                                                `json:"availableContainerDatabases"`
+		AvailableAutonomousDataStorageSizeInTBs      *float64                                            `json:"availableAutonomousDataStorageSizeInTBs"`
+		ScanListenerPortTls                          *int                                                `json:"scanListenerPortTls"`
+		ScanListenerPortNonTls                       *int                                                `json:"scanListenerPortNonTls"`
+		IsMtlsEnabled                                *bool                                               `json:"isMtlsEnabled"`
+		TimeDatabaseSslCertificateExpires            *common.SDKTime                                     `json:"timeDatabaseSslCertificateExpires"`
+		TimeOrdsCertificateExpires                   *common.SDKTime                                     `json:"timeOrdsCertificateExpires"`
+		ExadataStorageInTBsLowestScaledValue         *float64                                            `json:"exadataStorageInTBsLowestScaledValue"`
+		CpusLowestScaledValue                        *int                                                `json:"cpusLowestScaledValue"`
+		MaxAcdsLowestScaledValue                     *int                                                `json:"maxAcdsLowestScaledValue"`
+		KeyManagementSystemDetails                   keymanagementsystemdetails                          `json:"keyManagementSystemDetails"`
+		Id                                           *string                                             `json:"id"`
+		CompartmentId                                *string                                             `json:"compartmentId"`
+		DisplayName                                  *string                                             `json:"displayName"`
+		LifecycleState                               AutonomousVmClusterSummaryLifecycleStateEnum        `json:"lifecycleState"`
+		ExadataInfrastructureId                      *string                                             `json:"exadataInfrastructureId"`
+		VmClusterNetworkId                           *string                                             `json:"vmClusterNetworkId"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.TimeCreated = model.TimeCreated
+
+	m.LifecycleDetails = model.LifecycleDetails
+
+	m.TimeZone = model.TimeZone
+
+	m.DistributionAlgorithm = model.DistributionAlgorithm
+
+	m.SgaPercentage = model.SgaPercentage
+
+	m.IsLocalBackupEnabled = model.IsLocalBackupEnabled
+
+	m.CpusEnabled = model.CpusEnabled
+
+	m.ComputeModel = model.ComputeModel
+
+	m.OcpusEnabled = model.OcpusEnabled
+
+	m.AvailableCpus = model.AvailableCpus
+
+	m.TotalContainerDatabases = model.TotalContainerDatabases
+
+	m.MemoryPerOracleComputeUnitInGBs = model.MemoryPerOracleComputeUnitInGBs
+
+	m.MemoryPerComputeUnitInGBs = model.MemoryPerComputeUnitInGBs
+
+	m.CpuCoreCountPerNode = model.CpuCoreCountPerNode
+
+	m.AutonomousDataStorageSizeInTBs = model.AutonomousDataStorageSizeInTBs
+
+	m.MaintenanceWindow = model.MaintenanceWindow
+
+	m.LastMaintenanceRunId = model.LastMaintenanceRunId
+
+	m.NextMaintenanceRunId = model.NextMaintenanceRunId
+
+	m.CpuPercentage = model.CpuPercentage
+
+	m.AutonomousDataStoragePercentage = model.AutonomousDataStoragePercentage
+
+	m.ProvisionedCpus = model.ProvisionedCpus
+
+	m.TotalAutonomousDataStorageInTBs = model.TotalAutonomousDataStorageInTBs
+
+	m.ReservedCpus = model.ReservedCpus
+
+	m.ProvisionableAutonomousContainerDatabases = model.ProvisionableAutonomousContainerDatabases
+
+	m.ProvisionedAutonomousContainerDatabases = model.ProvisionedAutonomousContainerDatabases
+
+	m.NonProvisionableAutonomousContainerDatabases = model.NonProvisionableAutonomousContainerDatabases
+
+	m.MemorySizeInGBs = model.MemorySizeInGBs
+
+	m.DbNodeStorageSizeInGBs = model.DbNodeStorageSizeInGBs
+
+	m.DataStorageSizeInTBs = model.DataStorageSizeInTBs
+
+	m.DataStorageSizeInGBs = model.DataStorageSizeInGBs
+
+	m.AvailableDataStorageSizeInTBs = model.AvailableDataStorageSizeInTBs
+
+	m.NodeCount = model.NodeCount
+
+	m.LicenseModel = model.LicenseModel
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
+
+	m.DbServers = make([]string, len(model.DbServers))
+	copy(m.DbServers, model.DbServers)
+	m.ReclaimableCpus = model.ReclaimableCpus
+
+	m.AvailableContainerDatabases = model.AvailableContainerDatabases
+
+	m.AvailableAutonomousDataStorageSizeInTBs = model.AvailableAutonomousDataStorageSizeInTBs
+
+	m.ScanListenerPortTls = model.ScanListenerPortTls
+
+	m.ScanListenerPortNonTls = model.ScanListenerPortNonTls
+
+	m.IsMtlsEnabled = model.IsMtlsEnabled
+
+	m.TimeDatabaseSslCertificateExpires = model.TimeDatabaseSslCertificateExpires
+
+	m.TimeOrdsCertificateExpires = model.TimeOrdsCertificateExpires
+
+	m.ExadataStorageInTBsLowestScaledValue = model.ExadataStorageInTBsLowestScaledValue
+
+	m.CpusLowestScaledValue = model.CpusLowestScaledValue
+
+	m.MaxAcdsLowestScaledValue = model.MaxAcdsLowestScaledValue
+
+	nn, e = model.KeyManagementSystemDetails.UnmarshalPolymorphicJSON(model.KeyManagementSystemDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.KeyManagementSystemDetails = nn.(KeyManagementSystemDetails)
+	} else {
+		m.KeyManagementSystemDetails = nil
+	}
+
+	m.Id = model.Id
+
+	m.CompartmentId = model.CompartmentId
+
+	m.DisplayName = model.DisplayName
+
+	m.LifecycleState = model.LifecycleState
+
+	m.ExadataInfrastructureId = model.ExadataInfrastructureId
+
+	m.VmClusterNetworkId = model.VmClusterNetworkId
+
+	return
 }
 
 // AutonomousVmClusterSummaryLifecycleStateEnum Enum with underlying type: string

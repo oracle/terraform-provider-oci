@@ -34,6 +34,7 @@ const (
 	ConnectionTypeHdfs                       ConnectionTypeEnum = "HDFS"
 	ConnectionTypeOracleAiDataPlatform       ConnectionTypeEnum = "ORACLE_AI_DATA_PLATFORM"
 	ConnectionTypeOracleAiDataPlatformEngine ConnectionTypeEnum = "ORACLE_AI_DATA_PLATFORM_ENGINE"
+	ConnectionTypeOracleAiDataCatalogStorage ConnectionTypeEnum = "ORACLE_AI_DATA_CATALOG_STORAGE"
 	ConnectionTypeOracleNosql                ConnectionTypeEnum = "ORACLE_NOSQL"
 	ConnectionTypeMongodb                    ConnectionTypeEnum = "MONGODB"
 	ConnectionTypeAmazonKinesis              ConnectionTypeEnum = "AMAZON_KINESIS"
@@ -71,6 +72,7 @@ var mappingConnectionTypeEnum = map[string]ConnectionTypeEnum{
 	"HDFS":                           ConnectionTypeHdfs,
 	"ORACLE_AI_DATA_PLATFORM":        ConnectionTypeOracleAiDataPlatform,
 	"ORACLE_AI_DATA_PLATFORM_ENGINE": ConnectionTypeOracleAiDataPlatformEngine,
+	"ORACLE_AI_DATA_CATALOG_STORAGE": ConnectionTypeOracleAiDataCatalogStorage,
 	"ORACLE_NOSQL":                   ConnectionTypeOracleNosql,
 	"MONGODB":                        ConnectionTypeMongodb,
 	"AMAZON_KINESIS":                 ConnectionTypeAmazonKinesis,
@@ -108,6 +110,7 @@ var mappingConnectionTypeEnumLowerCase = map[string]ConnectionTypeEnum{
 	"hdfs":                           ConnectionTypeHdfs,
 	"oracle_ai_data_platform":        ConnectionTypeOracleAiDataPlatform,
 	"oracle_ai_data_platform_engine": ConnectionTypeOracleAiDataPlatformEngine,
+	"oracle_ai_data_catalog_storage": ConnectionTypeOracleAiDataCatalogStorage,
 	"oracle_nosql":                   ConnectionTypeOracleNosql,
 	"mongodb":                        ConnectionTypeMongodb,
 	"amazon_kinesis":                 ConnectionTypeAmazonKinesis,
@@ -156,6 +159,7 @@ func GetConnectionTypeEnumStringValues() []string {
 		"HDFS",
 		"ORACLE_AI_DATA_PLATFORM",
 		"ORACLE_AI_DATA_PLATFORM_ENGINE",
+		"ORACLE_AI_DATA_CATALOG_STORAGE",
 		"ORACLE_NOSQL",
 		"MONGODB",
 		"AMAZON_KINESIS",

@@ -66,6 +66,10 @@ func (m *updateicebergcatalogdetails) UnmarshalPolymorphicJSON(data []byte) (int
 		mm := UpdateHadoopIcebergCatalogDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OADC":
+		mm := UpdateOracleAiDataCatalogIcebergCatalogDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GLUE":
 		mm := UpdateGlueIcebergCatalogDetails{}
 		err = json.Unmarshal(data, &mm)

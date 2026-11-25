@@ -66,8 +66,20 @@ func (m *updateicebergstoragedetails) UnmarshalPolymorphicJSON(data []byte) (int
 		mm := UpdateGoogleCloudStorageIcebergStorageDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OCI_OBJECT_STORAGE_ACCESS_KEY":
+		mm := UpdateOciObjectStorageAccessKeyIcebergStorageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AZURE_DATA_LAKE_STORAGE":
 		mm := UpdateAzureDataLakeStorageIcebergStorageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AZURE_STORAGE":
+		mm := UpdateAzureStorageIcebergStorageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ZFS":
+		mm := UpdateZfsIcebergStorageDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

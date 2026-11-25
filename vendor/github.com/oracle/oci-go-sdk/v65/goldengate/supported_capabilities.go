@@ -19,6 +19,7 @@ type SupportedCapabilitiesEnum string
 // Set of constants representing the allowable values for SupportedCapabilitiesEnum
 const (
 	SupportedCapabilitiesGroupToRole            SupportedCapabilitiesEnum = "GROUP_TO_ROLE"
+	SupportedCapabilitiesGroupToRoleRequired    SupportedCapabilitiesEnum = "GROUP_TO_ROLE_REQUIRED"
 	SupportedCapabilitiesBackupRestore          SupportedCapabilitiesEnum = "BACKUP_RESTORE"
 	SupportedCapabilitiesCopyBackup             SupportedCapabilitiesEnum = "COPY_BACKUP"
 	SupportedCapabilitiesManualBackup           SupportedCapabilitiesEnum = "MANUAL_BACKUP"
@@ -37,6 +38,7 @@ const (
 
 var mappingSupportedCapabilitiesEnum = map[string]SupportedCapabilitiesEnum{
 	"GROUP_TO_ROLE":           SupportedCapabilitiesGroupToRole,
+	"GROUP_TO_ROLE_REQUIRED":  SupportedCapabilitiesGroupToRoleRequired,
 	"BACKUP_RESTORE":          SupportedCapabilitiesBackupRestore,
 	"COPY_BACKUP":             SupportedCapabilitiesCopyBackup,
 	"MANUAL_BACKUP":           SupportedCapabilitiesManualBackup,
@@ -55,6 +57,7 @@ var mappingSupportedCapabilitiesEnum = map[string]SupportedCapabilitiesEnum{
 
 var mappingSupportedCapabilitiesEnumLowerCase = map[string]SupportedCapabilitiesEnum{
 	"group_to_role":           SupportedCapabilitiesGroupToRole,
+	"group_to_role_required":  SupportedCapabilitiesGroupToRoleRequired,
 	"backup_restore":          SupportedCapabilitiesBackupRestore,
 	"copy_backup":             SupportedCapabilitiesCopyBackup,
 	"manual_backup":           SupportedCapabilitiesManualBackup,
@@ -84,6 +87,7 @@ func GetSupportedCapabilitiesEnumValues() []SupportedCapabilitiesEnum {
 func GetSupportedCapabilitiesEnumStringValues() []string {
 	return []string{
 		"GROUP_TO_ROLE",
+		"GROUP_TO_ROLE_REQUIRED",
 		"BACKUP_RESTORE",
 		"COPY_BACKUP",
 		"MANUAL_BACKUP",

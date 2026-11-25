@@ -54,12 +54,24 @@ func (m *icebergstorage) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		mm := OciObjectStorageS3ApiIcebergStorage{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AZURE_STORAGE":
+		mm := AzureStorageIcebergStorage{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AMAZON_S3":
 		mm := AmazonS3IcebergStorage{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ZFS":
+		mm := ZfsIcebergStorage{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AZURE_DATA_LAKE_STORAGE":
 		mm := AzureDataLakeStorageIcebergStorage{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OCI_OBJECT_STORAGE_ACCESS_KEY":
+		mm := OciObjectStorageAccessKeyIcebergStorage{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "NONE":
