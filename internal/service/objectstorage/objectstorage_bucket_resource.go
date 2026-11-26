@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2026, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package objectstorage
@@ -73,6 +73,11 @@ func ObjectStorageBucketResource() *schema.Resource {
 				Computed:         true,
 				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
+			},
+			"force_delete": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
 			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
@@ -517,6 +522,12 @@ func (s *ObjectStorageBucketResourceCrud) Update() error {
 }
 
 func (s *ObjectStorageBucketResourceCrud) Delete() error {
+	if forceDelete, ok := s.D.GetOkExists("force_delete"); ok && forceDelete.(bool) {
+		if err := DeleteAllObjectVersions(s.Client, s.D.Get("name").(string), s.D.Get("namespace").(string), ""); err != nil {
+			return err
+		}
+	}
+
 	request := oci_object_storage.DeleteBucketRequest{}
 
 	if name, ok := s.D.GetOkExists("name"); ok {

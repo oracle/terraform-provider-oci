@@ -31,6 +31,7 @@ resource "oci_objectstorage_bucket" "test_bucket" {
 	auto_tiering = var.bucket_auto_tiering
 	bucket_scope = var.bucket_bucket_scope
 	defined_tags = {"Operations.CostCenter"= "42"}
+	force_delete = true
 	freeform_tags = {"Department"= "Finance"}
 	is_bucket_key_enabled = var.bucket_is_bucket_key_enabled
 	kms_key_id = oci_kms_key.test_key.id
@@ -59,6 +60,7 @@ The following arguments are supported:
 * `bucket_scope` - (Optional) (Updatable) Scope in which the bucket is unique. Default value is NAMESPACE. Bucket scope as NAMESPACE means that the bucket is unique only in the owning namespace/tenancy. Other  tenancies can have a bucket with same name in their namespace. Bucket scope as REGION means that the bucket is regionally unique. No other tenancy can have a bucket with same name and scope REGION. 
 * `compartment_id` - (Required) (Updatable) The ID of the compartment in which to create the bucket.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+* `force_delete` - (Optional) (Updatable) Whether to delete all object versions before deleting the bucket. Defaults to `false`.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `is_bucket_key_enabled` - (Optional) (Updatable) Specifies whether Object Storage should use intermediate cached Bucket Encryption Keys with server-side encryption using KMS (SSE-KMS) for new objects in the bucket. This reduces calls to Oracle Cloud Infrastructure Vault Key Management Service (KMS). Existing objects are not affected. 
 * `kms_key_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a master encryption key used to call the Key Management service to generate a data encryption key or to encrypt or decrypt a data encryption key. 
