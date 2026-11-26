@@ -1,23 +1,81 @@
-// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2026, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
 
 import (
+	"context"
 	"fmt"
+	"io"
 	"strconv"
+	"strings"
 	"testing"
 
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
+	oci_object_storage "github.com/oracle/oci-go-sdk/v65/objectstorage"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
+
+// issue-routing-tag: object_storage/default
+func TestResourceBucket_forceDelete(t *testing.T) {
+	httpreplay.SetScenario("TestObjectStorageBucketResource_forceDelete")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	resourceName := "oci_objectstorage_bucket.test_bucket"
+	bucketWithForceDelete := acctest.RepresentationCopyWithNewProperties(bucketRepresentationWithoutUpdateToForceNewFields,
+		map[string]interface{}{
+			"force_delete": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		})
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { acctest.PreCheck(t) },
+		Providers: map[string]*schema.Provider{
+			"oci": acctest.TestAccProvider,
+		},
+		CheckDestroy: testAccCheckObjectStorageBucketDestroy,
+		Steps: []resource.TestStep{
+			{
+				Config: config + compartmentIdVariableStr + ObjectStorageBucketResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Optional, acctest.Create, bucketWithForceDelete),
+				Check: resource.TestCheckResourceAttr(resourceName, "force_delete", "false"),
+			},
+			{
+				Config: config + compartmentIdVariableStr + ObjectStorageBucketResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Optional, acctest.Update, bucketWithForceDelete),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(resourceName, "force_delete", "true"),
+					func(state *terraform.State) error {
+						bucket := state.RootModule().Resources[resourceName].Primary.Attributes
+						bucketName := bucket["name"]
+						namespace := bucket["namespace"]
+						name := "force-delete-test-object"
+						content := "bucket deletion integration test"
+						contentLength := int64(len(content))
+						_, err := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).ObjectStorageClient().PutObject(context.Background(), oci_object_storage.PutObjectRequest{
+							BucketName:    &bucketName,
+							NamespaceName: &namespace,
+							ObjectName:    &name,
+							ContentLength: &contentLength,
+							PutObjectBody: io.NopCloser(strings.NewReader(content)),
+						})
+						return err
+					},
+				),
+			},
+		},
+	})
+}
 
 var (
 	retentionRuleRepresentation1 = map[string]interface{}{
