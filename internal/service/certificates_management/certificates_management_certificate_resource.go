@@ -1,12 +1,15 @@
-// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2026, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package certificates_management
 
 import (
 	"context"
+	"crypto/x509"
+	"encoding/pem"
 	"fmt"
 	"log"
+	"net/http"
 	"strconv"
 	"strings"
 	"time"
@@ -350,6 +353,11 @@ func CertificatesManagementCertificateResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: false,
+			},
+			"deletion_pending_days": {
+				Type:         schema.TypeInt,
+				Optional:     true,
+				ValidateFunc: validation.IntAtLeast(1),
 			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
@@ -779,6 +787,10 @@ func importedCertificateMaterialUpdateRequested(data certificateConfigDataTracke
 }
 
 func certificateConfigDiffStringProvided(diff *schema.ResourceDiff, key string) bool {
+	if !diff.NewValueKnown(key) {
+		return true
+	}
+
 	_, value := diff.GetChange(key)
 	stringValue, ok := value.(string)
 	if !ok {
@@ -893,6 +905,7 @@ type CertificatesManagementCertificateResourceCrud struct {
 	Client                 *oci_certificates_management.CertificatesManagementClient
 	Res                    *oci_certificates_management.Certificate
 	DisableNotFoundRetries bool
+	RestoringPending       bool
 }
 
 func (s *CertificatesManagementCertificateResourceCrud) ID() string {
@@ -902,6 +915,9 @@ func (s *CertificatesManagementCertificateResourceCrud) ID() string {
 func (s *CertificatesManagementCertificateResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_certificates_management.CertificateLifecycleStateCreating),
+		string(oci_certificates_management.CertificateLifecycleStatePendingDeletion),
+		string(oci_certificates_management.CertificateLifecycleStateCancellingDeletion),
+		string(oci_certificates_management.CertificateLifecycleStateUpdating),
 	}
 }
 
@@ -999,11 +1015,58 @@ func (s *CertificatesManagementCertificateResourceCrud) Create() error {
 
 	response, err := s.Client.CreateCertificate(context.Background(), request)
 	if err != nil {
+		if certificateNameConflict(err) {
+			return s.restorePendingCertificate(request, err)
+		}
 		return err
 	}
 
 	s.Res = &response.Certificate
 	return nil
+}
+
+func certificateNameConflict(err error) bool {
+	failure, ok := oci_common.IsServiceError(err)
+	if !ok || failure.GetHTTPStatusCode() != http.StatusBadRequest || failure.GetCode() != "InvalidParameter" {
+		return false
+	}
+
+	message := strings.ToLower(failure.GetMessage())
+	return strings.Contains(message, "certificate") && strings.Contains(message, "name") && strings.Contains(message, "already exists")
+}
+
+func (s *CertificatesManagementCertificateResourceCrud) restorePendingCertificate(createRequest oci_certificates_management.CreateCertificateRequest, createErr error) error {
+	limit := 2
+	request := oci_certificates_management.ListCertificatesRequest{
+		CompartmentId:  createRequest.CompartmentId,
+		Name:           createRequest.Name,
+		LifecycleState: oci_certificates_management.ListCertificatesLifecycleStatePendingDeletion,
+		Limit:          &limit,
+	}
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "certificates_management")
+
+	response, err := s.Client.ListCertificates(context.Background(), request)
+	if err != nil {
+		return fmt.Errorf("looking up pending certificate after name conflict: %w", err)
+	}
+	if len(response.Items) != 1 || response.Items[0].Id == nil {
+		return createErr
+	}
+
+	certificateId := *response.Items[0].Id
+	cancelRequest := oci_certificates_management.CancelCertificateDeletionRequest{CertificateId: &certificateId}
+	cancelRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "certificates_management")
+	if _, err := s.Client.CancelCertificateDeletion(context.Background(), cancelRequest); err != nil {
+		return fmt.Errorf("canceling deletion of certificate %q: %w", certificateId, err)
+	}
+
+	s.Res = &oci_certificates_management.Certificate{Id: &certificateId}
+	if err := tfresource.WaitForCreatedState(s.D, s); err != nil {
+		return err
+	}
+
+	s.RestoringPending = true
+	return s.Update()
 }
 
 func (s *CertificatesManagementCertificateResourceCrud) Get() error {
@@ -1039,7 +1102,15 @@ func (s *CertificatesManagementCertificateResourceCrud) Update() error {
 	if certificateConfig, ok := s.D.GetOkExists("certificate_config"); ok {
 		if tmpList := certificateConfig.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "certificate_config", 0)
-			if importedCertificateConfigUpdateRequested(s.D, fieldKeyFormat) {
+			versionAlreadyCurrent := false
+			if s.RestoringPending {
+				var err error
+				versionAlreadyCurrent, err = s.importedCertificateVersionAlreadyCurrent(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+			}
+			if !versionAlreadyCurrent && importedCertificateConfigUpdateRequested(s.D, fieldKeyFormat) {
 				tmp, err := s.mapToUpdateCertificateConfigDetails(fieldKeyFormat)
 				if err != nil {
 					return err
@@ -1111,6 +1182,70 @@ func (s *CertificatesManagementCertificateResourceCrud) Update() error {
 	}
 
 	return nil
+}
+
+func (s *CertificatesManagementCertificateResourceCrud) importedCertificateVersionAlreadyCurrent(fieldKeyFormat string) (bool, error) {
+	configType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "config_type"))
+	if !ok || !strings.EqualFold(strings.TrimSpace(configType.(string)), "IMPORTED") {
+		return false, nil
+	}
+
+	versionName, versionNameOK := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "version_name"))
+	certificatePem, certificatePemOK := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate_pem"))
+	if !versionNameOK || !certificatePemOK {
+		return false, nil
+	}
+
+	block, _ := pem.Decode([]byte(certificatePem.(string)))
+	if block == nil {
+		return false, nil
+	}
+	certificate, err := x509.ParseCertificate(block.Bytes)
+	if err != nil {
+		return false, nil
+	}
+	desiredSerialNumber := normalizeCertificateSerialNumber(certificate.SerialNumber.Text(16))
+	desiredStage := oci_certificates_management.VersionStageCurrent
+	if stage, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "stage")); ok && strings.EqualFold(strings.TrimSpace(stage.(string)), "PENDING") {
+		desiredStage = oci_certificates_management.VersionStagePending
+	}
+
+	request := oci_certificates_management.ListCertificateVersionsRequest{CertificateId: oci_common.String(s.D.Id())}
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "certificates_management")
+	for {
+		response, err := s.Client.ListCertificateVersions(context.Background(), request)
+		if err != nil {
+			return false, fmt.Errorf("listing restored certificate versions: %w", err)
+		}
+		for _, version := range response.Items {
+			if version.VersionName == nil || *version.VersionName != versionName.(string) || version.SerialNumber == nil || normalizeCertificateSerialNumber(*version.SerialNumber) != desiredSerialNumber {
+				continue
+			}
+			for _, stage := range version.Stages {
+				if stage == desiredStage {
+					return true, nil
+				}
+			}
+		}
+		if response.OpcNextPage == nil || *response.OpcNextPage == "" {
+			return false, nil
+		}
+		request.Page = response.OpcNextPage
+	}
+}
+
+func normalizeCertificateSerialNumber(value string) string {
+	var normalized strings.Builder
+	for _, character := range strings.ToLower(value) {
+		if character >= '0' && character <= '9' || character >= 'a' && character <= 'f' {
+			normalized.WriteRune(character)
+		}
+	}
+	result := strings.TrimLeft(normalized.String(), "0")
+	if result == "" {
+		return "0"
+	}
+	return result
 }
 
 // verifyLatestCertificateVersionSucceeded polls ListCertificateVersions for
@@ -1198,9 +1333,9 @@ func (s *CertificatesManagementCertificateResourceCrud) verifyLatestCertificateV
 			return fmt.Errorf(
 				"certificate version %d landed in stage FAILED in OCI; "+
 					"check the Certificate's Versions tab in the OCI Console for the precise lifecycle_details. "+
-					"Common causes: (1) on rotation, the new certificate's subject (CN/SANs) must match the existing version's subject; "+
-					"(2) cert_chain_pem must be the issuer of certificate_pem; "+
-					"(3) PEM material must be valid and not expired",
+					"OCI requires a new certificate version to retain the existing subject and subject alternative names (SANs). "+
+					"When these values can change between deployments, derive the oci_certificates_management_certificate resource's name argument from them. "+
+					"Other causes include a cert_chain_pem that does not issue certificate_pem, or invalid or expired PEM material",
 				versionNum,
 			)
 		}
@@ -1259,7 +1394,10 @@ func (s *CertificatesManagementCertificateResourceCrud) UpdateRules() error {
 func (s *CertificatesManagementCertificateResourceCrud) Delete() error {
 	request := oci_certificates_management.ScheduleCertificateDeletionRequest{}
 
-	if timeOfDeletion, ok := s.D.GetOkExists("time_of_deletion"); ok {
+	if deletionPendingDays, ok := s.D.GetOkExists("deletion_pending_days"); ok {
+		deletionTime := time.Now().UTC().Add(time.Duration(deletionPendingDays.(int)) * 24 * time.Hour)
+		request.TimeOfDeletion = &oci_common.SDKTime{Time: deletionTime}
+	} else if timeOfDeletion, ok := s.D.GetOkExists("time_of_deletion"); ok {
 		tmpTime, err := time.Parse(time.RFC3339Nano, timeOfDeletion.(string))
 		if err != nil {
 			return err
@@ -1348,6 +1486,8 @@ func (s *CertificatesManagementCertificateResourceCrud) SetData() error {
 
 	if s.Res.TimeOfDeletion != nil {
 		s.D.Set("time_of_deletion", s.Res.TimeOfDeletion.String())
+	} else {
+		s.D.Set("time_of_deletion", nil)
 	}
 
 	return nil

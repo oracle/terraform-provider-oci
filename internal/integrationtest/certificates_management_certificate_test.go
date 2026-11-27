@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2026, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -280,6 +280,7 @@ TFgSRG/Q92we69f7VsZ36+b+qztokiJkoCdfLE6irdWdVlu7KeGK0vRnenXWE/Jx
 		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation)
 )
 
+// issue-routing-tag: certificates_management/default
 func TestCertificatesManagementCertificateResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestCertificatesManagementCertificateResource_basic")
 	defer httpreplay.SaveScenario()
@@ -609,6 +610,7 @@ func TestCertificatesManagementCertificateResource_basic(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: certificates_management/default
 func TestCertificatesManagementCertificateResource_imported(t *testing.T) {
 	httpreplay.SetScenario("TestCertificatesManagementCertificateResource_imported")
 	defer httpreplay.SaveScenario()
@@ -711,23 +713,54 @@ func TestCertificatesManagementCertificateResource_imported(t *testing.T) {
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
 					"certificate_config",
+					"deletion_pending_days",
 				},
 				ResourceName: resourceName,
+			},
+			{
+				Config: config + importedCertificateTestConfig(compartmentId, importedCertificatePemV2, importedPrivateKeyPemV2, "importedVersion2", "imported certificate update", "update"),
+				Check:  resource.TestCheckResourceAttr(resourceName, "deletion_pending_days", "1"),
+			},
+			{
+				Config: config + importedCertificateTestVariableConfig(compartmentId),
+			},
+			{
+				Config: config + importedCertificateTestConfig(compartmentId, importedCertificatePemV2, importedPrivateKeyPemV2, "importedVersion2", "imported certificate update", "update"),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "deletion_pending_days", "1"),
+					resource.TestCheckResourceAttr(resourceName, "current_version.0.serial_number", importedCertificateDetailsV2.serialNumber),
+					resource.TestCheckResourceAttr(resourceName, "current_version.0.version_name", "importedVersion2"),
+					func(s *terraform.State) (err error) {
+						restoredId, err := acctest.FromInstanceState(s, resourceName, "id")
+						if err != nil {
+							return err
+						}
+						if restoredId != resId {
+							return fmt.Errorf("pending certificate %q was replaced by %q", resId, restoredId)
+						}
+						return nil
+					},
+				),
 			},
 		},
 	})
 }
 
-func importedCertificateTestConfig(compartmentId, certificatePem, privateKeyPem, versionName, description, scenario string) string {
+func importedCertificateTestVariableConfig(compartmentId string) string {
 	return fmt.Sprintf(`
 variable "compartment_id" {
 	default = "%s"
 }
+`, compartmentId)
+}
 
+func importedCertificateTestConfig(compartmentId, certificatePem, privateKeyPem, versionName, description, scenario string) string {
+	return importedCertificateTestVariableConfig(compartmentId) + fmt.Sprintf(`
 resource "oci_certificates_management_certificate" "imported_test_certificate" {
-	compartment_id = var.compartment_id
-	name           = "%s"
-	description    = "%s"
+	compartment_id        = var.compartment_id
+	name                  = "%s"
+	description           = "%s"
+	deletion_pending_days = 1
 
 	certificate_config {
 		config_type = "IMPORTED"
@@ -747,5 +780,5 @@ EOT
 		scenario = "%s"
 	}
 }
-`, compartmentId, importedCertName, description, certificatePem, privateKeyPem, importedCertChainPem, versionName, scenario)
+`, importedCertName, description, certificatePem, privateKeyPem, importedCertChainPem, versionName, scenario)
 }

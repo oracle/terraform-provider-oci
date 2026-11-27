@@ -15,6 +15,8 @@ Example terraform configs related to the resource : https://github.com/oracle/te
 
 Creates a new certificate according to the details of the request.
 
+If a certificate with the configured `name` is pending deletion, the provider cancels the deletion and updates that certificate. OCI requires the new certificate version to retain the existing subject and subject alternative names (SANs). When these values can change between deployments, derive the resource's `name` argument from them.
+
 ## Example Usage
 
 ```hcl
@@ -135,6 +137,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment where you want to create the certificate.
 * `current_version_number` - (Optional) (Updatable) The target current certificate version number. This update cannot be combined with updates to `certificate_config`, `description`, `defined_tags`, `freeform_tags`, or `certificate_rules`.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+* `deletion_pending_days` - (Optional) The number of days that the certificate remains pending deletion. The minimum is 1 day. The service default is 30 days.
 * `description` - (Optional) (Updatable) A brief description of the certificate. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `name` - (Required) A user-friendly name for the certificate. Names are unique within a compartment. Avoid entering confidential information. Valid characters are uppercase or lowercase letters, numbers, hyphens, underscores, and periods. 
