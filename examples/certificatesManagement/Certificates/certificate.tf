@@ -202,7 +202,8 @@ resource "oci_certificates_management_certificate" "test_certificate" {
     version_name = var.certificate_certificate_config_version_name
   }
   compartment_id = var.compartment_id
-  name           = var.certificate_name
+  # Give each SAN identity a distinct OCI certificate name.
+  name = "${var.certificate_name}-${substr(sha256(var.certificate_certificate_config_subject_alternative_names_value), 0, 12)}"
 
   #Optional
   certificate_rules {

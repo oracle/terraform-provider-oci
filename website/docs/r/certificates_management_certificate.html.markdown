@@ -15,6 +15,8 @@ Example terraform configs related to the resource : https://github.com/oracle/te
 
 Creates a new certificate according to the details of the request.
 
+If a certificate with the configured `name` is pending deletion, the provider cancels the deletion and updates that certificate. OCI requires the new certificate version to retain the existing subject and subject alternative names (SANs). When these values can change between deployments, derive the resource's `name` argument from them.
+
 ## Example Usage
 
 ```hcl

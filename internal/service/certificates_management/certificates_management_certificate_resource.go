@@ -1333,9 +1333,9 @@ func (s *CertificatesManagementCertificateResourceCrud) verifyLatestCertificateV
 			return fmt.Errorf(
 				"certificate version %d landed in stage FAILED in OCI; "+
 					"check the Certificate's Versions tab in the OCI Console for the precise lifecycle_details. "+
-					"Common causes: (1) on rotation, the new certificate's subject (CN/SANs) must match the existing version's subject; "+
-					"(2) cert_chain_pem must be the issuer of certificate_pem; "+
-					"(3) PEM material must be valid and not expired",
+					"OCI requires a new certificate version to retain the existing subject and subject alternative names (SANs). "+
+					"When these values can change between deployments, derive the oci_certificates_management_certificate resource's name argument from them. "+
+					"Other causes include a cert_chain_pem that does not issue certificate_pem, or invalid or expired PEM material",
 				versionNum,
 			)
 		}
