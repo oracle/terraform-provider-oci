@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2026, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package database
@@ -210,7 +210,7 @@ func (s *DatabaseAutonomousDatabaseSaasAdminUserResourceCrud) GetWithContext(ctx
 	}
 
 	if response.IsEnabled == nil || *response.IsEnabled == false {
-		return nil
+		return tfresource.ResourceNotFoundErrorMessage("SaaS admin user", "The user is disabled")
 	}
 
 	saasAdminUser := SaasAdminUser{}
