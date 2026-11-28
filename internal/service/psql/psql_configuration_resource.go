@@ -490,6 +490,19 @@ func (s *PsqlConfigurationResourceCrud) SetData() error {
 
 	if s.Res.ConfigurationDetails != nil {
 		s.D.Set("configuration_details", []interface{}{ConfigurationDetailsToMap(s.Res.ConfigurationDetails)})
+
+		overrideItems := []interface{}{}
+		for _, item := range s.Res.ConfigurationDetails.Items {
+			if item.OverridenConfigValue != nil {
+				overrideItems = append(overrideItems, ConfigOverridesToMap(oci_psql.ConfigOverrides{
+					ConfigKey:            item.ConfigKey,
+					OverridenConfigValue: item.OverridenConfigValue,
+				}))
+			}
+		}
+		if len(overrideItems) > 0 {
+			s.D.Set("db_configuration_overrides", []interface{}{map[string]interface{}{"items": overrideItems}})
+		}
 	} else {
 		s.D.Set("configuration_details", nil)
 	}
